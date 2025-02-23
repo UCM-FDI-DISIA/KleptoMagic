@@ -19,8 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Class\GameObject.cpp" />
     <ClCompile Include="..\src\Class\GameState.cpp" />
     <ClCompile Include="..\src\Class\gameStateMachine.cpp" />
+    <ClCompile Include="..\src\Class\SceneObject.cpp" />
     <ClCompile Include="..\SRC\json\JSON.cpp" />
     <ClCompile Include="..\SRC\json\JSONValue.cpp" />
     <ClCompile Include="..\SRC\json\json_demo.cpp" />
@@ -35,8 +37,10 @@
     <ClCompile Include="..\SRC\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\Class\GameObject.h" />
     <ClInclude Include="..\src\Class\GameState.h" />
     <ClInclude Include="..\src\Class\gameStateMachine.h" />
+    <ClInclude Include="..\src\Class\SceneObject.h" />
     <ClInclude Include="..\SRC\json\JSON.h" />
     <ClInclude Include="..\SRC\json\JSONValue.h" />
     <ClInclude Include="..\SRC\json\json_demo.h" />
