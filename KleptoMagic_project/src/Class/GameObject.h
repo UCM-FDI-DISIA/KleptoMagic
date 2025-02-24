@@ -8,6 +8,7 @@ private:
 	Texture* texture;
 public:
 	GameObject();
+	~GameObject();
 	virtual void render() const;
 	virtual void update();
 };
