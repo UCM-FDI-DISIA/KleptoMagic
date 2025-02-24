@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\Class\Entity.cpp" />
     <ClCompile Include="..\src\Class\EntityStat.cpp" />
     <ClCompile Include="..\src\Class\GameObject.cpp" />
     <ClCompile Include="..\src\Class\GameState.cpp" />
@@ -41,7 +40,6 @@
     <ClCompile Include="..\SRC\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\Class\Entity.h" />
     <ClInclude Include="..\src\Class\EntityStat.h" />
     <ClInclude Include="..\src\Class\GameObject.h" />
     <ClInclude Include="..\src\Class\GameState.h" />
