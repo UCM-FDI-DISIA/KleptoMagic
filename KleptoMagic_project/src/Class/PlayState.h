@@ -7,7 +7,7 @@
 class PlayState : public GameState
 {
 	//list with all the scene objects
-	list<SceneObject*> sceneObjects;
+	std::list <SceneObject*> sceneObjects;
 	//Player
 	// 
 	//Current room
