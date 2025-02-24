@@ -11,7 +11,7 @@ class PlayState : public GameState
 	//Player
 	// 
 	//Current room
-	// 
+	int currentRoom;
 	//Coins
 	int coins;
 	//Timer
