@@ -57,6 +57,17 @@
     <ClCompile Include="..\src\Class\GameState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+
+    <ClCompile Include="..\src\Class\GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Class\SceneObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Class\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Class\EntityStat.cpp">
     <ClCompile Include="..\src\Class\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -137,10 +148,23 @@
     <ClInclude Include="..\src\Class\GameState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+
+    <ClInclude Include="..\src\Class\GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Class\SceneObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Class\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Class\EntityStat.h">
+
     <ClInclude Include="..\src\Class\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Class\MenuState.h">
+
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
