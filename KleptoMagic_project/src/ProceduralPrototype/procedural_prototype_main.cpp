@@ -8,6 +8,8 @@
 #include "./../../src/sdlutils/macros.h"
 #include "./../../src/sdlutils/SDLUtils.h"
 
+#include "./../ProceduralPrototype/RoomStorage.h"
+
 using namespace std;
 
 void procedural_prototype() {
@@ -54,6 +56,16 @@ void procedural_prototype() {
 
 	// a boolean to exit the loop
 	bool exit_ = false;
+
+	// --------------------
+	// PROCEDURAL PROTOTYPE
+	// --------------------
+
+	RoomStorage* roomstorage = new RoomStorage();
+
+	// --------------------
+	// 
+	// --------------------
 
 	while (!exit_) {
 		Uint32 startTime = sdl.currRealTime();

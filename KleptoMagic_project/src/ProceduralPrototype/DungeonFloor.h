@@ -11,10 +11,9 @@ class DungeonFloor
 private:
 	int floor_width;
 	int floor_height;
-
-	vector<vector<int>> roomLayout;
+	vector<vector<int>> floorLayout;
 public:
-	DungeonFloor();
+	DungeonFloor(int floorW, int floorH);
 	~DungeonFloor();
 	virtual void render() const;
 	virtual void update();

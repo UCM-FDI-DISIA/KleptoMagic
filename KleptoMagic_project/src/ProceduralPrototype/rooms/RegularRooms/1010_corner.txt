@@ -1,0 +1,8 @@
+5 5
+1 0 1 0
+
+WWDWW
+W***W
+D***W
+W***W
+WWWWW
