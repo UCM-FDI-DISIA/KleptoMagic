@@ -6,6 +6,10 @@ GameObject::GameObject()
 	texture = nullptr;
 }
 
+GameObject::~GameObject()
+{
+}
+
 void GameObject::render() const
 {
 }
