@@ -10,6 +10,8 @@
 
 #include "Font.h"
 
+using uint = unsigned int;
+
 class Texture {
 public:
 
@@ -22,7 +24,7 @@ public:
 	Texture(Texture &&other) noexcept;
 
 	// Construct from image
-	Texture(SDL_Renderer *renderer, const std::string &fileName);
+	Texture(SDL_Renderer *renderer, const std::string &fileName, uint rows, uint columns);
 
 	// Construct from text
 	Texture(SDL_Renderer *renderer, const std::string &text, const Font &font,
@@ -101,4 +103,6 @@ private:
 	SDL_Renderer *_renderer;
 	int _width;
 	int _height;
+	int _columns;
+	int _rows;
 };

@@ -33,7 +33,7 @@ class Game : private GameStateMachine
 public:
 	// Identificadores de las texturas
 	enum TextureName {
-		NUM_TEXTURES
+		NUM_TEXTURES,
 	};
 	// Constante globales
 	static constexpr uint WIN_WIDTH = 544;
@@ -55,7 +55,7 @@ public:
 
 private:
 	// Array con todas las texturas del juego
-	//std::array<Texture*, NUM_TEXTURES> textures;
+	std::array<Texture*, NUM_TEXTURES> textures;
 	// Interruptor para terminar el juego
 	bool exit;
 
