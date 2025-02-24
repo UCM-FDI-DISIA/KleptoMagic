@@ -98,7 +98,7 @@ Game::run()
 //	GameStateMachine::replaceState(playstate);
 //}
 //
-//void Game::statePause(){
+////void Game::statePause(){
 //	pausestate = new PauseState(this);
 //	GameStateMachine::pushState(pausestate);
 //}

@@ -23,10 +23,7 @@
 
 using uint = unsigned int;
 
-class TileMap;
-class Mushroom;
-class Shell;
-class Coin;
+//class TileMap;
 
 class Game : private GameStateMachine
 {
@@ -47,7 +44,7 @@ public:
 	SDL_Renderer* renderer = nullptr;
 
 	// Gamestates
-	//PlayState* playstate;
+	PlayState* playstate;
 	//MainMenuState* mainmenu;
 	//PauseState* pausestate;
 	//AnimationState* animationstate;
