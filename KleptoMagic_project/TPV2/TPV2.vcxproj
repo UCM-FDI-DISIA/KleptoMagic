@@ -30,6 +30,7 @@
     <ClCompile Include="..\SRC\json\JSONValue.cpp" />
     <ClCompile Include="..\SRC\json\json_demo.cpp" />
     <ClCompile Include="..\SRC\main.cpp" />
+    <ClCompile Include="..\src\ProceduralPrototype\DungeonFloor.cpp" />
     <ClCompile Include="..\src\ProceduralPrototype\procedural_prototype_main.cpp" />
     <ClCompile Include="..\SRC\sdlutils\SDLNetUtils.cpp" />
     <ClCompile Include="..\SRC\sdlutils\SDLUtils.cpp" />
@@ -50,6 +51,7 @@
     <ClInclude Include="..\SRC\json\JSON.h" />
     <ClInclude Include="..\SRC\json\JSONValue.h" />
     <ClInclude Include="..\SRC\json\json_demo.h" />
+    <ClInclude Include="..\src\ProceduralPrototype\DungeonFloor.h" />
     <ClInclude Include="..\src\ProceduralPrototype\procedural_prototype_main.h" />
     <ClInclude Include="..\SRC\sdlutils\Font.h" />
     <ClInclude Include="..\SRC\sdlutils\InputHandler.h" />

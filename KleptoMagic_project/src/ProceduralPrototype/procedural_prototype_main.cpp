@@ -79,9 +79,6 @@ void procedural_prototype() {
 			SDL_Delay(20 - frameTime);
 	}
 
-	// stop the music
-	Music::haltMusic();
-
 	// Release InputHandler and then SDLUtils (initialization reverse order)
 	if (InputHandler::HasInstance())
 		InputHandler::Release();
