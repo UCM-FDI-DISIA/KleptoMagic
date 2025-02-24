@@ -23,6 +23,7 @@
     <ClCompile Include="..\src\Class\GameObject.cpp" />
     <ClCompile Include="..\src\Class\GameState.cpp" />
     <ClCompile Include="..\src\Class\gameStateMachine.cpp" />
+    <ClCompile Include="..\src\Class\PlayState.cpp" />
     <ClCompile Include="..\src\Class\SceneObject.cpp" />
     <ClCompile Include="..\src\Class\Game.cpp" />
     <ClCompile Include="..\src\Class\MenuState.cpp" />
@@ -38,13 +39,13 @@
     <ClCompile Include="..\SRC\sdlutils\Texture.cpp" />
     <ClCompile Include="..\SRC\utils\Collisions.cpp" />
     <ClCompile Include="..\SRC\utils\Vector2D.cpp" />
-    <ClCompile Include="PlayState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Class\EntityStat.h" />
     <ClInclude Include="..\src\Class\GameObject.h" />
     <ClInclude Include="..\src\Class\GameState.h" />
     <ClInclude Include="..\src\Class\gameStateMachine.h" />
+    <ClInclude Include="..\src\Class\PlayState.h" />
     <ClInclude Include="..\src\Class\SceneObject.h" />
     <ClInclude Include="..\src\Class\Game.h" />
     <ClInclude Include="..\SRC\json\JSON.h" />
@@ -69,7 +70,6 @@
     <ClInclude Include="..\SRC\utils\ptr_iterator.h" />
     <ClInclude Include="..\SRC\utils\Singleton.h" />
     <ClInclude Include="..\SRC\utils\Vector2D.h" />
-    <ClInclude Include="PlayState.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
