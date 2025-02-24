@@ -1,11 +1,12 @@
 //#include "checkML.h"
 //#include "gameList.h"
-//#include "GameObject.h"
+
 //#include "SceneObject.h"
 //#include "EventHandler.h"
 
 #include <list>
 
+class GameObject;
 
 #pragma once
 class GameState
@@ -13,6 +14,7 @@ class GameState
 private:
 	//Game* game;
 	//GameList<GameObject> gameObj;
+	std::list<GameObject*> gameObj;
 	//list<EventHandler*> eventObj;
 
 
@@ -25,9 +27,9 @@ public:
 	//	eventObj.push_back(eventLis);
 	//}
 	//
-	//void addObject(GameObject* obj) {
-	//	gameObj.push_back(obj);
-	//}
+	void addObject(GameObject* obj) {
+		gameObj.push_back(obj);
+	}
 	//void map_reload();
 
 };
