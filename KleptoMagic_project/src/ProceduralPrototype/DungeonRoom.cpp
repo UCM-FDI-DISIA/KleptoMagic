@@ -1,12 +1,24 @@
 #include "DungeonRoom.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 #include "./../utils/StringUtils.h"
 
 DungeonRoom::DungeonRoom(string filename)
 {
+	cout << "----------------------------------------------------------------------" << endl;
 	cout << "CREATING ROOM: " << filename << endl;
+	cout << "----------------------------------------------------------------------" << endl;
+	
+	// ROOM NAME FORMAT
+	// xxxx_y_z_name.txt
+	// 
+	// xxxx -> available exits, as 0 or 1 (bool), ordered as Up, Down, Left, Right (eg. 0100 if the only exit it has is Down)
+	// y -> room height (int)
+	// z -> room width (int)
+	// note: room shape must be an overall rectangle/square, if the actual room has an irregular shape
+	// then blank spaces are filled in later in the actual layout: this is the size of the whole thing
 
 	vector<string> filename_string_separated = string_splitStringByDelimiter(filename, "\\");
 	string actual_filename = filename_string_separated[filename_string_separated.size() - 1];
@@ -26,9 +38,59 @@ DungeonRoom::DungeonRoom(string filename)
 	cout << "SIZE:\t" << room_width << "x" << room_height << endl;
 	cout << "EXITS:\t" << doorU << doorD << doorL << doorR << endl;
 
-	cout << endl << endl;
+	cout << endl;
 
-	// ifstream roomFile(filename);
+	ifstream roomFile;
+
+	// ROOM TILE FORMAT
+	// W -> wall
+	// B -> blank (space outside walls, pitch black)
+	// V -> void/hole
+	// * -> walkable floor
+	// U, D, L, R -> doors corresponding to up, down, left, right exits
+
+	roomFile.open(filename);
+
+	//cout << "Columnas: " << room_width << "\nFilas: " << room_height << "\n";
+
+	roomTiles = vector<vector<char>>(room_height, vector<char>(room_width, 0));
+	string line;
+	int row = 0;
+	while (getline(roomFile, line) && row < room_height) {
+		stringstream ss(line);
+		for (int i = 0; i < room_width; i++) {
+			roomTiles[row][i] = line[i];
+		}
+		row++;
+	}
+	cout << "TILES" << endl;
+	for (int i = 0; i < room_height; i++) {
+		for (int j = 0; j < room_width; j++) {
+			cout << roomTiles[i][j];
+		}
+		cout << endl;
+	}
+	cout << endl;
+
+	roomSpawns = vector<vector<char>>(room_height, vector<char>(room_width, 0));
+	getline(roomFile, line); // ignoring blank line inbetween
+	row = 0;
+	while (getline(roomFile, line) && row < room_height) {
+		stringstream ss(line);
+		for (int i = 0; i < room_width; i++) {
+			roomSpawns[row][i] = line[i];
+		}
+		row++;
+	}
+	cout << "SPAWNS" << endl;
+	for (int i = 0; i < room_height; i++) {
+		for (int j = 0; j < room_width; j++) {
+			cout << roomSpawns[i][j];
+		}
+		cout << endl;
+	}
+	cout << endl;
+
 }
 
 DungeonRoom::~DungeonRoom()

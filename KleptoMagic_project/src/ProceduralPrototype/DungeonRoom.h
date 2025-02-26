@@ -9,7 +9,8 @@ private:
 	int room_width;
 	int room_height;
 	string room_name;
-	vector<vector<int>> roomLayout;
+	vector<vector<char>> roomTiles;
+	vector<vector<char>> roomSpawns;
 
 	bool doorU, doorD, doorL, doorR;
 	bool lockU, lockD, lockL, lockR;
