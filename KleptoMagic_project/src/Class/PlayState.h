@@ -3,6 +3,9 @@
 #include "GameState.h"
 #include "list"
 #include "SceneObject.h"
+#include "Collisions.h"
+//#include "Player.h"
+
 
 class PlayState : public GameState
 {
@@ -18,8 +21,14 @@ class PlayState : public GameState
 	int timer;
 
 public:
+	//Constructor
+	PlayState();
+	//Destructor
+	~PlayState();
 
-	//bool CheckCollisions(Rect);
+	//Add object to the list
+	void addObject(SceneObject* object);
 
-	//Player* GetPlayer();
+	bool CheckCollision(SceneObject* object1, SceneObject* object2);
+	//Player* GetPlayer(){return Player*;};
 };
