@@ -1,16 +1,16 @@
 #pragma once
-//#include "Playstate"
+#include "PlayState.h"
 #include "../utils/Vector2D.h"
 #include "GameObject.h"
 //#include "collider"
 class SceneObject:public GameObject
 {
 private:
-	//Playstate* playstate;
+	PlayState* playstate;
 	Vector2D position;
 	//Collider collider;
 public:
-	SceneObject(Vector2D ini);
+	SceneObject(Vector2D ini,PlayState* pointer);
 	~SceneObject();
 };
 
