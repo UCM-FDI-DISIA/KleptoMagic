@@ -12,10 +12,10 @@ DungeonRoom::DungeonRoom(string filename)
 	string actual_filename = filename_string_separated[filename_string_separated.size() - 1];
 	vector<string> room_data_from_filename = string_splitStringByDelimiter(actual_filename, "_");
 
-	doorU = room_data_from_filename[0][0] != '0';
-	doorD = room_data_from_filename[0][1] != '0';
-	doorL = room_data_from_filename[0][2] != '0';
-	doorR = room_data_from_filename[0][3] != '0';
+	doorU = room_data_from_filename[0][0] == '1';
+	doorD = room_data_from_filename[0][1] == '1';
+	doorL = room_data_from_filename[0][2] == '1';
+	doorR = room_data_from_filename[0][3] == '1';
 
 	room_width = stoi(room_data_from_filename[1]);
 	room_height = stoi(room_data_from_filename[2]);
@@ -27,6 +27,7 @@ DungeonRoom::DungeonRoom(string filename)
 	cout << "EXITS:\t" << doorU << doorD << doorL << doorR << endl;
 
 	cout << endl << endl;
+
 	// ifstream roomFile(filename);
 }
 
