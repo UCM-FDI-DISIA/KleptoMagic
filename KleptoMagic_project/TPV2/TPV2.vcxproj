@@ -75,6 +75,7 @@
     <ClInclude Include="..\SRC\utils\mpl.h" />
     <ClInclude Include="..\SRC\utils\ptr_iterator.h" />
     <ClInclude Include="..\SRC\utils\Singleton.h" />
+    <ClInclude Include="..\src\utils\StringUtils.h" />
     <ClInclude Include="..\SRC\utils\Vector2D.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

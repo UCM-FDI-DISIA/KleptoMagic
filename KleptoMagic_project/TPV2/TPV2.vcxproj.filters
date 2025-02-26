@@ -21,6 +21,9 @@
     <ClCompile Include="..\SRC\utils\Collisions.cpp" />
     <ClCompile Include="..\SRC\utils\Vector2D.cpp" />
     <ClCompile Include="..\src\ProceduralPrototype\procedural_prototype_main.cpp" />
+    <ClCompile Include="..\src\ProceduralPrototype\DungeonFloor.cpp" />
+    <ClCompile Include="..\src\ProceduralPrototype\DungeonRoom.cpp" />
+    <ClCompile Include="..\src\ProceduralPrototype\RoomStorage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Class\EntityStat.h" />
@@ -52,5 +55,9 @@
     <ClInclude Include="..\SRC\utils\Singleton.h" />
     <ClInclude Include="..\SRC\utils\Vector2D.h" />
     <ClInclude Include="..\src\ProceduralPrototype\procedural_prototype_main.h" />
+    <ClInclude Include="..\src\ProceduralPrototype\DungeonFloor.h" />
+    <ClInclude Include="..\src\ProceduralPrototype\DungeonRoom.h" />
+    <ClInclude Include="..\src\ProceduralPrototype\RoomStorage.h" />
+    <ClInclude Include="..\src\utils\StringUtils.h" />
   </ItemGroup>
 </Project>
