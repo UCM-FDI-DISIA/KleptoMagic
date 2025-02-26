@@ -19,4 +19,12 @@ public:
 	~DungeonRoom();
 	virtual void render() const;
 	virtual void update();
+
+	int getWidth() { return room_width; };
+	int getHeight() { return room_height; };
+	string getName() { return room_name; };
+	void printLayoutTiles();
+	void printLayoutSpawns();
+
+	
 };

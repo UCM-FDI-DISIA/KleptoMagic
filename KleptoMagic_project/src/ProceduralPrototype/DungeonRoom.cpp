@@ -7,9 +7,7 @@
 
 DungeonRoom::DungeonRoom(string filename)
 {
-	cout << "----------------------------------------------------------------------" << endl;
 	cout << "CREATING ROOM: " << filename << endl;
-	cout << "----------------------------------------------------------------------" << endl;
 	
 	// ROOM NAME FORMAT
 	// xxxx_y_z_name.txt
@@ -34,9 +32,11 @@ DungeonRoom::DungeonRoom(string filename)
 
 	room_name = string_splitStringByDelimiter(room_data_from_filename[3], ".")[0];
 
+	/*
 	cout << "NAME:\t" << room_name << endl;
 	cout << "SIZE:\t" << room_width << "x" << room_height << endl;
 	cout << "EXITS:\t" << doorU << doorD << doorL << doorR << endl;
+	*/
 
 	cout << endl;
 
@@ -51,8 +51,6 @@ DungeonRoom::DungeonRoom(string filename)
 
 	roomFile.open(filename);
 
-	//cout << "Columnas: " << room_width << "\nFilas: " << room_height << "\n";
-
 	roomTiles = vector<vector<char>>(room_height, vector<char>(room_width, 0));
 	string line;
 	int row = 0;
@@ -63,15 +61,6 @@ DungeonRoom::DungeonRoom(string filename)
 		}
 		row++;
 	}
-	cout << "TILES" << endl;
-	for (int i = 0; i < room_height; i++) {
-		for (int j = 0; j < room_width; j++) {
-			cout << roomTiles[i][j];
-		}
-		cout << endl;
-	}
-	cout << endl;
-
 	roomSpawns = vector<vector<char>>(room_height, vector<char>(room_width, 0));
 	getline(roomFile, line); // ignoring blank line inbetween
 	row = 0;
@@ -82,14 +71,6 @@ DungeonRoom::DungeonRoom(string filename)
 		}
 		row++;
 	}
-	cout << "SPAWNS" << endl;
-	for (int i = 0; i < room_height; i++) {
-		for (int j = 0; j < room_width; j++) {
-			cout << roomSpawns[i][j];
-		}
-		cout << endl;
-	}
-	cout << endl;
 
 }
 
@@ -104,4 +85,24 @@ void DungeonRoom::render() const {
 
 void DungeonRoom::update() {
 
+}
+
+void DungeonRoom::printLayoutTiles() {
+	for (int i = 0; i < room_height; i++) {
+		for (int j = 0; j < room_width; j++) {
+			cout << roomTiles[i][j];
+		}
+		cout << endl;
+	}
+	cout << endl;
+}
+
+void DungeonRoom::printLayoutSpawns() {
+	for (int i = 0; i < room_height; i++) {
+		for (int j = 0; j < room_width; j++) {
+			cout << roomSpawns[i][j];
+		}
+		cout << endl;
+	}
+	cout << endl;
 }

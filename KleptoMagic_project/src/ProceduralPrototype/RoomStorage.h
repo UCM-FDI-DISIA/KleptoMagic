@@ -9,12 +9,13 @@ using namespace std;
 class RoomStorage
 {
 private:
-	vector<DungeonRoom> EntranceRooms;
-	vector<DungeonRoom> RegularRooms;
-	vector<DungeonRoom> BossRooms;
+	vector<DungeonRoom*> EntranceRooms;
+	vector<DungeonRoom*> RegularRooms;
+	vector<DungeonRoom*> BossRooms;
 public:
 	RoomStorage();
 	~RoomStorage();
 
 	void readAllRoomFiles();
+	void printRoomData(DungeonRoom*);
 };
