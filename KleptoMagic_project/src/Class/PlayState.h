@@ -23,12 +23,12 @@ class PlayState : public GameState
 public:
 	//Constructor
 	PlayState();
-	//Destructor
-	~PlayState();
 
 	//Add object to the list
 	void addObject(SceneObject* object);
 
-	bool CheckCollision(SceneObject* object1, SceneObject* object2);
-	//Player* GetPlayer(){return Player*;};
+	//Checks all the collisions
+	bool CheckCollision();
+	//Getter for Player
+	//Player* getPlayer();
 };
