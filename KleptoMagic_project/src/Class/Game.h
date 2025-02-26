@@ -44,7 +44,7 @@ public:
 	SDL_Renderer* renderer = nullptr;
 
 	// Gamestates
-	PlayState* playstate;
+	//PlayState* playstate;
 	//MainMenuState* mainmenu;
 	//PauseState* pausestate;
 	//AnimationState* animationstate;
