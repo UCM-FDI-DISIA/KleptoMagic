@@ -1,0 +1,10 @@
+7 7
+0 0 0 1 
+
+WWWWWWW
+W*****W
+W*****W
+W*****R
+W*****W
+W*****W
+WWWWWWW

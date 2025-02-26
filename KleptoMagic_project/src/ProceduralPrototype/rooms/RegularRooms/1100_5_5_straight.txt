@@ -1,8 +1,8 @@
 5 5
-0 1 1 0
+1 1 0 0 
 
-WWWWW
+WWUWW
 W***W
-D***W
+W***W
 W***W
 WWDWW

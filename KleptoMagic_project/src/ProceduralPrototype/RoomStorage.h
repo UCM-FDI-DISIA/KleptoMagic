@@ -16,5 +16,5 @@ public:
 	RoomStorage();
 	~RoomStorage();
 
-	void readAllRooms_Regular();
+	void readAllRoomFiles();
 };

@@ -1,8 +1,8 @@
 #include "DungeonRoom.h"
 
-DungeonRoom::DungeonRoom()
+DungeonRoom::DungeonRoom(string filename)
 {
-
+	cout << "Creating room: " << filename << endl;
 }
 
 DungeonRoom::~DungeonRoom()
