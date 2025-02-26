@@ -4,7 +4,7 @@
 	width = w;
 	height = h;
 	buttonBox = { static_cast<int>(pos.getX()), static_cast<int>(pos.getY()), w, h };
-}
+}*/
 
 
 void Button::addCallback(OnClickCallback callback) {
@@ -47,7 +47,7 @@ void Button::update() {
 }
 
 
-void Button::emit() const
+/*void Button::emit() const
 {
 	for (OnClickCallback callback : callbacks) {
 		callback();
