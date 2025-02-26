@@ -12,5 +12,8 @@ private:
 public:
 	SceneObject(Vector2D ini,PlayState* pointer,float w, float h);
 	~SceneObject();
+	Vector2D GetPos() { return position; }
+	float GetWidth() { return width; }
+	float GetHeight() { return height; }
 };
 
