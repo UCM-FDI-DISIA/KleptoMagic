@@ -1,7 +1,7 @@
 #include <vector>
 #include <string>
 
-std::vector<std::string> splitStringByDelimiter(std::string s, std::string delimiter) {
+std::vector<std::string> string_splitStringByDelimiter(std::string s, std::string delimiter) {
     size_t pos_start = 0, pos_end, delim_len = delimiter.length();
     std::string token;
     std::vector<std::string> res;

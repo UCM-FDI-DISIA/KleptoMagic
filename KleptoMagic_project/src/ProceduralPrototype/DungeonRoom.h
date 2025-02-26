@@ -8,6 +8,7 @@ class DungeonRoom
 private:
 	int room_width;
 	int room_height;
+	string room_name;
 	vector<vector<int>> roomLayout;
 
 	bool doorU, doorD, doorL, doorR;
