@@ -44,7 +44,7 @@ public:
 	SDL_Renderer* renderer = nullptr;
 
 	// Gamestates
-	PlayState* playstate;
+	//PlayState* playstate;
 	//MainMenuState* mainmenu;
 	//PauseState* pausestate;
 	//AnimationState* animationstate;
@@ -52,14 +52,14 @@ public:
 
 private:
 	// Array con todas las texturas del juego
-	std::array<Texture*, NUM_TEXTURES> textures;
+	//std::array<Texture*, NUM_TEXTURES> textures;
 	// Interruptor para terminar el juego
 	bool exit;
 
 public:
 	//Texture* getTexture(TextureName name) const { return textures[name]; }
 
-	Game(int worldN);
+	Game();
 	~Game();
 	void run();
 	void statePlay(int w);

@@ -21,6 +21,7 @@
     <ClCompile Include="..\SRC\utils\Collisions.cpp" />
     <ClCompile Include="..\SRC\utils\Vector2D.cpp" />
     <ClCompile Include="..\src\Class\PlayState.cpp" />
+    <ClCompile Include="DummyState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Class\EntityStat.h" />
@@ -52,5 +53,6 @@
     <ClInclude Include="..\SRC\utils\Singleton.h" />
     <ClInclude Include="..\SRC\utils\Vector2D.h" />
     <ClInclude Include="..\src\Class\PlayState.h" />
+    <ClInclude Include="..\src\Class\DummyState.h" />
   </ItemGroup>
 </Project>
