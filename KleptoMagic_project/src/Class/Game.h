@@ -18,19 +18,20 @@
 //#include "AnimationState.h"
 //#include "EndState.h"
 #include "gameStateMachine.h"
+class DummyState;
 
 #pragma once
 
 using uint = unsigned int;
 
-//class TileMap;
+class TileMap;
 
 class Game : private GameStateMachine
 {
 public:
 	// Identificadores de las texturas
 	enum TextureName {
-		NUM_TEXTURES,
+		NUM_TEXTURES
 	};
 	// Constante globales
 	static constexpr uint WIN_WIDTH = 544;
@@ -49,18 +50,20 @@ public:
 	//PauseState* pausestate;
 	//AnimationState* animationstate;
 	//EndState* endstate;
+	DummyState* dummy;
+
 
 private:
 	// Array con todas las texturas del juego
-	std::array<Texture*, NUM_TEXTURES> textures;
+	//std::array<Texture*, NUM_TEXTURES> textures;
 	// Interruptor para terminar el juego
 	bool exit;
 
 public:
 	//Texture* getTexture(TextureName name) const { return textures[name]; }
 
-	Game(int worldN);
-	~Game();
+	Game();
+	//~Game();
 	void run();
 	void statePlay(int w);
 	void statePause();

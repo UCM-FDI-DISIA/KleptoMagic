@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Class\DummyState.cpp" />
     <ClCompile Include="..\src\Class\EntityStat.cpp" />
     <ClCompile Include="..\src\Class\GameObject.cpp" />
     <ClCompile Include="..\src\Class\GameState.cpp" />
@@ -43,6 +44,7 @@
     <ClCompile Include="StatusEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\Class\DummyState.h" />
     <ClInclude Include="..\src\Class\EntityStat.h" />
     <ClInclude Include="..\src\Class\GameObject.h" />
     <ClInclude Include="..\src\Class\GameState.h" />

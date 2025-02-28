@@ -23,12 +23,9 @@ Texture::Texture(Texture &&other) noexcept {
 	_height = other._height;
 }
 
-Texture::Texture(SDL_Renderer *renderer, const std::string &fileName,
-	uint rows, uint columns) {
+Texture::Texture(SDL_Renderer *renderer, const std::string &fileName) {
 	assert(renderer != nullptr);
 	_renderer = renderer;
-	_rows = rows;
-	_columns = columns;
 
 	SDL_Surface *surface = IMG_Load(fileName.c_str());
 #ifdef _DEBUG
