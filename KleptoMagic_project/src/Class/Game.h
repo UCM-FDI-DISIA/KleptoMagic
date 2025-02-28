@@ -18,15 +18,13 @@
 //#include "AnimationState.h"
 //#include "EndState.h"
 #include "gameStateMachine.h"
+class DummyState;
 
 #pragma once
 
 using uint = unsigned int;
 
 class TileMap;
-class Mushroom;
-class Shell;
-class Coin;
 
 class Game : private GameStateMachine
 {
@@ -52,6 +50,8 @@ public:
 	//PauseState* pausestate;
 	//AnimationState* animationstate;
 	//EndState* endstate;
+	DummyState* dummy;
+
 
 private:
 	// Array con todas las texturas del juego
@@ -62,8 +62,8 @@ private:
 public:
 	//Texture* getTexture(TextureName name) const { return textures[name]; }
 
-	Game(int worldN);
-	~Game();
+	Game();
+	//~Game();
 	void run();
 	void statePlay(int w);
 	void statePause();

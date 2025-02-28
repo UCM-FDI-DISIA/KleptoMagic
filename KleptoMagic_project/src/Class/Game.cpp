@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "Game.h"
+#include "DummyState.h"
 
 using namespace std;
 
@@ -23,7 +24,7 @@ const array<TextureSpec, Game::NUM_TEXTURES> textureSpec{
 	//TextureSpec{"background.png", 9, 7},
 };
 
-Game::Game(int worldN) : exit(false) {
+Game::Game()/**/ : exit(false) {
 
 	// Inicializa la SDL
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -39,6 +40,9 @@ Game::Game(int worldN) : exit(false) {
 	if (window == nullptr || renderer == nullptr)
 		throw "Error cargando SDL"s;
 
+
+
+
 	// Carga las texturas
 	//for (int i = 0; i < NUM_TEXTURES; ++i)
 	//	textures[i] = new Texture(renderer,
@@ -46,6 +50,10 @@ Game::Game(int worldN) : exit(false) {
 	//		textureSpec[i].numRows,
 	//		textureSpec[i].numColumns);
 
+
+
+	dummy = new DummyState();
+	GameStateMachine::pushState(dummy);
 	// Creación de playstates
 	//playstate = new PlayState(worldN, this); //se fue a su metodo propio
 	
