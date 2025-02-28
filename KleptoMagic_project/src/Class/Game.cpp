@@ -24,7 +24,7 @@ const array<TextureSpec, Game::NUM_TEXTURES> textureSpec{
 	TextureSpec{"background.png", 9, 7},
 };
 
-Game::Game() : exit(false) {
+Game::Game(int worldN) : exit(false) {
 
 	// Inicializa la SDL
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -41,9 +41,9 @@ Game::Game() : exit(false) {
 		throw "Error cargando SDL"s;
 
 	// Carga las texturas
-	for (int i = 0; i < NUM_TEXTURES; ++i){}
-		//textures[i] = new Texture(renderer, (textureRoot + textureSpec[i].name).c_str(),
-			//textureSpec[i].numRows, textureSpec[i].numColumns);
+	for (int i = 0; i < NUM_TEXTURES; ++i)
+		textures[i] = new Texture(renderer, (textureRoot + textureSpec[i].name).c_str(),
+			textureSpec[i].numRows, textureSpec[i].numColumns);
 
 	// Creación de playstates
 	//playstate = new PlayState(worldN, this); //se fue a su metodo propio
@@ -52,6 +52,7 @@ Game::Game() : exit(false) {
 	//GameStateMachine::pushState(mainmenu);
 	//GameStateMachine::pushState(playstate);
 }
+
 
 
 void

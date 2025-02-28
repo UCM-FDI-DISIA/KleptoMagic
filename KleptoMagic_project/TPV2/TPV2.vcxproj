@@ -39,10 +39,8 @@
     <ClCompile Include="..\SRC\sdlutils\Texture.cpp" />
     <ClCompile Include="..\SRC\utils\Collisions.cpp" />
     <ClCompile Include="..\SRC\utils\Vector2D.cpp" />
-    <ClCompile Include="DummyState.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\Class\DummyState.h" />
     <ClInclude Include="..\src\Class\EntityStat.h" />
     <ClInclude Include="..\src\Class\GameObject.h" />
     <ClInclude Include="..\src\Class\GameState.h" />
