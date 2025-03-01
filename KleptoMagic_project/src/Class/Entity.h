@@ -15,7 +15,6 @@
 		EntityStat* health;
 		EntityStat* movementSpeed;
 		EntityStat* damage;
-		EntityStat* movementSpeed;
 		EntityStat* attackSpeed;
 		EntityStat* shield;
         
@@ -27,7 +26,7 @@
 		void updateStatusDuration();
 		void calculateStatsPostStats();
 		~Entity();
-		virtual void move();
+		//virtual void move();
 
 	};
 

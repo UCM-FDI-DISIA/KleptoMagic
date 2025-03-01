@@ -1,7 +1,9 @@
 #pragma once
-#include "PlayState.h"
+//#include "PlayState.h"
 #include "../utils/Vector2D.h"
 #include "GameObject.h"
+
+class PlayState;
 
 class SceneObject:public GameObject
 {

@@ -11,13 +11,14 @@ int StatusEffect::GetType()
 {
 	return effectnumber;
 }
-void StatusEffect:: DecreaseTime()
+int StatusEffect::DecreaseTime()
 {
 	timeLeft--;
 	if (timeLeft <= 0)
 	{
-		
+		return 0;
 	}
+	return timeLeft;
 }
 StatusEffect ::~StatusEffect()
 {

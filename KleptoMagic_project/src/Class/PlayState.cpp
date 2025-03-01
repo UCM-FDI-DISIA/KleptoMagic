@@ -9,9 +9,9 @@ PlayState::PlayState()
 }
 
 
-PlayState::~PlayState()
-{
-}
+//PlayState::~PlayState()
+//{
+//}
 
 void PlayState::addObject(SceneObject* object)
 {

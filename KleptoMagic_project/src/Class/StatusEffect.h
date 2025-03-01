@@ -9,6 +9,6 @@ class StatusEffect
 public:
 	StatusEffect(int time, int strenght, int effectTypenumber);
 	int GetType();
-	void DecreaseTime();
+	int DecreaseTime();
 	~StatusEffect();
 };
