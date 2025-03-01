@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
+#include "gameStateMachine.h"
 #include "Game.h"
 #include "DummyState.h"
 
@@ -17,15 +17,15 @@ struct TextureSpec
 };
 
 // Directorio raíz de los archivos de textura
-const string textureRoot = "../assets/images/";
+const string textureRoot = "../KleptoMagic_project/resources/images/";
 
 // Especificación de las texturas del juego
 const array<TextureSpec, Game::NUM_TEXTURES> textureSpec{
-	TextureSpec{"background.png", 1, 1},
-	TextureSpec{"Button.png", 1, 1}
+	TextureSpec{"heart.png", 1, 1},
+	TextureSpec{"heart.png", 1, 1}
 };
 
-Game::Game()/**/ : exit(false) {
+Game::Game() : exit(false) {
 
 	// Inicializa la SDL
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -45,11 +45,9 @@ Game::Game()/**/ : exit(false) {
 
 
 	// Carga las texturas
-	//for (int i = 0; i < NUM_TEXTURES; ++i)
-	//	textures[i] = new Texture(renderer,
-	//		(textureRoot + textureSpec[i].name).c_str(),
-	//		textureSpec[i].numRows,
-	//		textureSpec[i].numColumns);
+	for (int i = 0; i < NUM_TEXTURES; ++i)
+		textures[i] = new Texture(renderer,
+			(textureRoot + textureSpec[i].name).c_str());
 
 
 
@@ -100,6 +98,10 @@ Game::run()
 		if (elapsed < Game::FRAME_RATE)
 			SDL_Delay(Game::FRAME_RATE - elapsed);
 	}
+}
+
+Texture* Game::getTexture(TextureName name) const {
+	return textures[name];  // Return the texture based on the enum index
 }
 
 

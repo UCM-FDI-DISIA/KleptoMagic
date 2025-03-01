@@ -90,6 +90,9 @@ public:
 		render(src, dest, rotation);
 	}
 
+	int getWidth();
+	int getHeight();
+
 private:
 
 	// Construct from text

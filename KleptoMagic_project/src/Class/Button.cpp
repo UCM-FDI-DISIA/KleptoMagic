@@ -1,5 +1,5 @@
 #include "Button.h"
-Button::Button(GameState* state, Texture* tex, Vector2D pos, int w, int h) : GameObject(state, tex) {
+Button::Button(GameState* state, /*Texture* tex,*/ Vector2D pos, int w, int h) : GameObject(state/*, tex*/) {
 	position = pos;
 	width = w;
 	height = h;
@@ -35,19 +35,19 @@ void Button::addCallback(OnClickCallback callback) {
 	}
 
 	texture->render(buttonBox, buttonColor);
-}*/
+}
 
 
-^/*void Button::update() {
+^void Button::update() {
 	setButtonBox(static_cast<int>(position.getX()), static_cast<int>(position.getY()), width, height);
 	SDL_Point point;
 	SDL_GetMouseState(&point.x, &point.y);
 
 	isHovered = SDL_PointInRect(&point, &buttonBox);
-}*/
+}
 
 
-/*void Button::emit() const
+void Button::emit() const
 {
 	for (OnClickCallback callback : callbacks) {
 		callback();
