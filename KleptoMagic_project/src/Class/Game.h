@@ -5,8 +5,7 @@
 #include <vector>
 #include <SDL.h>
 //#include "checkML.h"
-//
-//#include "Texture.h"
+#include "../sdlutils/Texture.h"
 //#include "GameObject.h"
 //#include "SceneObject.h"
 //#include "TileMap.h"
@@ -35,7 +34,7 @@ public:
 		BUTTON,
 		NUM_TEXTURES
 	};
-	//Texture* getTexture(TextureName name) const;
+	Texture* getTexture(TextureName name) const;
 
 	// Constante globales
 	static constexpr uint WIN_WIDTH = 544;
@@ -72,7 +71,7 @@ public:
 	void gameExit();
 private:
 	// Array con todas las texturas del juego
-	//std::array<Texture*, NUM_TEXTURES> textures;
+	std::array<Texture*, NUM_TEXTURES> textures;
 	// Interruptor para terminar el juego
 	bool exit;
 

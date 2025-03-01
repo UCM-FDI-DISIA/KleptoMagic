@@ -25,7 +25,7 @@ const array<TextureSpec, Game::NUM_TEXTURES> textureSpec{
 	TextureSpec{"Button.png", 1, 1}
 };
 
-Game::Game()/**/ : exit(false) {
+Game::Game() : exit(false) {
 
 	// Inicializa la SDL
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -45,11 +45,9 @@ Game::Game()/**/ : exit(false) {
 
 
 	// Carga las texturas
-	//for (int i = 0; i < NUM_TEXTURES; ++i)
-	//	textures[i] = new Texture(renderer,
-	//		(textureRoot + textureSpec[i].name).c_str(),
-	//		textureSpec[i].numRows,
-	//		textureSpec[i].numColumns);
+	for (int i = 0; i < NUM_TEXTURES; ++i)
+		textures[i] = new Texture(renderer,
+			(textureRoot + textureSpec[i].name).c_str());
 
 
 
@@ -102,9 +100,9 @@ Game::run()
 	}
 }
 
-/*Texture* Game::getTexture(TextureName name) const {
+Texture* Game::getTexture(TextureName name) const {
 	return textures[name];  // Return the texture based on the enum index
-}*/
+}
 
 
 //void Game::statePlay(int w) {
