@@ -7,18 +7,20 @@
 #include <list>
 
 class GameObject;
+class Game;
 
 #pragma once
 class GameState
 {
 private:
-	//Game* game;
+	Game* game;
 	//GameList<GameObject> gameObj;
 	std::list<GameObject*> gameObj;
 	//list<EventHandler*> eventObj;
 
 
 public:
+	GameState(Game* game) : game(game) {}
 	virtual void update();
 	virtual void render();
 	//virtual void handleEvent(SDL_Event e);
