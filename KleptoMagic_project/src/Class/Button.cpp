@@ -1,5 +1,5 @@
 #include "Button.h"
-Button::Button(GameState* state, /*Texture* tex,*/ Vector2D pos, int w, int h) : GameObject(state/*, tex*/) {
+Button::Button(GameState* state, Texture* tex, Vector2D pos, int w, int h) : GameObject(state, tex) {
 	position = pos;
 	width = w;
 	height = h;

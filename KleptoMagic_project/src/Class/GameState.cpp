@@ -8,7 +8,7 @@ void GameState::update() {
 	}
 }
 
-void GameState::render() {
+void GameState::render() const{
 	for (GameObject* elem : gameObj) {
 		elem->render();
 	}
