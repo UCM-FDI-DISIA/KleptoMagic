@@ -4,10 +4,10 @@
 class GameObject
 {
 private:
-	GameState* gameState;
+	GameState* state;
 	Texture* texture;
 public:
-	GameObject();
+	GameObject(GameState* game, Texture* tex);
 	~GameObject();
 	virtual void render() const;
 	virtual void update();

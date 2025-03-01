@@ -1,9 +1,8 @@
 #include "GameObject.h"
 
-GameObject::GameObject()
-{
-	gameState = nullptr;
-	texture = nullptr;
+GameObject::GameObject(GameState* state, Texture* tex = nullptr) {
+    this->state = state;
+    this->texture = tex;
 }
 
 GameObject::~GameObject()

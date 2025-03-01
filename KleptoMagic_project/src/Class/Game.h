@@ -26,11 +26,13 @@ using uint = unsigned int;
 
 class TileMap;
 
-class Game : private GameStateMachine
+class Game : public GameStateMachine
 {
 public:
 	// Identificadores de las texturas
 	enum TextureName {
+		BACKGROUND,
+		BUTTON,
 		NUM_TEXTURES
 	};
 	// Constante globales
@@ -51,15 +53,6 @@ public:
 	//AnimationState* animationstate;
 	//EndState* endstate;
 	DummyState* dummy;
-
-
-private:
-	// Array con todas las texturas del juego
-	//std::array<Texture*, NUM_TEXTURES> textures;
-	// Interruptor para terminar el juego
-	bool exit;
-
-public:
 	//Texture* getTexture(TextureName name) const { return textures[name]; }
 
 	Game();
@@ -73,6 +66,12 @@ public:
 	void stateAnimationEnd();
 	void stateEnd();
 	void gameExit();
+private:
+	// Array con todas las texturas del juego
+	//std::array<Texture*, NUM_TEXTURES> textures;
+	// Interruptor para terminar el juego
+	bool exit;
+
 };
 
 #endif
