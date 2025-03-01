@@ -12,7 +12,7 @@ private:
 
 public:
     MainMenuState(Game* game, Texture* backgroundTexture);
-    void render() const override;
+    //void render() const override;
 };
 
 #endif //MAIN_MENU_STATE_H
