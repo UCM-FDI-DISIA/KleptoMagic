@@ -1,6 +1,6 @@
 //#include "checkML.h"
 //#include "gameList.h"
-#include "SceneObject.h"
+//#include "SceneObject.h"
 
 #include <SDL.h>
 
