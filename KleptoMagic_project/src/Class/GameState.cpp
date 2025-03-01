@@ -14,11 +14,11 @@ void GameState::render() {
 	}
 
 }
-//
-//void GameState::handleEvent(SDL_Event e) {
-//	for (EventHandler* elem : eventObj) {
-//		elem->handleEvent(e);
-//	}
-//}
+
+void GameState::handleEvent(SDL_Event e) {
+	for (EventHandler* elem : eventObj) {
+		elem->handleEvent(e);
+	}
+}
 
 
