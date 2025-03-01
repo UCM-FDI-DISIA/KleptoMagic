@@ -1,10 +1,10 @@
 #include "Button.h"
-/*Button::Button(GameState* state, Texture* tex, Point2D pos, int w, int h) : GameObject(state, tex) {
+Button::Button(GameState* state, Texture* tex, Vector2D pos, int w, int h) : GameObject(state, tex) {
 	position = pos;
 	width = w;
 	height = h;
 	buttonBox = { static_cast<int>(pos.getX()), static_cast<int>(pos.getY()), w, h };
-}*/
+}
 
 
 void Button::addCallback(OnClickCallback callback) {
@@ -12,16 +12,16 @@ void Button::addCallback(OnClickCallback callback) {
 }
 
 
-void Button::handleEvent(const SDL_Event& event) {
+/*void Button::handleEvent(const SDL_Event& event) {
 	if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
 		SDL_Point point{ event.button.x, event.button.y };
 		if (SDL_PointInRect(&point, &buttonBox))
 			emit();
 	}
-}
+}*/
 
 
-void Button::render() const {
+/*void Button::render() const {
 	SDL_Renderer* renderer = state->getGame()->getRenderer();
 	SDL_Texture* sdl_texture = texture->getSDLTexture();
 
@@ -35,16 +35,16 @@ void Button::render() const {
 	}
 
 	texture->render(buttonBox, buttonColor);
-}
+}*/
 
 
-void Button::update() {
+^/*void Button::update() {
 	setButtonBox(static_cast<int>(position.getX()), static_cast<int>(position.getY()), width, height);
 	SDL_Point point;
 	SDL_GetMouseState(&point.x, &point.y);
 
 	isHovered = SDL_PointInRect(&point, &buttonBox);
-}
+}*/
 
 
 /*void Button::emit() const

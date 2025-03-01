@@ -3,20 +3,23 @@
 #define BUTTON_H
 
 #include "GameObject.h"
+#include <functional>
+#include "../utils/Vector2D.h"
 #include <vector>
 using OnClickCallback = std::function<void()>;
 
 class Button : public GameObject {
 private:
 	std::vector<OnClickCallback> callbacks;
-	//SDL_Rect buttonBox;
+	SDL_Rect buttonBox;
+	Vector2D position;
 	//bool isHovered;
-	//int width, height;
+	int width, height;
 
 public:
-	//Button(GameState* state, Texture* tex, Point2D pos, int w, int h);
+	Button(GameState* state, Texture* tex, Vector2D pos, int w, int h);
 	//GameState* getState() const { return state; };
-	//void setButtonBox(int x, int y, int w, int h);
+	void setButtonBox(int x, int y, int w, int h);
 	void addCallback(OnClickCallback callback);
 	//void handleEvent(const SDL_Event& event) override;
 	void render() const override;
