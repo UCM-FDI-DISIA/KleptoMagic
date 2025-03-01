@@ -4,7 +4,7 @@
 #include <sstream>
 
 #include "Game.h"
-#include "../sdlutils/Texture.h"
+#include "DummyState.h"
 
 using namespace std;
 
@@ -21,10 +21,10 @@ const string textureRoot = "../assets/images/";
 
 // Especificación de las texturas del juego
 const array<TextureSpec, Game::NUM_TEXTURES> textureSpec{
-	TextureSpec{"background.png", 9, 7},
+	//TextureSpec{"background.png", 9, 7},
 };
 
-Game::Game(int worldN) : exit(false) {
+Game::Game()/**/ : exit(false) {
 
 	// Inicializa la SDL
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -40,11 +40,20 @@ Game::Game(int worldN) : exit(false) {
 	if (window == nullptr || renderer == nullptr)
 		throw "Error cargando SDL"s;
 
-	// Carga las texturas
-	for (int i = 0; i < NUM_TEXTURES; ++i)
-		textures[i] = new Texture(renderer, (textureRoot + textureSpec[i].name).c_str(),
-			textureSpec[i].numRows, textureSpec[i].numColumns);
 
+
+
+	// Carga las texturas
+	//for (int i = 0; i < NUM_TEXTURES; ++i)
+	//	textures[i] = new Texture(renderer,
+	//		(textureRoot + textureSpec[i].name).c_str(),
+	//		textureSpec[i].numRows,
+	//		textureSpec[i].numColumns);
+
+
+
+	dummy = new DummyState();
+	GameStateMachine::pushState(dummy);
 	// Creación de playstates
 	//playstate = new PlayState(worldN, this); //se fue a su metodo propio
 	
@@ -98,7 +107,7 @@ Game::run()
 //	GameStateMachine::replaceState(playstate);
 //}
 //
-////void Game::statePause(){
+//void Game::statePause(){
 //	pausestate = new PauseState(this);
 //	GameStateMachine::pushState(pausestate);
 //}
