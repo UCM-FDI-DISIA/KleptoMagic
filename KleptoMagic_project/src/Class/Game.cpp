@@ -17,12 +17,12 @@ struct TextureSpec
 };
 
 // Directorio raíz de los archivos de textura
-const string textureRoot = "../assets/images/";
+const string textureRoot = "../KleptoMagic_project/resources/images/";
 
 // Especificación de las texturas del juego
 const array<TextureSpec, Game::NUM_TEXTURES> textureSpec{
-	TextureSpec{"background.png", 1, 1},
-	TextureSpec{"Button.png", 1, 1}
+	TextureSpec{"heart.png", 1, 1},
+	TextureSpec{"heart.png", 1, 1}
 };
 
 Game::Game() : exit(false) {
