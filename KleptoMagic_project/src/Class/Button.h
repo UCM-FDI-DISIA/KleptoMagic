@@ -17,7 +17,7 @@ private:
 	int width, height;
 
 public:
-	Button(GameState* state, Texture* tex, Vector2D pos, int w, int h);
+	Button(GameState* state, /*Texture* tex,*/ Vector2D pos, int w, int h);
 	//GameState* getState() const { return state; };
 	void setButtonBox(int x, int y, int w, int h);
 	void addCallback(OnClickCallback callback);
