@@ -35,11 +35,16 @@ public:
 		BUTTON,
 		NUM_TEXTURES
 	};
+	//Texture* getTexture(TextureName name) const;
+
 	// Constante globales
 	static constexpr uint WIN_WIDTH = 544;
 	static constexpr uint WIN_HEIGHT = 480;
 	static constexpr uint FRAME_RATE = 60;
 	static constexpr uint TILE_SIZE = 32;
+
+	int getWindowWidth() const { return WIN_WIDTH; }
+	int getWindowHeight() const { return WIN_HEIGHT; }
 
 	// Ventana de la SDL (se destruir� en el destructor)
 	SDL_Window* window = nullptr;
@@ -53,7 +58,6 @@ public:
 	//AnimationState* animationstate;
 	//EndState* endstate;
 	DummyState* dummy;
-	//Texture* getTexture(TextureName name) const { return textures[name]; }
 
 	Game();
 	//~Game();

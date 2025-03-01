@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
+#include "gameStateMachine.h"
 #include "Game.h"
 #include "DummyState.h"
 
@@ -101,6 +101,10 @@ Game::run()
 			SDL_Delay(Game::FRAME_RATE - elapsed);
 	}
 }
+
+/*Texture* Game::getTexture(TextureName name) const {
+	return textures[name];  // Return the texture based on the enum index
+}*/
 
 
 //void Game::statePlay(int w) {
