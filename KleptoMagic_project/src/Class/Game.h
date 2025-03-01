@@ -18,6 +18,7 @@
 //#include "EndState.h"
 #include "gameStateMachine.h"
 class DummyState;
+class MainMenuState;
 
 #pragma once
 
@@ -49,10 +50,11 @@ public:
 	SDL_Window* window = nullptr;
 	// Renderizador de la SDL (para dibujar)
 	SDL_Renderer* renderer = nullptr;
+	SDL_Renderer* getRenderer() const { return renderer; }
 
 	// Gamestates
 	//PlayState* playstate;
-	//MainMenuState* mainmenu;
+	MainMenuState* mainmenu;
 	//PauseState* pausestate;
 	//AnimationState* animationstate;
 	//EndState* endstate;
