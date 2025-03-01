@@ -27,6 +27,8 @@
 		void updateStatusDuration();
 		void calculateStatsPostStats();
 		~Entity();
+		virtual void move();
+
 	};
 
 
