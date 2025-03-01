@@ -1,10 +1,12 @@
 #pragma once
-#ifndef MAIN_MENU_STATE_H
-#define MAIN_MENU_STATE_H
 
-#include "MenuState.h"
+#ifndef MAINMENUSTATE_H
+#define MAINMENUSTATE_H
+
+#include "GameState.h"
 #include "../sdlutils/Texture.h"
-#include "Game.h"
+#include "MenuState.h"
+#include "Button.h"
 
 class MainMenuState : public MenuState {
 private:
@@ -12,7 +14,7 @@ private:
 
 public:
     MainMenuState(Game* game, Texture* backgroundTexture);
-    //void render() const override;
+    void render() const override;
 };
 
-#endif //MAIN_MENU_STATE_H
+#endif // MAINMENUSTATE_H

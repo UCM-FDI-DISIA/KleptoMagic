@@ -5,6 +5,7 @@
 #include "gameStateMachine.h"
 #include "Game.h"
 #include "DummyState.h"
+#include "MainMenuState.h"
 
 using namespace std;
 
@@ -21,8 +22,8 @@ const string textureRoot = "../KleptoMagic_project/resources/images/";
 
 // Especificación de las texturas del juego
 const array<TextureSpec, Game::NUM_TEXTURES> textureSpec{
-	TextureSpec{"heart.png", 1, 1},
-	TextureSpec{"heart.png", 1, 1}
+	TextureSpec{"background-provisional.png", 1, 1},
+	TextureSpec{"play-button.png", 1, 1}
 };
 
 Game::Game() : exit(false) {
@@ -45,19 +46,26 @@ Game::Game() : exit(false) {
 
 
 	// Carga las texturas
-	for (int i = 0; i < NUM_TEXTURES; ++i)
+	/*for (int i = 0; i < NUM_TEXTURES; ++i)
 		textures[i] = new Texture(renderer,
-			(textureRoot + textureSpec[i].name).c_str());
+			(textureRoot + textureSpec[i].name).c_str());*/
+	for (int i = 0; i < NUM_TEXTURES; ++i) {
+		std::string texturePath = textureRoot + textureSpec[i].name;
+		std::cout << "Cargando textura: " << texturePath << std::endl;
+		textures[i] = new Texture(renderer, texturePath);
+		if (textures[i] == nullptr) {
+			std::cerr << "Error: No se pudo cargar la textura " << texturePath << std::endl;
+		}
+	}
 
 
-
-	dummy = new DummyState();
-	GameStateMachine::pushState(dummy);
+	//dummy = new DummyState();
+	//GameStateMachine::pushState(dummy);
 	// Creación de playstates
 	//playstate = new PlayState(worldN, this); //se fue a su metodo propio
 	
-	//mainmenu = new MainMenuState(this);
-	//GameStateMachine::pushState(mainmenu);
+	mainmenu = new MainMenuState(this, textures[Game::BACKGROUND]);
+	GameStateMachine::pushState(mainmenu);
 	//GameStateMachine::pushState(playstate);
 }
 
@@ -75,7 +83,9 @@ Game::run()
 		uint32_t inicio = SDL_GetTicks();
 
 		GameStateMachine::update();
+		SDL_RenderClear(renderer);
 		GameStateMachine::render();
+		SDL_RenderPresent(renderer);
 
 		SDL_Event evento;
 
@@ -100,9 +110,16 @@ Game::run()
 	}
 }
 
-Texture* Game::getTexture(TextureName name) const {
+/*Texture* Game::getTexture(TextureName name) const {
 	return textures[name];  // Return the texture based on the enum index
+}*/
+Texture* Game::getTexture(TextureName name) const {
+	if (textures[name] == nullptr) {
+		std::cerr << "Error: La textura " << name << " no está cargada." << std::endl;
+	}
+	return textures[name];
 }
+
 
 
 //void Game::statePlay(int w) {
