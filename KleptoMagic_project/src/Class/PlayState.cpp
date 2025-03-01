@@ -1,6 +1,6 @@
 #include "PlayState.h"
 
-PlayState::PlayState()
+PlayState::PlayState() : GameState(game)
 {
 	currentRoom = 0;
 	coins = 0;
