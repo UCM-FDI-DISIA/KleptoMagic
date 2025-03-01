@@ -21,7 +21,8 @@ const string textureRoot = "../assets/images/";
 
 // Especificación de las texturas del juego
 const array<TextureSpec, Game::NUM_TEXTURES> textureSpec{
-	//TextureSpec{"background.png", 9, 7},
+	TextureSpec{"background.png", 1, 1},
+	TextureSpec{"Button.png", 1, 1}
 };
 
 Game::Game()/**/ : exit(false) {
