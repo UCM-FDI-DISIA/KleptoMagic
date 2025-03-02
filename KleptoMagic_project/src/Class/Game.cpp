@@ -126,21 +126,21 @@ Texture* Game::getTexture(TextureName name) const {
 	return textures[name];
 }
 
+//void Game::statePlay(int w) {
+//#ifdef _DEBUG
+//	std::cout << "Cambiando a PlayState..." << std::endl;
+//#endif
+//	GameStateMachine::popState(); // Eliminar MainMenuState
+//	auto playstate = new PlayState(); // Crear PlayState
+//	GameStateMachine::pushState(playstate); // Ponerlo en la pila
+//}
+
+
 void Game::statePlay(int w) {
-#ifdef _DEBUG
-	std::cout << "Cambiando a PlayState..." << std::endl;
-#endif
-	GameStateMachine::popState(); // Eliminar MainMenuState
-	auto playstate = new PlayState(); // Crear PlayState
-	GameStateMachine::pushState(playstate); // Ponerlo en la pila
+	playstate = new PlayState();
+	GameStateMachine::replaceState(playstate);
 }
 
-
-//void Game::statePlay(int w) {
-//	playstate = new PlayState(w, this);
-//	GameStateMachine::replaceState(playstate);
-//}
-//
 //void Game::statePause(){
 //	pausestate = new PauseState(this);
 //	GameStateMachine::pushState(pausestate);
