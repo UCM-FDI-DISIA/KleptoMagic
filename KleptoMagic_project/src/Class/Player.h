@@ -1,9 +1,12 @@
 #include "Entity.h"
+#include "MovementCtrl.h"
 #include "vector"
 #include "string"
 #include "../utils/Vector2D.h"
+#include "../sdlutils/InputHandler.h"
 
-class Player : public Entity
+
+class Player : public Entity, public MovementCtrl
 {
 	float attackcooldown;
 	float abilitycooldown;
@@ -20,6 +23,8 @@ public:
 	void RemoveItem(std::string item);
 	void ApplyProjectileModifiers();
 	void CalculateStatusPostItem();
+	void PlayerHandleEvent();
+	MovementCtrl playerMovement;
 	~Player();
 };
 
