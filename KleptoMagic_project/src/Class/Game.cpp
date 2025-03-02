@@ -51,10 +51,14 @@ Game::Game() : exit(false) {
 			(textureRoot + textureSpec[i].name).c_str());*/
 	for (int i = 0; i < NUM_TEXTURES; ++i) {
 		std::string texturePath = textureRoot + textureSpec[i].name;
+#ifdef _DEBUG
 		std::cout << "Cargando textura: " << texturePath << std::endl;
+#endif
 		textures[i] = new Texture(renderer, texturePath);
 		if (textures[i] == nullptr) {
+#ifdef _DEBUG
 			std::cerr << "Error: No se pudo cargar la textura " << texturePath << std::endl;
+#endif
 		}
 	}
 
@@ -115,13 +119,17 @@ Game::run()
 }*/
 Texture* Game::getTexture(TextureName name) const {
 	if (textures[name] == nullptr) {
+#ifdef _DEBUG
 		std::cerr << "Error: La textura " << name << " no está cargada." << std::endl;
+#endif
 	}
 	return textures[name];
 }
 
 void Game::statePlay(int w) {
+#ifdef _DEBUG
 	std::cout << "Cambiando a PlayState..." << std::endl;
+#endif
 	GameStateMachine::popState(); // Eliminar MainMenuState
 	auto playstate = new PlayState(); // Crear PlayState
 	GameStateMachine::pushState(playstate); // Ponerlo en la pila

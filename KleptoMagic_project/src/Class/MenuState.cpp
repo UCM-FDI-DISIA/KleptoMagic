@@ -8,7 +8,9 @@ Button* MenuState::createButton(float x, float y, int w, int h, Game::TextureNam
     Vector2D buttonPosition = {x, y};
     Texture* buttonTexture = game->getTexture(textureName);
     if (buttonTexture == nullptr) {
+#ifdef _DEBUG
         std::cerr << "Error: No se pudo cargar la textura del botón " << textureName << std::endl;
+#endif 
     }
     Button* newButton = new Button(this, buttonTexture, buttonPosition, w, h);
     addObject(newButton);

@@ -16,7 +16,9 @@ void Button::handleEvent(const SDL_Event& event) {
 	if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
 		SDL_Point point{ event.button.x, event.button.y };
 		if (SDL_PointInRect(&point, &buttonBox)) {
+#ifdef _DEBUG
 			std::cout << "Botón clickeado!" << std::endl;
+#endif
 			emit();
 		}
 	}
