@@ -1,20 +1,25 @@
 #include "DummyState.h"
-#include "TimerCountdown.h"
 #include <iostream>
 
 DummyState::DummyState() : GameState(game), gameTimer(300), eventActive(false) {
-   
+
+    
+    
+    //Al final de todo
+    gameTimer.start();
 }
 
 void DummyState::update() {
-    gameTimer.start();
-    bool lastEventActive = false;
+    //timerTest();
+}
 
+void DummyState::timerTest() {
     // Game loop (this would run every frame)
     while (!gameTimer.isFinished()) {
         gameTimer.update(); // Update the timer (ticks down based on real time)
+#ifdef _DEBUG
         std::cout << "Time left: " << gameTimer.getTimeLeft() << " seconds\n";
-        
+#endif
         // This is only for testing purposes. Use the respective methods to apply them properly (eventActive = True/False & gameTimer.addTime(_myTime))
         if (gameTimer.getTimeLeft() < 290) {
             if (gameTimer.getTimeLeft() < 270) {
@@ -41,6 +46,8 @@ void DummyState::update() {
         }
         lastEventActive = eventActive;
     }
-
+#ifdef _DEBUG
     std::cout << "Time's up!" << std::endl;
+#endif
+    
 }

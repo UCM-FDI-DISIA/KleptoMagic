@@ -16,4 +16,5 @@ private:
 public:
 	DummyState();
 	void update();
+	void timerTest();
 };
