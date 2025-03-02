@@ -1,26 +1,47 @@
 #include "TimerCountdown.h"
 
-Timer::Timer(int duration) : duration(duration), elapsed(0) {}
+TimerCountdown::TimerCountdown(int duration) : duration(duration), elapsed(0), eventTime(0), timeMultiplier(1.0f), multiplierValue(1.0f), eventActive(false) {}
 
-void Timer::start() {
+void TimerCountdown::start() {
     startTime = std::chrono::steady_clock::now();
 }
 
-void Timer::update() {
+void TimerCountdown::update() {
     auto now = std::chrono::steady_clock::now();
-    elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - startTime).count();
+    float elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - startTime).count();
+    if (eventActive) {
+        float eventTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - eventStartTime).count();
+    }
+    else {
+        
+    }
+    elapsed = (elapsed - eventTime) + eventTime * multiplierValue;
 }
 
-void Timer::changeTime(int seconds) {
+void TimerCountdown::changeTime(int seconds) {
     duration += seconds;
     if (duration < 0) duration = 0;  // Prevent negative time
 }
 
-bool Timer::isFinished() const {
+void TimerCountdown::setSpeedMultiplier(float multiplier) {
+    timeMultiplier = multiplier;
+
+    if (!eventActive && multiplier > 1.0f) {
+        eventActive = true;
+        eventStartTime = std::chrono::steady_clock::now();
+        multiplierValue = multiplier;
+    }
+
+    if (eventActive && multiplier == 1.0f) {
+        eventActive = false;
+    }
+}
+
+bool TimerCountdown::isFinished() const {
     return elapsed >= duration;
 }
 
-int Timer::getTimeLeft() const {
+int TimerCountdown::getTimeLeft() const {
     int timeLeft = duration - elapsed;
     return (timeLeft < 0) ? 0 : timeLeft;
 }
