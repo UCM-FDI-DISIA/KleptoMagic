@@ -21,14 +21,13 @@ void Button::addCallback(OnClickCallback callback) {
 }*/
 
 
-/*void Button::render() const {
+void Button::render() const {
 	SDL_Renderer* renderer = state->getGame()->getRenderer();
 	SDL_Texture* sdl_texture = texture->getSDLTexture();
 
 	SDL_Color buttonColor;
 	if (isHovered) {
 		buttonColor = { 255, 255 , 0 , 255 };
-		drawMarker();
 	}
 	else {
 		buttonColor = { 255, 255 , 255 , 255 };
@@ -38,14 +37,13 @@ void Button::addCallback(OnClickCallback callback) {
 }
 
 
-^void Button::update() {
+void Button::update() {
 	setButtonBox(static_cast<int>(position.getX()), static_cast<int>(position.getY()), width, height);
 	SDL_Point point;
 	SDL_GetMouseState(&point.x, &point.y);
 
 	isHovered = SDL_PointInRect(&point, &buttonBox);
 }
-
 
 void Button::emit() const
 {
@@ -54,15 +52,6 @@ void Button::emit() const
 	}
 }
 
-
-void Button::drawMarker() const {
-	SDL_Renderer* renderer = state->getGame()->getRenderer();
-	SDL_Rect markerRect = { buttonBox.x - 50, buttonBox.y, 30, 30 };
-	Texture* markerTexture = state->getGame()->getTexture(Game::MUSHROOM);
-	markerTexture->render(markerRect);
-}
-
-
 void Button::setButtonBox(int x, int y, int w, int h) {
 	buttonBox = { x, y, w, h };
-}*/
+}

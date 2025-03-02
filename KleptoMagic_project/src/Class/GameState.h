@@ -34,5 +34,6 @@ public:
 	}
 	//void map_reload();
 
+	Game* getGame() const { return game; }
 };
 
