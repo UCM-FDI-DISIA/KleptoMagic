@@ -4,7 +4,7 @@
 #pragma once
 #include <SDL.h>
 #include <iostream>
-#include "Vector2D.h"
+#include "../utils/Vector2D.h"
 
 class InputManager {
 public:

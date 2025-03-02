@@ -103,4 +103,5 @@ void InputManager::shutdown() {
 
 void InputManager::printInput() {
     std::cout << "MovementVector: " << MovementVector.getX() << ", " << MovementVector.getY() << std::endl;
+    system("cls");
 }
