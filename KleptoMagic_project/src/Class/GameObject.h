@@ -1,9 +1,11 @@
 #pragma once
 #include "../Class/GameState.h"
 #include "../sdlutils/Texture.h"
+
+
 class GameObject
 {
-private:
+protected:
 	GameState* state;
 	Texture* texture;
 public:
