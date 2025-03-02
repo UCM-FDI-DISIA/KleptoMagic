@@ -34,6 +34,7 @@
     <ClCompile Include="..\src\Class\Game.cpp" />
     <ClCompile Include="..\src\Class\MenuState.cpp" />
     <ClCompile Include="..\src\Class\StatusEffect.cpp" />
+    <ClCompile Include="..\src\Class\TimerCountdown.cpp" />
     <ClCompile Include="..\SRC\json\JSON.cpp" />
     <ClCompile Include="..\SRC\json\JSONValue.cpp" />
     <ClCompile Include="..\SRC\json\json_demo.cpp" />
@@ -61,6 +62,7 @@
     <ClInclude Include="..\src\Class\SceneObject.h" />
     <ClInclude Include="..\src\Class\Game.h" />
     <ClInclude Include="..\src\Class\StatusEffect.h" />
+    <ClInclude Include="..\src\Class\TimerCountdown.h" />
     <ClInclude Include="..\SRC\json\JSON.h" />
     <ClInclude Include="..\SRC\json\JSONValue.h" />
     <ClInclude Include="..\SRC\json\json_demo.h" />
