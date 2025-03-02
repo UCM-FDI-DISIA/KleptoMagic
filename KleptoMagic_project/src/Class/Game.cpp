@@ -122,8 +122,8 @@ Texture* Game::getTexture(TextureName name) const {
 
 
 
-//void Game::statePlay(int w) {
-//	playstate = new PlayState(w, this);
+//void Game::statePlay() {
+//	playstate = new PlayState(this);
 //	GameStateMachine::replaceState(playstate);
 //}
 //
