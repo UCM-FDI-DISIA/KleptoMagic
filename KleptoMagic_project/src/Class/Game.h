@@ -34,6 +34,7 @@ public:
 	enum TextureName {
 		BACKGROUND,
 		BUTTON,
+		PLAYER,
 		NUM_TEXTURES
 	};
 	Texture* getTexture(TextureName name) const;

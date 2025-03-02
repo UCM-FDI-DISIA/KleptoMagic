@@ -24,7 +24,8 @@ const string textureRoot = "../KleptoMagic_project/resources/images/";
 // Especificación de las texturas del juego
 const array<TextureSpec, Game::NUM_TEXTURES> textureSpec{
 	TextureSpec{"background-provisional.png", 1, 1},
-	TextureSpec{"play-button.png", 1, 1}
+	TextureSpec{"play-button.png", 1, 1},
+	TextureSpec{"player_placeholder.png",1,1}
 };
 
 Game::Game() : exit(false) {

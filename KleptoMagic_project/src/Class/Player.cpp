@@ -1,8 +1,10 @@
 #include "Player.h"
 #include "../utils/Vector2D.h"
 #include "Entity.h"
-Player::Player(float atackcooldown, float skillcooldown, float multi, Vector2D velocity, float life, float moveSpeed, float attack, float attacksped, float armor, Vector2D position, PlayState* playstate) : Entity(velocity, life, moveSpeed, attack, attacksped, armor, position, playstate) 
+#include "Game.h"
+Player::Player(Game* gam,float atackcooldown, float skillcooldown, float multi, Vector2D velocity, float life, float moveSpeed, float attack, float attacksped, float armor, Vector2D position, PlayState* playstate) : Entity(velocity, life, moveSpeed, attack, attacksped, armor, position, playstate) 
 {
+	game = gam;
 	attackcooldown = atackcooldown;
 	abilitycooldown = skillcooldown;
 	procMultiplayer = multi;
@@ -43,4 +45,15 @@ void Player::RemoveItem(std::string item)
 		}
 		i++;
 	}
+}
+
+Player::~Player()
+{
+}
+
+void Player::render() const
+{
+	
+	Texture* texture = game->getTexture(Game::PLAYER);
+	texture->render({ (int)position.getX(), (int)position.getY(), (int)width, (int)height });
 }

@@ -9,6 +9,7 @@ class SceneObject:public GameObject
 {
 private:
 	PlayState* playstate;
+protected:
 	Vector2D position;
 	float width; float height;
 public:
