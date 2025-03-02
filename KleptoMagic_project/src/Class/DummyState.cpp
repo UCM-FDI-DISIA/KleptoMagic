@@ -34,15 +34,10 @@ void DummyState::update() {
 
         // If event switches active state...
         if (eventActive && !lastEventActive) {
-            gameTimer.addTime(-gameTimer.getElapsedTime());
             gameTimer.setSpeedMultiplier(2.0f);
-            gameTimer.start();
-            // Start new timer with the previous timer time and a new speed multiplier
         }
         else if (lastEventActive && !eventActive) {
-            gameTimer.addTime(-gameTimer.getElapsedTime());
             gameTimer.setSpeedMultiplier(1.0f);
-            gameTimer.start();
         }
         lastEventActive = eventActive;
     }

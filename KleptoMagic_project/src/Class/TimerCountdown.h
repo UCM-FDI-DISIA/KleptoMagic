@@ -12,13 +12,16 @@ public:
     void setSpeedMultiplier(float multiplier); // Control timer acceleration
     bool isFinished() const;  // Check if the countdown is over
     int getTimeLeft() const;  // Get remaining time (For visual purpose)
-    int getElapsedTime() const; // Used to update timer whenever speed changes
+    int getElapsedTime() const; // Used to update timer whenever setSpeedMultiplier is used
+    void pause(); 
+    void resume();
 
 private:
     std::chrono::time_point<std::chrono::steady_clock> startTime;
     std::chrono::duration<float> totalDuration;
     float timeMultiplier;
     bool running;       // Timer ongoing
+    bool paused;
     int elapsed;        // Time already passed
 };
 

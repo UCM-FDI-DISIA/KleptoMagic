@@ -1,6 +1,6 @@
 #include "TimerCountdown.h"
 
-TimerCountdown::TimerCountdown(int duration) : totalDuration(std::chrono::seconds(duration)), elapsed(0), timeMultiplier(1.0f), running(false) {}
+TimerCountdown::TimerCountdown(int duration) : totalDuration(std::chrono::seconds(duration)), elapsed(0), timeMultiplier(1.0f), running(false), paused(false) {}
 
 void TimerCountdown::start() {
     startTime = std::chrono::steady_clock::now();
@@ -8,8 +8,10 @@ void TimerCountdown::start() {
 }
 
 void TimerCountdown::update() {
-    auto now = std::chrono::steady_clock::now();
-    float elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - startTime).count();
+    if (!paused) {
+        auto now = std::chrono::steady_clock::now();
+        float elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - startTime).count();
+    }
 }
 
 void TimerCountdown::addTime(int seconds) {
@@ -20,7 +22,9 @@ void TimerCountdown::addTime(int seconds) {
 }
 
 void TimerCountdown::setSpeedMultiplier(float multiplier) {
+    addTime(-getElapsedTime());
     timeMultiplier = multiplier;
+    start();
 }
 
 bool TimerCountdown::isFinished() const {
@@ -40,3 +44,14 @@ int TimerCountdown::getElapsedTime() const {
     return static_cast<int>(elapsed);
 }
 
+void TimerCountdown::pause() {
+    if (!running || paused) return; // Do nothing if the timer isn't running
+    addTime(-getElapsedTime()); // Subtract elapsed time from total duration
+    paused = true;
+}
+
+void TimerCountdown::resume() {
+    if (!paused) return;
+    start();             // Restart the timer
+    paused = false;
+}
