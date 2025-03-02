@@ -1,7 +1,7 @@
 #include "DummyState.h"
 #include <iostream>
 
-DummyState::DummyState() : GameState(game), gameTimer(300), eventActive(false) {
+DummyState::DummyState() : GameState(game), gameTimer(300) {
 
     
     
@@ -10,7 +10,7 @@ DummyState::DummyState() : GameState(game), gameTimer(300), eventActive(false) {
 }
 
 void DummyState::update() {
-    //timerTest();
+    timerTest();
 }
 
 void DummyState::timerTest() {
@@ -21,30 +21,24 @@ void DummyState::timerTest() {
         std::cout << "Time left: " << gameTimer.getTimeLeft() << " seconds\n";
 #endif
         // This is only for testing purposes. Use the respective methods to apply them properly (eventActive = True/False & gameTimer.addTime(_myTime))
-        if (gameTimer.getTimeLeft() < 290) {
-            if (gameTimer.getTimeLeft() < 270) {
-                eventActive = false;
+        if (gameTimer.getTimeLeft() < 298) {
+            if (gameTimer.getTimeLeft() < 290) {
+                if (gameTimer.getTimeLeft() < 248) {
+                    if (gameTimer.getTimeLeft() < 220) {
+                        gameTimer.setSpeedMultiplier(1.0f);
+                    }
+                    else { gameTimer.setSpeedMultiplier(4.0f); }
+                }
+                else { gameTimer.setSpeedMultiplier(1.0f); }
             }
-            else { eventActive = true; }
+            else { gameTimer.setSpeedMultiplier(2.0f); }
         }
-        if (gameTimer.getTimeLeft() < 240) {
-            if (gameTimer.getTimeLeft() < 220) {
-                eventActive = false;
-            }
-            else { eventActive = true; }
+        if (gameTimer.getTimeLeft() < 288 && gameTimer.getTimeLeft() > 250) {
+            gameTimer.addTime(-38);
         }
-        if (gameTimer.getTimeLeft() < 260 && gameTimer.getTimeLeft() > 250) {
-            gameTimer.addTime(-15);
+        if (gameTimer.getTimeLeft() < 215 && gameTimer.getTimeLeft() > 200) {
+            gameTimer.addTime(-999);
         }
-
-        // If event switches active state...
-        if (eventActive && !lastEventActive) {
-            gameTimer.setSpeedMultiplier(2.0f);
-        }
-        else if (lastEventActive && !eventActive) {
-            gameTimer.setSpeedMultiplier(1.0f);
-        }
-        lastEventActive = eventActive;
     }
 #ifdef _DEBUG
     std::cout << "Time's up!" << std::endl;

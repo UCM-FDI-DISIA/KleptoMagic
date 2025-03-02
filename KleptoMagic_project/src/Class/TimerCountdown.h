@@ -20,7 +20,6 @@ private:
     std::chrono::time_point<std::chrono::steady_clock> startTime;
     std::chrono::duration<float> totalDuration;
     float timeMultiplier;
-    bool running;       // Timer ongoing
     bool paused;
     int elapsed;        // Time already passed
 };

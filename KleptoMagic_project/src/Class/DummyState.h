@@ -11,7 +11,6 @@ private:
 	Game* game;
 	std::list <GameObject*> gameObjects;
 	TimerCountdown gameTimer;
-	bool eventActive;
 
 public:
 	DummyState();
