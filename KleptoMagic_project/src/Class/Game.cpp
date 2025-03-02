@@ -120,10 +120,16 @@ Texture* Game::getTexture(TextureName name) const {
 	return textures[name];
 }
 
+void Game::statePlay(int w) {
+	std::cout << "Cambiando a PlayState..." << std::endl;
+	GameStateMachine::popState(); // Eliminar MainMenuState
+	auto playstate = new PlayState(); // Crear PlayState
+	GameStateMachine::pushState(playstate); // Ponerlo en la pila
+}
 
 
-//void Game::statePlay() {
-//	playstate = new PlayState(this);
+//void Game::statePlay(int w) {
+//	playstate = new PlayState(w, this);
 //	GameStateMachine::replaceState(playstate);
 //}
 //

@@ -12,13 +12,15 @@ void Button::addCallback(OnClickCallback callback) {
 }
 
 
-/*void Button::handleEvent(const SDL_Event& event) {
+void Button::handleEvent(const SDL_Event& event) {
 	if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
 		SDL_Point point{ event.button.x, event.button.y };
-		if (SDL_PointInRect(&point, &buttonBox))
+		if (SDL_PointInRect(&point, &buttonBox)) {
+			std::cout << "Botón clickeado!" << std::endl;
 			emit();
+		}
 	}
-}*/
+}
 
 
 void Button::render() const {
@@ -27,7 +29,7 @@ void Button::render() const {
 
 	SDL_Color buttonColor;
 	if (isHovered) {
-		buttonColor = { 255, 255 , 0 , 255 };
+		buttonColor = { 255, 0 , 0 , 255 };
 	}
 	else {
 		buttonColor = { 255, 255 , 255 , 255 };

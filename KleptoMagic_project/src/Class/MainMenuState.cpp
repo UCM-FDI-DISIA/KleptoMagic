@@ -11,6 +11,11 @@ MainMenuState::MainMenuState(Game* game, Texture* background) : MenuState(game){
         game->getWindowHeight() / 2 - 25,
         100, 50,
         Game::BUTTON);
+
+    playButton->addCallback([game]() {
+        game->statePlay(1);  // Cambia al estado de juego
+        });
+    addEventListener(playButton);
 }
 
 

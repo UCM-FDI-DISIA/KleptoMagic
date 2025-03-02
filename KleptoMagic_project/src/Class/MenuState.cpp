@@ -12,7 +12,7 @@ Button* MenuState::createButton(float x, float y, int w, int h, Game::TextureNam
     }
     Button* newButton = new Button(this, buttonTexture, buttonPosition, w, h);
     addObject(newButton);
-    //addEventHandler(newButton);
+    addEventListener(newButton);
     return newButton;
 }
 

@@ -48,7 +48,7 @@ public:
 	// sobre el estado actual (no hacen nada si la pila es vacía)
 	void update();
 	void render() const;
-	//void handleEvent(const SDL_Event& event);
+	void handleEvent(const SDL_Event& event);
 };
 
 inline void

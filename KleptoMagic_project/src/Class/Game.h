@@ -11,7 +11,7 @@
 //#include "TileMap.h"
 //#include "Player.h"
 //#include "gameList.h"
-//#include "PlayState.h"
+#include "PlayState.h"
 //#include "MainMenuState.h"
 //#include "PauseState.h"
 //#include "AnimationState.h"
@@ -53,7 +53,7 @@ public:
 	SDL_Renderer* getRenderer() const { return renderer; }
 
 	// Gamestates
-	//PlayState* playstate;
+	PlayState* playstate;
 	MainMenuState* mainmenu;
 	//PauseState* pausestate;
 	//AnimationState* animationstate;
