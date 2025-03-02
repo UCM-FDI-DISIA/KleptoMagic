@@ -18,9 +18,9 @@ public:
 	//virtual void skill();
 	void GetItem(std::string item);
 	void RemoveItem(std::string item);
-	void ApplyProjectileModifiers();
-	void CalculateStatusPostItem();
-	~Player();
+	//void ApplyProjectileModifiers();
+	//void CalculateStatusPostItem();
+	//~Player();
 };
 
 

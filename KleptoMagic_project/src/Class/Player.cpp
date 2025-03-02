@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "../utils/Vector2D.h"
 #include "Entity.h"
-Player::Player(float atackcooldown, float skillcooldown, float multi, Vector2D velocity, float life, float moveSpeed, float attack, float attacksped, float armor, Vector2D position, PlayState* playstate) : Entity(velocity, life, moveSpeed, attack, attacksped, armor, position, playstate)
+Player::Player(float atackcooldown, float skillcooldown, float multi, Vector2D velocity, float life, float moveSpeed, float attack, float attacksped, float armor, Vector2D position, PlayState* playstate) : Entity(velocity, life, moveSpeed, attack, attacksped, armor, position, playstate) 
 {
 	attackcooldown = atackcooldown;
 	abilitycooldown = skillcooldown;
