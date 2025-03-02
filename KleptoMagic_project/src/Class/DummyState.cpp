@@ -15,7 +15,7 @@ void DummyState::update() {
         gameTimer.update(); // Update the timer (ticks down based on real time)
         std::cout << "Time left: " << gameTimer.getTimeLeft() << " seconds\n";
         
-        // This is only for testing. Use the respective methods to apply them
+        // This is only for testing purposes. Use the respective methods to apply them properly (eventActive = True/False & gameTimer.addTime(_myTime))
         if (gameTimer.getTimeLeft() < 290) {
             if (gameTimer.getTimeLeft() < 270) {
                 eventActive = false;
@@ -37,6 +37,7 @@ void DummyState::update() {
             gameTimer.addTime(-gameTimer.getElapsedTime());
             gameTimer.setSpeedMultiplier(2.0f);
             gameTimer.start();
+            // Start new timer with the previous timer time and a new speed multiplier
         }
         else if (lastEventActive && !eventActive) {
             gameTimer.addTime(-gameTimer.getElapsedTime());
