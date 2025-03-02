@@ -93,7 +93,7 @@ Game::run()
 			if (evento.type == SDL_QUIT)
 				exit = true;
 			else {
-				//GameStateMachine::handleEvent(evento);
+				GameStateMachine::handleEvent(evento);
 			}
 		}
 		
