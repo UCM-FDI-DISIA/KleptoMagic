@@ -6,8 +6,10 @@
 #include <iostream>
 #include "../utils/Vector2D.h"
 
+/* Handles input from keyboard and gamepad*/
 class InputManager {
 public:
+
     InputManager();
     ~InputManager();
 
@@ -20,6 +22,7 @@ public:
 
 private:
     SDL_GameController* _controller = nullptr;
+    bool _isDebugOn;
 
     void connectController(int index);
     void disconnectController();

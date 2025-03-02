@@ -35,7 +35,12 @@ bool InputManager::initialize() {
 void InputManager::update() {
     SDL_GameControllerUpdate();
     setMovementVector();
-    printInput();
+    #ifdef _DEBUG
+	printInput();
+    if (_controller == nullptr) {
+        std::cout << "Gamepad not found. Waiting for connection..." << std::endl;
+    }
+    #endif
     
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -44,10 +49,6 @@ void InputManager::update() {
         } else if (event.type == SDL_CONTROLLERDEVICEREMOVED) {
             disconnectController();
         }
-    }
-
-    if (_controller == nullptr) {
-        std::cout << "Gamepad not found. Waiting for connection..." << std::endl;
     }
 }
 
