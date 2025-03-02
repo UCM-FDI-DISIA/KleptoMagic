@@ -4,32 +4,28 @@
 #pragma once
 #include <SDL.h>
 #include <iostream>
-#include <vector>
+#include "Vector2D.h"
 
-/*  WIP Input manager class is responsible for handling input from the gamepad and keyboard
-    It returns button presses and axis vector from sticks and WASD keys
-    All values are normalized to be between -1 and 1
-*/
 class InputManager {
 public:
     InputManager();
     ~InputManager();
 
+    Vector2D MovementVector;
+    Vector2D AimingVector;
+
     bool initialize();
     void update();
-    void scanForControllers();
-    void processInput();
-    void connectController(int index);
-    void printControllerState(size_t index);
-    void printConnectedControllers();
-    void disconnectController(int instanceID);
-    void shutdown();
-    void clearConsole();
-    std::string getDirection(float x, float y);
+    bool isAbilityButtonPressed();
 
 private:
-    SDL_GameController* controller;
-    std::vector<SDL_GameController*> controllers;
+    SDL_GameController* _controller = nullptr;
+
+    void connectController(int index);
+    void disconnectController();
+    void shutdown();
+    void setMovementVector();
+    void printInput();
 };
 
 #endif // INPUTMANAGER_H
