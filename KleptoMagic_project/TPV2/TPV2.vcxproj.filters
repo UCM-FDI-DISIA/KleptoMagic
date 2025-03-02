@@ -28,6 +28,10 @@
     <ClCompile Include="..\src\Class\Player.cpp" />
     <ClCompile Include="..\src\Class\TimerCountdown.cpp" />
     <ClCompile Include="..\src\Class\Enemy.cpp" />
+    <ClCompile Include="..\src\Class\EventHandler.cpp" />
+    <ClCompile Include="..\src\Class\MovementCtrl.cpp" />
+    <ClCompile Include="..\src\ecs\Manager.cpp" />
+    <ClCompile Include="..\src\Class\InputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Class\EntityStat.h" />
@@ -67,5 +71,15 @@
     <ClInclude Include="..\src\Class\Player.h" />
     <ClInclude Include="..\src\Class\TimerCountdown.h" />
     <ClInclude Include="..\src\Class\Enemy.h" />
+    <ClInclude Include="..\src\Class\EventHandler.h" />
+    <ClInclude Include="..\src\Class\MovementCtrl.h" />
+    <ClInclude Include="..\src\Class\Transform.h" />
+    <ClInclude Include="..\src\ecs\Component.h" />
+    <ClInclude Include="..\src\ecs\ecs.h" />
+    <ClInclude Include="..\src\ecs\ecs_defs.h" />
+    <ClInclude Include="..\src\ecs\ecs_defs_example.h" />
+    <ClInclude Include="..\src\ecs\Entity.h" />
+    <ClInclude Include="..\src\ecs\Manager.h" />
+    <ClInclude Include="..\src\Class\InputManager.h" />
   </ItemGroup>
 </Project>

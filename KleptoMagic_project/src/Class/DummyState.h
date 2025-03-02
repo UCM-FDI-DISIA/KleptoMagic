@@ -12,6 +12,7 @@ private:
 	Game* game;
 	std::list <GameObject*> gameObjects;
 	TimerCountdown gameTimer;
+	InputManager* _inputManager;
 
 public:
 	DummyState();

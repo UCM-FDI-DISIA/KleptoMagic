@@ -23,7 +23,7 @@ protected:
 public:
 	GameState(Game* game) : game(game) {}
 	virtual void update();
-	virtual void render();
+	virtual void render() const;
 	virtual void handleEvent(SDL_Event e);
 	
 	void addEventListener(EventHandler* eventLis) {
