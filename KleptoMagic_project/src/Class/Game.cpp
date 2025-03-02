@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "DummyState.h"
 #include "MainMenuState.h"
+#include "PlayState.h"
 
 using namespace std;
 
@@ -136,8 +137,8 @@ Texture* Game::getTexture(TextureName name) const {
 //}
 
 
-void Game::statePlay(int w) {
-	playstate = new PlayState();
+void Game::statePlay() {
+	playstate = new PlayState(this);
 	GameStateMachine::replaceState(playstate);
 }
 
@@ -150,11 +151,11 @@ void Game::statePlay(int w) {
 //	GameStateMachine::popState();
 //}
 //
-//void Game::stateMainMenu() {
-//	GameStateMachine::popState();
-//	mainmenu = new MainMenuState(this); //se puede comentar y ver si va
-//	GameStateMachine::pushState(mainmenu);
-//}
+void Game::stateMainMenu() {
+	GameStateMachine::popState();
+	mainmenu = new MainMenuState(this, textures[Game::BACKGROUND]); //se puede comentar y ver si va
+	GameStateMachine::pushState(mainmenu);
+}
 //
 //void Game::stateAnimation(function<bool()> funcAnim) {
 //	animationstate = new AnimationState(this, playstate, funcAnim);

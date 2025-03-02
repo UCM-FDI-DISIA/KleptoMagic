@@ -11,7 +11,7 @@
 //#include "TileMap.h"
 //#include "Player.h"
 //#include "gameList.h"
-#include "PlayState.h"
+//#include "PlayState.h"
 //#include "MainMenuState.h"
 //#include "PauseState.h"
 //#include "AnimationState.h"
@@ -19,6 +19,7 @@
 #include "gameStateMachine.h"
 class DummyState;
 class MainMenuState;
+class PlayState;
 
 #pragma once
 
@@ -63,7 +64,7 @@ public:
 	Game();
 	//~Game();
 	void run();
-	void statePlay(int w);
+	void statePlay();
 	void statePause();
 	void stateNotPause();
 	void stateMainMenu();

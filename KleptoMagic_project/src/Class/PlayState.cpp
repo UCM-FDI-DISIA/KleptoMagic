@@ -1,11 +1,10 @@
 #include "PlayState.h"
 
-PlayState::PlayState() : GameState(game)
+PlayState::PlayState(Game*  game) : GameState(game)
 {
 	currentRoom = 0;
 	coins = 0;
 	timer = 500;
-
 	player = new Player(1, 1, 1, Vector2D(0, 0), 100, 1, 1, 1, 1, Vector2D(0, 0), this);
 	
 }
@@ -13,6 +12,7 @@ PlayState::PlayState() : GameState(game)
 void PlayState::addObject(SceneObject* object)
 {
 	sceneObjects.push_back(object);
+
 }
 
 Player* PlayState::getPlayer()

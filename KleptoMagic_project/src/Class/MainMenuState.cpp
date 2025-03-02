@@ -15,7 +15,7 @@ MainMenuState::MainMenuState(Game* game, Texture* background) : MenuState(game){
         Game::BUTTON);
 
     playButton->addCallback([game]() {
-        game->statePlay(1);  // Cambia al estado de juego
+        game->statePlay();  // Cambia al estado de juego
         });
     addEventListener(playButton);
 }
