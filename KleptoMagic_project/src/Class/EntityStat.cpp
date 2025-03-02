@@ -1,4 +1,5 @@
 #include "EntityStat.h"
+
 EntityStat::EntityStat(float initial)
 {
 	

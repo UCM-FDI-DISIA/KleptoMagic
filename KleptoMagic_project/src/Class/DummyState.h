@@ -3,6 +3,7 @@
 #include "GameState.h"
 #include "list"
 #include "GameObject.h"
+#include "InputManager.h"
 #include "TimerCountdown.h"
 
 class DummyState : public GameState

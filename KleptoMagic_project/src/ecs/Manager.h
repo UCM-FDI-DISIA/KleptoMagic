@@ -5,6 +5,7 @@
 #include <vector>
 #include <array>
 #include <cassert>
+#include <algorithm>
 
 #include "Component.h"
 #include "ecs.h"

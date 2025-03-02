@@ -93,7 +93,11 @@ public:
 
 	// vector in the same direction of length 1
 	inline Vector2D normalize() const {
-		return *this / magnitude();
+		float len = magnitude();
+		if (len > 0.0001f) { 
+			return *this / len;
+		}
+		return Vector2D(0, 0); 
 	}
 
 	// counter clockwise rotation in a normal coordinate system, and
