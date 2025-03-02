@@ -1,6 +1,6 @@
 #include "DummyState.h"
 
-DummyState::DummyState() {
+DummyState::DummyState() : GameState(game){
 
 }
 

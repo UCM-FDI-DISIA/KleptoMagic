@@ -7,6 +7,7 @@
 class DummyState : public GameState
 {
 private:
+	Game* game;
 	std::list <GameObject*> gameObjects;
 public:
 	DummyState();

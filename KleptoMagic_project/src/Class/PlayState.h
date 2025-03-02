@@ -19,6 +19,7 @@ class PlayState : public GameState
 	int coins;
 	//Timer
 	int timer;
+	Game* game;
 
 public:
 	//Constructor

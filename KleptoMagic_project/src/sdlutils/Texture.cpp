@@ -71,3 +71,11 @@ void Texture::constructFromText(SDL_Renderer *renderer, const std::string &text,
 	SDL_FreeSurface(textSurface);
 	assert(_texture != nullptr);
 }
+
+int Texture::getHeight() {
+	return _height;
+}
+
+int Texture::getWidth(){
+	return _width;
+}

@@ -24,10 +24,12 @@
     <ClCompile Include="..\src\Class\DummyState.cpp" />
     <ClCompile Include="..\src\Class\Entity.cpp" />
     <ClCompile Include="..\src\Class\EntityStat.cpp" />
+    <ClCompile Include="..\src\Class\EventHandler.cpp" />
     <ClCompile Include="..\src\Class\GameObject.cpp" />
     <ClCompile Include="..\src\Class\GameState.cpp" />
     <ClCompile Include="..\src\Class\gameStateMachine.cpp" />
     <ClCompile Include="..\src\Class\MainMenuState.cpp" />
+    <ClCompile Include="..\src\Class\Player.cpp" />
     <ClCompile Include="..\src\Class\PlayState.cpp" />
     <ClCompile Include="..\src\Class\SceneObject.cpp" />
     <ClCompile Include="..\src\Class\Game.cpp" />
@@ -45,14 +47,18 @@
     <ClCompile Include="..\SRC\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\Class\Button.h" />
     <ClInclude Include="..\src\Class\Collisions.h" />
     <ClInclude Include="..\src\Class\DummyState.h" />
     <ClInclude Include="..\src\Class\Entity.h" />
     <ClInclude Include="..\src\Class\EntityStat.h" />
+    <ClInclude Include="..\src\Class\EventHandler.h" />
     <ClInclude Include="..\src\Class\GameObject.h" />
     <ClInclude Include="..\src\Class\GameState.h" />
     <ClInclude Include="..\src\Class\gameStateMachine.h" />
     <ClInclude Include="..\src\Class\MainMenuState.h" />
+    <ClInclude Include="..\src\Class\MenuState.h" />
+    <ClInclude Include="..\src\Class\Player.h" />
     <ClInclude Include="..\src\Class\PlayState.h" />
     <ClInclude Include="..\src\Class\SceneObject.h" />
     <ClInclude Include="..\src\Class\Game.h" />
