@@ -17,6 +17,8 @@
 		EntityStat* damage;
 		EntityStat* attackSpeed;
 		EntityStat* shield;
+
+		Texture* texture;
         
 		std::vector<StatusEffect> statusEffects;
 

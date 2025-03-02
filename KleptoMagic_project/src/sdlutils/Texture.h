@@ -90,8 +90,33 @@ public:
 		render(src, dest, rotation);
 	}
 
+	// Renders the texture with a custom color tint applied (e.g., to change the appearance)
+	inline void render(const SDL_Rect& rect, SDL_Color color) const
+	{
+		// Save the original texture color modulation settings
+		SDL_Color original;
+		SDL_GetTextureColorMod(_texture, &original.r, &original.g, &original.b);
+
+		// Apply the new color modulation
+		SDL_SetTextureColorMod(_texture, color.r, color.g, color.b);
+
+		// Render the texture with the new color
+		render(rect);
+
+		// Restore the original color modulation
+		SDL_SetTextureColorMod(_texture, original.r, original.g, original.b);
+	}
+
+	// Renders the texture to a specified rectangular area on the screen
+	inline void render(const SDL_Rect& rect) const
+	{
+		SDL_RenderCopy(_renderer, _texture, nullptr, &rect);
+	}
+
 	int getWidth();
 	int getHeight();
+
+	SDL_Texture* getSDLTexture() const { return _texture; };
 
 private:
 
@@ -100,8 +125,8 @@ private:
 			const Font &font, const SDL_Color *fgColor,
 			const SDL_Color *bgColor = nullptr);
 
-	SDL_Texture *_texture;
-	SDL_Renderer *_renderer;
+	SDL_Texture* _texture;
+	SDL_Renderer* _renderer;
 	int _width;
 	int _height;
 };

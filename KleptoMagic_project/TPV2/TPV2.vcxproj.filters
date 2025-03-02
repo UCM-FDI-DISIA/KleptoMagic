@@ -27,6 +27,7 @@
     <ClCompile Include="..\src\Class\MainMenuState.cpp" />
     <ClCompile Include="..\src\Class\Player.cpp" />
     <ClCompile Include="..\src\Class\TimerCountdown.cpp" />
+    <ClCompile Include="..\src\Class\Enemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Class\EntityStat.h" />
@@ -65,5 +66,6 @@
     <ClInclude Include="..\src\Class\MenuState.h" />
     <ClInclude Include="..\src\Class\Player.h" />
     <ClInclude Include="..\src\Class\TimerCountdown.h" />
+    <ClInclude Include="..\src\Class\Enemy.h" />
   </ItemGroup>
 </Project>

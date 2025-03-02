@@ -12,7 +12,7 @@ class Game;
 #pragma once
 class GameState
 {
-private:
+protected:
 	Game* game;
 	//GameList<GameObject> gameObj;
 	std::list<GameObject*> gameObj;
@@ -22,7 +22,7 @@ private:
 public:
 	GameState(Game* game) : game(game) {}
 	virtual void update();
-	virtual void render();
+	virtual void render() const;
 	//virtual void handleEvent(SDL_Event e);
 	//
 	//void addEventListener(EventHandler* eventLis) {
@@ -34,5 +34,6 @@ public:
 	}
 	//void map_reload();
 
+	Game* getGame() const { return game; }
 };
 

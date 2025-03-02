@@ -8,8 +8,8 @@
 // components, groups, and handlers. See ecs_defs_example.h for an
 // example file
 //
-#if __has_include("../game/ecs_defs.h")
-#include "../game/ecs_defs.h"
+#if __has_include("ecs_defs.h")
+#include "ecs_defs.h"
 #else
 #define _CMPS_LIST_ _CMP_1
 #define _GRPS_LIST_ _GRP_2

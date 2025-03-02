@@ -6,18 +6,19 @@ PlayState::PlayState() : GameState(game)
 	coins = 0;
 	timer = 500;
 
+	player = new Player(1, 1, 1, Vector2D(0, 0), 100, 1, 1, 1, 1, Vector2D(0, 0), this);
+	
 }
-
-
-//PlayState::~PlayState()
-//{
-//}
 
 void PlayState::addObject(SceneObject* object)
 {
 	sceneObjects.push_back(object);
 }
 
+Player* PlayState::getPlayer()
+{
+	return player;
+}
 
 //usa el Collision.h para comprobar si hay colision entre dos objetos
 bool PlayState::CheckCollision()
@@ -41,3 +42,4 @@ bool PlayState::CheckCollision()
 	}
 	return false;
 }
+

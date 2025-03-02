@@ -6,6 +6,8 @@
 #include <functional>
 #include "../utils/Vector2D.h"
 #include <vector>
+#include "GameState.h"
+#include "Game.h" 
 using OnClickCallback = std::function<void()>;
 
 class Button : public GameObject {
@@ -13,19 +15,18 @@ private:
 	std::vector<OnClickCallback> callbacks;
 	SDL_Rect buttonBox;
 	Vector2D position;
-	//bool isHovered;
+	bool isHovered;
 	int width, height;
 
 public:
-	Button(GameState* state, /*Texture* tex,*/ Vector2D pos, int w, int h);
-	//GameState* getState() const { return state; };
-	//void setButtonBox(int x, int y, int w, int h);
+	Button(GameState* state, Texture* tex, Vector2D pos, int w, int h);
+	GameState* getState() const { return state; };
+	void setButtonBox(int x, int y, int w, int h);
 	void addCallback(OnClickCallback callback);
 	//void handleEvent(const SDL_Event& event) override;
-	//void render() const override;
-	//void update() override;
-	//void emit() const;
-	//void drawMarker() const;
+	void render() const override;
+	void update() override;
+	void emit() const;
 };
 
 #endif // BUTTON_H
