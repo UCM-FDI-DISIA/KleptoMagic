@@ -64,11 +64,17 @@ Player::~Player()
 
 void Player::render() const
 {
-	
 	Texture* texture = game->getTexture(Game::PLAYER);
 	texture->render({ (int)position.getX(), (int)position.getY(), (int)width, (int)height });
 }
 
+
+//Deberia de ir antes del update y ponerle el vector base de a donde se mueve y 
+//luego se modificaria o cambiaria en el update en base a knockback, stun, slow recividos etc.
+//Da igual que no se aplique la speed aqui porque excepto el knockback que lo sobreescribe todo
+//son multiplicadores y el orden de los factores no ateran el producto 
+//Espera no tendria que hacer una excepcion para el knockback si aplico la speed luego???
+//Maybe lo revierto al antiguo que aplicaba la speed aqui para poder usar el move para el knockback
 void Player::handleEvent(const SDL_Event& e) {
 	speed = /*vector2D salido del input*/{ 1,0 } ;
 	//speed = _gameState->InputManager->InputVector;

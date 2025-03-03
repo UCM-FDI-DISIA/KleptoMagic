@@ -13,7 +13,6 @@ PlayState::PlayState(Game*  game) : GameState(game)
 void PlayState::addObject(SceneObject* object)
 {
 	sceneObjects.push_back(object);
-
 }
 
 Player* PlayState::getPlayer()

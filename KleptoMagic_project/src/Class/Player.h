@@ -16,6 +16,7 @@ class Player : public Entity, public EventHandler, public MovementCtrl //hace fa
 	Game* game;
 
 public:
+	//Esta constructora deveria dividirse entre la base y las constructoras de las  diferentes subclases?
 	Player(Game* newgame,float atackcooldown, float skillcooldown, float multi, Vector2D velocity, float life, float moveSpeed, float attack, float attacksped, float armor, Vector2D position, PlayState* playstate);
 	void update();
 	//virtual void attack();
