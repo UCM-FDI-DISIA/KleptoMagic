@@ -32,8 +32,10 @@ class Game : public GameStateMachine
 public:
 	// Identificadores de las texturas
 	enum TextureName {
-		BACKGROUND,
-		BUTTON,
+		MAINMENUBACKGROUND,
+		MAINMENUBUTTON,
+		ENDMENUBACKGROUND,
+		ENDMENUBUTTON,
 		PLAYER,
 		NUM_TEXTURES
 	};
