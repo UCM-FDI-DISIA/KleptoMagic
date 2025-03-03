@@ -51,7 +51,8 @@ void DungeonFloor::GenerateFloor() {
 
 	for (int i = 0; i < roomsToGenerate; i++) {
 		DungeonRoom* newRoom = roomstorage->FindRegularRoomWithExit(CurrentRoomExit);
-		cout << newRoom->getName() << " | " << CurrentRoomX << " " << CurrentRoomY << " | " << CurrentRoomExit << " " << newRoom->getAmountOfExits() << endl;
+		cout << CurrentRoomX << " " << CurrentRoomY << " " << CurrentRoomExit << endl;
+		cout << floorLayout[CurrentRoomX][CurrentRoomY]->getName() << " " << floorLayout[CurrentRoomX][CurrentRoomY]->getAmountOfExits() << endl;
 		if (CurrentRoomExit == 'U') {
 			floorLayout[CurrentRoomX][CurrentRoomY]->linkU = true;
 			CurrentRoomX--;
@@ -76,7 +77,11 @@ void DungeonFloor::GenerateFloor() {
 			newRoom->linkL = true;
 			floorLayout[CurrentRoomX][CurrentRoomY] = newRoom;
 		}
+
 		CurrentRoomExit = floorLayout[CurrentRoomX][CurrentRoomY]->getRandomUnusedExit();
+		cout << CurrentRoomX << " " << CurrentRoomY << " " << CurrentRoomExit << endl;
+		cout << newRoom->getName() << " " << newRoom->getAmountOfExits() << endl;
+		cout << "--------------" << endl;
 	}
 }
 
