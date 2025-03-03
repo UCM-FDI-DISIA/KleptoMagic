@@ -25,6 +25,8 @@ const string textureRoot = "../KleptoMagic_project/resources/images/";
 const array<TextureSpec, Game::NUM_TEXTURES> textureSpec{
 	TextureSpec{"background-provisional.png", 1, 1},
 	TextureSpec{"play-button.png", 1, 1},
+	TextureSpec{"endmenu-provisional.png", 1, 1},
+	TextureSpec{"return-button.png", 1, 1},
 	TextureSpec{"player_placeholder.png",1,1}
 };
 
@@ -70,7 +72,7 @@ Game::Game() : exit(false) {
 	// Creación de playstates
 	//playstate = new PlayState(worldN, this); //se fue a su metodo propio
 	
-	mainmenu = new MainMenuState(this, textures[Game::BACKGROUND]);
+	mainmenu = new MainMenuState(this, textures[Game::MAINMENUBACKGROUND]);
 	GameStateMachine::pushState(mainmenu);
 	//GameStateMachine::pushState(playstate);
 }
@@ -154,7 +156,7 @@ void Game::statePlay() {
 //
 void Game::stateMainMenu() {
 	GameStateMachine::popState();
-	mainmenu = new MainMenuState(this, textures[Game::BACKGROUND]); //se puede comentar y ver si va
+	mainmenu = new MainMenuState(this, textures[Game::MAINMENUBACKGROUND]); //se puede comentar y ver si va
 	GameStateMachine::pushState(mainmenu);
 }
 //
