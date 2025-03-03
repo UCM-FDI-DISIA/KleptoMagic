@@ -7,6 +7,7 @@ PlayState::PlayState(Game*  game) : GameState(game)
 	timer = 500;
 	player = new Player(game,1, 1, 1, Vector2D(0,0), 100, 1, 1, 1, 1, Vector2D(100,100), this);
 	gameObj.push_back(player);
+	addEventListener(player);
 }
 
 void PlayState::addObject(SceneObject* object)

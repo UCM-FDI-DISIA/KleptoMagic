@@ -9,7 +9,9 @@
 
 	class Entity : public SceneObject
 	{
+	public:
 		Vector2D speed;
+	private:
 
 
 		EntityStat* health;
