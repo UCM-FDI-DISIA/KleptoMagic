@@ -70,6 +70,7 @@ Game::Game() : exit(false) {
 	// Creación de playstates
 	//playstate = new PlayState(worldN, this); //se fue a su metodo propio
 	
+	_inputManager = new InputManager();
 	mainmenu = new MainMenuState(this, textures[Game::BACKGROUND]);
 	GameStateMachine::pushState(mainmenu);
 	//GameStateMachine::pushState(playstate);
@@ -87,6 +88,11 @@ Game::run()
 	while (!exit) {
 		// Marca de tiempo del inicio de la iteración
 		uint32_t inicio = SDL_GetTicks();
+
+		SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
+
+		_inputManager->update();
+
 
 		GameStateMachine::update();
 		SDL_RenderClear(renderer);

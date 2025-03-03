@@ -39,20 +39,20 @@ public:
 	};
 	Texture* getTexture(TextureName name) const;
 
+protected:
 	// Constante globales
 	static constexpr uint WIN_WIDTH = 544;
 	static constexpr uint WIN_HEIGHT = 480;
 	static constexpr uint FRAME_RATE = 60;
 	static constexpr uint TILE_SIZE = 32;
-
+public:
 	int getWindowWidth() const { return WIN_WIDTH; }
 	int getWindowHeight() const { return WIN_HEIGHT; }
-
+protected:
 	// Ventana de la SDL (se destruir� en el destructor)
 	SDL_Window* window = nullptr;
 	// Renderizador de la SDL (para dibujar)
 	SDL_Renderer* renderer = nullptr;
-	SDL_Renderer* getRenderer() const { return renderer; }
 
 	// Gamestates
 	PlayState* playstate;
@@ -62,6 +62,9 @@ public:
 	//EndState* endstate;
 	DummyState* dummy;
 
+	InputManager* _inputManager;
+
+public:
 	Game();
 	//~Game();
 	void run();
@@ -73,6 +76,11 @@ public:
 	void stateAnimationEnd();
 	void stateEnd();
 	void gameExit();
+
+	//getter
+	InputManager* getInputManager() { return _inputManager; }
+	SDL_Renderer* getRenderer() const { return renderer; }
+
 private:
 	// Array con todas las texturas del juego
 	std::array<Texture*, NUM_TEXTURES> textures;
