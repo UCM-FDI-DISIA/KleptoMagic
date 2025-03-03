@@ -9,21 +9,17 @@ DungeonRoom::DungeonRoom(string filename)
 {
 	cout << "CREATING ROOM: " << filename << endl;
 
+	// Split every element of the filename in order to isolate important data built onto it (room size, available exits)
 	vector<string> filename_string_separated = string_splitStringByDelimiter(filename, "\\");
 	string actual_filename = filename_string_separated[filename_string_separated.size() - 1];
 	vector<string> room_data_from_filename = string_splitStringByDelimiter(actual_filename, "_");
-
 	doorU = room_data_from_filename[0][0] == '1';
 	doorD = room_data_from_filename[0][1] == '1';
 	doorL = room_data_from_filename[0][2] == '1';
 	doorR = room_data_from_filename[0][3] == '1';
-
 	room_width = stoi(room_data_from_filename[1]);
 	room_height = stoi(room_data_from_filename[2]);
-
 	room_name = string_splitStringByDelimiter(room_data_from_filename[3], ".")[0];
-
-	cout << endl;
 
 	ifstream roomFile;
 
@@ -36,6 +32,7 @@ DungeonRoom::DungeonRoom(string filename)
 
 	roomFile.open(filename);
 
+	// Reading the first matrix in the file, AKA the tile layout
 	roomTiles = vector<vector<char>>(room_height, vector<char>(room_width, 0));
 	string line;
 	int row = 0;
@@ -46,8 +43,11 @@ DungeonRoom::DungeonRoom(string filename)
 		}
 		row++;
 	}
+
+	getline(roomFile, line); // Ignoring the blank line between both matrices in the file
+
+	//Reading the second matrix in the file, AKA the spawn layout
 	roomSpawns = vector<vector<char>>(room_height, vector<char>(room_width, 0));
-	getline(roomFile, line); // ignoring blank line inbetween
 	row = 0;
 	while (getline(roomFile, line) && row < room_height) {
 		stringstream ss(line);

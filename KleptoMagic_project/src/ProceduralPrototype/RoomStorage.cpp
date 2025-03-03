@@ -26,12 +26,13 @@ RoomStorage::~RoomStorage()
 
 void RoomStorage::readAllRoomFiles() 
 {
-	// Igual hacer un JSON con todas las direcciones de cada sala? 
-	// Como tal no es necesario mientras no se cuele un archivo incorrecto en los directorios
+	// Maybe create a JSON file with all the filenames?
+	// Not necessary as long as unwanted files don't end up in the rooms directory
 
 	fs::directory_iterator Start;
 	fs::directory_iterator End;
 
+	// Iterate through the EntranceRooms folder and create a DungeonRoom instance with each file
 	Start = fs::directory_iterator{ R"(.\src\ProceduralPrototype\rooms\EntranceRooms)" };
 	End = fs::directory_iterator{};
 	for (auto Iter{ Start }; Iter != End; ++Iter) {
@@ -40,6 +41,7 @@ void RoomStorage::readAllRoomFiles()
 		EntranceRooms.push_back(room);
 	}
 
+	// Iterate through the RegularRooms folder and create a DungeonRoom instance with each file
 	Start = fs::directory_iterator{R"(.\src\ProceduralPrototype\rooms\RegularRooms)"};
 	End = fs::directory_iterator{};
 	for (auto Iter{ Start }; Iter != End; ++Iter) {
@@ -48,6 +50,7 @@ void RoomStorage::readAllRoomFiles()
 		EntranceRooms.push_back(room);
 	}
 
+	// Iterate through the BossRooms folder and create a DungeonRoom instance with each file
 	Start = fs::directory_iterator{ R"(.\src\ProceduralPrototype\rooms\BossRooms)" };
 	End = fs::directory_iterator{};
 	for (auto Iter{ Start }; Iter != End; ++Iter) {

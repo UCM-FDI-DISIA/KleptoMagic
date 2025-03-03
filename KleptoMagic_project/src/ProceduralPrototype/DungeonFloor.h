@@ -17,4 +17,6 @@ public:
 	~DungeonFloor();
 	virtual void render() const;
 	virtual void update();
+
+	void GenerateFloor();
 };

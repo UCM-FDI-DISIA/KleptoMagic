@@ -2,7 +2,7 @@
 
 DungeonFloor::DungeonFloor(int floorW, int floorH) : floor_width(floorW), floor_height(floorH)
 {
-
+	GenerateFloor();
 }
 
 DungeonFloor::~DungeonFloor()
@@ -22,5 +22,9 @@ void DungeonFloor::render() const {
 }
 
 void DungeonFloor::update() {
+
+}
+
+void DungeonFloor::GenerateFloor() {
 
 }
