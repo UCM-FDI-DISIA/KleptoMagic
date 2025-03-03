@@ -28,6 +28,11 @@ public:
 	// Returns a random boss room instance, cloned from storage
 	DungeonRoom* CloneRandomBossRoom();
 
+	// Returns a random regular room that has the required door (U, D, L, R) so it can be connected to a previous room
+	DungeonRoom* FindRegularRoomWithExit(char exit);
+	// Returns a random boss room that has the required door (U, D, L, R) so it can be connected to a previous room
+	DungeonRoom* FindBossRoomWithExit(char exit);
+
 	// Reads all room files and creates DungeonRoom instances for each of them within each vector
 	void readAllRoomFiles();
 	// FOR TESTING: prints out all room data to console, from all vectors

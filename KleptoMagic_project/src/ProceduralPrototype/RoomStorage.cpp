@@ -30,6 +30,7 @@ RoomStorage::~RoomStorage()
 DungeonRoom* RoomStorage::CloneRandomEntranceRoom() {
 	int minNum = 0;
 	int maxNum = EntranceRooms.size() - 1;
+	srand((unsigned int)time(NULL));
 	int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
 	return new DungeonRoom{ *EntranceRooms[randomRoom] };
 }
@@ -37,6 +38,7 @@ DungeonRoom* RoomStorage::CloneRandomEntranceRoom() {
 DungeonRoom* RoomStorage::CloneRandomRegularRoom() {
 	int minNum = 0;
 	int maxNum = RegularRooms.size() - 1;
+	srand((unsigned int)time(NULL));
 	int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
 	return new DungeonRoom{ *RegularRooms[randomRoom] };
 }
@@ -44,8 +46,43 @@ DungeonRoom* RoomStorage::CloneRandomRegularRoom() {
 DungeonRoom* RoomStorage::CloneRandomBossRoom() {
 	int minNum = 0;
 	int maxNum = BossRooms.size() - 1;
+	srand((unsigned int)time(NULL));
 	int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
 	return new DungeonRoom{ *BossRooms[randomRoom] };
+}
+
+DungeonRoom* RoomStorage::FindRegularRoomWithExit(char exit) {
+	bool found = false;
+	DungeonRoom* result = nullptr;
+	int minNum = 0;
+	int maxNum = RegularRooms.size() - 1;
+	srand((unsigned int)time(NULL));
+	while (!found) {
+		int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
+		result = RegularRooms[randomRoom];
+		if (exit == 'U' && result->hasExitUp()) found = true;
+		else if (exit == 'D' && result->hasExitDown()) found = true;
+		else if (exit == 'L' && result->hasExitLeft()) found = true;
+		else if (exit == 'R' && result->hasExitRight()) found = true;
+	}
+	return new DungeonRoom{ *result };
+}
+
+DungeonRoom* RoomStorage::FindBossRoomWithExit(char exit) {
+	bool found = false;
+	DungeonRoom* result = nullptr;
+	while (!found) {
+		int minNum = 0;
+		int maxNum = BossRooms.size() - 1;
+		srand((unsigned int)time(NULL));
+		int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
+		result = BossRooms[randomRoom];
+		if (exit == 'U' && result->hasExitUp()) found = true;
+		else if (exit == 'D' && result->hasExitDown()) found = true;
+		else if (exit == 'L' && result->hasExitLeft()) found = true;
+		else if (exit == 'R' && result->hasExitRight()) found = true;
+	}
+	return new DungeonRoom{ *result };
 }
 
 void RoomStorage::readAllRoomFiles() 
