@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <random>
 
 #include "./../utils/StringUtils.h"
 
@@ -70,6 +71,27 @@ void DungeonRoom::render() const {
 
 void DungeonRoom::update() {
 
+}
+
+int DungeonRoom::getAmountOfExits() {
+	int counter = 0;
+	if (doorU) counter++;
+	if (doorD) counter++;
+	if (doorL) counter++;
+	if (doorR) counter++;
+	return counter;
+}
+
+char DungeonRoom::getRandomUnusedExit() {
+	vector<char> availableExits;
+	if (doorU && !linkU) availableExits.push_back('U');
+	if (doorD && !linkD) availableExits.push_back('D');
+	if (doorL && !linkL) availableExits.push_back('L');
+	if (doorR && !linkR) availableExits.push_back('R');
+	int minNum = 0;
+	int maxNum = availableExits.size() - 1;
+	int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
+	return availableExits[randomRoom];
 }
 
 void DungeonRoom::printLayoutTiles() {

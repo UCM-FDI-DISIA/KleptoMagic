@@ -1,13 +1,15 @@
-#include "RoomStorage.h"
-#include "filesystem"
 
+#include "RoomStorage.h"
 #include "DungeonRoom.h"
+#include "filesystem"
+#include <random>
 
 namespace fs = std::filesystem;
 
 RoomStorage::RoomStorage()
 {
 	readAllRoomFiles();
+	/*
 	for (auto i : EntranceRooms) {
 		printRoomData(i);
 	}
@@ -17,11 +19,33 @@ RoomStorage::RoomStorage()
 	for (auto i : BossRooms) {
 		printRoomData(i);
 	}
+	*/
 }
 
 RoomStorage::~RoomStorage()
 {
 
+}
+
+DungeonRoom* RoomStorage::CloneRandomEntranceRoom() {
+	int minNum = 0;
+	int maxNum = EntranceRooms.size() - 1;
+	int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
+	return new DungeonRoom{ *EntranceRooms[randomRoom] };
+}
+
+DungeonRoom* RoomStorage::CloneRandomRegularRoom() {
+	int minNum = 0;
+	int maxNum = RegularRooms.size() - 1;
+	int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
+	return new DungeonRoom{ *RegularRooms[randomRoom] };
+}
+
+DungeonRoom* RoomStorage::CloneRandomBossRoom() {
+	int minNum = 0;
+	int maxNum = BossRooms.size() - 1;
+	int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
+	return new DungeonRoom{ *BossRooms[randomRoom] };
 }
 
 void RoomStorage::readAllRoomFiles() 
@@ -47,7 +71,7 @@ void RoomStorage::readAllRoomFiles()
 	for (auto Iter{ Start }; Iter != End; ++Iter) {
 		//cout << Iter->path().string() << '\n';
 		DungeonRoom* room = new DungeonRoom(Iter->path().string());
-		EntranceRooms.push_back(room);
+		RegularRooms.push_back(room);
 	}
 
 	// Iterate through the BossRooms folder and create a DungeonRoom instance with each file
@@ -56,7 +80,7 @@ void RoomStorage::readAllRoomFiles()
 	for (auto Iter{ Start }; Iter != End; ++Iter) {
 		//cout << Iter->path().string() << '\n';
 		DungeonRoom* room = new DungeonRoom(Iter->path().string());
-		EntranceRooms.push_back(room);
+		BossRooms.push_back(room);
 	}
 }
 

@@ -9,6 +9,7 @@
 #include "./../../src/sdlutils/SDLUtils.h"
 
 #include "./../ProceduralPrototype/RoomStorage.h"
+#include "./../ProceduralPrototype/DungeonFloor.h"
 
 using namespace std;
 
@@ -62,6 +63,10 @@ void procedural_prototype() {
 	// --------------------
 
 	RoomStorage* roomstorage = new RoomStorage();
+	cout << "----------------------------------------" << endl;
+	cout << "----------------------------------------" << endl;
+	cout << "----------------------------------------" << endl;
+	DungeonFloor* dungeonfloor = new DungeonFloor(roomstorage);
 
 	// --------------------
 	// 

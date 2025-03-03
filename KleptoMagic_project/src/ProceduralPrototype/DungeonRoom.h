@@ -18,10 +18,14 @@ private:
 	vector<vector<char>> roomSpawns; 
 
 	// Whether or not an exit exists in any of the cardinal directions, and therefore can connect to another room through there
-	bool doorU, doorD, doorL, doorR; 
+	bool doorU, doorD, doorL, doorR;
 	// Whether or not an exit in any of the cardinal directions is currently locked and requires opening
 	bool lockU, lockD, lockL, lockR; 
 public:
+	// Whether or not any of the exits in any of the cardinal directions are currently linked to another room in said direction
+	// Compared to the other variables, these can be readily changed, as they are only used during floor generation
+	bool linkU, linkD, linkL, linkR;
+
 	// ROOM FILE NAME FORMAT
 	// xxxx_y_z_name.txt
 	// 
@@ -41,6 +45,30 @@ public:
 	int getHeight() { return room_height; };
 	// Returns room name
 	string getName() { return room_name; };
+
+	// Returns doorU
+	bool hasExitUp() { return doorU; };
+	// Returns doorD
+	bool hasExitDown() { return doorD; };
+	// Returns doorL
+	bool hasExitLeft() { return doorL; };
+	// Returns doorR
+	bool hasExitRight() { return doorR; };
+
+	// Returns lockU
+	bool isLockedUp() { return lockU; };
+	// Returns lockD
+	bool isLockedDown() { return lockD; };
+	// Returns lockL
+	bool isLockedLeft() { return lockL; };
+	// Returns lockR
+	bool isLockedRight() { return lockR; };
+
+	// Returns the total amount of exits the room has
+	int getAmountOfExits();
+	// Returns a random exit available that isn't already connected to another room (U, D, L, R, N (none))
+	char getRandomUnusedExit();
+
 	// FOR TESTING: prints room tile layout to console, the same way as it is stored
 	void printLayoutTiles();
 	// FOR TESTING: prints room spawns layout to console, the same way as it is stored

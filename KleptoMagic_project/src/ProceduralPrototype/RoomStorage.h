@@ -21,6 +21,13 @@ public:
 	RoomStorage();
 	~RoomStorage();
 
+	// Returns a random entrance room instance, cloned from storage
+	DungeonRoom* CloneRandomEntranceRoom();
+	// Returns a random regular room instance, cloned from storage
+	DungeonRoom* CloneRandomRegularRoom();
+	// Returns a random boss room instance, cloned from storage
+	DungeonRoom* CloneRandomBossRoom();
+
 	// Reads all room files and creates DungeonRoom instances for each of them within each vector
 	void readAllRoomFiles();
 	// FOR TESTING: prints out all room data to console, from all vectors
