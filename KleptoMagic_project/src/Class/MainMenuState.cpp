@@ -3,7 +3,7 @@
 #include "MenuState.h"
 
 MainMenuState::MainMenuState(Game* game, Texture* background) : MenuState(game){
-    backgroundTexture = game->getTexture(Game::BACKGROUND);
+    backgroundTexture = game->getTexture(Game::MAINMENUBACKGROUND);
     if (backgroundTexture == nullptr) {
 #ifdef _DEBUG
         std::cerr << "Error: No se pudo cargar la textura de fondo." << std::endl;
@@ -12,7 +12,7 @@ MainMenuState::MainMenuState(Game* game, Texture* background) : MenuState(game){
     Button* playButton = createButton(game->getWindowWidth() / 2 - 50,
         game->getWindowHeight() / 2 - 25,
         100, 50,
-        Game::BUTTON);
+        Game::MAINMENUBUTTON);
 
     playButton->addCallback([game]() {
         game->statePlay();  // Cambia al estado de juego
