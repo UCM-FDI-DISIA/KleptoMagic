@@ -16,7 +16,7 @@ void Player::update() {
 	//Actualizar su movimiento respecto su input y el juego (cosas que le muevan externas al input)
 	//esto siempre deberia ir despues del input por lo que solo hay que sumarle el movimiento aplicado del escenario no remplazarlo
 	//Mover al jugador
-	Move(position, speed, 3 /*float de stat de velocidad*/);
+	Move(position, speed, 7 /*float de stat de velocidad*/);
 
 }
 void Player::GetItem(std::string item)

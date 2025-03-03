@@ -70,7 +70,7 @@ Game::Game() : exit(false) {
 	//dummy = new DummyState();
 	//GameStateMachine::pushState(dummy);
 	// Creación de playstates
-	//playstate = new PlayState(worldN, this); //se fue a su metodo propio
+	playstate = new PlayState(this); //se fue a su metodo propio
 	
 	_inputManager = new InputManager();
 	mainmenu = new MainMenuState(this, textures[Game::MAINMENUBACKGROUND]);
@@ -91,7 +91,17 @@ Game::run()
 		// Marca de tiempo del inicio de la iteración
 		uint32_t inicio = SDL_GetTicks();
 
-		SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
+		//SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
+
+		SDL_Event evento;
+		GameStateMachine::handleEvent(evento);
+		while (SDL_PollEvent(&evento)) {
+			if (evento.type == SDL_QUIT)
+				exit = true;
+			else {
+				
+			}
+		}
 
 		_inputManager->update();
 
@@ -101,15 +111,7 @@ Game::run()
 		GameStateMachine::render();
 		SDL_RenderPresent(renderer);
 
-		SDL_Event evento;
-
-		while (SDL_PollEvent(&evento)) {
-			if (evento.type == SDL_QUIT)
-				exit = true;
-			else {
-				GameStateMachine::handleEvent(evento);
-			}
-		}
+		
 		
 		//playstate->update();       // Actualiza el estado de los objetos del juego
 		//playstate->render();       // Dibuja los objetos en la venta
