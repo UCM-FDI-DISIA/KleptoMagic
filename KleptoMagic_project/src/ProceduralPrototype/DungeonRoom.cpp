@@ -8,15 +8,6 @@
 DungeonRoom::DungeonRoom(string filename)
 {
 	cout << "CREATING ROOM: " << filename << endl;
-	
-	// ROOM NAME FORMAT
-	// xxxx_y_z_name.txt
-	// 
-	// xxxx -> available exits, as 0 or 1 (bool), ordered as Up, Down, Left, Right (eg. 0100 if the only exit it has is Down)
-	// y -> room height (int)
-	// z -> room width (int)
-	// note: room shape must be an overall rectangle/square, if the actual room has an irregular shape
-	// then blank spaces are filled in later in the actual layout: this is the size of the whole thing
 
 	vector<string> filename_string_separated = string_splitStringByDelimiter(filename, "\\");
 	string actual_filename = filename_string_separated[filename_string_separated.size() - 1];
@@ -31,12 +22,6 @@ DungeonRoom::DungeonRoom(string filename)
 	room_height = stoi(room_data_from_filename[2]);
 
 	room_name = string_splitStringByDelimiter(room_data_from_filename[3], ".")[0];
-
-	/*
-	cout << "NAME:\t" << room_name << endl;
-	cout << "SIZE:\t" << room_width << "x" << room_height << endl;
-	cout << "EXITS:\t" << doorU << doorD << doorL << doorR << endl;
-	*/
 
 	cout << endl;
 

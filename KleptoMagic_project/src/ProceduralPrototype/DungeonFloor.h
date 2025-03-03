@@ -9,9 +9,9 @@ using namespace std;
 class DungeonFloor
 {
 private:
-	int floor_width;
-	int floor_height;
-	vector<vector<int>> floorLayout;
+	int floor_width; // In terms of the room matrix
+	int floor_height; // In terms of the room matrix
+	vector<vector<DungeonRoom>> floorLayout; // Room matrix
 public:
 	DungeonFloor(int floorW, int floorH);
 	~DungeonFloor();
