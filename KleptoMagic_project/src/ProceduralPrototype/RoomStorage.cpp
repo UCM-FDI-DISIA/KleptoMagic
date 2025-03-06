@@ -27,48 +27,43 @@ RoomStorage::~RoomStorage()
 
 }
 
-DungeonRoom* RoomStorage::CloneRandomEntranceRoom() {
+DungeonRoom* RoomStorage::GetRandomEntranceRoom() {
 	int minNum = 0;
 	int maxNum = EntranceRooms.size() - 1;
 	srand((unsigned int)time(NULL));
 	int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
 	return new DungeonRoom{ *EntranceRooms[randomRoom] };
 }
+DungeonRoom* RoomStorage::GetRandomRegularRoom(char exit, vector<char> noExits) {
+	vector<DungeonRoom*> results;
+	for (auto i : RegularRooms) {
+		bool hasCorrectEntrance = false;
+		if (exit == 'U' && i->hasExitUp()) hasCorrectEntrance = true;
+		else if (exit == 'D' && i->hasExitDown()) hasCorrectEntrance = true;
+		else if (exit == 'L' && i->hasExitLeft()) hasCorrectEntrance = true;
+		else if (exit == 'R' && i->hasExitRight()) hasCorrectEntrance = true;
 
-DungeonRoom* RoomStorage::CloneRandomRegularRoom() {
-	int minNum = 0;
-	int maxNum = RegularRooms.size() - 1;
-	srand((unsigned int)time(NULL));
-	int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
-	return new DungeonRoom{ *RegularRooms[randomRoom] };
-}
-
-DungeonRoom* RoomStorage::CloneRandomBossRoom() {
-	int minNum = 0;
-	int maxNum = BossRooms.size() - 1;
-	srand((unsigned int)time(NULL));
-	int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
-	return new DungeonRoom{ *BossRooms[randomRoom] };
-}
-
-DungeonRoom* RoomStorage::FindRegularRoomWithExit(char exit) {
-	bool found = false;
-	DungeonRoom* result = nullptr;
-	int minNum = 0;
-	int maxNum = RegularRooms.size() - 1;
-	srand((unsigned int)time(NULL));
-	while (!found) {
-		int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
-		result = RegularRooms[randomRoom];
-		if (exit == 'U' && result->hasExitUp()) found = true;
-		else if (exit == 'D' && result->hasExitDown()) found = true;
-		else if (exit == 'L' && result->hasExitLeft()) found = true;
-		else if (exit == 'R' && result->hasExitRight()) found = true;
+		bool hasNoWrongExits = true;
+		for (auto j : noExits) {
+			if (j == 'U' && i->hasExitUp()) hasCorrectEntrance = false;
+			else if (j == 'D' && i->hasExitDown()) hasCorrectEntrance = false;
+			else if (j == 'L' && i->hasExitLeft()) hasCorrectEntrance = false;
+			else if (j == 'R' && i->hasExitRight()) hasCorrectEntrance = false;
+		}
+		
+		if (hasCorrectEntrance && hasNoWrongExits) {
+			results.push_back(i);
+		}
 	}
-	return new DungeonRoom{ *result };
+
+	int minNum = 0;
+	int maxNum = results.size() - 1;
+	srand((unsigned int)time(NULL));
+	int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
+	return new DungeonRoom{ *results[randomRoom] };
 }
 
-DungeonRoom* RoomStorage::FindBossRoomWithExit(char exit) {
+DungeonRoom* RoomStorage::GetRandomBossRoom(char exit, vector<char> noExits) {
 	bool found = false;
 	DungeonRoom* result = nullptr;
 	while (!found) {

@@ -33,16 +33,17 @@ void DungeonFloor::GenerateFloor() {
 	int centerX = (floor_width + 1) / 2;
 	int centerY = (floor_height + 1) / 2;
 	cout << centerX << " " << centerY << endl;
-	floorLayout[centerX][centerY] = roomstorage->CloneRandomEntranceRoom();
+	floorLayout[centerX][centerY] = roomstorage->GetRandomEntranceRoom();
 	cout << floorLayout[centerX][centerY]->getName() << endl;
 
-	// Set variables to indicate the current room being looked into for easy reference, as well as the direction the new room is being positioned towards
+	// Set variables to indicate the current room being looked into for easy reference, as well as the coordinates of the next room being generated
 	int CurrentRoomX = centerX;
 	int CurrentRoomY = centerY;
+	int TargetRoomX = CurrentRoomX;
+	int TargetRoomY = CurrentRoomY;
 
 	// Set variable to indicate what exit the current room being looked into will choose to link the next room onto (U, D, L, R)
-	char CurrentRoomExit = floorLayout[CurrentRoomX][CurrentRoomY]->getRandomUnusedExit();
-	cout << CurrentRoomExit << endl;
+	char CurrentRoomExit;
 
 	// Set number of rooms to generate before boss room
 	int roomsToGenerate = 5;
@@ -50,39 +51,79 @@ void DungeonFloor::GenerateFloor() {
 	// STEP 2: Generate a fixed amount of rooms charting a path towards a boss room
 
 	for (int i = 0; i < roomsToGenerate; i++) {
-		DungeonRoom* newRoom = roomstorage->FindRegularRoomWithExit(CurrentRoomExit);
-		cout << CurrentRoomX << " " << CurrentRoomY << " " << CurrentRoomExit << endl;
-		cout << floorLayout[CurrentRoomX][CurrentRoomY]->getName() << " " << floorLayout[CurrentRoomX][CurrentRoomY]->getAmountOfExits() << endl;
+		//cout << CurrentRoomX << " " << CurrentRoomY << " " << CurrentRoomExit << endl;
+		//cout << floorLayout[CurrentRoomX][CurrentRoomY]->getName() << " " << floorLayout[CurrentRoomX][CurrentRoomY]->getAmountOfExits() << endl;
+
+		// Define the location of the next room based on the exits of the current one.
+		// Then, define what exits the new room can't have, based on other rooms adjacent to the target location for the new room, 
+		// or if it would exit out of the matrix's limits.
+		// When looking for blacklisted exits, look in all four directions, as even the previous room should be accounted for in the blacklist (as a safety net)
+
+		CurrentRoomExit = floorLayout[CurrentRoomX][CurrentRoomY]->getRandomUnusedExit();
+		if (CurrentRoomExit == 'U') {
+			TargetRoomX = CurrentRoomX--;
+		}
+		else if (CurrentRoomExit == 'D') {
+			TargetRoomX = CurrentRoomX++;
+		}
+		else if (CurrentRoomExit == 'L') {
+			TargetRoomY = CurrentRoomY--;
+		}
+		else if (CurrentRoomExit == 'R') {
+			TargetRoomY = CurrentRoomY++;
+		}
+
+		vector<char> blacklistedExits = CheckForAdjacentRooms(TargetRoomX, TargetRoomY);
+
+		DungeonRoom* newRoom = roomstorage->GetRandomRegularRoom(CurrentRoomExit, blacklistedExits);
+
 		if (CurrentRoomExit == 'U') {
 			floorLayout[CurrentRoomX][CurrentRoomY]->linkU = true;
-			CurrentRoomX--;
 			newRoom->linkD = true;
-			floorLayout[CurrentRoomX][CurrentRoomY] = newRoom;
 		}
 		else if (CurrentRoomExit == 'D') {
 			floorLayout[CurrentRoomX][CurrentRoomY]->linkD = true;
-			CurrentRoomX++;
 			newRoom->linkU = true;
-			floorLayout[CurrentRoomX][CurrentRoomY] = newRoom;
 		}
 		else if (CurrentRoomExit == 'L') {
 			floorLayout[CurrentRoomX][CurrentRoomY]->linkL = true;
-			CurrentRoomY--;
 			newRoom->linkR = true;
-			floorLayout[CurrentRoomX][CurrentRoomY] = newRoom;
 		}
 		else if (CurrentRoomExit == 'R') {
 			floorLayout[CurrentRoomX][CurrentRoomY]->linkR = true;
-			CurrentRoomY++;
 			newRoom->linkL = true;
-			floorLayout[CurrentRoomX][CurrentRoomY] = newRoom;
 		}
 
-		CurrentRoomExit = floorLayout[CurrentRoomX][CurrentRoomY]->getRandomUnusedExit();
+		// Place the new room in the target location
+		floorLayout[TargetRoomX][TargetRoomY] = newRoom;
+
+		/*
 		cout << CurrentRoomX << " " << CurrentRoomY << " " << CurrentRoomExit << endl;
 		cout << newRoom->getName() << " " << newRoom->getAmountOfExits() << endl;
 		cout << "--------------" << endl;
+		*/
 	}
+}
+
+vector<char> DungeonFloor::CheckForAdjacentRooms(int x, int y) {
+	vector<char> adjacentRooms;
+	if (floorLayout[x--][y] != nullptr) {
+		// Above
+		adjacentRooms.push_back('U');
+	}
+	if (floorLayout[x++][y] != nullptr) {
+		// Below
+		adjacentRooms.push_back('D');
+	}
+	if (floorLayout[x][y--] != nullptr) {
+		// Left
+		adjacentRooms.push_back('L');
+	}
+	if (floorLayout[x][y++] != nullptr) {
+		// Right
+		adjacentRooms.push_back('R');
+	}
+	return  adjacentRooms;
 }
 
 void DungeonFloor::PrintFloorLayout() {

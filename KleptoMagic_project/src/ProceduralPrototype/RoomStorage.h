@@ -22,16 +22,13 @@ public:
 	~RoomStorage();
 
 	// Returns a random entrance room instance, cloned from storage
-	DungeonRoom* CloneRandomEntranceRoom();
-	// Returns a random regular room instance, cloned from storage
-	DungeonRoom* CloneRandomRegularRoom();
-	// Returns a random boss room instance, cloned from storage
-	DungeonRoom* CloneRandomBossRoom();
-
-	// Returns a random regular room that has the required door (U, D, L, R) so it can be connected to a previous room
-	DungeonRoom* FindRegularRoomWithExit(char exit);
-	// Returns a random boss room that has the required door (U, D, L, R) so it can be connected to a previous room
-	DungeonRoom* FindBossRoomWithExit(char exit);
+	DungeonRoom* GetRandomEntranceRoom();
+	// Returns a random regular room that has the required door (U, D, L, R) so it can be connected to a previous room,
+	// but also has none of the exits included on the second parameter, so there's no doors that lead to nothing
+	DungeonRoom* GetRandomRegularRoom(char exit, vector<char> noExits);
+	// Returns a random boss room that has the required door (U, D, L, R) so it can be connected to a previous room,
+	// but also has none of the exits included on the second parameter, so there's no doors that lead to nothing
+	DungeonRoom* GetRandomBossRoom(char exit, vector<char> noExits);
 
 	// Reads all room files and creates DungeonRoom instances for each of them within each vector
 	void readAllRoomFiles();
