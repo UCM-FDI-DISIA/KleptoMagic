@@ -10,6 +10,5 @@ void MovementCtrl::initComponent() {
 //como comentaba en el handleEvent del player cpp o muevo la speed de aqui a alli o
 //o hago un segundo metodo Move que no aplique speed para el knockback pero... creo que mejor lo otro
 void MovementCtrl::Move(Transform& transform, Vector2D movementVector, float speed) {
-	Vector2D& auxVel = transform.getVel();
-	auxVel = movementVector * speed;
+	transform.getVel() = movementVector * speed;
 }
