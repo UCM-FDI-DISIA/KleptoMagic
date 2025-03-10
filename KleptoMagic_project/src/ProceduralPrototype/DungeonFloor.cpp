@@ -32,9 +32,7 @@ void DungeonFloor::GenerateFloor() {
 	// Choose one random starting room out of storage, then place it in the center of the room matrix (or close to the center if on even numbers for size)
 	int centerX = (floor_width + 1) / 2;
 	int centerY = (floor_height + 1) / 2;
-	cout << centerX << " " << centerY << endl;
 	floorLayout[centerX][centerY] = roomstorage->GetRandomEntranceRoom();
-	cout << floorLayout[centerX][centerY]->getName() << endl;
 
 	// Set variables to indicate the current room being looked into for easy reference, as well as the coordinates of the next room being generated
 	int CurrentRoomX = centerX;
@@ -59,6 +57,12 @@ void DungeonFloor::GenerateFloor() {
 		// or if it would exit out of the matrix's limits.
 		// When looking for blacklisted exits, look in all four directions, as even the previous room should be accounted for in the blacklist (as a safety net)
 
+		cout << "CURRENT ROOM: "
+			<< CurrentRoomX << " "
+			<< CurrentRoomY << " "
+			<< floorLayout[CurrentRoomX][CurrentRoomY]->getName() << " "
+			<< floorLayout[CurrentRoomX][CurrentRoomY]->getAmountOfExits() << endl;
+
 		CurrentRoomExit = floorLayout[CurrentRoomX][CurrentRoomY]->getRandomUnusedExit();
 		if (CurrentRoomExit == 'U') {
 			TargetRoomX = CurrentRoomX--;
@@ -73,10 +77,21 @@ void DungeonFloor::GenerateFloor() {
 			TargetRoomY = CurrentRoomY++;
 		}
 
+		cout << "CURRENT ROOM EXIT: " 
+			<< CurrentRoomExit << endl;
+
+
 		vector<char> blacklistedExits = CheckForAdjacentRooms(TargetRoomX, TargetRoomY);
 
-		DungeonRoom* newRoom = roomstorage->GetRandomRegularRoom(CurrentRoomExit, blacklistedExits);
+		cout << "BLACKLISTED EXITS: ";
+		for (auto i : blacklistedExits) {
+			cout << i;
+		}
+		cout << endl;
 
+		//DungeonRoom* newRoom = roomstorage->GetRandomRegularRoom(CurrentRoomExit, blacklistedExits);
+
+		/*
 		if (CurrentRoomExit == 'U') {
 			floorLayout[CurrentRoomX][CurrentRoomY]->linkU = true;
 			newRoom->linkD = true;
@@ -96,6 +111,7 @@ void DungeonFloor::GenerateFloor() {
 
 		// Place the new room in the target location
 		floorLayout[TargetRoomX][TargetRoomY] = newRoom;
+		*/
 
 		/*
 		cout << CurrentRoomX << " " << CurrentRoomY << " " << CurrentRoomExit << endl;

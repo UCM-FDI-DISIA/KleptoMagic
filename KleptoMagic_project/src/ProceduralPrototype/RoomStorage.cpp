@@ -36,25 +36,27 @@ DungeonRoom* RoomStorage::GetRandomEntranceRoom() {
 }
 DungeonRoom* RoomStorage::GetRandomRegularRoom(char exit, vector<char> noExits) {
 	vector<DungeonRoom*> results;
-	for (auto i : RegularRooms) {
-		bool hasCorrectEntrance = false;
-		if (exit == 'U' && i->hasExitUp()) hasCorrectEntrance = true;
-		else if (exit == 'D' && i->hasExitDown()) hasCorrectEntrance = true;
-		else if (exit == 'L' && i->hasExitLeft()) hasCorrectEntrance = true;
-		else if (exit == 'R' && i->hasExitRight()) hasCorrectEntrance = true;
+	//while (results.size() < 1) {
+		for (auto i : RegularRooms) {
+			bool hasCorrectEntrance = false;
+			if (exit == 'U' && i->hasExitUp()) hasCorrectEntrance = true;
+			else if (exit == 'D' && i->hasExitDown()) hasCorrectEntrance = true;
+			else if (exit == 'L' && i->hasExitLeft()) hasCorrectEntrance = true;
+			else if (exit == 'R' && i->hasExitRight()) hasCorrectEntrance = true;
 
-		bool hasNoWrongExits = true;
-		for (auto j : noExits) {
-			if (j == 'U' && i->hasExitUp()) hasCorrectEntrance = false;
-			else if (j == 'D' && i->hasExitDown()) hasCorrectEntrance = false;
-			else if (j == 'L' && i->hasExitLeft()) hasCorrectEntrance = false;
-			else if (j == 'R' && i->hasExitRight()) hasCorrectEntrance = false;
+			bool hasNoWrongExits = true;
+			for (auto j : noExits) {
+				if (j == 'U' && i->hasExitUp()) hasCorrectEntrance = false;
+				else if (j == 'D' && i->hasExitDown()) hasCorrectEntrance = false;
+				else if (j == 'L' && i->hasExitLeft()) hasCorrectEntrance = false;
+				else if (j == 'R' && i->hasExitRight()) hasCorrectEntrance = false;
+			}
+
+			if (hasCorrectEntrance && hasNoWrongExits) {
+				results.push_back(i);
+			}
 		}
-		
-		if (hasCorrectEntrance && hasNoWrongExits) {
-			results.push_back(i);
-		}
-	}
+	//}
 
 	int minNum = 0;
 	int maxNum = results.size() - 1;
