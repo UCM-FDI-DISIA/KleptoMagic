@@ -48,7 +48,7 @@ void DungeonFloor::GenerateFloor() {
 
 	// STEP 2: Generate a fixed amount of rooms charting a path towards a boss room
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < roomsToGenerate; i++) {
 		//cout << CurrentRoomX << " " << CurrentRoomY << " " << CurrentRoomExit << endl;
 		//cout << floorLayout[CurrentRoomX][CurrentRoomY]->getName() << " " << floorLayout[CurrentRoomX][CurrentRoomY]->getAmountOfExits() << endl;
 
