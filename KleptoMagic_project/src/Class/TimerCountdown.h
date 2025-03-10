@@ -1,5 +1,5 @@
-#ifndef TIMER_COUNTDOWN_H
-#define TIMER_COUNTDOWN_H
+#ifndef TIMERCOUNTDOWN_H
+#define TIMERCOUNTDOWN_H
 
 #include <chrono>
 
@@ -24,4 +24,4 @@ private:
     int elapsed;        // Time already passed
 };
 
-#endif // TIMER_COUNTDOWN_H
+#endif // TIMERCOUNTDOWN_H

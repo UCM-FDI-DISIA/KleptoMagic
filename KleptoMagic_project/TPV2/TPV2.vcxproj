@@ -35,6 +35,7 @@
     <ClCompile Include="..\src\Class\SceneObject.cpp" />
     <ClCompile Include="..\src\Class\Game.cpp" />
     <ClCompile Include="..\src\Class\MenuState.cpp" />
+    <ClCompile Include="..\src\Class\Minigame.cpp" />
     <ClCompile Include="..\src\Class\StatusEffect.cpp" />
     <ClCompile Include="..\src\Class\TimerCountdown.cpp" />
     <ClCompile Include="..\src\ecs\Manager.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="..\src\Class\PlayState.h" />
     <ClInclude Include="..\src\Class\SceneObject.h" />
     <ClInclude Include="..\src\Class\Game.h" />
+    <ClCompile Include="..\src\Class\Minigame.h" />
     <ClInclude Include="..\src\Class\StatusEffect.h" />
     <ClInclude Include="..\src\Class\TimerCountdown.h" />
     <ClInclude Include="..\src\Class\Transform.h" />
