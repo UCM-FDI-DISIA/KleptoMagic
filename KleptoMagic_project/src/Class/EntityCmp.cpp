@@ -1,6 +1,6 @@
-#include "Entity.h"
+#include "EntityCmp.h"
 
-Entity:: Entity(Vector2D velocity, float life, float moveSpeed, float attack, float attacksped, float armor,Vector2D position,PlayState* playstate) : SceneObject (position,playstate, texture, 100, 100) //cambiar 0 0 por variables
+EntityCmp:: EntityCmp(Vector2D velocity, float life, float moveSpeed, float attack, float attacksped, float armor,Vector2D position,PlayState* playstate) : SceneObject (position,playstate, texture, 100, 100) //cambiar 0 0 por variables
 {
 	health = new EntityStat(life);
 	movementSpeed = new EntityStat(moveSpeed);
@@ -9,16 +9,16 @@ Entity:: Entity(Vector2D velocity, float life, float moveSpeed, float attack, fl
 	shield = new EntityStat(armor);
 	
 }
-Entity::~Entity() {}
-void Entity:: addStatusEffect(StatusEffect effect) 
+EntityCmp::~EntityCmp() {}
+void EntityCmp:: addStatusEffect(StatusEffect effect) 
 {
 	statusEffects.push_back(effect);
 }
-void Entity::calculateStatsPostStats()
+void EntityCmp::calculateStatsPostStats()
 {
 
 }
-void Entity::updateStatusDuration()
+void EntityCmp::updateStatusDuration()
 {
 	for (int i = 0; i < statusEffects.size(); i++)
 	{

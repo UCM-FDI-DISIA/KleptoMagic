@@ -23,7 +23,7 @@
     <ClCompile Include="..\src\Class\Collisions.cpp" />
     <ClCompile Include="..\src\Class\DummyState.cpp" />
     <ClCompile Include="..\src\Class\Enemy.cpp" />
-    <ClCompile Include="..\src\Class\Entity.cpp" />
+    <ClCompile Include="..\src\Class\EntityCmp.cpp" />
     <ClCompile Include="..\src\Class\EntityStat.cpp" />
     <ClCompile Include="..\src\Class\EventHandler.cpp" />
     <ClCompile Include="..\src\Class\GameObject.cpp" />
@@ -56,7 +56,7 @@
     <ClInclude Include="..\src\Class\Collisions.h" />
     <ClInclude Include="..\src\Class\DummyState.h" />
     <ClInclude Include="..\src\Class\Enemy.h" />
-    <ClInclude Include="..\src\Class\Entity.h" />
+    <ClInclude Include="..\src\Class\EntityCmp.h" />
     <ClInclude Include="..\src\Class\EntityStat.h" />
     <ClInclude Include="..\src\Class\EventHandler.h" />
     <ClInclude Include="..\src\Class\GameObject.h" />
