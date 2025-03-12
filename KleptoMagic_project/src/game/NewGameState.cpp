@@ -15,7 +15,7 @@ NewGameState::NewGameState() {
 	x0 = (sdlutils().width() - pressAnyKey->width()) / 2;
 	y0 = (sdlutils().height() - pressAnyKey->height()) / 2;
 
-	fighterutils().create_fighter();
+	//fighterutils().create_fighter();
 }
 NewGameState::~NewGameState() {
 
@@ -39,7 +39,7 @@ void NewGameState::update() {
 
 		// enter NewRoundState when any key is down
 		if (ih().keyDownEvent()) {
-			fighterutils().reset_lives();
+			//fighterutils().reset_lives();
 			//here
 			game().setState(Game::NEWROUND);
 			exit = true;
@@ -63,7 +63,7 @@ void NewGameState::update() {
 
 void NewGameState::enter()
 {
-	fighterutils().reset_lives();
+	//fighterutils().reset_lives();
 }
 
 void NewGameState::leave()

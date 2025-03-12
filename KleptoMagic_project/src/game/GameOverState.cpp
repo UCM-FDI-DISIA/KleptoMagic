@@ -12,23 +12,23 @@ GameOverState::~GameOverState() {
 }
 
 void GameOverState::enter() {
-	if (asteroidsutils().count_asteroids() <= 0) {
+	//if (asteroidsutils().count_asteroids() <= 0) {
 		text = new Texture(sdlutils().renderer(),
 			"Game Over Champion! Press ENTER to continue.",
 			sdlutils().fonts().at("ARIAL24"),
 			build_sdlcolor(0x112233ff),
 			build_sdlcolor(0xffffffff));
-	}
-	else {
-		text = new Texture(sdlutils().renderer(),
-			"Game Over Loser! Press ENTER to continue.",
-			sdlutils().fonts().at("ARIAL24"),
-			build_sdlcolor(0x112233ff),
-			build_sdlcolor(0xffffffff));
-	}
-
-	x0 = (sdlutils().width() - text->width()) / 2;
-	y0 = (sdlutils().height() - text->height()) / 2;
+	//}
+	//else {
+	//	text = new Texture(sdlutils().renderer(),
+	//		"Game Over Loser! Press ENTER to continue.",
+	//		sdlutils().fonts().at("ARIAL24"),
+	//		build_sdlcolor(0x112233ff),
+	//		build_sdlcolor(0xffffffff));
+	////}
+	//
+	//x0 = (sdlutils().width() - text->width()) / 2;
+	//y0 = (sdlutils().height() - text->height()) / 2;
 }
 
 void GameOverState::update() {

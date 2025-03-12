@@ -130,6 +130,22 @@ bool Game::initGame() {
 	return true;
 }
 
+Game::~Game() {
+	delete _mngr;
+
+	// release InputHandler if the instance was created correctly.
+	if (InputHandler::HasInstance())
+		InputHandler::Release();
+
+	// release SLDUtil if the instance was created correctly.
+	if (SDLUtils::HasInstance())
+		SDLUtils::Release();
+
+	// release AsteroidsUtils if the instance was created correctly.
+	//if (AsteroidsUtils::HasInstance())
+	//	AsteroidsUtils::Release();
+}
+
 void Game::start() {
 	bool exit = false;
 	auto& ihdlr = ih();

@@ -22,9 +22,9 @@
 //class PlayState;
 
 //componentes :D
-#include "../../src/utils/Singleton.h"
+#include "../utils/Singleton.h"
 #include "../sdlutils/SDLUtils.h"
-// "GameState.h"
+#include "../game/GameState.h"
 
 
 
@@ -35,9 +35,12 @@ using uint = unsigned int;
 
 class TileMap;
 
+namespace ecs {
+	class Manager;
+}
+
 class Game : public Singleton<Game>
 {
-
 	friend Singleton<Game>;
 
 public:
@@ -48,7 +51,7 @@ public:
 		PLAYER,
 		NUM_TEXTURES
 	};
-	Texture* getTexture(TextureName name) const;
+	//Texture* getTexture(TextureName name) const;
 
 	enum State {
 		RUNNING, PAUSED, NEWGAME, NEWROUND, GAMEOVER
@@ -83,6 +86,7 @@ public:
 	bool init();
 	bool initGame();
 	void start();
+	virtual ~Game();
 
 	//void run();
 

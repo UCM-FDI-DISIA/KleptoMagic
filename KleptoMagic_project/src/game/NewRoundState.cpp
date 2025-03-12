@@ -60,9 +60,9 @@ void NewRoundState::update() {
 
 void NewRoundState::enter()
 {
-	fighterutils().reset_fighter();
-	asteroidsutils().remove_all_asteroids();
-	asteroidsutils().create_asteroids(10); // AJUSTE: Número de asteroides
+	//fighterutils().reset_fighter();
+	//asteroidsutils().remove_all_asteroids();
+	//asteroidsutils().create_asteroids(10); // AJUSTE: Número de asteroides
 }
 
 void NewRoundState::leave()

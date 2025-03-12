@@ -59,16 +59,16 @@ void RunningState::update() {
 		colission_thisframe = false;
 		checkCollisions();
 
-		if (colission_thisframe) {
-			fighterutils().take_life();
-			if (fighterutils().get_lives() > 0) {
-				game().setState(Game::NEWROUND);
-			}
-			else {
-				game().setState(Game::GAMEOVER);
-			}
-			exit = true;
-		}
+		//if (colission_thisframe) {
+		//	fighterutils().take_life();
+		//	if (fighterutils().get_lives() > 0) {
+		//		game().setState(Game::NEWROUND);
+		//	}
+		//	else {
+		//		game().setState(Game::GAMEOVER);
+		//	}
+		//	exit = true;
+		//}
 
 		// clear screen
 		sdlutils().clearRenderer();
@@ -80,10 +80,10 @@ void RunningState::update() {
 		sdlutils().presentRenderer();
 
 		// spawn new asteroid every 5s
-		if (asteroidSpawnTimer.currRealTime() >= asteroidSpawnCDms) {
-			asteroidSpawnTimer.resetTime();
-			asteroidsutils().create_asteroids(1); // AJUSTE: Asteroides spawneando cada 5s
-		}
+		//if (asteroidSpawnTimer.currRealTime() >= asteroidSpawnCDms) {
+		//	asteroidSpawnTimer.resetTime();
+		//	asteroidsutils().create_asteroids(1); // AJUSTE: Asteroides spawneando cada 5s
+		//}
 
 		Uint32 frameTime = sdlutils().currRealTime() - startTime;
 
