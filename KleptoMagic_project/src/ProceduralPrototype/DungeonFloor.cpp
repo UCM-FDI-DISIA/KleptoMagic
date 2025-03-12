@@ -1,4 +1,5 @@
 #include "DungeonFloor.h"
+#include <random>
 
 DungeonFloor::DungeonFloor(RoomStorage* RoomStorage) : roomstorage(RoomStorage)
 {
@@ -22,9 +23,25 @@ void DungeonFloor::update() {
 void DungeonFloor::GenerateFloor() {
 	// STEP 1: Preparation
 
-	// Randomly choose the height and width of the dungeon floor (CURRENTLY FIXED)
-	floor_width = 10;
-	floor_height = 20;
+	// Randomly choose the height and width of the dungeon floor
+
+	int minWidth = 10;
+	int minHeight = 10;
+	int maxWidth = 20;
+	int maxHeight = 20;
+
+	std::random_device rd; // obtain a random number from hardware
+	std::mt19937 gen(rd()); // seed the generator
+	std::uniform_int_distribution<> distrW(minWidth, maxWidth);
+	std::uniform_int_distribution<> distrH(minHeight, maxHeight);
+
+	floor_width = distrW(gen);
+	floor_height = distrH(gen);
+
+	cout << "FLOOR SIZE: " << floor_width << " " << floor_height << endl << endl;
+
+	// Set number of rooms to generate before boss room
+	int roomsToGenerate = 10;
 
 	// Instantiate the room matrix
 	floorLayout = vector<vector<DungeonRoom*>>(floor_width, vector<DungeonRoom*>(floor_height, 0));
@@ -48,9 +65,6 @@ void DungeonFloor::GenerateFloor() {
 
 	// Set variable to indicate what exit the current room being looked into will choose to link the next room onto (U, D, L, R)
 	char CurrentRoomExit = 'N';
-
-	// Set number of rooms to generate before boss room
-	int roomsToGenerate = 10;
 
 	PrintFloorLayout_Simple();
 
