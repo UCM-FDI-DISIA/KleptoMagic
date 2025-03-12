@@ -5,6 +5,7 @@
 #include "SceneObject.h"
 #include "Collisions.h"
 #include "Player.h"
+#include "Game.h"
 
 
 class PlayState : public GameState
@@ -23,7 +24,7 @@ class PlayState : public GameState
 public:
 
 	//Constructor
-	PlayState();
+	PlayState(Game* game);
 
 	//Add object to the list
 	void addObject(SceneObject* object);

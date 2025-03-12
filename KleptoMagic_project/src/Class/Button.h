@@ -10,7 +10,7 @@
 #include "Game.h" 
 using OnClickCallback = std::function<void()>;
 
-class Button : public GameObject {
+class Button : public GameObject, public EventHandler {
 private:
 	std::vector<OnClickCallback> callbacks;
 	SDL_Rect buttonBox;
@@ -23,7 +23,7 @@ public:
 	GameState* getState() const { return state; };
 	void setButtonBox(int x, int y, int w, int h);
 	void addCallback(OnClickCallback callback);
-	//void handleEvent(const SDL_Event& event) override;
+	void handleEvent(const SDL_Event& event);
 	void render() const override;
 	void update() override;
 	void emit() const;

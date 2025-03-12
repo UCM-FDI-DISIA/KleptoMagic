@@ -1,9 +1,10 @@
 #include "DummyState.h"
 
-DummyState::DummyState() : GameState(game){
-
+DummyState::DummyState() : GameState(game), gameTimer(300) {
+	_inputManager = new InputManager();
+	_inputManager->initialize();
 }
 
 void DummyState::update() {
-	std::cout << "aaaaa" << std::endl;
+	_inputManager->update();
 }

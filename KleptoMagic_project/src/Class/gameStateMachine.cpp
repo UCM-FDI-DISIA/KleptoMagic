@@ -68,11 +68,11 @@ GameStateMachine::render() const
 	}
 }
 
-//void
-//GameStateMachine::handleEvent(const SDL_Event& event)
-//{
-//	if (!gameStates.empty()) {
-//		shared_ptr<GameState> current = gameStates.top();
-//		current->handleEvent(event);
-//	}
-//}
+void
+GameStateMachine::handleEvent(const SDL_Event& event)
+{
+	if (!gameStates.empty()) {
+		shared_ptr<GameState> current = gameStates.top();
+		current->handleEvent(event);
+	}
+}

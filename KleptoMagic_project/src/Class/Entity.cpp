@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-Entity:: Entity(Vector2D velocity, float life, float moveSpeed, float attack, float attacksped, float armor,Vector2D position,PlayState* playstate) : SceneObject (position,playstate, texture, 0, 0) //cambiar 0 0 por variables
+Entity:: Entity(Vector2D velocity, float life, float moveSpeed, float attack, float attacksped, float armor,Vector2D position,PlayState* playstate) : SceneObject (position,playstate, texture, 100, 100) //cambiar 0 0 por variables
 {
 	health = new EntityStat(life);
 	movementSpeed = new EntityStat(moveSpeed);
@@ -9,6 +9,7 @@ Entity:: Entity(Vector2D velocity, float life, float moveSpeed, float attack, fl
 	shield = new EntityStat(armor);
 	
 }
+Entity::~Entity() {}
 void Entity:: addStatusEffect(StatusEffect effect) 
 {
 	statusEffects.push_back(effect);

@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "DummyState.h"
 #include "MainMenuState.h"
+#include "PlayState.h"
 
 using namespace std;
 
@@ -23,7 +24,10 @@ const string textureRoot = "../KleptoMagic_project/resources/images/";
 // Especificación de las texturas del juego
 const array<TextureSpec, Game::NUM_TEXTURES> textureSpec{
 	TextureSpec{"background-provisional.png", 1, 1},
-	TextureSpec{"play-button.png", 1, 1}
+	TextureSpec{"play-button.png", 1, 1},
+	TextureSpec{"endmenu-provisional.png", 1, 1},
+	TextureSpec{"return-button.png", 1, 1},
+	TextureSpec{"player_placeholder.png",1,1}
 };
 
 Game::Game() : exit(false) {
@@ -51,10 +55,14 @@ Game::Game() : exit(false) {
 			(textureRoot + textureSpec[i].name).c_str());*/
 	for (int i = 0; i < NUM_TEXTURES; ++i) {
 		std::string texturePath = textureRoot + textureSpec[i].name;
+#ifdef _DEBUG
 		std::cout << "Cargando textura: " << texturePath << std::endl;
+#endif
 		textures[i] = new Texture(renderer, texturePath);
 		if (textures[i] == nullptr) {
+#ifdef _DEBUG
 			std::cerr << "Error: No se pudo cargar la textura " << texturePath << std::endl;
+#endif
 		}
 	}
 
@@ -62,9 +70,10 @@ Game::Game() : exit(false) {
 	//dummy = new DummyState();
 	//GameStateMachine::pushState(dummy);
 	// Creación de playstates
-	//playstate = new PlayState(worldN, this); //se fue a su metodo propio
+	playstate = new PlayState(this); //se fue a su metodo propio
 	
-	mainmenu = new MainMenuState(this, textures[Game::BACKGROUND]);
+	_inputManager = new InputManager();
+	mainmenu = new MainMenuState(this, textures[Game::MAINMENUBACKGROUND]);
 	GameStateMachine::pushState(mainmenu);
 	//GameStateMachine::pushState(playstate);
 }
@@ -82,20 +91,27 @@ Game::run()
 		// Marca de tiempo del inicio de la iteración
 		uint32_t inicio = SDL_GetTicks();
 
+		//SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
+
+		SDL_Event evento;
+		GameStateMachine::handleEvent(evento);
+		while (SDL_PollEvent(&evento)) {
+			if (evento.type == SDL_QUIT)
+				exit = true;
+			else {
+				GameStateMachine::handleEvent(evento);
+			}
+		}
+
+		_inputManager->update();
+
+
 		GameStateMachine::update();
 		SDL_RenderClear(renderer);
 		GameStateMachine::render();
 		SDL_RenderPresent(renderer);
 
-		SDL_Event evento;
-
-		while (SDL_PollEvent(&evento)) {
-			if (evento.type == SDL_QUIT)
-				exit = true;
-			else {
-				//GameStateMachine::handleEvent(evento);
-			}
-		}
+		
 		
 		//playstate->update();       // Actualiza el estado de los objetos del juego
 		//playstate->render();       // Dibuja los objetos en la venta
@@ -115,18 +131,28 @@ Game::run()
 }*/
 Texture* Game::getTexture(TextureName name) const {
 	if (textures[name] == nullptr) {
+#ifdef _DEBUG
 		std::cerr << "Error: La textura " << name << " no está cargada." << std::endl;
+#endif
 	}
 	return textures[name];
 }
 
-
-
 //void Game::statePlay(int w) {
-//	playstate = new PlayState(w, this);
-//	GameStateMachine::replaceState(playstate);
+//#ifdef _DEBUG
+//	std::cout << "Cambiando a PlayState..." << std::endl;
+//#endif
+//	GameStateMachine::popState(); // Eliminar MainMenuState
+//	auto playstate = new PlayState(); // Crear PlayState
+//	GameStateMachine::pushState(playstate); // Ponerlo en la pila
 //}
-//
+
+
+void Game::statePlay() {
+	playstate = new PlayState(this);
+	GameStateMachine::replaceState(playstate);
+}
+
 //void Game::statePause(){
 //	pausestate = new PauseState(this);
 //	GameStateMachine::pushState(pausestate);
@@ -136,11 +162,11 @@ Texture* Game::getTexture(TextureName name) const {
 //	GameStateMachine::popState();
 //}
 //
-//void Game::stateMainMenu() {
-//	GameStateMachine::popState();
-//	mainmenu = new MainMenuState(this); //se puede comentar y ver si va
-//	GameStateMachine::pushState(mainmenu);
-//}
+void Game::stateMainMenu() {
+	GameStateMachine::popState();
+	mainmenu = new MainMenuState(this, textures[Game::MAINMENUBACKGROUND]); //se puede comentar y ver si va
+	GameStateMachine::pushState(mainmenu);
+}
 //
 //void Game::stateAnimation(function<bool()> funcAnim) {
 //	animationstate = new AnimationState(this, playstate, funcAnim);
