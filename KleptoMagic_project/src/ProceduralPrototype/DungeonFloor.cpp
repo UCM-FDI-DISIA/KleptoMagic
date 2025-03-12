@@ -23,8 +23,8 @@ void DungeonFloor::GenerateFloor() {
 	// STEP 1: Preparation
 
 	// Randomly choose the height and width of the dungeon floor (CURRENTLY FIXED)
-	floor_width = 25;
-	floor_height = 25;
+	floor_width = 10;
+	floor_height = 10;
 
 	// Instantiate the room matrix
 	floorLayout = vector<vector<DungeonRoom*>>(floor_height, vector<DungeonRoom*>(floor_width, 0));
@@ -44,7 +44,7 @@ void DungeonFloor::GenerateFloor() {
 	char CurrentRoomExit = 'N';
 
 	// Set number of rooms to generate before boss room
-	int roomsToGenerate = 5;
+	int roomsToGenerate = 1;
 
 	// STEP 2: Generate a fixed amount of rooms charting a path towards a boss room
 
@@ -80,7 +80,7 @@ void DungeonFloor::GenerateFloor() {
 		cout << "CURRENT ROOM EXIT: " 
 			<< CurrentRoomExit << endl;
 
-		vector<char> blacklistedExits = CheckForAdjacentRooms(TargetRoomX, TargetRoomY);
+		vector<char> blacklistedExits = CheckForInvalidExits(TargetRoomX, TargetRoomY);
 
 		cout << "BLACKLISTED EXITS: ";
 		for (auto i : blacklistedExits) {
@@ -99,6 +99,7 @@ void DungeonFloor::GenerateFloor() {
 			<< floorLayout[TargetRoomX][TargetRoomY]->getAmountOfExits() << " " 
 			<< newRoom->getAmountOfExits() << endl;
 
+		/*
 		if (CurrentRoomExit == 'U') {
 			floorLayout[CurrentRoomX][CurrentRoomY]->linkU = true;
 			newRoom->linkD = true;
@@ -115,6 +116,7 @@ void DungeonFloor::GenerateFloor() {
 			floorLayout[CurrentRoomX][CurrentRoomY]->linkR = true;
 			newRoom->linkL = true;
 		}
+		*/
 
 		cout << "DOOR LINKAGE: "
 			<< floorLayout[CurrentRoomX][CurrentRoomY]->linkU << " "
@@ -139,42 +141,143 @@ void DungeonFloor::GenerateFloor() {
 	}
 }
 
-vector<char> DungeonFloor::CheckForAdjacentRooms(int x, int y) {
-	vector<char> adjacentRooms;
-	auto roomU = floorLayout[x - 1][y];
-	auto roomD = floorLayout[x + 1][y];
-	auto roomL = floorLayout[x][y - 1];
-	auto roomR = floorLayout[x][y + 1];
+vector<char> DungeonFloor::CheckForInvalidExits(int x, int y) {
+	vector<char> invalidExits;
 
-	if (roomU != nullptr) {
-		// Above
-		adjacentRooms.push_back('U');
+	// Above
+	if (x - 1 >= 0) {
+		auto roomU = floorLayout[x - 1][y];
+		if (roomU != nullptr) {
+			invalidExits.push_back('U');
+		}
 	}
-	if (roomD != nullptr) {
-		// Below
-		adjacentRooms.push_back('D');
+	else {
+		invalidExits.push_back('U');
 	}
-	if (roomL != nullptr) {
-		// Left
-		adjacentRooms.push_back('L');
+
+	// Below
+	if (x + 1 < floor_width) {
+		auto roomD = floorLayout[x + 1][y];
+		if (roomD != nullptr) {
+			invalidExits.push_back('D');
+		}
 	}
-	if (roomR != nullptr) {
-		// Right
-		adjacentRooms.push_back('R');
+	else {
+		invalidExits.push_back('D');
 	}
-	return  adjacentRooms;
+
+	// Left
+	if (y - 1 >= 0) {
+		auto roomL = floorLayout[x][y - 1];
+		if (roomL != nullptr) {
+			invalidExits.push_back('L');
+		}
+	}
+	else {
+		invalidExits.push_back('L');
+	}
+
+	// Right
+	if (y + 1 < floor_height) {
+		auto roomR = floorLayout[x][y + 1];
+		if (roomR != nullptr) {
+			invalidExits.push_back('R');
+		}
+	}
+	else {
+		invalidExits.push_back('R');
+	}
+
+	return  invalidExits;
 }
 
 void DungeonFloor::PrintFloorLayout() {
+
+	int render_width = floor_width * 3;
+	int render_height = floor_height * 3;
+
+	vector<vector<char>> render_matrix = vector<vector<char>>(render_height, vector<char>(render_width, ' '));
+
 	for (int i = 0; i < floor_width; i++) {
 		for (int j = 0; j < floor_height; j++) {
+
+			int sp_x = i * 3;
+			int sp_y = j * 3;
+
+			/*
+				render_matrix[sp_x]		[sp_y] = '*';
+				render_matrix[sp_x + 1]	[sp_y] = '*';
+				render_matrix[sp_x + 2]	[sp_y] = '*';
+
+				render_matrix[sp_x]		[sp_y + 1] = '*';
+				render_matrix[sp_x + 1]	[sp_y + 1] = 'R';
+				render_matrix[sp_x + 2]	[sp_y + 1] = '*';
+
+				render_matrix[sp_x]		[sp_y + 2] = '*';
+				render_matrix[sp_x + 1]	[sp_y + 2] = '*';
+				render_matrix[sp_x + 2]	[sp_y + 2] = '*';
+			*/
+
 			if (floorLayout[i][j] != nullptr) {
-				cout << "R";
+				// center of room
+				render_matrix[sp_x + 1]	[sp_y + 1]	= 'R';
+
+				// corners of room
+				render_matrix[sp_x]		[sp_y]		= '+';
+				render_matrix[sp_x + 2]	[sp_y]		= '+';
+				render_matrix[sp_x]		[sp_y + 2]	= '+';
+				render_matrix[sp_x + 2]	[sp_y + 2]	= '+';
+
+				// up exit
+				if (floorLayout[i][j]->hasExitUp()) {
+					if (floorLayout[i][j]->linkU) {
+						render_matrix[sp_x + 1][sp_y] = 'L';
+					}
+					else {
+						render_matrix[sp_x + 1][sp_y] = 'D';
+					}
+				}
+				// down exit
+				if (floorLayout[i][j]->hasExitDown()) {
+					if (floorLayout[i][j]->linkD) {
+						render_matrix[sp_x + 1][sp_y + 2] = 'L';
+					}
+					else {
+						render_matrix[sp_x + 1][sp_y + 2] = 'D';
+					}
+				}
+				// left exit
+				if (floorLayout[i][j]->hasExitLeft()) {
+					if (floorLayout[i][j]->linkL) {
+						render_matrix[sp_x][sp_y + 1] = 'L';
+					}
+					else {
+						render_matrix[sp_x][sp_y + 1] = 'D';
+					}
+				}
+				// right exit
+				if (floorLayout[i][j]->hasExitRight()) {
+					if (floorLayout[i][j]->linkR) {
+						render_matrix[sp_x + 2][sp_y + 1] = 'L';
+					}
+					else {
+						render_matrix[sp_x + 2][sp_y + 1] = 'D';
+					}
+				}
 			}
 			else {
-				cout << "*";
+				// no room
+				render_matrix[sp_x + 1]	[sp_y + 1] = '-';
 			}
+
+		}
+	}
+
+	for (int i = 0; i < render_width; i++) {
+		for (int j = 0; j < render_height; j++) {
+			cout << render_matrix[i][j];
 		}
 		cout << endl;
 	}
+	cout << endl;
 }

@@ -28,10 +28,12 @@ RoomStorage::~RoomStorage()
 }
 
 DungeonRoom* RoomStorage::GetRandomEntranceRoom() {
-	int minNum = 0;
-	int maxNum = EntranceRooms.size() - 1;
-	srand((unsigned int)time(NULL));
-	int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
+	
+	std::random_device rd; // obtain a random number from hardware
+	std::mt19937 gen(rd()); // seed the generator
+	std::uniform_int_distribution<> distr(0, EntranceRooms.size() - 1); // define the range
+
+	int randomRoom = distr(gen);
 	return new DungeonRoom{ *EntranceRooms[randomRoom] };
 }
 DungeonRoom* RoomStorage::GetRandomRegularRoom(char exit, vector<char> noExits) {
@@ -58,10 +60,11 @@ DungeonRoom* RoomStorage::GetRandomRegularRoom(char exit, vector<char> noExits) 
 		}
 	//}
 
-	int minNum = 0;
-	int maxNum = results.size() - 1;
-	srand((unsigned int)time(NULL));
-	int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
+	std::random_device rd; // obtain a random number from hardware
+	std::mt19937 gen(rd()); // seed the generator
+	std::uniform_int_distribution<> distr(0, results.size() - 1); // define the range
+
+	int randomRoom = distr(gen);
 	return new DungeonRoom{ *results[randomRoom] };
 }
 
