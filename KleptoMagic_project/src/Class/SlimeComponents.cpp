@@ -3,29 +3,80 @@
 #include "../ecs/Entity.h"
 #include "../ecs/Manager.h"
 #include "../ecs/ecs_defs_example.h"
+#include "Transform.h"
+#include <chrono>
 namespace ecs 
 {
 	class SlimeVectorComponent : public Component
 	{
+	public:
 		float direcionX, direcionY;
-		void CreateVector(float playerX,float playerY,float enemyX,float enemyY)
-		{
-			direcionX = playerX - enemyX;
-			direcionY = playerY - enemyY;
-			float lenght = std::sqrt(direcionX * direcionX + direcionY * direcionX);
-			if (lenght != 0) { direcionX / lenght; direcionY / lenght; }
-		}
-	};
-	class SlimeMovementComponent : public Component 
-	{
-		void update() override 
-		{
-			auto vector = static_cast<SlimeVectorComponent*>(_ent->getMngr()->getComponent<SlimeVectorComponent>(_ent));
-
-			if(vector) 
-			{
-
+		void CreateVector(Vector2D playerPos, Vector2D enemyPos) {
+			direcionX = playerPos.getX() - enemyPos.getX();
+			direcionY = playerPos.getY() - enemyPos.getY();
+			float length = std::sqrt(direcionX * direcionX + direcionY * direcionY);
+			if (length != 0) {
+				direcionX /= length;
+				direcionY /= length;
 			}
 		}
+	};
+	class SlimeStatComponent : public Component 
+	{
+	public:
+		float speed = 50;
+		float damage = 10;
+		float attackspeed = 10;
+		void update() override {}
+	};
+	class SlimeMovementComponent : public Component
+	{
+		Entity* player = nullptr;
+		
+		void update() override
+		{
+			if (player != nullptr)
+			{
+				auto vector = static_cast<SlimeVectorComponent*>(_ent->getMngr()->getComponent<SlimeVectorComponent>(_ent));
+				auto stat = static_cast<SlimeStatComponent*>(_ent->getMngr()->getComponent<SlimeStatComponent>(_ent));
+				auto _transform = static_cast<Transform*>(_ent->getMngr()->getComponent<Transform>(_ent));
+				auto _player = static_cast<Transform*>(_ent->getMngr()->getComponent<Transform>(player));
+				if (vector && stat && _transform)
+				{
+					vector->CreateVector(_transform->getPos(), _player->getPos());
+					Vector2D velocity(vector->direcionX * stat->speed, vector->direcionY * stat->speed);
+				}
+			}
+		
+		}
+	};
+	class SlimeAttackComponent : public Component
+	{
+	public:
+		Entity* player = nullptr;
+		float attackcooldown;
+		std::chrono::steady_clock::time_point lastAttackTime = std::chrono::steady_clock::now();
+		void update() override 
+		{
+			
+
+			auto stat = static_cast<SlimeStatComponent*>(_ent->getMngr()->getComponent<SlimeStatComponent>(_ent));
+			auto _transform = static_cast<Transform*>(_ent->getMngr()->getComponent<Transform>(_ent));
+			auto _player = static_cast<Transform*>(_ent->getMngr()->getComponent<Transform>(player));
+			attackcooldown = 10 - stat->attackspeed;
+			auto now = std::chrono::steady_clock::now();
+			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
+
+			if (elapsedTime >= attackCooldown) 
+			{
+					
+					lastAttackTime = now;
+			}
+			
+			
+		}
+		
+
+
 	};
 }
