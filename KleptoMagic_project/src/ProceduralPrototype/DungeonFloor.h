@@ -25,5 +25,6 @@ public:
 	virtual void update();
 	void GenerateFloor();
 	vector<char> CheckForInvalidExits(int x, int y);
-	void PrintFloorLayout();
+	void PrintFloorLayout_Simple();
+	void PrintFloorLayout_Detailed();
 };

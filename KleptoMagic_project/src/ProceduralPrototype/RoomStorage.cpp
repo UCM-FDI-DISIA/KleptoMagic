@@ -38,27 +38,37 @@ DungeonRoom* RoomStorage::GetRandomEntranceRoom() {
 }
 DungeonRoom* RoomStorage::GetRandomRegularRoom(char exit, vector<char> noExits) {
 	vector<DungeonRoom*> results;
-	//while (results.size() < 1) {
+	while (results.size() < 1) {
 		for (auto i : RegularRooms) {
 			bool hasCorrectEntrance = false;
-			if (exit == 'U' && i->hasExitUp()) hasCorrectEntrance = true;
-			else if (exit == 'D' && i->hasExitDown()) hasCorrectEntrance = true;
-			else if (exit == 'L' && i->hasExitLeft()) hasCorrectEntrance = true;
-			else if (exit == 'R' && i->hasExitRight()) hasCorrectEntrance = true;
+			if (exit == 'U' && i->hasExitDown()) hasCorrectEntrance = true;
+			else if (exit == 'D' && i->hasExitUp()) hasCorrectEntrance = true;
+			else if (exit == 'L' && i->hasExitRight()) hasCorrectEntrance = true;
+			else if (exit == 'R' && i->hasExitLeft()) hasCorrectEntrance = true;
 
 			bool hasNoWrongExits = true;
 			for (auto j : noExits) {
-				if (j == 'U' && i->hasExitUp()) hasCorrectEntrance = false;
-				else if (j == 'D' && i->hasExitDown()) hasCorrectEntrance = false;
-				else if (j == 'L' && i->hasExitLeft()) hasCorrectEntrance = false;
-				else if (j == 'R' && i->hasExitRight()) hasCorrectEntrance = false;
+				if (j == 'U' && i->hasExitUp() && j != exit) hasNoWrongExits = false;
+				else if (j == 'D' && i->hasExitDown() && j != exit) hasNoWrongExits = false;
+				else if (j == 'L' && i->hasExitLeft() && j != exit) hasNoWrongExits = false;
+				else if (j == 'R' && i->hasExitRight() && j != exit) hasNoWrongExits = false;
 			}
+			
+			/*
+			cout << "+" << endl;
+			cout << exit << " ";
+			for (auto i : noExits) {
+				cout << i;
+			}
+			cout << " " << hasCorrectEntrance << " " << hasNoWrongExits << " " << endl;
+			cout << "+" << endl;
+			*/
 
 			if (hasCorrectEntrance && hasNoWrongExits) {
 				results.push_back(i);
 			}
 		}
-	//}
+	}
 
 	std::random_device rd; // obtain a random number from hardware
 	std::mt19937 gen(rd()); // seed the generator
@@ -72,10 +82,11 @@ DungeonRoom* RoomStorage::GetRandomBossRoom(char exit, vector<char> noExits) {
 	bool found = false;
 	DungeonRoom* result = nullptr;
 	while (!found) {
-		int minNum = 0;
-		int maxNum = BossRooms.size() - 1;
-		srand((unsigned int)time(NULL));
-		int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
+		std::random_device rd; // obtain a random number from hardware
+		std::mt19937 gen(rd()); // seed the generator
+		std::uniform_int_distribution<> distr(0, BossRooms.size() - 1); // define the range
+
+		int randomRoom = distr(gen);
 		result = BossRooms[randomRoom];
 		if (exit == 'U' && result->hasExitUp()) found = true;
 		else if (exit == 'D' && result->hasExitDown()) found = true;

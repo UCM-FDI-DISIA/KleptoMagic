@@ -3,7 +3,7 @@
 DungeonFloor::DungeonFloor(RoomStorage* RoomStorage) : roomstorage(RoomStorage)
 {
 	GenerateFloor();
-	PrintFloorLayout();
+	PrintFloorLayout_Detailed();
 }
 
 DungeonFloor::~DungeonFloor()
@@ -24,14 +24,14 @@ void DungeonFloor::GenerateFloor() {
 
 	// Randomly choose the height and width of the dungeon floor (CURRENTLY FIXED)
 	floor_width = 10;
-	floor_height = 10;
+	floor_height = 20;
 
 	// Instantiate the room matrix
-	floorLayout = vector<vector<DungeonRoom*>>(floor_height, vector<DungeonRoom*>(floor_width, 0));
+	floorLayout = vector<vector<DungeonRoom*>>(floor_width, vector<DungeonRoom*>(floor_height, 0));
 
 	// Choose one random starting room out of storage, then place it in the center of the room matrix (or close to the center if on even numbers for size)
-	int centerX = (floor_width + 1) / 2;
-	int centerY = (floor_height + 1) / 2;
+	int centerX = (floor_width) / 2;
+	int centerY = (floor_height) / 2;
 	floorLayout[centerX][centerY] = roomstorage->GetRandomEntranceRoom();
 
 	// Set variables to indicate the current room being looked into for easy reference, as well as the coordinates of the next room being generated
@@ -40,11 +40,19 @@ void DungeonFloor::GenerateFloor() {
 	int TargetRoomX = CurrentRoomX;
 	int TargetRoomY = CurrentRoomY;
 
+	cout << "START ROOM: "
+		<< CurrentRoomX << " "
+		<< CurrentRoomY << " "
+		<< floorLayout[CurrentRoomX][CurrentRoomY]->getName() << " "
+		<< floorLayout[CurrentRoomX][CurrentRoomY]->getAmountOfExits() << endl;
+
 	// Set variable to indicate what exit the current room being looked into will choose to link the next room onto (U, D, L, R)
 	char CurrentRoomExit = 'N';
 
 	// Set number of rooms to generate before boss room
-	int roomsToGenerate = 1;
+	int roomsToGenerate = 5;
+
+	PrintFloorLayout_Simple();
 
 	// STEP 2: Generate a fixed amount of rooms charting a path towards a boss room
 
@@ -77,12 +85,11 @@ void DungeonFloor::GenerateFloor() {
 			TargetRoomY = CurrentRoomY + 1;
 		}
 
-		cout << "CURRENT ROOM EXIT: " 
+		cout << "CHOSEN ROOM EXIT: " 
 			<< CurrentRoomExit << endl;
 
 		vector<char> blacklistedExits = CheckForInvalidExits(TargetRoomX, TargetRoomY);
-
-		cout << "BLACKLISTED EXITS: ";
+		cout << "EXITS NEW ROOM CAN'T HAVE: ";
 		for (auto i : blacklistedExits) {
 			cout << i;
 		}
@@ -91,15 +98,12 @@ void DungeonFloor::GenerateFloor() {
 		DungeonRoom* newRoom = roomstorage->GetRandomRegularRoom(CurrentRoomExit, blacklistedExits);
 		floorLayout[TargetRoomX][TargetRoomY] = newRoom;
 
-		cout << "NEW ROOM: " 
+		cout << "NEW ROOM: "
 			<< TargetRoomX << " "
 			<< TargetRoomY << " "
 			<< floorLayout[TargetRoomX][TargetRoomY]->getName() << " "
-			<< newRoom->getName() << " "
-			<< floorLayout[TargetRoomX][TargetRoomY]->getAmountOfExits() << " " 
-			<< newRoom->getAmountOfExits() << endl;
+			<< floorLayout[TargetRoomX][TargetRoomY]->getAmountOfExits() << endl;
 
-		/*
 		if (CurrentRoomExit == 'U') {
 			floorLayout[CurrentRoomX][CurrentRoomY]->linkU = true;
 			newRoom->linkD = true;
@@ -116,7 +120,6 @@ void DungeonFloor::GenerateFloor() {
 			floorLayout[CurrentRoomX][CurrentRoomY]->linkR = true;
 			newRoom->linkL = true;
 		}
-		*/
 
 		cout << "DOOR LINKAGE: "
 			<< floorLayout[CurrentRoomX][CurrentRoomY]->linkU << " "
@@ -138,6 +141,8 @@ void DungeonFloor::GenerateFloor() {
 		cout << newRoom->getName() << " " << newRoom->getAmountOfExits() << endl;
 		cout << "--------------" << endl;
 		*/
+
+		PrintFloorLayout_Simple();
 	}
 }
 
@@ -147,7 +152,7 @@ vector<char> DungeonFloor::CheckForInvalidExits(int x, int y) {
 	// Above
 	if (x - 1 >= 0) {
 		auto roomU = floorLayout[x - 1][y];
-		if (roomU != nullptr) {
+		if (roomU != nullptr && roomU->linkD) {
 			invalidExits.push_back('U');
 		}
 	}
@@ -158,7 +163,7 @@ vector<char> DungeonFloor::CheckForInvalidExits(int x, int y) {
 	// Below
 	if (x + 1 < floor_width) {
 		auto roomD = floorLayout[x + 1][y];
-		if (roomD != nullptr) {
+		if (roomD != nullptr && roomD->linkU) {
 			invalidExits.push_back('D');
 		}
 	}
@@ -169,7 +174,7 @@ vector<char> DungeonFloor::CheckForInvalidExits(int x, int y) {
 	// Left
 	if (y - 1 >= 0) {
 		auto roomL = floorLayout[x][y - 1];
-		if (roomL != nullptr) {
+		if (roomL != nullptr && roomL->linkR) {
 			invalidExits.push_back('L');
 		}
 	}
@@ -180,7 +185,7 @@ vector<char> DungeonFloor::CheckForInvalidExits(int x, int y) {
 	// Right
 	if (y + 1 < floor_height) {
 		auto roomR = floorLayout[x][y + 1];
-		if (roomR != nullptr) {
+		if (roomR != nullptr && roomR->linkL) {
 			invalidExits.push_back('R');
 		}
 	}
@@ -191,12 +196,25 @@ vector<char> DungeonFloor::CheckForInvalidExits(int x, int y) {
 	return  invalidExits;
 }
 
-void DungeonFloor::PrintFloorLayout() {
+void DungeonFloor::PrintFloorLayout_Simple() {
+	for (int i = 0; i < floor_width; i++) {
+		for (int j = 0; j < floor_height; j++) {
+			if (floorLayout[i][j] != nullptr) {
+				cout << "R";
+			}
+			else cout << "+";
+		}
+		cout << endl;
+	}
+	cout << endl << endl;
+}
+
+void DungeonFloor::PrintFloorLayout_Detailed() {
 
 	int render_width = floor_width * 3;
 	int render_height = floor_height * 3;
 
-	vector<vector<char>> render_matrix = vector<vector<char>>(render_height, vector<char>(render_width, ' '));
+	vector<vector<char>> render_matrix = vector<vector<char>>(render_width, vector<char>(render_height, ' '));
 
 	for (int i = 0; i < floor_width; i++) {
 		for (int j = 0; j < floor_height; j++) {
@@ -273,9 +291,9 @@ void DungeonFloor::PrintFloorLayout() {
 		}
 	}
 
-	for (int i = 0; i < render_width; i++) {
-		for (int j = 0; j < render_height; j++) {
-			cout << render_matrix[i][j];
+	for (int i = 0; i < render_height; i++) {
+		for (int j = 0; j < render_width; j++) {
+			cout << render_matrix[j][i];
 		}
 		cout << endl;
 	}
