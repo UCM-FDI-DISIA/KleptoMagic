@@ -5,7 +5,6 @@ StatusEffect:: StatusEffect(int timer,int strenght,int effectTypenumber)
 {
 	timeLeft = timer;
 	effectStrength = strenght;
-	effectnumber = effectTypenumber;
 }
 int StatusEffect::GetType()
 {

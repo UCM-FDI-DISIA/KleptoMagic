@@ -22,12 +22,12 @@
 		//EntityStat* attackSpeed;
 		//EntityStat* shield;
 
-		Texture* texture;
+		//Texture* texture;
         
 		std::vector<StatusEffect> statusEffects;
 
 	public:
-		EntityCmp(/*Vector2D velocity, float life, float moveSpeed, float attack, float attacksped, float armor,*/ Vector2D position, PlayState* playstate);
+		EntityCmp();//(/*Vector2D velocity, float life, float moveSpeed, float attack, float attacksped, float armor,*/ Vector2D position, PlayState* playstate);
 		void initComponent() override; 
 		void addStatusEffect(StatusEffect effect);
 		void updateStatusDuration();

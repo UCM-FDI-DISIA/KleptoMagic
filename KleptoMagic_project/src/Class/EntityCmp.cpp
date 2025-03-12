@@ -1,12 +1,12 @@
 #include "EntityCmp.h"
 
-EntityCmp:: EntityCmp(Vector2D velocity, float life, float moveSpeed, float attack, float attacksped, float armor,Vector2D position,PlayState* playstate) : SceneObject (position,playstate, texture, 100, 100) //cambiar 0 0 por variables
+EntityCmp::EntityCmp()//(Vector2D velocity, float life, float moveSpeed, float attack, float attacksped, float armor,Vector2D position,PlayState* playstate) : SceneObject (position,playstate, texture, 100, 100) //cambiar 0 0 por variables
 {
-	health = new EntityStat(life);
-	movementSpeed = new EntityStat(moveSpeed);
-	damage = new EntityStat(attack);
-	attackSpeed = new EntityStat(attacksped);
-	shield = new EntityStat(armor);
+	//health = new EntityStat(life);
+	//movementSpeed = new EntityStat(moveSpeed);
+	//damage = new EntityStat(attack);
+	//attackSpeed = new EntityStat(attacksped);
+	//shield = new EntityStat(armor);
 	
 }
 EntityCmp::~EntityCmp() {}

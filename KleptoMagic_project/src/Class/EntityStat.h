@@ -35,6 +35,7 @@ public:
 		}
 	}
 private:
+	void createStart();
 	//stats iniciales por si hace flata recalcular en caso de valor imposible o excepcion
 	float healthTotalIni;
 	float movementSpeedIni;

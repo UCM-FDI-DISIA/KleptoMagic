@@ -145,6 +145,7 @@ public:
 		return _x >= x0 && _x <= x2 && _y >= y0 && _y <= y1;
 	}
 private:
+	void createStart();
 	float _x;  // first coordinate
 	float _y;  // second coordinate
 };
