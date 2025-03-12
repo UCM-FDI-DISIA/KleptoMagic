@@ -24,7 +24,7 @@ public:
 	virtual void render() const;
 	virtual void update();
 	void GenerateFloor();
-	vector<char> CheckForInvalidExits(int x, int y);
+	vector<char> CheckSpaceAroundRoom(int x, int y);
 	void PrintFloorLayout_Simple();
 	void PrintFloorLayout_Detailed();
 };

@@ -48,10 +48,10 @@ DungeonRoom* RoomStorage::GetRandomRegularRoom(char exit, vector<char> noExits) 
 
 			bool hasNoWrongExits = true;
 			for (auto j : noExits) {
-				if (j == 'U' && i->hasExitUp() && j != exit) hasNoWrongExits = false;
-				else if (j == 'D' && i->hasExitDown() && j != exit) hasNoWrongExits = false;
-				else if (j == 'L' && i->hasExitLeft() && j != exit) hasNoWrongExits = false;
-				else if (j == 'R' && i->hasExitRight() && j != exit) hasNoWrongExits = false;
+				if (j == 'U' && i->hasExitUp() && exit != 'D') hasNoWrongExits = false;
+				else if (j == 'D' && i->hasExitDown() && exit != 'U') hasNoWrongExits = false;
+				else if (j == 'L' && i->hasExitLeft() && exit != 'R') hasNoWrongExits = false;
+				else if (j == 'R' && i->hasExitRight() && exit != 'L') hasNoWrongExits = false;
 			}
 			
 			/*
