@@ -146,4 +146,9 @@ private:
 
 };
 
+inline Game& game() {
+	return *Game::Instance();
+}
+
+
 #endif
