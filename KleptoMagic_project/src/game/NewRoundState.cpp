@@ -7,14 +7,14 @@
 
 NewRoundState::NewRoundState() {
 
-	//pressEnter = new Texture(sdlutils().renderer(), 
-	//	"Press ENTER to start the round",
-	//	sdlutils().fonts().at("ARIAL24"), 
-	//	build_sdlcolor(0x112233ff),
-	//	build_sdlcolor(0xffffffff));
-	//
-	//x0 = (sdlutils().width() - pressEnter->width()) / 2;
-	//y0 = (sdlutils().height() - pressEnter->height()) / 2;
+	pressEnter = new Texture(sdlutils().renderer(), 
+		"Press ENTER to start the round",
+		sdlutils().fonts().at("ARIAL24"), 
+		build_sdlcolor(0x112233ff),
+		build_sdlcolor(0xffffffff));
+	
+	x0 = (sdlutils().width() - pressEnter->width()) / 2;
+	y0 = (sdlutils().height() - pressEnter->height()) / 2;
 }
 NewRoundState::~NewRoundState() {
 
