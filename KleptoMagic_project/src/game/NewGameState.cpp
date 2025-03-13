@@ -6,14 +6,14 @@
 
 NewGameState::NewGameState() {
 
-	pressAnyKey = new Texture(sdlutils().renderer(), 
-		"Press any key to start",
-		sdlutils().fonts().at("ARIAL24"), 
-		build_sdlcolor(0x112233ff),
-		build_sdlcolor(0xffffffff));
+	//pressAnyKey = new Texture(sdlutils().renderer(), 
+	//	"Press any key to start",
+	//	sdlutils().fonts().at("ARIAL24"), 
+	//	build_sdlcolor(0x112233ff),
+	//	build_sdlcolor(0xffffffff));
 
-	x0 = (sdlutils().width() - pressAnyKey->width()) / 2;
-	y0 = (sdlutils().height() - pressAnyKey->height()) / 2;
+	//x0 = (sdlutils().width() - pressAnyKey->width()) / 2;
+	//y0 = (sdlutils().height() - pressAnyKey->height()) / 2;
 
 	//fighterutils().create_fighter();
 }
