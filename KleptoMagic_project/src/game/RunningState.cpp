@@ -11,7 +11,7 @@
 
 RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	//asteroidSpawnTimer(sdlutils().virtualTimer()),
-	//colission_thisframe(false)
+	//colission_thisframe(false);
 
 	//asteroidSpawnTimer.resetTime();
 }
@@ -94,36 +94,36 @@ void RunningState::update() {
 
 void RunningState::checkCollisions() {
 
-	auto f_t = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::FIGHTER));
-	//auto f_g = _mngr->getComponent<Gun>(_mngr->getHandler(ecs::hdlr::FIGHTER));
-
-	// Iterate through asteroids
-	for (auto a : _mngr->getEntities(ecs::grp::ASTEROIDS)) {
-		if (_mngr->isAlive(a)) {
-			auto a_t = _mngr->getComponent<Transform>(a);
-
-			// With fighter
-			if (Collisions::collidesWithRotation(
-				f_t->getPos(), f_t->getWidth(), f_t->getHeight(), f_t->getRot(),
-				a_t->getPos(), a_t->getWidth(), a_t->getHeight(), a_t->getRot()
-				) && !colission_thisframe) {
-				colission_thisframe = true;
-			}
-
-			// With bullets
-			//for (Gun::Bullet& b : *f_g) {
-			//	if (b.used) {
-			//		if (Collisions::collidesWithRotation(
-			//			a_t->getPos(), a_t->getWidth(), a_t->getHeight(), a_t->getRot(),
-			//			b.pos, b.width, b.height, b.rot
-			//		)) {
-			//			b.used = false;
-			//			asteroidsutils().split_asteroid(a);
-			//		}
-			//	}
-			//}
-		}
-	}
+	//auto f_t = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::FIGHTER));
+	////auto f_g = _mngr->getComponent<Gun>(_mngr->getHandler(ecs::hdlr::FIGHTER));
+	//
+	//// Iterate through asteroids
+	//for (auto a : _mngr->getEntities(ecs::grp::ASTEROIDS)) {
+	//	if (_mngr->isAlive(a)) {
+	//		auto a_t = _mngr->getComponent<Transform>(a);
+	//
+	//		// With fighter
+	//		if (Collisions::collidesWithRotation(
+	//			f_t->getPos(), f_t->getWidth(), f_t->getHeight(), f_t->getRot(),
+	//			a_t->getPos(), a_t->getWidth(), a_t->getHeight(), a_t->getRot()
+	//			) && !colission_thisframe) {
+	//			colission_thisframe = true;
+	//		}
+	//
+	//		// With bullets
+	//		//for (Gun::Bullet& b : *f_g) {
+	//		//	if (b.used) {
+	//		//		if (Collisions::collidesWithRotation(
+	//		//			a_t->getPos(), a_t->getWidth(), a_t->getHeight(), a_t->getRot(),
+	//		//			b.pos, b.width, b.height, b.rot
+	//		//		)) {
+	//		//			b.used = false;
+	//		//			asteroidsutils().split_asteroid(a);
+	//		//		}
+	//		//	}
+	//		//}
+	//	}
+	//}
 
 
 }
