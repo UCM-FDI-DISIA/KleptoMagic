@@ -47,6 +47,7 @@
     <ClCompile Include="..\src\game\FighterUtils.cpp" />
     <ClCompile Include="..\src\game\GameOverState.cpp" />
     <ClCompile Include="..\src\game\GameState.cpp" />
+    <ClCompile Include="..\src\game\GhostComponent.cpp" />
     <ClCompile Include="..\src\game\NewGameState.cpp" />
     <ClCompile Include="..\src\game\NewRoundState.cpp" />
     <ClCompile Include="..\src\game\PausedState.cpp" />
@@ -98,6 +99,7 @@
     <ClInclude Include="..\src\game\FighterUtils.h" />
     <ClInclude Include="..\src\game\GameOverState.h" />
     <ClInclude Include="..\src\game\GameState.h" />
+    <ClInclude Include="..\src\game\GhostComponent.h" />
     <ClInclude Include="..\src\game\NewGameState.h" />
     <ClInclude Include="..\src\game\NewRoundState.h" />
     <ClInclude Include="..\src\game\PausedState.h" />
