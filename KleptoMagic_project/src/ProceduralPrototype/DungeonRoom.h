@@ -55,6 +55,7 @@ public:
 	// Returns doorR
 	bool hasExitRight() { return doorR; };
 
+
 	// Returns lockU
 	bool isLockedUp() { return lockU; };
 	// Returns lockD
@@ -66,6 +67,8 @@ public:
 
 	// Returns the total amount of exits the room has
 	int getAmountOfExits();
+	// Returns a vector holding all of the exits the room has not linked yet
+	vector<char> getUnusedExits();
 	// Returns a random exit available that isn't already connected to another room (U, D, L, R, N (none))
 	char getRandomUnusedExit();
 

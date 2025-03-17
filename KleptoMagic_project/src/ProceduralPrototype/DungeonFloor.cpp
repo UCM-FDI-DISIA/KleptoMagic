@@ -73,6 +73,7 @@ void DungeonFloor::GenerateFloor() {
 	for (int i = 0; i < roomsToGenerate; i++) {
 		
 		// Define the location of the next room based on the exits of the current one.
+		// Find out what exits need to be filled at the location the new room will be on, based on adjacent rooms and what exits they have.
 		// Then, define what exits the new room can't have, based on other rooms adjacent to the target location for the new room, 
 		// or if it would exit out of the matrix's limits.
 		// When looking for blacklisted exits, look in all four directions, as even the previous room should be accounted for in the blacklist (as a safety net)
@@ -104,15 +105,27 @@ void DungeonFloor::GenerateFloor() {
 		cout << "TARGET ROOM LOCATION: "
 			<< TargetRoomX << " " << TargetRoomY << endl;
 
+		vector<char> exitsToConnect = ExitsToFillForSpace(TargetRoomX, TargetRoomY);
+		
+
+		cout << "EXITS THAT NEED TO BE FILLED: ";
+		for (auto i : exitsToConnect) {
+			cout << i;
+		}
+		cout << endl;
+		if (exitsToConnect.size() > 1) {
+			cout << "THIS ROOM NEEDS TO FILL MORE THAN ONE EXIT!!!!!" << endl;
+		}
+
 		vector<char> blacklistedExits = CheckSpaceAroundRoom(TargetRoomX, TargetRoomY);
-		cout << "INVALID SPACE, NO NEW EXITS HERE: ";
+		cout << "OCCUPIED SPACE, NO NEW EXITS HERE: ";
 		for (auto i : blacklistedExits) {
 			cout << i;
 		}
 		cout << endl;
 
-		vector<char> exitsToConnect;
-		exitsToConnect.push_back(CurrentRoomExit);
+
+		//exitsToConnect.push_back(CurrentRoomExit);
 
 		DungeonRoom* newRoom = roomstorage->GetRandomRegularRoom(exitsToConnect, blacklistedExits);
 		floorLayout[TargetRoomX][TargetRoomY] = newRoom;
@@ -212,6 +225,37 @@ vector<char> DungeonFloor::CheckSpaceAroundRoom(int x, int y) {
 	}
 
 	return  invalidExits;
+}
+
+vector<char> DungeonFloor::ExitsToFillForSpace(int x, int y) {
+	vector<char> results;
+	DungeonRoom* currentRoom = nullptr;
+
+	// Check above, D must exist
+	currentRoom = floorLayout[x - 1][y];
+	if (currentRoom != nullptr && currentRoom->hasExitDown()) {
+		results.push_back('U');
+	}
+
+	// Check below, U must exist
+	currentRoom = floorLayout[x + 1][y];
+	if (currentRoom != nullptr && currentRoom->hasExitUp()) {
+		results.push_back('D');
+	}
+
+	// Check left, R must exist
+	currentRoom = floorLayout[x][y - 1];
+	if (currentRoom != nullptr && currentRoom->hasExitRight()) {
+		results.push_back('L');
+	}
+
+	// Check right, L must exist
+	currentRoom = floorLayout[x][y + 1];
+	if (currentRoom != nullptr && currentRoom->hasExitLeft()) {
+		results.push_back('R');
+	}
+
+	return results;
 }
 
 void DungeonFloor::PrintFloorLayout_Simple() {

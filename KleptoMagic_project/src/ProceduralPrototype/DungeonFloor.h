@@ -25,6 +25,7 @@ public:
 	virtual void update();
 	void GenerateFloor();
 	vector<char> CheckSpaceAroundRoom(int x, int y);
+	vector<char> ExitsToFillForSpace(int x, int y);
 	void PrintFloorLayout_Simple();
 	void PrintFloorLayout_Detailed();
 };

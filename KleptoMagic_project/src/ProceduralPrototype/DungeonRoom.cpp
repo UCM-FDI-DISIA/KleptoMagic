@@ -82,6 +82,15 @@ int DungeonRoom::getAmountOfExits() {
 	return counter;
 }
 
+vector<char> DungeonRoom::getUnusedExits() {
+	vector<char> availableExits;
+	if (doorU && !linkU) availableExits.push_back('U');
+	if (doorD && !linkD) availableExits.push_back('D');
+	if (doorL && !linkL) availableExits.push_back('L');
+	if (doorR && !linkR) availableExits.push_back('R');
+	return availableExits;
+}
+
 char DungeonRoom::getRandomUnusedExit() {
 	vector<char> availableExits;
 	if (doorU && !linkU) availableExits.push_back('U');

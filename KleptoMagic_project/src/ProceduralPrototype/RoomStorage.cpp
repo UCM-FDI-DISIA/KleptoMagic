@@ -50,10 +50,10 @@ DungeonRoom* RoomStorage::GetRandomRegularRoom(vector<char> exitsNeeded, vector<
 				// If the number of filled doors is equal or greater than exits needed, continue
 				int doorsFilledN = 0;
 				for (auto j : exitsNeeded) {
-					if (j == 'U' && i->hasExitDown())		doorsFilledN++;
-					else if (j == 'D' && i->hasExitUp())	doorsFilledN++;
-					else if (j == 'L' && i->hasExitRight()) doorsFilledN++;
-					else if (j == 'R' && i->hasExitLeft())	doorsFilledN++;
+					if (j == 'U' && i->hasExitUp())		doorsFilledN++;
+					else if (j == 'D' && i->hasExitDown())	doorsFilledN++;
+					else if (j == 'L' && i->hasExitLeft()) doorsFilledN++;
+					else if (j == 'R' && i->hasExitRight())	doorsFilledN++;
 				}
 
 				// Check if the amount of filled exits is equal or greater than the size of the exitsNeeded vector.
@@ -72,10 +72,10 @@ DungeonRoom* RoomStorage::GetRandomRegularRoom(vector<char> exitsNeeded, vector<
 						bool hasNoWrongExits = true;
 						for (auto j : exitsNeeded) {
 							for (auto k : exitsBlacklisted) {
-								if (k == 'U' && i->hasExitUp() && j != 'D') hasNoWrongExits = false;
-								else if (k == 'D' && i->hasExitDown() && j != 'U') hasNoWrongExits = false;
-								else if (k == 'L' && i->hasExitLeft() && j != 'R') hasNoWrongExits = false;
-								else if (k == 'R' && i->hasExitRight() && j != 'L') hasNoWrongExits = false;
+								if (k == 'U' && i->hasExitUp() && j != k) hasNoWrongExits = false;
+								else if (k == 'D' && i->hasExitDown() && j != k) hasNoWrongExits = false;
+								else if (k == 'L' && i->hasExitLeft() && j != k) hasNoWrongExits = false;
+								else if (k == 'R' && i->hasExitRight() && j != k) hasNoWrongExits = false;
 							}
 						}
 						if (hasNoWrongExits) results.push_back(i);
