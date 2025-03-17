@@ -23,9 +23,9 @@ public:
 
 	// Returns a random entrance room instance, cloned from storage
 	DungeonRoom* GetRandomEntranceRoom();
-	// Returns a random regular room that has the required door (U, D, L, R) so it can be connected to a previous room,
-	// but also has none of the exits included on the second parameter, so there's no doors that lead to nothing
-	DungeonRoom* GetRandomRegularRoom(char exit, vector<char> noExits);
+	// Returns a random regular room that has the required doors (U, D, L, R) so it can be connected to a previous room as well 
+	// as surrounding ones, but also has none of the exits included on the second parameter, so there's no doors that lead to nothing
+	DungeonRoom* GetRandomRegularRoom(vector<char> exitsNeeded, vector<char> exitsBlacklisted);
 	// Returns a random boss room that has the required door (U, D, L, R) so it can be connected to a previous room,
 	// but also has none of the exits included on the second parameter, so there's no doors that lead to nothing
 	DungeonRoom* GetRandomBossRoom(char exit, vector<char> noExits);

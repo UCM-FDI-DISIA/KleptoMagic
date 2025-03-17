@@ -36,38 +36,81 @@ DungeonRoom* RoomStorage::GetRandomEntranceRoom() {
 	int randomRoom = distr(gen);
 	return new DungeonRoom{ *EntranceRooms[randomRoom] };
 }
-DungeonRoom* RoomStorage::GetRandomRegularRoom(char exit, vector<char> noExits) {
+DungeonRoom* RoomStorage::GetRandomRegularRoom(vector<char> exitsNeeded, vector<char> exitsBlacklisted) {
 	vector<DungeonRoom*> results;
 	while (results.size() < 1) {
+
+		for (auto i : RegularRooms) {
+
+			// If the number of doors the room has is equal or greater than exits needed, continue
+			int roomExitsN = i->getAmountOfExits();
+			if (roomExitsN >= exitsNeeded.size()) {
+
+				// Count how many of the required doors have been filled
+				// If the number of filled doors is equal or greater than exits needed, continue
+				int doorsFilledN = 0;
+				for (auto j : exitsNeeded) {
+					if (j == 'U' && i->hasExitDown())		doorsFilledN++;
+					else if (j == 'D' && i->hasExitUp())	doorsFilledN++;
+					else if (j == 'L' && i->hasExitRight()) doorsFilledN++;
+					else if (j == 'R' && i->hasExitLeft())	doorsFilledN++;
+				}
+
+				// Check if the amount of filled exits is equal or greater than the size of the exitsNeeded vector.
+				// If not, it means the room didn't have enough exits in the right places, and is invalid.
+				if (doorsFilledN >= exitsNeeded.size()) {
+					// If the room has the exact amount of exits needed, continue.
+									// If the room has a greater amount of exits than needed, check if any of the exits are blacklisted.
+					if (roomExitsN == exitsNeeded.size()) {
+						// The room has the exact amount and location of exits needed.
+						results.push_back(i);
+					}
+					else if (roomExitsN > exitsNeeded.size()) {
+						// The room has the needed exits, but has additional exits as well. 
+						// Check if any of the exits of the room are blacklisted BUT aren't in the neededExits vector, 
+						// and add to results if none are.
+						bool hasNoWrongExits = true;
+						for (auto j : exitsNeeded) {
+							for (auto k : exitsBlacklisted) {
+								if (k == 'U' && i->hasExitUp() && j != 'D') hasNoWrongExits = false;
+								else if (k == 'D' && i->hasExitDown() && j != 'U') hasNoWrongExits = false;
+								else if (k == 'L' && i->hasExitLeft() && j != 'R') hasNoWrongExits = false;
+								else if (k == 'R' && i->hasExitRight() && j != 'L') hasNoWrongExits = false;
+							}
+						}
+						if (hasNoWrongExits) results.push_back(i);
+					}
+				}
+			}
+
+			// NOTE: In the case the tests above didn't find any rooms that met the condition, it will reattempt as a safety net.
+			// It is missing implementation to restart the generation process from scratch: if the algorithm above doesn't find
+			// ANY results, it means that none of the rooms in the files will ever fill that space properly, so it must restart.
+
+		}
+		/*
 		for (auto i : RegularRooms) {
 			bool hasCorrectEntrance = false;
-			if (exit == 'U' && i->hasExitDown()) hasCorrectEntrance = true;
-			else if (exit == 'D' && i->hasExitUp()) hasCorrectEntrance = true;
-			else if (exit == 'L' && i->hasExitRight()) hasCorrectEntrance = true;
-			else if (exit == 'R' && i->hasExitLeft()) hasCorrectEntrance = true;
-
 			bool hasNoWrongExits = true;
-			for (auto j : noExits) {
-				if (j == 'U' && i->hasExitUp() && exit != 'D') hasNoWrongExits = false;
-				else if (j == 'D' && i->hasExitDown() && exit != 'U') hasNoWrongExits = false;
-				else if (j == 'L' && i->hasExitLeft() && exit != 'R') hasNoWrongExits = false;
-				else if (j == 'R' && i->hasExitRight() && exit != 'L') hasNoWrongExits = false;
+			for (auto j : exits) {
+				if (j == 'U' && i->hasExitDown()) hasCorrectEntrance = true;
+				else if (j == 'D' && i->hasExitUp()) hasCorrectEntrance = true;
+				else if (j == 'L' && i->hasExitRight()) hasCorrectEntrance = true;
+				else if (j == 'R' && i->hasExitLeft()) hasCorrectEntrance = true;
+
+				for (auto k : noExits) {
+					if (k == 'U' && i->hasExitUp() && j != 'D') hasNoWrongExits = false;
+					else if (k == 'D' && i->hasExitDown() && j != 'U') hasNoWrongExits = false;
+					else if (k == 'L' && i->hasExitLeft() && j != 'R') hasNoWrongExits = false;
+					else if (k == 'R' && i->hasExitRight() && j != 'L') hasNoWrongExits = false;
+				}
 			}
-			
-			/*
-			cout << "+" << endl;
-			cout << exit << " ";
-			for (auto i : noExits) {
-				cout << i;
-			}
-			cout << " " << hasCorrectEntrance << " " << hasNoWrongExits << " " << endl;
-			cout << "+" << endl;
-			*/
 
 			if (hasCorrectEntrance && hasNoWrongExits) {
 				results.push_back(i);
 			}
 		}
+		*/
 	}
 
 	std::random_device rd; // obtain a random number from hardware

@@ -111,7 +111,10 @@ void DungeonFloor::GenerateFloor() {
 		}
 		cout << endl;
 
-		DungeonRoom* newRoom = roomstorage->GetRandomRegularRoom(CurrentRoomExit, blacklistedExits);
+		vector<char> exitsToConnect;
+		exitsToConnect.push_back(CurrentRoomExit);
+
+		DungeonRoom* newRoom = roomstorage->GetRandomRegularRoom(exitsToConnect, blacklistedExits);
 		floorLayout[TargetRoomX][TargetRoomY] = newRoom;
 
 		cout << "NEW ROOM: "
