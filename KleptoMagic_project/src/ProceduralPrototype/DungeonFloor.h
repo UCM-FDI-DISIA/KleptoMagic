@@ -26,6 +26,7 @@ public:
 	void GenerateFloor();
 	vector<char> CheckSpaceAroundRoom(int x, int y);
 	vector<char> ExitsToFillForSpace(int x, int y);
+	void LinkExitsAtPosition(int x, int y, vector<char> exits);
 	void PrintFloorLayout_Simple();
 	void PrintFloorLayout_Detailed();
 };

@@ -59,25 +59,27 @@ DungeonRoom* RoomStorage::GetRandomRegularRoom(vector<char> exitsNeeded, vector<
 				// Check if the amount of filled exits is equal or greater than the size of the exitsNeeded vector.
 				// If not, it means the room didn't have enough exits in the right places, and is invalid.
 				if (doorsFilledN >= exitsNeeded.size()) {
-					// If the room has the exact amount of exits needed, continue.
-									// If the room has a greater amount of exits than needed, check if any of the exits are blacklisted.
-					if (roomExitsN == exitsNeeded.size()) {
-						// The room has the exact amount and location of exits needed.
-						results.push_back(i);
-					}
-					else if (roomExitsN > exitsNeeded.size()) {
-						// The room has the needed exits, but has additional exits as well. 
+					
+					// The room must now have at least one more exit than the amount of exits needed to fill, so that it doesn't
+					// close up the path and leave no exits open to continue generating.
+					if (roomExitsN > exitsNeeded.size()) {
 						// Check if any of the exits of the room are blacklisted BUT aren't in the neededExits vector, 
 						// and add to results if none are.
 						bool hasNoWrongExits = true;
-						for (auto j : exitsNeeded) {
-							for (auto k : exitsBlacklisted) {
-								if (k == 'U' && i->hasExitUp() && j != k) hasNoWrongExits = false;
-								else if (k == 'D' && i->hasExitDown() && j != k) hasNoWrongExits = false;
-								else if (k == 'L' && i->hasExitLeft() && j != k) hasNoWrongExits = false;
-								else if (k == 'R' && i->hasExitRight() && j != k) hasNoWrongExits = false;
+						
+						vector<char> roomExits = i->getUnusedExits();
+						for (auto k : roomExits) {
+							bool inExitsNeeded = false;
+							bool inExitsBlacklisted = false;
+							for (auto l : exitsNeeded) {
+								if (k == l) inExitsNeeded = true;
 							}
+							for (auto m : exitsBlacklisted) {
+								if (k == m) inExitsBlacklisted = true;
+							}
+							if (inExitsBlacklisted && !inExitsNeeded) hasNoWrongExits = false;
 						}
+
 						if (hasNoWrongExits) results.push_back(i);
 					}
 				}

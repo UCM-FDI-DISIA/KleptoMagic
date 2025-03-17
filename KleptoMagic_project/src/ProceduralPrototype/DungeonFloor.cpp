@@ -106,8 +106,6 @@ void DungeonFloor::GenerateFloor() {
 			<< TargetRoomX << " " << TargetRoomY << endl;
 
 		vector<char> exitsToConnect = ExitsToFillForSpace(TargetRoomX, TargetRoomY);
-		
-
 		cout << "EXITS THAT NEED TO BE FILLED: ";
 		for (auto i : exitsToConnect) {
 			cout << i;
@@ -124,11 +122,7 @@ void DungeonFloor::GenerateFloor() {
 		}
 		cout << endl;
 
-
-		//exitsToConnect.push_back(CurrentRoomExit);
-
-		DungeonRoom* newRoom = roomstorage->GetRandomRegularRoom(exitsToConnect, blacklistedExits);
-		floorLayout[TargetRoomX][TargetRoomY] = newRoom;
+		floorLayout[TargetRoomX][TargetRoomY] = roomstorage->GetRandomRegularRoom(exitsToConnect, blacklistedExits);;
 
 		cout << "NEW ROOM: "
 			<< TargetRoomX << " "
@@ -136,21 +130,62 @@ void DungeonFloor::GenerateFloor() {
 			<< floorLayout[TargetRoomX][TargetRoomY]->getName() << " "
 			<< floorLayout[TargetRoomX][TargetRoomY]->getAmountOfExits() << endl;
 
+		// Link the exit of the previous room up
 		if (CurrentRoomExit == 'U') {
 			floorLayout[CurrentRoomX][CurrentRoomY]->linkU = true;
-			newRoom->linkD = true;
+			floorLayout[TargetRoomX][TargetRoomY]->linkD = true;
 		}
 		else if (CurrentRoomExit == 'D') {
 			floorLayout[CurrentRoomX][CurrentRoomY]->linkD = true;
-			newRoom->linkU = true;
+			floorLayout[TargetRoomX][TargetRoomY]->linkU = true;
 		}
 		else if (CurrentRoomExit == 'L') {
 			floorLayout[CurrentRoomX][CurrentRoomY]->linkL = true;
-			newRoom->linkR = true;
+			floorLayout[TargetRoomX][TargetRoomY]->linkR = true;
 		}
 		else if (CurrentRoomExit == 'R') {
 			floorLayout[CurrentRoomX][CurrentRoomY]->linkR = true;
-			newRoom->linkL = true;
+			floorLayout[TargetRoomX][TargetRoomY]->linkL = true;
+		}
+
+		// Link all the exits that needed to be filled by the new room
+		//LinkExitsAtPosition(TargetRoomX, TargetRoomY, exitsToConnect);
+		
+
+		int x = TargetRoomX;
+		int y = TargetRoomY;
+		vector<char> exits = exitsToConnect;
+		DungeonRoom* currentRoom = nullptr;
+
+		for (auto i : exits) {
+			// Room above
+			if (i == 'U') {
+				currentRoom = floorLayout[x - 1][y];
+				if (floorLayout[x - 1][y] != nullptr) {
+					floorLayout[x - 1][y]->linkD = true;
+				}
+			}
+			// Room below
+			if (i == 'D') {
+				currentRoom = floorLayout[x + 1][y];
+				if (floorLayout[x + 1][y] != nullptr) {
+					floorLayout[x + 1][y]->linkU = true;
+				}
+			}
+			// Room left
+			if (i == 'L') {
+				currentRoom = floorLayout[x][y - 1];
+				if (floorLayout[x][y - 1] != nullptr) {
+					floorLayout[x][y - 1]->linkR = true;
+				}
+			}
+			// Room right
+			if (i == 'R') {
+				currentRoom = floorLayout[x][y + 1];
+				if (floorLayout[x][y + 1] != nullptr) {
+					floorLayout[x][y + 1]->linkL = true;
+				}
+			}
 		}
 
 		cout << "DOOR LINKAGE: "
@@ -158,10 +193,10 @@ void DungeonFloor::GenerateFloor() {
 			<< floorLayout[CurrentRoomX][CurrentRoomY]->linkD << " "
 			<< floorLayout[CurrentRoomX][CurrentRoomY]->linkL << " "
 			<< floorLayout[CurrentRoomX][CurrentRoomY]->linkR << " | "
-			<< newRoom->linkU << " "
-			<< newRoom->linkD << " "
-			<< newRoom->linkL << " "
-			<< newRoom->linkR << endl;
+			<< floorLayout[TargetRoomX][TargetRoomY]->linkU << " "
+			<< floorLayout[TargetRoomX][TargetRoomY]->linkD << " "
+			<< floorLayout[TargetRoomX][TargetRoomY]->linkL << " "
+			<< floorLayout[TargetRoomX][TargetRoomY]->linkR << endl;
 
 		CurrentRoomX = TargetRoomX;
 		CurrentRoomY = TargetRoomY;
@@ -172,7 +207,7 @@ void DungeonFloor::GenerateFloor() {
 		cout << "--------------" << endl;
 		*/
 
-		PrintFloorLayout_Simple();
+		PrintFloorLayout_Detailed();
 	}
 }
 
@@ -231,31 +266,103 @@ vector<char> DungeonFloor::ExitsToFillForSpace(int x, int y) {
 	vector<char> results;
 	DungeonRoom* currentRoom = nullptr;
 
-	// Check above, D must exist
-	currentRoom = floorLayout[x - 1][y];
-	if (currentRoom != nullptr && currentRoom->hasExitDown()) {
-		results.push_back('U');
+	// Above
+	if (x - 1 >= 0) {
+		currentRoom = floorLayout[x - 1][y];
+		if (currentRoom != nullptr && currentRoom->hasExitDown()) {
+			results.push_back('U');
+		}
 	}
 
-	// Check below, U must exist
-	currentRoom = floorLayout[x + 1][y];
-	if (currentRoom != nullptr && currentRoom->hasExitUp()) {
-		results.push_back('D');
+	// Below
+	if (x + 1 < floor_width) {
+		currentRoom = floorLayout[x + 1][y];
+		if (currentRoom != nullptr && currentRoom->hasExitUp()) {
+			results.push_back('D');
+		}
 	}
 
-	// Check left, R must exist
-	currentRoom = floorLayout[x][y - 1];
-	if (currentRoom != nullptr && currentRoom->hasExitRight()) {
-		results.push_back('L');
+	// Left
+	if (y - 1 >= 0) {
+		currentRoom = floorLayout[x][y - 1];
+		if (currentRoom != nullptr && currentRoom->hasExitRight()) {
+			results.push_back('L');
+		}
 	}
 
-	// Check right, L must exist
-	currentRoom = floorLayout[x][y + 1];
-	if (currentRoom != nullptr && currentRoom->hasExitLeft()) {
-		results.push_back('R');
+	// Right
+	if (y + 1 < floor_height) {
+		currentRoom = floorLayout[x][y + 1];
+		if (currentRoom != nullptr && currentRoom->hasExitLeft()) {
+			results.push_back('R');
+		}
 	}
 
 	return results;
+}
+
+void DungeonFloor::LinkExitsAtPosition(int x, int y, vector<char> exits) {
+	DungeonRoom* currentRoom = nullptr;
+
+	for (auto i : exits) {
+		// Room above
+		if (i == 'U') {
+			currentRoom = floorLayout[x - 1][y];
+			if (currentRoom != nullptr) {
+				currentRoom->linkD = true;
+			}
+		}
+		// Room below
+		if (i == 'D') {
+			currentRoom = floorLayout[x + 1][y];
+			if (currentRoom != nullptr) {
+				currentRoom->linkU = true;
+			}
+		}
+		// Room left
+		if (i == 'L') {
+			currentRoom = floorLayout[x][y - 1];
+			if (currentRoom != nullptr) {
+				currentRoom->linkR = true;
+			}
+		}
+		// Room right
+		if (i == 'R') {
+			currentRoom = floorLayout[x][y + 1];
+			if (currentRoom != nullptr) {
+				currentRoom->linkL = true;
+			}
+		}
+		cout << "test" << endl;
+	}
+	/*
+	for (auto i : exits) {
+		// Above
+		if (i == 'U' && x - 1 >= 0) {
+			if (floorLayout[x - 1][y] != nullptr) {
+				floorLayout[x - 1][y]->linkD = true;
+			}
+		}
+		// Below
+		else if (i == 'D' && x + 1 < floor_width) {
+			if (floorLayout[x + 1][y] != nullptr) {
+				floorLayout[x + 1][y]->linkU = true;
+			}
+		}
+		// Left
+		else if (i == 'L' && y - 1 >= 0) {
+			if (floorLayout[x][y - 1] != nullptr) {
+				floorLayout[x][y - 1]->linkR = true;
+			}
+		}
+		// Right
+		else if (i == 'R' && y + 1 < floor_height) {
+			if (floorLayout[x][y + 1] != nullptr) {
+				floorLayout[x][y + 1]->linkL = true;
+			}
+		}
+	}
+	*/
 }
 
 void DungeonFloor::PrintFloorLayout_Simple() {
