@@ -7,6 +7,8 @@
 #include "../sdlutils/InputHandler.h"
 #include "../Class/Transform.h"
 #include "../Class/Image.h"
+#include "../Class/MovementCtrl.h"
+#include "../Class/PlayerCtrl.h"
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
 
@@ -24,6 +26,8 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	auto y = (sdlutils().height() - s) / 2.0f;
 	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
 	_mngr->addComponent<Image>(player, &sdlutils().images().at("player"));
+	_mngr->addComponent<PlayerCtrl>(player);
+
 }
 	
 
