@@ -1,4 +1,5 @@
 #pragma once
+#include <SDL.h>
 #include "../utils/Vector2D.h"
 #include "../ecs/Component.h"
 #include "Transform.h"
@@ -13,5 +14,6 @@ public:
 
 private:
 	void createStart();
+	Transform* _tr;
 	//vector2D o transform
 };
