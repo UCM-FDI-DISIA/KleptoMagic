@@ -34,6 +34,7 @@
     <ClCompile Include="..\src\Class\MainMenuState.cpp" />
     <ClCompile Include="..\src\Class\MovementCtrl.cpp" />
     <ClCompile Include="..\src\Class\Player.cpp" />
+    <ClCompile Include="..\src\Class\PlayerCtrl.cpp" />
     <ClCompile Include="..\src\Class\PlayState.cpp" />
     <ClCompile Include="..\src\Class\SceneObject.cpp" />
     <ClCompile Include="..\src\Class\Game.cpp" />
@@ -81,6 +82,7 @@
     <ClInclude Include="..\src\Class\MenuState.h" />
     <ClInclude Include="..\src\Class\MovementCtrl.h" />
     <ClInclude Include="..\src\Class\Player.h" />
+    <ClInclude Include="..\src\Class\PlayerCtrl.h" />
     <ClInclude Include="..\src\Class\PlayState.h" />
     <ClInclude Include="..\src\Class\SceneObject.h" />
     <ClInclude Include="..\src\Class\Game.h" />

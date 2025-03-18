@@ -1,10 +1,11 @@
 #include "MovementCtrl.h"
 #include "../ecs/Entity.h"
 #include "../ecs/Manager.h"
+#include "../sdlutils/SDLUtils.h"
 //#include <iostream>
 
 
-void MovementCtrl::initComponent() {
+void MovementCtrl::initComponent() { //falta get entity stats speed
 	auto*_mngr = _ent->getMngr();
 	_tr = _mngr->getComponent<Transform>(_ent);
 	assert(_tr != nullptr);
@@ -13,4 +14,11 @@ void MovementCtrl::initComponent() {
 //o hago un segundo metodo Move que no aplique speed para el knockback pero... creo que mejor lo otro
 void MovementCtrl::Move(Vector2D movementVector, float speed) {
 	_tr->getVel() = movementVector * speed;
+}
+
+void MovementCtrl::update() {
+	
+
+
+	//Move();
 }
