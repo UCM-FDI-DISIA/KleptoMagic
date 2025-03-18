@@ -12,6 +12,7 @@
     { "id" : "star", "file" : "resources/images/star.png"},
     { "id" : "pacman", "file" : "resources/images/pacman.png"},
     { "id" : "sprites", "file" : "resources/images/pacman_sprites.png"},
+    { "id" : "player", "file" : "resources/images/player_placeholder.png"},
     { "id" : "heart", "file" : "resources/images/heart.png"}
   ],
   
