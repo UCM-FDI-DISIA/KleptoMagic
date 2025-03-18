@@ -6,6 +6,7 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/InputHandler.h"
 #include "../Class/Transform.h"
+#include "../Class/Image.h"
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
 
@@ -14,6 +15,15 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	//colission_thisframe(false);
 
 	//asteroidSpawnTimer.resetTime();
+	//fighterutils().create_fighter();
+	auto player = _mngr->addEntity();
+	_mngr->setHandler(ecs::hdlr::FIGHTER, player);
+	auto tr = _mngr->addComponent<Transform>(player);
+	auto s = 50.0f;
+	auto x = (sdlutils().width() - s) / 2.0f;
+	auto y = (sdlutils().height() - s) / 2.0f;
+	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(player, &sdlutils().images().at("player"));
 }
 	
 

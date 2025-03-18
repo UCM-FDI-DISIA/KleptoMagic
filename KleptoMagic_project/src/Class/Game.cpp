@@ -42,7 +42,7 @@ const array<TextureSpec, Game::NUM_TEXTURES> textureSpec{
 Game::Game() : exit(false), _mngr(nullptr), _state(nullptr){}
 
 bool Game::init() {
-	if (!SDLUtils::Init("Asteroids", 800, 600, "resources/config/asteroid.resources.json")) {
+	if (!SDLUtils::Init("KleptoMagic", 800, 600, "resources/config/resources.json")) {
 		std::cerr << "Error inicializando SDLUtils" << std::endl;
 		return false;
 	}

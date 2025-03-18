@@ -4,7 +4,10 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/InputHandler.h"
 
-NewGameState::NewGameState() {
+
+using ecs::Manager;	
+
+NewGameState::NewGameState(){
 
 	pressAnyKey = new Texture(sdlutils().renderer(), 
 		"Press any key to start",
@@ -15,7 +18,9 @@ NewGameState::NewGameState() {
 	x0 = (sdlutils().width() - pressAnyKey->width()) / 2;
 	y0 = (sdlutils().height() - pressAnyKey->height()) / 2;
 
-	//fighterutils().create_fighter();
+	
+	
+
 }
 NewGameState::~NewGameState() {
 
