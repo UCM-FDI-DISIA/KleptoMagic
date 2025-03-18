@@ -45,6 +45,8 @@
     <ClCompile Include="..\src\utils\Collisions.cpp" />
     <ClCompile Include="..\src\Class\Image.cpp" />
     <ClCompile Include="..\src\game\GhostComponent.cpp" />
+    <ClCompile Include="..\src\Class\PlayerCtrl.cpp" />
+    <ClCompile Include="LifeComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Class\EntityStat.h" />
@@ -107,5 +109,7 @@
     <ClInclude Include="..\src\utils\Collisions.h" />
     <ClInclude Include="..\src\Class\Image.h" />
     <ClInclude Include="..\src\game\GhostComponent.h" />
+    <ClInclude Include="..\src\Class\PlayerCtrl.h" />
+    <ClInclude Include="..\src\game\LifeComponent.h" />
   </ItemGroup>
 </Project>
