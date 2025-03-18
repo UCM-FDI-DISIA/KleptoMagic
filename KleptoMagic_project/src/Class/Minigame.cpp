@@ -17,6 +17,9 @@ void Minigame::start() {
 }
 
 void Minigame::end() {
+	if (!quitMinigame) {
+		// Script for rewards
+	}
 	gameTimer.setSpeedMultiplier(1.0);
 	// Script for changing scenes
 }
@@ -25,6 +28,15 @@ void Minigame::minigameLogic(float deltaTime) {
 	if (!running) {
 		end();
 	}
+	
+	if (/*InputManager "Left Click" (Maybe?)*/) {
+		attemptPick();
+	}
+
+	if (/*InputManager "Esc" (Maybe?)*/) {
+		quitMinigame = true;
+		running = false;													   // End Minigame
+	}	
 
 	elapsedTime += deltaTime;
 

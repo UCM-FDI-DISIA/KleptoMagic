@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TimerCountdown.h"
+// #include Input header
 #include <vector>
 
 class Minigame {
@@ -21,6 +22,7 @@ private:
     float frequency;                     // Speed of the lockpick's movement       (Should be [0.01] positions/sec)
     float elapsedTime;
     bool running;                        // If the minigame is currently active
+    bool quitMinigame;                   // Giving up, no rewards
 
     int calculatePenalty(int position);  // Calculates penalty based on the lockpicks's position in the hole
 };
