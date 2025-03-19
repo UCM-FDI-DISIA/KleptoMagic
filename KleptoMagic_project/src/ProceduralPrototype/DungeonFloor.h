@@ -7,6 +7,16 @@
 #include "iostream"
 using namespace std;
 
+struct roomPos {
+	int x;
+	int y;
+	bool operator==(roomPos const& other) const
+	{
+		return (this->x == other.x && this->y == other.y);
+	}
+}; 
+
+
 class DungeonFloor
 {
 private:
@@ -27,6 +37,7 @@ public:
 	vector<char> CheckSpaceAroundRoom(int x, int y);
 	vector<char> ExitsToFillForSpace(int x, int y);
 	void LinkExitsAtPosition(int x, int y, vector<char> exits);
+	void addPos(roomPos pos, vector<roomPos>& locations);
 	void PrintFloorLayout_Simple();
 	void PrintFloorLayout_Detailed();
 };

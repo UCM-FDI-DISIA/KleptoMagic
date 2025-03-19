@@ -1,5 +1,6 @@
 #include "DungeonFloor.h"
 #include <random>
+#include <vector>
 
 DungeonFloor::DungeonFloor(RoomStorage* RoomStorage) : roomstorage(RoomStorage)
 {
@@ -208,6 +209,66 @@ void DungeonFloor::GenerateFloor() {
 
 		PrintFloorLayout_Detailed();
 	}
+
+	// STEP 3: Locate all possible positions at which special rooms and the boss room need can be placed.
+	// These are all the locations that exits that remain empty after generation lead to.
+
+	vector<roomPos> locations;
+
+	for (int i = 0; i < floor_width; i++) {
+		for (int j = 0; j < floor_height; j++) {
+			DungeonRoom* room = floorLayout[i][j];
+			if (room != nullptr) {
+				
+				int numExits = room->getAmountOfExits();
+
+				if (room->hasExitUp() && !room->linkU) {
+					roomPos newPos;
+					newPos.x = i - 1;
+					newPos.y = j;
+					addPos(newPos, locations);
+				}
+				if (room->hasExitDown() && !room->linkD) {
+					roomPos newPos;
+					newPos.x = i + 1;
+					newPos.y = j;
+					addPos(newPos, locations);
+				}
+				if (room->hasExitLeft() && !room->linkL) {
+					roomPos newPos;
+					newPos.x = i;
+					newPos.y = j - 1;
+					addPos(newPos, locations);
+				}
+				if (room->hasExitRight() && !room->linkR) {
+					roomPos newPos;
+					newPos.x = i;
+					newPos.y = j + 1;
+					addPos(newPos, locations);
+				}
+			}
+		}
+	}
+
+	cout << "SPECIAL/BOSS ROOM LOCATIONS: ";
+	for (auto i : locations) {
+		cout << i.x << "|" << i.y << " ";
+	}
+	cout << endl;
+
+	// Place in rooms at the locations based on what exits they need to fill.
+	for (auto i : locations);
+
+	/*
+	for (auto i : locations) {
+		cout << i.x << "|" << i.y << endl;
+		floorLayout[i.x][i.y] = new DungeonRoom(R"(.\src\ProceduralPrototype\rooms\SpecialRooms\0000_3_3_test.txt")", roomType::SPECIAL);
+		PrintFloorLayout_Detailed();
+	}
+	*/
+
+
+
 }
 
 vector<char> DungeonFloor::CheckSpaceAroundRoom(int x, int y) {
@@ -364,6 +425,11 @@ void DungeonFloor::LinkExitsAtPosition(int x, int y, vector<char> exits) {
 	*/
 }
 
+void DungeonFloor::addPos(roomPos pos, vector<roomPos>& locations) {
+	if (std::find(locations.begin(), locations.end(), pos) != locations.end()); //nothing
+	else locations.push_back(pos);
+}
+
 void DungeonFloor::PrintFloorLayout_Simple() {
 	for (int i = 0; i < floor_width; i++) {
 		for (int j = 0; j < floor_height; j++) {
@@ -457,79 +523,4 @@ void DungeonFloor::PrintFloorLayout_Detailed() {
 		cout << endl;
 	}
 	cout << endl;
-
-	/*
-	for (int i = 0; i < floor_height; i++) {
-		for (int j = 0; j < floor_width; j++) {
-
-			int sp_x = j * 3;
-			int sp_y = i * 3;
-
-				render_matrix[sp_x]		[sp_y] = '*';
-				render_matrix[sp_x + 1]	[sp_y] = '*';
-				render_matrix[sp_x + 2]	[sp_y] = '*';
-
-				render_matrix[sp_x]		[sp_y + 1] = '*';
-				render_matrix[sp_x + 1]	[sp_y + 1] = 'R';
-				render_matrix[sp_x + 2]	[sp_y + 1] = '*';
-
-				render_matrix[sp_x]		[sp_y + 2] = '*';
-				render_matrix[sp_x + 1]	[sp_y + 2] = '*';
-				render_matrix[sp_x + 2]	[sp_y + 2] = '*';
-
-			if (floorLayout[i][j] != nullptr) {
-				// center of room
-				render_matrix[sp_x + 1]	[sp_y + 1]	= 'R';
-
-				// corners of room
-				render_matrix[sp_x]		[sp_y]		= '+';
-				render_matrix[sp_x + 2]	[sp_y]		= '+';
-				render_matrix[sp_x]		[sp_y + 2]	= '+';
-				render_matrix[sp_x + 2]	[sp_y + 2]	= '+';
-
-				// up exit
-				if (floorLayout[i][j]->hasExitUp()) {
-					if (floorLayout[i][j]->linkU) {
-						render_matrix[sp_x + 1][sp_y] = 'L';
-					}
-					else {
-						render_matrix[sp_x + 1][sp_y] = 'D';
-					}
-				}
-				// down exit
-				if (floorLayout[i][j]->hasExitDown()) {
-					if (floorLayout[i][j]->linkD) {
-						render_matrix[sp_x + 1][sp_y + 2] = 'L';
-					}
-					else {
-						render_matrix[sp_x + 1][sp_y + 2] = 'D';
-					}
-				}
-				// left exit
-				if (floorLayout[i][j]->hasExitLeft()) {
-					if (floorLayout[i][j]->linkL) {
-						render_matrix[sp_x][sp_y + 1] = 'L';
-					}
-					else {
-						render_matrix[sp_x][sp_y + 1] = 'D';
-					}
-				}
-				// right exit
-				if (floorLayout[i][j]->hasExitRight()) {
-					if (floorLayout[i][j]->linkR) {
-						render_matrix[sp_x + 2][sp_y + 1] = 'L';
-					}
-					else {
-						render_matrix[sp_x + 2][sp_y + 1] = 'D';
-					}
-				}
-			}
-			else {
-				// no room
-				render_matrix[sp_x + 1]	[sp_y + 1] = '-';
-			}
-
-		}
-	}
-	*/
 }
