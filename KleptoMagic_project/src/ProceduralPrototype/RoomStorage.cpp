@@ -101,9 +101,47 @@ DungeonRoom* RoomStorage::GetRandomRegularRoom(vector<char> exitsNeeded, vector<
 	return new DungeonRoom{ *results[randomRoom] };
 }
 
-DungeonRoom* RoomStorage::GetRandomRegularRoom(vector<char> exitsNeeded) {
-	// WIP
-	return nullptr;
+DungeonRoom* RoomStorage::GetRandomSpecialRoom(vector<char> exitsNeeded) {
+	vector<DungeonRoom*> results;
+	while (results.size() < 1) {
+
+		for (auto i : SpecialRooms) {
+
+			// If the number of doors the room has is equal or greater than exits needed, continue
+			int roomExitsN = i->getAmountOfExits();
+			if (roomExitsN >= exitsNeeded.size()) {
+
+				// Count how many of the required doors have been filled
+				// If the number of filled doors is equal or greater than exits needed, continue
+				int doorsFilledN = 0;
+				for (auto j : exitsNeeded) {
+					if (j == 'U' && i->hasExitUp())		doorsFilledN++;
+					else if (j == 'D' && i->hasExitDown())	doorsFilledN++;
+					else if (j == 'L' && i->hasExitLeft()) doorsFilledN++;
+					else if (j == 'R' && i->hasExitRight())	doorsFilledN++;
+				}
+
+				// Check if the amount of filled exits is equal than the size of the exitsNeeded vector as well as the total exits of the room.
+				// If it is, add to results.
+				if (doorsFilledN == exitsNeeded.size() && doorsFilledN == roomExitsN) {
+					results.push_back(i);
+				}
+			}
+
+			// NOTE: In the case the tests above didn't find any rooms that met the condition, it will reattempt as a safety net.
+			// It is missing implementation to restart the floor generation process from scratch: if the algorithm above doesn't find
+			// any results, it means that none of the rooms in the files will ever fill that space properly, so it must restart
+			// in order to not get stuck.
+
+		}
+	}
+
+	std::random_device rd; // obtain a random number from hardware
+	std::mt19937 gen(rd()); // seed the generator
+	std::uniform_int_distribution<> distr(0, results.size() - 1); // define the range
+
+	int randomRoom = distr(gen);
+	return new DungeonRoom{ *results[randomRoom] };
 }
 
 DungeonRoom* RoomStorage::GetRandomBossRoom(char exit) {

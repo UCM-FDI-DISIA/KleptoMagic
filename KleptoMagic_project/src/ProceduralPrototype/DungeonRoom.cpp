@@ -97,10 +97,16 @@ char DungeonRoom::getRandomUnusedExit() {
 	if (doorD && !linkD) availableExits.push_back('D');
 	if (doorL && !linkL) availableExits.push_back('L');
 	if (doorR && !linkR) availableExits.push_back('R');
-	int minNum = 0;
-	int maxNum = availableExits.size() - 1;
-	int randomRoom = rand() % (maxNum - minNum + 1) + minNum;
-	return availableExits[randomRoom];
+	
+	if (availableExits.size() > 0) {
+		int minNum = 0;
+		int maxNum = availableExits.size() - 1;
+		int randomExit = rand() % (maxNum - minNum + 1) + minNum;
+		return availableExits[randomExit];
+	}
+	else {
+		return '-';
+	}
 }
 
 void DungeonRoom::printLayoutTiles() {

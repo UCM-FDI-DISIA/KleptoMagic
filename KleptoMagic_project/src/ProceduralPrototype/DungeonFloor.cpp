@@ -26,10 +26,10 @@ void DungeonFloor::GenerateFloor() {
 
 	// Randomly choose the height and width of the dungeon floor
 
-	int minWidth = 10;
-	int minHeight = 10;
-	int maxWidth = 20;
-	int maxHeight = 20;
+	int minWidth = 20;
+	int minHeight = 20;
+	int maxWidth = 30;
+	int maxHeight = 30;
 
 	std::random_device rd; // obtain a random number from hardware
 	std::mt19937 gen(rd()); // seed the generator
@@ -42,7 +42,7 @@ void DungeonFloor::GenerateFloor() {
 	cout << "FLOOR SIZE: " << floor_width << " " << floor_height << endl << endl;
 
 	// Set number of rooms to generate before boss room
-	int roomsToGenerate = 10;
+	int roomsToGenerate = 50;
 
 	// Instantiate the room matrix
 	floorLayout = vector<vector<DungeonRoom*>>(floor_width, vector<DungeonRoom*>(floor_height, 0));
@@ -71,143 +71,153 @@ void DungeonFloor::GenerateFloor() {
 
 	// STEP 2: Generate a fixed amount of regular rooms charting a random path towards a boss room
 
-	for (int i = 0; i < roomsToGenerate; i++) {
+	bool hasReachedGoal = false;
+	while (!hasReachedGoal) {
+		for (int i = 0; i < roomsToGenerate; i++) {
 
-		cout << "GENERATING ROOM #" << i << endl << endl;
+			cout << "GENERATING ROOM #" << i << endl << endl;
 
-		// Define the location of the next room based on the exits and location of the current one.
-		cout << "CURRENT ROOM: "
-			<< CurrentRoomX << " "
-			<< CurrentRoomY << " "
-			<< floorLayout[CurrentRoomX][CurrentRoomY]->getName() << " "
-			<< floorLayout[CurrentRoomX][CurrentRoomY]->getAmountOfExits() << endl;
+			// Define the location of the next room based on the exits and location of the current one.
+			cout << "CURRENT ROOM: "
+				<< CurrentRoomX << " "
+				<< CurrentRoomY << " "
+				<< floorLayout[CurrentRoomX][CurrentRoomY]->getName() << " "
+				<< floorLayout[CurrentRoomX][CurrentRoomY]->getAmountOfExits() << endl;
 
-		CurrentRoomExit = floorLayout[CurrentRoomX][CurrentRoomY]->getRandomUnusedExit();
-		if (CurrentRoomExit == 'U') {
-			TargetRoomX = CurrentRoomX - 1;
-		}
-		else if (CurrentRoomExit == 'D') {
-			TargetRoomX = CurrentRoomX + 1;
-		}
-		else if (CurrentRoomExit == 'L') {
-			TargetRoomY = CurrentRoomY - 1;
-		}
-		else if (CurrentRoomExit == 'R') {
-			TargetRoomY = CurrentRoomY + 1;
-		}
+			CurrentRoomExit = floorLayout[CurrentRoomX][CurrentRoomY]->getRandomUnusedExit();
+			if (CurrentRoomExit == 'U') {
+				TargetRoomX = CurrentRoomX - 1;
+			}
+			else if (CurrentRoomExit == 'D') {
+				TargetRoomX = CurrentRoomX + 1;
+			}
+			else if (CurrentRoomExit == 'L') {
+				TargetRoomY = CurrentRoomY - 1;
+			}
+			else if (CurrentRoomExit == 'R') {
+				TargetRoomY = CurrentRoomY + 1;
+			}
+			else if (CurrentRoomExit == '-') {
+				break;
+			}
 
-		cout << "CHOSEN ROOM EXIT: " 
-			<< CurrentRoomExit << endl;
-		cout << "TARGET ROOM LOCATION: "
-			<< TargetRoomX << " " << TargetRoomY << endl;
+			cout << "CHOSEN ROOM EXIT: "
+				<< CurrentRoomExit << endl;
+			cout << "TARGET ROOM LOCATION: "
+				<< TargetRoomX << " " << TargetRoomY << endl;
 
-		// Find out what exits need to be filled at the location the new room will be on, based on adjacent rooms and what exits they have.
-		vector<char> exitsToConnect = ExitsToFillForSpace(TargetRoomX, TargetRoomY);
-		cout << "EXITS THAT NEED TO BE FILLED: ";
-		for (auto i : exitsToConnect) {
-			cout << i;
-		}
-		cout << endl;
-		if (exitsToConnect.size() > 1) {
-			cout << "THIS ROOM NEEDS TO FILL MORE THAN ONE EXIT!!!!!" << endl;
-		}
+			// Find out what exits need to be filled at the location the new room will be on, based on adjacent rooms and what exits they have.
+			vector<char> exitsToConnect = ExitsToFillForSpace(TargetRoomX, TargetRoomY);
+			cout << "EXITS THAT NEED TO BE FILLED: ";
+			for (auto i : exitsToConnect) {
+				cout << i;
+			}
+			cout << endl;
+			if (exitsToConnect.size() > 1) {
+				cout << "THIS ROOM NEEDS TO FILL MORE THAN ONE EXIT!!!!!" << endl;
+			}
 
-		// Define what exits the new room can't have, based on other rooms adjacent to the target location for the new room, 
-		// or if it would exit out of the matrix (floor map) limits.
-		// When looking for blacklisted exits, look in all four directions, as even the previous room should be accounted for 
-		// in the blacklist (as a safety net)
-		vector<char> blacklistedExits = CheckSpaceAroundRoom(TargetRoomX, TargetRoomY);
-		cout << "OCCUPIED SPACE, NO NEW EXITS HERE: ";
-		for (auto i : blacklistedExits) {
-			cout << i;
-		}
-		cout << endl;
+			// Define what exits the new room can't have, based on other rooms adjacent to the target location for the new room, 
+			// or if it would exit out of the matrix (floor map) limits.
+			// When looking for blacklisted exits, look in all four directions, as even the previous room should be accounted for 
+			// in the blacklist (as a safety net)
+			vector<char> blacklistedExits = CheckSpaceAroundRoom(TargetRoomX, TargetRoomY);
+			cout << "OCCUPIED SPACE, NO NEW EXITS HERE: ";
+			for (auto i : blacklistedExits) {
+				cout << i;
+			}
+			cout << endl;
 
-		// Choose a random regular room that meets the defined criteria and place it at the target location
-		floorLayout[TargetRoomX][TargetRoomY] = roomstorage->GetRandomRegularRoom(exitsToConnect, blacklistedExits);;
+			// Choose a random regular room that meets the defined criteria and place it at the target location
+			floorLayout[TargetRoomX][TargetRoomY] = roomstorage->GetRandomRegularRoom(exitsToConnect, blacklistedExits);
 
-		cout << "NEW ROOM: "
-			<< TargetRoomX << " "
-			<< TargetRoomY << " "
-			<< floorLayout[TargetRoomX][TargetRoomY]->getName() << " "
-			<< floorLayout[TargetRoomX][TargetRoomY]->getAmountOfExits() << endl;
+			cout << "NEW ROOM: "
+				<< TargetRoomX << " "
+				<< TargetRoomY << " "
+				<< floorLayout[TargetRoomX][TargetRoomY]->getName() << " "
+				<< floorLayout[TargetRoomX][TargetRoomY]->getAmountOfExits() << endl;
 
-		// Link the exit of the previous room up with the new room
-		// UNNECESSARY: code below links all exits now
-		/*
-		if (CurrentRoomExit == 'U') {
-			floorLayout[CurrentRoomX][CurrentRoomY]->linkU = true;
-			floorLayout[TargetRoomX][TargetRoomY]->linkD = true;
-		}
-		else if (CurrentRoomExit == 'D') {
-			floorLayout[CurrentRoomX][CurrentRoomY]->linkD = true;
-			floorLayout[TargetRoomX][TargetRoomY]->linkU = true;
-		}
-		else if (CurrentRoomExit == 'L') {
-			floorLayout[CurrentRoomX][CurrentRoomY]->linkL = true;
-			floorLayout[TargetRoomX][TargetRoomY]->linkR = true;
-		}
-		else if (CurrentRoomExit == 'R') {
-			floorLayout[CurrentRoomX][CurrentRoomY]->linkR = true;
-			floorLayout[TargetRoomX][TargetRoomY]->linkL = true;
-		}
-		*/
+			// Link the exit of the previous room up with the new room
+			// UNNECESSARY: code below links all exits now
+			/*
+			if (CurrentRoomExit == 'U') {
+				floorLayout[CurrentRoomX][CurrentRoomY]->linkU = true;
+				floorLayout[TargetRoomX][TargetRoomY]->linkD = true;
+			}
+			else if (CurrentRoomExit == 'D') {
+				floorLayout[CurrentRoomX][CurrentRoomY]->linkD = true;
+				floorLayout[TargetRoomX][TargetRoomY]->linkU = true;
+			}
+			else if (CurrentRoomExit == 'L') {
+				floorLayout[CurrentRoomX][CurrentRoomY]->linkL = true;
+				floorLayout[TargetRoomX][TargetRoomY]->linkR = true;
+			}
+			else if (CurrentRoomExit == 'R') {
+				floorLayout[CurrentRoomX][CurrentRoomY]->linkR = true;
+				floorLayout[TargetRoomX][TargetRoomY]->linkL = true;
+			}
+			*/
 
-		// Link all exits of the new room that connect to other rooms, including the previous one
-		int x = TargetRoomX;
-		int y = TargetRoomY;
-		vector<char> exits = exitsToConnect;
-		DungeonRoom* currentRoom = nullptr;
-		for (auto i : exits) {
-			// Room above
-			if (i == 'U') {
-				currentRoom = floorLayout[x - 1][y];
-				if (floorLayout[x - 1][y] != nullptr) {
-					floorLayout[x - 1][y]->linkD = true;
-					floorLayout[x][y]->linkU = true;
+			// Link all exits of the new room that connect to other rooms, including the previous one
+			int x = TargetRoomX;
+			int y = TargetRoomY;
+			vector<char> exits = exitsToConnect;
+			DungeonRoom* currentRoom = nullptr;
+			for (auto i : exits) {
+				// Room above
+				if (i == 'U') {
+					currentRoom = floorLayout[x - 1][y];
+					if (floorLayout[x - 1][y] != nullptr) {
+						floorLayout[x - 1][y]->linkD = true;
+						floorLayout[x][y]->linkU = true;
+					}
+				}
+				// Room below
+				if (i == 'D') {
+					currentRoom = floorLayout[x + 1][y];
+					if (floorLayout[x + 1][y] != nullptr) {
+						floorLayout[x + 1][y]->linkU = true;
+						floorLayout[x][y]->linkD = true;
+					}
+				}
+				// Room left
+				if (i == 'L') {
+					currentRoom = floorLayout[x][y - 1];
+					if (floorLayout[x][y - 1] != nullptr) {
+						floorLayout[x][y - 1]->linkR = true;
+						floorLayout[x][y]->linkL = true;
+					}
+				}
+				// Room right
+				if (i == 'R') {
+					currentRoom = floorLayout[x][y + 1];
+					if (floorLayout[x][y + 1] != nullptr) {
+						floorLayout[x][y + 1]->linkL = true;
+						floorLayout[x][y]->linkR = true;
+					}
 				}
 			}
-			// Room below
-			if (i == 'D') {
-				currentRoom = floorLayout[x + 1][y];
-				if (floorLayout[x + 1][y] != nullptr) {
-					floorLayout[x + 1][y]->linkU = true;
-					floorLayout[x][y]->linkD = true;
-				}
-			}
-			// Room left
-			if (i == 'L') {
-				currentRoom = floorLayout[x][y - 1];
-				if (floorLayout[x][y - 1] != nullptr) {
-					floorLayout[x][y - 1]->linkR = true;
-					floorLayout[x][y]->linkL = true;
-				}
-			}
-			// Room right
-			if (i == 'R') {
-				currentRoom = floorLayout[x][y + 1];
-				if (floorLayout[x][y + 1] != nullptr) {
-					floorLayout[x][y + 1]->linkL = true;
-					floorLayout[x][y]->linkR = true;
-				}
+
+			cout << "DOOR LINKAGE: "
+				<< floorLayout[CurrentRoomX][CurrentRoomY]->linkU << " "
+				<< floorLayout[CurrentRoomX][CurrentRoomY]->linkD << " "
+				<< floorLayout[CurrentRoomX][CurrentRoomY]->linkL << " "
+				<< floorLayout[CurrentRoomX][CurrentRoomY]->linkR << " | "
+				<< floorLayout[TargetRoomX][TargetRoomY]->linkU << " "
+				<< floorLayout[TargetRoomX][TargetRoomY]->linkD << " "
+				<< floorLayout[TargetRoomX][TargetRoomY]->linkL << " "
+				<< floorLayout[TargetRoomX][TargetRoomY]->linkR << endl;
+
+			// Update the values for the current room location for the next iteration
+			CurrentRoomX = TargetRoomX;
+			CurrentRoomY = TargetRoomY;
+
+			PrintFloorLayout_Detailed();
+
+			if (i + 1 == roomsToGenerate) {
+				hasReachedGoal = true;
 			}
 		}
-
-		cout << "DOOR LINKAGE: "
-			<< floorLayout[CurrentRoomX][CurrentRoomY]->linkU << " "
-			<< floorLayout[CurrentRoomX][CurrentRoomY]->linkD << " "
-			<< floorLayout[CurrentRoomX][CurrentRoomY]->linkL << " "
-			<< floorLayout[CurrentRoomX][CurrentRoomY]->linkR << " | "
-			<< floorLayout[TargetRoomX][TargetRoomY]->linkU << " "
-			<< floorLayout[TargetRoomX][TargetRoomY]->linkD << " "
-			<< floorLayout[TargetRoomX][TargetRoomY]->linkL << " "
-			<< floorLayout[TargetRoomX][TargetRoomY]->linkR << endl;
-
-		// Update the values for the current room location for the next iteration
-		CurrentRoomX = TargetRoomX;
-		CurrentRoomY = TargetRoomY;
-
-		PrintFloorLayout_Detailed();
 	}
 
 	// STEP 3: Locate all possible positions at which special rooms and the boss room need can be placed.
@@ -257,7 +267,22 @@ void DungeonFloor::GenerateFloor() {
 	cout << endl;
 
 	// Place in rooms at the locations based on what exits they need to fill.
-	for (auto i : locations);
+	for (auto i : locations) {
+		// Find out what exits need to be filled at the location the new room will be on, based on adjacent rooms and what exits they have.
+		vector<char> exitsToConnect = ExitsToFillForSpace(i.x, i.y);
+		cout << "EXITS THAT NEED TO BE FILLED: ";
+		for (auto j : exitsToConnect) {
+			cout << j;
+		}
+		cout << endl;
+		if (exitsToConnect.size() > 1) {
+			cout << "THIS ROOM NEEDS TO FILL MORE THAN ONE EXIT!!!!!" << endl;
+		}
+
+		floorLayout[i.x][i.y] = roomstorage->GetRandomSpecialRoom(exitsToConnect);
+
+		PrintFloorLayout_Detailed();
+	}
 
 	/*
 	for (auto i : locations) {

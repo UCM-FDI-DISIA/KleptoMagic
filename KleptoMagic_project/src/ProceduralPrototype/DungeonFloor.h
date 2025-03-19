@@ -29,6 +29,8 @@ private:
 	// Pointer to room storage
 	RoomStorage* roomstorage;
 public:
+	// Used to indicate when a fail has happened during generation
+	bool badGen;
 	DungeonFloor(RoomStorage* roomstorage);
 	~DungeonFloor();
 	virtual void render() const;
