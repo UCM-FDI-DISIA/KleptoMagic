@@ -68,18 +68,13 @@ void DungeonFloor::GenerateFloor() {
 
 	PrintFloorLayout_Simple();
 
-	// STEP 2: Generate a fixed amount of rooms charting a path towards a boss room
+	// STEP 2: Generate a fixed amount of regular rooms charting a random path towards a boss room
 
 	for (int i = 0; i < roomsToGenerate; i++) {
-		
-		// Define the location of the next room based on the exits of the current one.
-		// Find out what exits need to be filled at the location the new room will be on, based on adjacent rooms and what exits they have.
-		// Then, define what exits the new room can't have, based on other rooms adjacent to the target location for the new room, 
-		// or if it would exit out of the matrix's limits.
-		// When looking for blacklisted exits, look in all four directions, as even the previous room should be accounted for in the blacklist (as a safety net)
 
 		cout << "GENERATING ROOM #" << i << endl << endl;
 
+		// Define the location of the next room based on the exits and location of the current one.
 		cout << "CURRENT ROOM: "
 			<< CurrentRoomX << " "
 			<< CurrentRoomY << " "
@@ -105,6 +100,7 @@ void DungeonFloor::GenerateFloor() {
 		cout << "TARGET ROOM LOCATION: "
 			<< TargetRoomX << " " << TargetRoomY << endl;
 
+		// Find out what exits need to be filled at the location the new room will be on, based on adjacent rooms and what exits they have.
 		vector<char> exitsToConnect = ExitsToFillForSpace(TargetRoomX, TargetRoomY);
 		cout << "EXITS THAT NEED TO BE FILLED: ";
 		for (auto i : exitsToConnect) {
@@ -115,6 +111,10 @@ void DungeonFloor::GenerateFloor() {
 			cout << "THIS ROOM NEEDS TO FILL MORE THAN ONE EXIT!!!!!" << endl;
 		}
 
+		// Define what exits the new room can't have, based on other rooms adjacent to the target location for the new room, 
+		// or if it would exit out of the matrix (floor map) limits.
+		// When looking for blacklisted exits, look in all four directions, as even the previous room should be accounted for 
+		// in the blacklist (as a safety net)
 		vector<char> blacklistedExits = CheckSpaceAroundRoom(TargetRoomX, TargetRoomY);
 		cout << "OCCUPIED SPACE, NO NEW EXITS HERE: ";
 		for (auto i : blacklistedExits) {
@@ -122,6 +122,7 @@ void DungeonFloor::GenerateFloor() {
 		}
 		cout << endl;
 
+		// Choose a random regular room that meets the defined criteria and place it at the target location
 		floorLayout[TargetRoomX][TargetRoomY] = roomstorage->GetRandomRegularRoom(exitsToConnect, blacklistedExits);;
 
 		cout << "NEW ROOM: "
@@ -130,7 +131,9 @@ void DungeonFloor::GenerateFloor() {
 			<< floorLayout[TargetRoomX][TargetRoomY]->getName() << " "
 			<< floorLayout[TargetRoomX][TargetRoomY]->getAmountOfExits() << endl;
 
-		// Link the exit of the previous room up
+		// Link the exit of the previous room up with the new room
+		// UNNECESSARY: code below links all exits now
+		/*
 		if (CurrentRoomExit == 'U') {
 			floorLayout[CurrentRoomX][CurrentRoomY]->linkU = true;
 			floorLayout[TargetRoomX][TargetRoomY]->linkD = true;
@@ -147,14 +150,13 @@ void DungeonFloor::GenerateFloor() {
 			floorLayout[CurrentRoomX][CurrentRoomY]->linkR = true;
 			floorLayout[TargetRoomX][TargetRoomY]->linkL = true;
 		}
+		*/
 
-		// Link all the exits that needed to be filled by the new room
-		
+		// Link all exits of the new room that connect to other rooms, including the previous one
 		int x = TargetRoomX;
 		int y = TargetRoomY;
 		vector<char> exits = exitsToConnect;
 		DungeonRoom* currentRoom = nullptr;
-
 		for (auto i : exits) {
 			// Room above
 			if (i == 'U') {
@@ -200,6 +202,7 @@ void DungeonFloor::GenerateFloor() {
 			<< floorLayout[TargetRoomX][TargetRoomY]->linkL << " "
 			<< floorLayout[TargetRoomX][TargetRoomY]->linkR << endl;
 
+		// Update the values for the current room location for the next iteration
 		CurrentRoomX = TargetRoomX;
 		CurrentRoomY = TargetRoomY;
 
