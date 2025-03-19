@@ -36,6 +36,8 @@ const string textureRoot = "../KleptoMagic_project/resources/images/";
 const array<TextureSpec, Game::NUM_TEXTURES> textureSpec{
 	TextureSpec{"background-provisional.png", 1, 1},
 	TextureSpec{"play-button.png", 1, 1},
+	TextureSpec{"endmenu-provisional.png", 1, 1},
+	TextureSpec{"return-button.png", 1, 1},
 	TextureSpec{"player_placeholder.png",1,1}
 };
 
@@ -96,6 +98,10 @@ bool Game::init() {
 	playstate = new PlayState(this); //se fue a su metodo propio
 
 	_inputManager = new InputManager();
+	mainmenu = new MainMenuState(this, textures[Game::MAINMENUBACKGROUND]);
+	GameStateMachine::pushState(mainmenu);
+	//GameStateMachine::pushState(playstate);
+
 	//mainmenu = new MainMenuState(this, textures[Game::BACKGROUND]);
 	//GameStateMachine::pushState(mainmenu);
 	GameStateMachine::pushState(playstate);
@@ -157,6 +163,18 @@ void Game::start() {
 		Uint32 startTime = vt.regCurrTime();
 		ihdlr.refresh();
 
+/*
+		//SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
+
+		SDL_Event evento;
+		GameStateMachine::handleEvent(evento);
+		while (SDL_PollEvent(&evento)) {
+			if (evento.type == SDL_QUIT)
+				exit = true;
+			else {
+				GameStateMachine::handleEvent(evento);
+			}
+*/
 		if (ihdlr.isKeyDown(SDL_SCANCODE_ESCAPE)) {
 			exit = true;
 			continue;
@@ -260,6 +278,12 @@ void Game::start() {
 //	GameStateMachine::pushState(mainmenu);
 //}
 //
+/*void Game::stateMainMenu() {
+	GameStateMachine::popState();
+	mainmenu = new MainMenuState(this, textures[Game::MAINMENUBACKGROUND]); //se puede comentar y ver si va
+	GameStateMachine::pushState(mainmenu);
+}*/
+
 //void Game::stateAnimation(function<bool()> funcAnim) {
 //	animationstate = new AnimationState(this, playstate, funcAnim);
 //	GameStateMachine::pushState(animationstate);
