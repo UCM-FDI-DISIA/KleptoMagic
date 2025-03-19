@@ -1,0 +1,24 @@
+{
+
+  "fonts": [
+    {
+      "id": "ARIAL24",
+      "file": "resources/fonts/ARIAL.ttf",
+      "size": 24
+    }
+  ],
+  
+  "images" : [
+  
+  ],
+  
+  "messages" : [
+  ],
+  
+  "sounds" : [
+  ],
+
+  "musics" : [
+  ]
+
+}
