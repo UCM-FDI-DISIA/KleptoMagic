@@ -40,7 +40,7 @@ namespace ecs
 				auto vector = static_cast<SlimeVectorComponent*>(_ent->getMngr()->getComponent<SlimeVectorComponent>(_ent));
 				auto stat = static_cast<SlimeStatComponent*>(_ent->getMngr()->getComponent<SlimeStatComponent>(_ent));
 				auto _transform = static_cast<Transform*>(_ent->getMngr()->getComponent<Transform>(_ent));
-				auto _player = static_cast<Transform*>(_ent->getMngr()->getComponent<Transform>(player));
+				
 				if (vector && stat && _transform)
 				{
 					vector->CreateVector(_transform->getPos(), _player->getPos());
@@ -50,32 +50,41 @@ namespace ecs
 		
 		}
 	};
+	class CollideComponent : public Component 
+	{
+
+	};
+	class RenderComponent : public Component 
+	{
+		
+	};
+
+
 	class SlimeAttackComponent : public Component
 	{
 	public:
 		Entity* player = nullptr;
-		float attackcooldown;
+		float attackCooldown;
 		std::chrono::steady_clock::time_point lastAttackTime = std::chrono::steady_clock::now();
-		void update() override 
+		void update() override
 		{
-			
+
 
 			auto stat = static_cast<SlimeStatComponent*>(_ent->getMngr()->getComponent<SlimeStatComponent>(_ent));
 			auto _transform = static_cast<Transform*>(_ent->getMngr()->getComponent<Transform>(_ent));
 			auto _player = static_cast<Transform*>(_ent->getMngr()->getComponent<Transform>(player));
-			attackcooldown = 10 - stat->attackspeed;
+			attackCooldown = 10 - stat->attackspeed;
 			auto now = std::chrono::steady_clock::now();
 			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
 
-			if (elapsedTime >= attackCooldown) 
+			if (elapsedTime >= attackCooldown)
 			{
-					
-					lastAttackTime = now;
+				lastAttackTime = now;
 			}
-			
-			
+
+
 		}
-		
+
 
 
 	};
