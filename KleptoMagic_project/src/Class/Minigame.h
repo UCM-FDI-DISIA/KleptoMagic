@@ -3,6 +3,7 @@
 #include "TimerCountdown.h"
 // #include Input header
 #include <vector>
+#include <SDL.h>
 
 class Minigame {
 public:
@@ -12,6 +13,8 @@ public:
 	void end();                          // Resets Timer's speed multiplier (Should also switch scenes)
 	void minigameLogic(float deltaTime); // Runs minigame
     bool attemptPick();                  // Player attempts to stop the lockpick
+
+    void render(SDL_Renderer* mainGameRenderer); // Visual renderization
 
 private:
 	TimerCountdown& gameTimer;
@@ -25,4 +28,6 @@ private:
     bool quitMinigame;                   // Giving up, no rewards
 
     int calculatePenalty(int position);  // Calculates penalty based on the lockpicks's position in the hole
+
+    SDL_Renderer* mainRenderer;
 };

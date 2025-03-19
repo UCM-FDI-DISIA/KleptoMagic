@@ -1,6 +1,7 @@
 #include "Minigame.h"
 #include <chrono>
 #include <cmath>
+#include <SDL.h>
 
 Minigame::Minigame(TimerCountdown& timer, int vectorSize, int holeStart, int holeSize, float frequency) :
 					gameTimer(timer), lockVector(vectorSize, -1 /*Wall*/), holeStart(holeStart), holeSize(holeSize), lockpickPosition(0), frequency(frequency), elapsedTime(0), running(false) {}
@@ -14,6 +15,7 @@ void Minigame::start() {
 	running = true;
 
 	gameTimer.setSpeedMultiplier(2.0);
+	render(mainRenderer);
 }
 
 void Minigame::end() {
@@ -21,7 +23,8 @@ void Minigame::end() {
 		// Script for rewards
 	}
 	gameTimer.setSpeedMultiplier(1.0);
-	// Script for changing scenes
+
+
 }
 
 void Minigame::minigameLogic(float deltaTime) {
@@ -29,14 +32,14 @@ void Minigame::minigameLogic(float deltaTime) {
 		end();
 	}
 	
-	if (/*InputManager "Left Click" (Maybe?)*/) {
-		attemptPick();
-	}
+	//if (/*InputManager "Left Click" (Maybe?)*/) {
+	//	attemptPick();
+	//}
 
-	if (/*InputManager "Esc" (Maybe?)*/) {
-		quitMinigame = true;
-		running = false;													   // End Minigame
-	}	
+	//if (/*InputManager "Esc" (Maybe?)*/) {
+	//	quitMinigame = true;
+	//	running = false;													   // End Minigame
+	//}	
 
 	elapsedTime += deltaTime;
 
@@ -45,6 +48,7 @@ void Minigame::minigameLogic(float deltaTime) {
 		lockpickPosition = (lockpickPosition + 1) % lockVector.size();         // Advance lockpickPosition and loops it back if needed
 	}
 
+	render(mainRenderer);
 }
 
 bool Minigame::attemptPick() {
@@ -71,4 +75,8 @@ int Minigame::calculatePenalty(int position) {
 	int maxDistance = holeSize / 2;
 	
 	return 9 * distanceFromCenter / maxDistance;                               // Calculates penalty time < 10, being 0 if on the exact center
+}
+
+void Minigame::render(SDL_Renderer* mainGameRenderer) {
+
 }

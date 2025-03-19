@@ -10,7 +10,7 @@ void TimerCountdown::update() {
     if (!paused) {
         auto now = std::chrono::steady_clock::now();
         getTimeLeft();    // This is an int, can be used to show on UI
-        if (isFinished) {
+        if (isFinished()) {
             // Script to activate boss? Trap? Idk
         }
     }
