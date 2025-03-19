@@ -368,7 +368,10 @@ void DungeonFloor::PrintFloorLayout_Simple() {
 	for (int i = 0; i < floor_width; i++) {
 		for (int j = 0; j < floor_height; j++) {
 			if (floorLayout[i][j] != nullptr) {
-				cout << "R";
+				if (floorLayout[i][j]->getType() == roomType::ENTRANCE) cout << "E";
+				else if (floorLayout[i][j]->getType() == roomType::REGULAR) cout << "R";
+				else if (floorLayout[i][j]->getType() == roomType::SPECIAL) cout << "S";
+				else if (floorLayout[i][j]->getType() == roomType::BOSS) cout << "B";
 			}
 			else cout << "+";
 		}
@@ -392,7 +395,11 @@ void DungeonFloor::PrintFloorLayout_Detailed() {
 
 			if (floorLayout[i][j] != nullptr) {
 				// center of room
-				render_matrix[sp_i + 1]	[sp_j + 1]	= '+';
+
+				if (floorLayout[i][j]->getType() == roomType::ENTRANCE)		render_matrix[sp_i + 1][sp_j + 1] = 'E';
+				else if (floorLayout[i][j]->getType() == roomType::REGULAR) render_matrix[sp_i + 1][sp_j + 1] = 'R';
+				else if (floorLayout[i][j]->getType() == roomType::SPECIAL) render_matrix[sp_i + 1][sp_j + 1] = 'S';
+				else if (floorLayout[i][j]->getType() == roomType::BOSS)	render_matrix[sp_i + 1][sp_j + 1] = 'B';
 
 				// corners of room
 				/*

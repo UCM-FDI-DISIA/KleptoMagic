@@ -15,7 +15,7 @@ private:
 	// Name of the room
 	string room_name; 
 	// Roon type
-	roomType roomtype;
+	roomType room_type;
 	// Tile matrix for the room
 	vector<vector<char>> roomTiles; 
 	// Spawns matrix for the room (objects and entities to be spawned in the room on first load)
@@ -50,6 +50,8 @@ public:
 	int getHeight() { return room_height; };
 	// Returns room name
 	string getName() { return room_name; };
+	// Returns room type
+	roomType getType() { return room_type; }
 
 	// Returns doorU
 	bool hasExitUp() { return doorU; };
@@ -59,7 +61,6 @@ public:
 	bool hasExitLeft() { return doorL; };
 	// Returns doorR
 	bool hasExitRight() { return doorR; };
-
 
 	// Returns lockU
 	bool isLockedUp() { return lockU; };
