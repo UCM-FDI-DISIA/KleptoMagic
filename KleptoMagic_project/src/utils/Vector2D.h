@@ -5,6 +5,7 @@
 #include <cassert>
 #include <cmath>
 #include <ostream>
+#include "../ecs/Component.h"
 
 /*
  * A class implementing a 2-dimensional vector and corresponding
@@ -13,8 +14,9 @@
  * modify the state are the different setters (and operator=).
  *
  */
-class Vector2D {
+class Vector2D : public ecs::Component {
 public:
+	__CMPID_DECL__(ecs::cmp::VECTOR2D);
 
 	// various constructors
 	Vector2D() noexcept :
@@ -143,6 +145,7 @@ public:
 		return _x >= x0 && _x <= x2 && _y >= y0 && _y <= y1;
 	}
 private:
+	void createStart();
 	float _x;  // first coordinate
 	float _y;  // second coordinate
 };
