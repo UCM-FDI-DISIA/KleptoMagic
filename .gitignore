@@ -403,9 +403,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-# CMake
-CMakeLists.txt
-
 # VS Code
 .vscode/*
 .vscode/launch.json
