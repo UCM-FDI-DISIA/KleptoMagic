@@ -149,9 +149,7 @@ void DungeonFloor::GenerateFloor() {
 		}
 
 		// Link all the exits that needed to be filled by the new room
-		//LinkExitsAtPosition(TargetRoomX, TargetRoomY, exitsToConnect);
 		
-
 		int x = TargetRoomX;
 		int y = TargetRoomY;
 		vector<char> exits = exitsToConnect;
@@ -163,6 +161,7 @@ void DungeonFloor::GenerateFloor() {
 				currentRoom = floorLayout[x - 1][y];
 				if (floorLayout[x - 1][y] != nullptr) {
 					floorLayout[x - 1][y]->linkD = true;
+					floorLayout[x][y]->linkU = true;
 				}
 			}
 			// Room below
@@ -170,6 +169,7 @@ void DungeonFloor::GenerateFloor() {
 				currentRoom = floorLayout[x + 1][y];
 				if (floorLayout[x + 1][y] != nullptr) {
 					floorLayout[x + 1][y]->linkU = true;
+					floorLayout[x][y]->linkD = true;
 				}
 			}
 			// Room left
@@ -177,6 +177,7 @@ void DungeonFloor::GenerateFloor() {
 				currentRoom = floorLayout[x][y - 1];
 				if (floorLayout[x][y - 1] != nullptr) {
 					floorLayout[x][y - 1]->linkR = true;
+					floorLayout[x][y]->linkL = true;
 				}
 			}
 			// Room right
@@ -184,6 +185,7 @@ void DungeonFloor::GenerateFloor() {
 				currentRoom = floorLayout[x][y + 1];
 				if (floorLayout[x][y + 1] != nullptr) {
 					floorLayout[x][y + 1]->linkL = true;
+					floorLayout[x][y]->linkR = true;
 				}
 			}
 		}
@@ -200,12 +202,6 @@ void DungeonFloor::GenerateFloor() {
 
 		CurrentRoomX = TargetRoomX;
 		CurrentRoomY = TargetRoomY;
-
-		/*
-		cout << CurrentRoomX << " " << CurrentRoomY << " " << CurrentRoomExit << endl;
-		cout << newRoom->getName() << " " << newRoom->getAmountOfExits() << endl;
-		cout << "--------------" << endl;
-		*/
 
 		PrintFloorLayout_Detailed();
 	}

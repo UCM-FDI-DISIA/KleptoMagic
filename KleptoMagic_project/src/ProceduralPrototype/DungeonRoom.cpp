@@ -6,7 +6,7 @@
 
 #include "./../utils/StringUtils.h"
 
-DungeonRoom::DungeonRoom(string filename)
+DungeonRoom::DungeonRoom(string filename, roomType type) : roomtype(type)
 {
 	cout << "CREATING ROOM: " << filename << endl;
 

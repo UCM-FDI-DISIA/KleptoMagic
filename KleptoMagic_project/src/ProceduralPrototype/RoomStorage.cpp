@@ -86,33 +86,11 @@ DungeonRoom* RoomStorage::GetRandomRegularRoom(vector<char> exitsNeeded, vector<
 			}
 
 			// NOTE: In the case the tests above didn't find any rooms that met the condition, it will reattempt as a safety net.
-			// It is missing implementation to restart the generation process from scratch: if the algorithm above doesn't find
-			// ANY results, it means that none of the rooms in the files will ever fill that space properly, so it must restart.
+			// It is missing implementation to restart the floor generation process from scratch: if the algorithm above doesn't find
+			// any results, it means that none of the rooms in the files will ever fill that space properly, so it must restart
+			// in order to not get stuck.
 
 		}
-		/*
-		for (auto i : RegularRooms) {
-			bool hasCorrectEntrance = false;
-			bool hasNoWrongExits = true;
-			for (auto j : exits) {
-				if (j == 'U' && i->hasExitDown()) hasCorrectEntrance = true;
-				else if (j == 'D' && i->hasExitUp()) hasCorrectEntrance = true;
-				else if (j == 'L' && i->hasExitRight()) hasCorrectEntrance = true;
-				else if (j == 'R' && i->hasExitLeft()) hasCorrectEntrance = true;
-
-				for (auto k : noExits) {
-					if (k == 'U' && i->hasExitUp() && j != 'D') hasNoWrongExits = false;
-					else if (k == 'D' && i->hasExitDown() && j != 'U') hasNoWrongExits = false;
-					else if (k == 'L' && i->hasExitLeft() && j != 'R') hasNoWrongExits = false;
-					else if (k == 'R' && i->hasExitRight() && j != 'L') hasNoWrongExits = false;
-				}
-			}
-
-			if (hasCorrectEntrance && hasNoWrongExits) {
-				results.push_back(i);
-			}
-		}
-		*/
 	}
 
 	std::random_device rd; // obtain a random number from hardware
@@ -123,22 +101,14 @@ DungeonRoom* RoomStorage::GetRandomRegularRoom(vector<char> exitsNeeded, vector<
 	return new DungeonRoom{ *results[randomRoom] };
 }
 
-DungeonRoom* RoomStorage::GetRandomBossRoom(char exit, vector<char> noExits) {
-	bool found = false;
-	DungeonRoom* result = nullptr;
-	while (!found) {
-		std::random_device rd; // obtain a random number from hardware
-		std::mt19937 gen(rd()); // seed the generator
-		std::uniform_int_distribution<> distr(0, BossRooms.size() - 1); // define the range
+DungeonRoom* RoomStorage::GetRandomRegularRoom(vector<char> exitsNeeded) {
+	// WIP
+	return nullptr;
+}
 
-		int randomRoom = distr(gen);
-		result = BossRooms[randomRoom];
-		if (exit == 'U' && result->hasExitUp()) found = true;
-		else if (exit == 'D' && result->hasExitDown()) found = true;
-		else if (exit == 'L' && result->hasExitLeft()) found = true;
-		else if (exit == 'R' && result->hasExitRight()) found = true;
-	}
-	return new DungeonRoom{ *result };
+DungeonRoom* RoomStorage::GetRandomBossRoom(char exit) {
+	// WIP
+	return nullptr;
 }
 
 void RoomStorage::readAllRoomFiles() 
@@ -154,7 +124,7 @@ void RoomStorage::readAllRoomFiles()
 	End = fs::directory_iterator{};
 	for (auto Iter{ Start }; Iter != End; ++Iter) {
 		//cout << Iter->path().string() << '\n';
-		DungeonRoom* room = new DungeonRoom(Iter->path().string());
+		DungeonRoom* room = new DungeonRoom(Iter->path().string(), roomType::ENTRANCE);
 		EntranceRooms.push_back(room);
 	}
 
@@ -163,8 +133,17 @@ void RoomStorage::readAllRoomFiles()
 	End = fs::directory_iterator{};
 	for (auto Iter{ Start }; Iter != End; ++Iter) {
 		//cout << Iter->path().string() << '\n';
-		DungeonRoom* room = new DungeonRoom(Iter->path().string());
+		DungeonRoom* room = new DungeonRoom(Iter->path().string(), roomType::REGULAR);
 		RegularRooms.push_back(room);
+	}
+
+	// Iterate through the SpecialRooms folder and create a DungeonRoom instance with each file
+	Start = fs::directory_iterator{ R"(.\src\ProceduralPrototype\rooms\SpecialRooms)" };
+	End = fs::directory_iterator{};
+	for (auto Iter{ Start }; Iter != End; ++Iter) {
+		//cout << Iter->path().string() << '\n';
+		DungeonRoom* room = new DungeonRoom(Iter->path().string(), roomType::SPECIAL);
+		SpecialRooms.push_back(room);
 	}
 
 	// Iterate through the BossRooms folder and create a DungeonRoom instance with each file
@@ -172,7 +151,7 @@ void RoomStorage::readAllRoomFiles()
 	End = fs::directory_iterator{};
 	for (auto Iter{ Start }; Iter != End; ++Iter) {
 		//cout << Iter->path().string() << '\n';
-		DungeonRoom* room = new DungeonRoom(Iter->path().string());
+		DungeonRoom* room = new DungeonRoom(Iter->path().string(), roomType::BOSS);
 		BossRooms.push_back(room);
 	}
 }

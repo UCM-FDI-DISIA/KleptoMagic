@@ -3,6 +3,8 @@
 #include "iostream"
 using namespace std;
 
+enum roomType { ENTRANCE, REGULAR, SPECIAL, BOSS };
+
 class DungeonRoom
 {
 private:
@@ -12,6 +14,8 @@ private:
 	int room_height;
 	// Name of the room
 	string room_name; 
+	// Roon type
+	roomType roomtype;
 	// Tile matrix for the room
 	vector<vector<char>> roomTiles; 
 	// Spawns matrix for the room (objects and entities to be spawned in the room on first load)
@@ -34,7 +38,8 @@ public:
 	// z -> room width (int)
 	// note: room shape must be an overall rectangle/square, if the actual room has an irregular shape
 	// then blank spaces are filled in later in the actual layout: this is the size of the whole thing
-	DungeonRoom(string filename);
+	// Room type must be included as an argument too: enum {ENTRANCE, REGULAR, SPECIAL, BOSS} so it can be identified easier
+	DungeonRoom(string filename, roomType type);
 	~DungeonRoom();
 	virtual void render() const;
 	virtual void update();
