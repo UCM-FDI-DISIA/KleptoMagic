@@ -9,6 +9,7 @@
 #include "../Class/Image.h"
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
+#include "../Class/Bullet.h"
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
 
@@ -27,6 +28,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
 	_mngr->addComponent<Image>(player, &sdlutils().images().at("player"));
 	_mngr->addComponent<PlayerCtrl>(player);
+	_mngr->addComponent<Bullet>(player);
 
 }
 	
