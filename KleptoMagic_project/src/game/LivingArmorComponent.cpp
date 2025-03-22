@@ -27,7 +27,7 @@ void LivingArmorComponent::update() {
     // Actualizar temporizador y cambiar dirección si es necesario
     timer_ += sdlutils().virtualTimer().currRealTime();
     if (timer_ >= directionChangeTime_) {
-        // Generar dirección aleatoria (ejemplo en 2D)
+        // Generar dirección aleatoria
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
@@ -36,16 +36,18 @@ void LivingArmorComponent::update() {
     }
 
     // Mover la entidad
-    Vector2D newPos = _armorTransform->getPos() + (currentDir_ * movementSpeed_ * Time::getDeltaTime());
+    Vector2D newPos = _armorTransform->getPos() + (currentDir_ * movementSpeed_ * sdlutils().virtualTimer().currRealTime());
     _armorTransform->getPos().set(newPos);
 }
 
+// Método para comprobar si la armadura es vulnerable a un ataque, osea si el ataque viene de atrás o de los lados, 
+// basado en el ángulo entre la dirección actual de la armadura y la dirección del atacante
 bool LivingArmorComponent::isVulnerable(const Vector2D& attackerPosition) const {
     // Calcular vector hacia el atacante
     Vector2D toAttacker = (attackerPosition - _armorTransform->getPos()).normalize();
 
     // Obtener la dirección actual de la armadura (hacia donde mira)
-    Vector2D forward = _armorTransform->getForward().normalize();
+    Vector2D forward = _armorTransform->getVel().normalize();
 
     // Calcular ángulo entre los vectores
     float dot = forward.getX() * toAttacker.getX() + forward.getY() * toAttacker.getY();
