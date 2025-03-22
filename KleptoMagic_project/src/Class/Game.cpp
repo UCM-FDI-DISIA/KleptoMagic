@@ -7,7 +7,7 @@
 #include "DummyState.h"
 #include "MainMenuState.h"
 #include "PlayState.h"
-#include "../sdlutils/InputHandler.h"
+#include "../sdlutils/NewInputHandler.h"
 
 //componentes :D
 #include "../ecs/Manager.h"
@@ -49,8 +49,8 @@ bool Game::init() {
 		return false;
 	}
 
-	if (!InputHandler::Init()) {
-		std::cerr << "Error inicializando InputHandler" << std::endl;
+	if (!NewInputHandler::Init()) {
+		std::cerr << "Error inicializando NewInputHandler" << std::endl;
 		return false;
 	}
 
@@ -140,8 +140,8 @@ Game::~Game() {
 	delete _mngr;
 
 	// release InputHandler if the instance was created correctly.
-	if (InputHandler::HasInstance())
-		InputHandler::Release();
+	//if (InputHandler::HasInstance())
+	//	InputHandler::Release();
 
 	// release SLDUtil if the instance was created correctly.
 	if (SDLUtils::HasInstance())
@@ -154,14 +154,16 @@ Game::~Game() {
 
 void Game::start() {
 	bool exit = false;
-	auto& ihdlr = ih();
+	//auto& ihdlr = ih();
 	auto& vt = sdlutils().virtualTimer();
 
 	vt.resetTime();
 
 	while (!exit) {
 		Uint32 startTime = vt.regCurrTime();
-		ihdlr.refresh();
+
+		NewInputHandler::Instance()->update();
+		//ihdlr.refresh();
 
 /*
 		//SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
@@ -175,10 +177,10 @@ void Game::start() {
 				GameStateMachine::handleEvent(evento);
 			}
 */
-		if (ihdlr.isKeyDown(SDL_SCANCODE_ESCAPE)) {
+		/*if (ihdlr.isKeyDown(SDL_SCANCODE_ESCAPE)) {
 			exit = true;
 			continue;
-		}
+		}*/
 
 		//std::cout << _state << std::endl;
 		_state->update();

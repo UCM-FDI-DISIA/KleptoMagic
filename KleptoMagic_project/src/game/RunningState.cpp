@@ -4,7 +4,7 @@
 #include "AsteroidsUtils.h"
 #include "../utils/Collisions.h"
 #include "../sdlutils/SDLUtils.h"
-#include "../sdlutils/InputHandler.h"
+#include "../sdlutils/NewInputHandler.h"
 #include "../Class/Transform.h"
 #include "../Class/Image.h"
 #include "../Class/MovementCtrl.h"
@@ -39,7 +39,7 @@ RunningState::~RunningState() {
 void RunningState::update() {
 	
 	bool exit = false;
-	auto& ihdlr = ih();
+	//auto& ihdlr = ih();
 
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
@@ -49,8 +49,12 @@ void RunningState::update() {
 	while (!exit) {
 		Uint32 startTime = sdlutils().currRealTime();
 
+		if (NewInputHandler::Instance()->isActionPressed(Action::PAUSE)) {
+			//Game::Instance()->setState();
+		}
+
 		// update the event handler
-		ih().refresh();
+		//ih().refresh();
 
 		// if 0 asteroids change to GameOverState
 		//if (asteroidsutils().count_asteroids() <= 0) {

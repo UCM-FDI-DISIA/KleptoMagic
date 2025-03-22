@@ -65,6 +65,7 @@
     <ClCompile Include="..\SRC\sdlutils\Texture.cpp" />
     <ClCompile Include="..\src\utils\Collisions.cpp" />
     <ClCompile Include="..\SRC\utils\Vector2D.cpp" />
+    <ClInclude Include="..\SRC\sdlutils\NewInputHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Class\Button.h" />
@@ -122,6 +123,7 @@
     <ClInclude Include="..\SRC\sdlutils\SoundEffect.h" />
     <ClInclude Include="..\SRC\sdlutils\Texture.h" />
     <ClInclude Include="..\SRC\sdlutils\VirtualTimer.h" />
+    <ClInclude Include="..\SRC\sdlutils\NewInputHandler.h" />
     <ClInclude Include="..\src\utils\Collisions.h" />
     <ClInclude Include="..\SRC\utils\DynamicBitSet.h" />
     <ClInclude Include="..\SRC\utils\GenID.h" />

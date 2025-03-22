@@ -17,6 +17,7 @@
     <ClCompile Include="..\SRC\sdlutils\SDLUtilsError.cpp" />
     <ClCompile Include="..\SRC\sdlutils\SoundEffect.cpp" />
     <ClCompile Include="..\SRC\sdlutils\Texture.cpp" />
+    <ClInclude Include="..\SRC\sdlutils\NewInputHandler.cpp" />
     <ClCompile Include="..\SRC\utils\Vector2D.cpp" />
     <ClCompile Include="..\src\Class\PlayState.cpp" />
     <ClCompile Include="..\src\Class\DummyState.cpp" />
@@ -68,6 +69,7 @@
     <ClInclude Include="..\SRC\sdlutils\SoundEffect.h" />
     <ClInclude Include="..\SRC\sdlutils\Texture.h" />
     <ClInclude Include="..\SRC\sdlutils\VirtualTimer.h" />
+    <ClInclude Include="..\SRC\sdlutils\NewInputHandler.h" />
     <ClInclude Include="..\SRC\utils\DynamicBitSet.h" />
     <ClInclude Include="..\SRC\utils\GenID.h" />
     <ClInclude Include="..\SRC\utils\mpl.h" />
