@@ -46,8 +46,6 @@ class Game : public Singleton<Game>
 public:
 	// Identificadores de las texturas
 	enum TextureName {
-		MAINMENUBACKGROUND,
-		MAINMENUBUTTON,
 		ENDMENUBACKGROUND,
 		ENDMENUBUTTON,
 		PLAYER,

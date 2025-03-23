@@ -15,7 +15,8 @@
 	STATUSEFFECT, \
 	PLAYERCTRL, \
 	GAMECTRL, \
-	GHOSTCMP
+	GHOSTCMP, \
+	BUTTON
 
 
 // Groups list - must have at least one element

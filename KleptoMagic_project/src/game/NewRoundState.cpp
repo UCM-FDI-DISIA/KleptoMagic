@@ -1,7 +1,5 @@
 #include "NewRoundState.h"
 
-#include "FighterUtils.h"
-#include "AsteroidsUtils.h"
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/InputHandler.h"
 
