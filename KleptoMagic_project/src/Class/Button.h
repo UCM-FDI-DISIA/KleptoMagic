@@ -9,15 +9,18 @@
 #include "../sdlutils/InputHandler.h"
 #include "InputManager.h"
 #include "../utils/Vector2D.h"
+#include "../sdlutils/Texture.h"
+
 #include <functional>
 #include <SDL.h>
+
 using OnClickCallback = std::function<void()>;
 
 class Button : public ecs::Component, public EventHandler {
 public:
-    __CMPID_DECL__(ecs::cmp::GAMECTRL)
+    __CMPID_DECL__(ecs::cmp::BUTTON)
 
-        Button(std::function<void()> onClick, Vector2D position, Vector2D size);
+        Button(std::function<void()> onClick, Vector2D position, Vector2D size, Texture* texture);
     void initComponent() override;
     void update() override;
     void render() override;
@@ -29,6 +32,7 @@ private:
     Vector2D _position;
     Vector2D _size;
     InputHandler* _inputHandler;
+    Texture* _texture; 
 };
 
 #endif // BUTTON_H

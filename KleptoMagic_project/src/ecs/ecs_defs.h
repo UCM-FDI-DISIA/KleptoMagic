@@ -14,7 +14,8 @@
 	VECTOR2D, \
 	STATUSEFFECT, \
 	PLAYERCTRL, \
-	GAMECTRL
+	GAMECTRL, \
+	BUTTON
 
 
 // Groups list - must have at least one element

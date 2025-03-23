@@ -1,7 +1,8 @@
-
 #include "Button.h"
-Button::Button(std::function<void()> onClick, Vector2D position, Vector2D size)
-    : _onClick(onClick), _position(position), _size(size) {}
+#include "../sdlutils/SDLUtils.h"
+
+Button::Button(std::function<void()> onClick, Vector2D position, Vector2D size, Texture* texture)
+    : _onClick(onClick), _position(position), _size(size), _texture(texture) {}
 
 void Button::initComponent() {
     _inputHandler = &ih();
@@ -11,13 +12,16 @@ void Button::update() {
     if (_inputHandler->mouseButtonDownEvent()) {
         auto mousePos = _inputHandler->getMousePos();
         if (isInside(mousePos.first, mousePos.second)) {
-            _onClick();
+            _onClick(); // Ejecuta la función cuando se hace clic
         }
     }
 }
 
 void Button::render() {
-    // Renderizado del botón (puede usarse SDL para dibujarlo visualmente)
+    if (_texture) {
+        SDL_Rect dest = { (int)_position.getX(), (int)_position.getY(), (int)_size.getX(), (int)_size.getY() };
+        _texture->render(dest); // Usa la función render de Texture
+    }
 }
 
 void Button::handleEvent(const SDL_Event& event) {
@@ -28,6 +32,7 @@ bool Button::isInside(int x, int y) const {
     return x >= _position.getX() && x <= (_position.getX() + _size.getX()) &&
         y >= _position.getY() && y <= (_position.getY() + _size.getY());
 }
+
 
 //#include "Button.h"
 //Button::Button(GameState* state, Texture* tex, Vector2D pos, int w, int h) : GameObject(state, tex) {
