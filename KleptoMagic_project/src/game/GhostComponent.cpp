@@ -17,7 +17,7 @@ void GhostComponent::initComponent() {
 	_ghostTransform = _mngr->getComponent<Transform>(_ent);
 	_playerTransform = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 	//_playerTransform = _mngr->getEntities()
-	assert(_tr != nullptr);
+	//assert(_tr != nullptr);
 }
 
 void GhostComponent::teleport() {
