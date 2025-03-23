@@ -8,7 +8,7 @@ NewRoundState::NewRoundState() {
 	pressEnter = new Texture(sdlutils().renderer(), 
 		"Press ENTER to start the round",
 		sdlutils().fonts().at("ARIAL24"), 
-		build_sdlcolor(0x112233ff),
+		build_sdlcolor(0xFFB3B3FF),
 		build_sdlcolor(0xffffffff));
 	
 	x0 = (sdlutils().width() - pressEnter->width()) / 2;
@@ -61,6 +61,7 @@ void NewRoundState::enter()
 	//fighterutils().reset_fighter();
 	//asteroidsutils().remove_all_asteroids();
 	//asteroidsutils().create_asteroids(10); // AJUSTE: Número de asteroides
+	std::cout << "Entrando en NewRoundState" << std::endl;
 }
 
 void NewRoundState::leave()

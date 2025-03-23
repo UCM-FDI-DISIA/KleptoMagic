@@ -9,9 +9,18 @@ void Button::initComponent() {
 }
 
 void Button::update() {
-    if (_inputHandler->mouseButtonDownEvent()) {
-        auto mousePos = _inputHandler->getMousePos();
-        if (isInside(mousePos.first, mousePos.second)) {
+    //std::cout << "Actualizando el boton..." << std::endl;
+
+    // Obtener el estado del mouse
+    int x, y;
+    Uint32 mouseState = SDL_GetMouseState(&x, &y);
+
+    //std::cout << "Posicion del mouse: (" << x << ", " << y << ")" << std::endl;
+
+    // Verificar si el mouse está dentro del área del botón
+    if (isInside(x, y)) {
+        if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) { // Verifica si el botón izquierdo está presionado
+            std::cout << "¡Boton clickeado!" << std::endl;
             _onClick(); // Ejecuta la función cuando se hace clic
         }
     }

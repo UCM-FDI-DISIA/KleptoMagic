@@ -127,6 +127,7 @@ bool Game::initGame() {
 	//asteroidsutils().create_asteroids(10);
 
 	_state = _newgame_state;
+
 	auto ginfo = _mngr->addEntity();
 	_mngr->setHandler(ecs::hdlr::GAMEINFO, ginfo);
 	//_mngr->addComponent<GameCtrl>(ginfo);
