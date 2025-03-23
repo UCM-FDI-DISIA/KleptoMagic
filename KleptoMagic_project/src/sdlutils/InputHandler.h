@@ -113,7 +113,11 @@ public:
 	}
 
 	inline bool mouseButtonDownEvent() {
-		return _isMouseButtonDownEvent;
+		if (_isMouseButtonDownEvent) {
+			_isMouseButtonDownEvent = false;  // Resetea el estado después de procesar el clic
+			return true;
+		}
+		return false;
 	}
 
 	inline const std::pair<Sint32, Sint32>& getMousePos() {

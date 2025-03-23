@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -23,16 +23,18 @@
     <ClCompile Include="..\src\Class\Collisions.cpp" />
     <ClCompile Include="..\src\Class\DummyState.cpp" />
     <ClCompile Include="..\src\Class\Enemy.cpp" />
-    <ClCompile Include="..\src\Class\Entity.cpp" />
+    <ClCompile Include="..\src\Class\EntityCmp.cpp" />
     <ClCompile Include="..\src\Class\EntityStat.cpp" />
     <ClCompile Include="..\src\Class\EventHandler.cpp" />
     <ClCompile Include="..\src\Class\GameObject.cpp" />
-    <ClCompile Include="..\src\Class\GameState.cpp" />
+    <ClCompile Include="..\src\Class\GameState_OLD.cpp" />
     <ClCompile Include="..\src\Class\gameStateMachine.cpp" />
+    <ClCompile Include="..\src\Class\Image.cpp" />
     <ClCompile Include="..\src\Class\InputManager.cpp" />
     <ClCompile Include="..\src\Class\MainMenuState.cpp" />
     <ClCompile Include="..\src\Class\MovementCtrl.cpp" />
     <ClCompile Include="..\src\Class\Player.cpp" />
+    <ClCompile Include="..\src\Class\PlayerCtrl.cpp" />
     <ClCompile Include="..\src\Class\PlayState.cpp" />
     <ClCompile Include="..\src\Class\SceneObject.cpp" />
     <ClCompile Include="..\src\Class\Game.cpp" />
@@ -40,6 +42,17 @@
     <ClCompile Include="..\src\Class\StatusEffect.cpp" />
     <ClCompile Include="..\src\Class\TimerCountdown.cpp" />
     <ClCompile Include="..\src\ecs\Manager.cpp" />
+    <ClCompile Include="..\src\game\AsteroidsFacade.cpp" />
+    <ClCompile Include="..\src\game\AsteroidsUtils.cpp" />
+    <ClCompile Include="..\src\game\FighterFacade.cpp" />
+    <ClCompile Include="..\src\game\FighterUtils.cpp" />
+    <ClCompile Include="..\src\game\GameOverState.cpp" />
+    <ClCompile Include="..\src\game\GameState.cpp" />
+    <ClCompile Include="..\src\game\GhostComponent.cpp" />
+    <ClCompile Include="..\src\game\NewGameState.cpp" />
+    <ClCompile Include="..\src\game\NewRoundState.cpp" />
+    <ClCompile Include="..\src\game\PausedState.cpp" />
+    <ClCompile Include="..\src\game\RunningState.cpp" />
     <ClCompile Include="..\SRC\json\JSON.cpp" />
     <ClCompile Include="..\SRC\json\JSONValue.cpp" />
     <ClCompile Include="..\SRC\json\json_demo.cpp" />
@@ -49,6 +62,7 @@
     <ClCompile Include="..\SRC\sdlutils\SDLUtilsError.cpp" />
     <ClCompile Include="..\SRC\sdlutils\SoundEffect.cpp" />
     <ClCompile Include="..\SRC\sdlutils\Texture.cpp" />
+    <ClCompile Include="..\src\utils\Collisions.cpp" />
     <ClCompile Include="..\SRC\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -56,17 +70,19 @@
     <ClInclude Include="..\src\Class\Collisions.h" />
     <ClInclude Include="..\src\Class\DummyState.h" />
     <ClInclude Include="..\src\Class\Enemy.h" />
-    <ClInclude Include="..\src\Class\Entity.h" />
+    <ClInclude Include="..\src\Class\EntityCmp.h" />
     <ClInclude Include="..\src\Class\EntityStat.h" />
     <ClInclude Include="..\src\Class\EventHandler.h" />
     <ClInclude Include="..\src\Class\GameObject.h" />
-    <ClInclude Include="..\src\Class\GameState.h" />
+    <ClInclude Include="..\src\Class\GameState_OLD.h" />
     <ClInclude Include="..\src\Class\gameStateMachine.h" />
+    <ClInclude Include="..\src\Class\Image.h" />
     <ClInclude Include="..\src\Class\InputManager.h" />
     <ClInclude Include="..\src\Class\MainMenuState.h" />
     <ClInclude Include="..\src\Class\MenuState.h" />
     <ClInclude Include="..\src\Class\MovementCtrl.h" />
     <ClInclude Include="..\src\Class\Player.h" />
+    <ClInclude Include="..\src\Class\PlayerCtrl.h" />
     <ClInclude Include="..\src\Class\PlayState.h" />
     <ClInclude Include="..\src\Class\SceneObject.h" />
     <ClInclude Include="..\src\Class\Game.h" />
@@ -79,6 +95,17 @@
     <ClInclude Include="..\src\ecs\ecs_defs_example.h" />
     <ClInclude Include="..\src\ecs\Entity.h" />
     <ClInclude Include="..\src\ecs\Manager.h" />
+    <ClInclude Include="..\src\game\AsteroidsFacade.h" />
+    <ClInclude Include="..\src\game\AsteroidsUtils.h" />
+    <ClInclude Include="..\src\game\FighterFacade.h" />
+    <ClInclude Include="..\src\game\FighterUtils.h" />
+    <ClInclude Include="..\src\game\GameOverState.h" />
+    <ClInclude Include="..\src\game\GameState.h" />
+    <ClInclude Include="..\src\game\GhostComponent.h" />
+    <ClInclude Include="..\src\game\NewGameState.h" />
+    <ClInclude Include="..\src\game\NewRoundState.h" />
+    <ClInclude Include="..\src\game\PausedState.h" />
+    <ClInclude Include="..\src\game\RunningState.h" />
     <ClInclude Include="..\SRC\json\JSON.h" />
     <ClInclude Include="..\SRC\json\JSONValue.h" />
     <ClInclude Include="..\SRC\json\json_demo.h" />
@@ -93,12 +120,16 @@
     <ClInclude Include="..\SRC\sdlutils\SoundEffect.h" />
     <ClInclude Include="..\SRC\sdlutils\Texture.h" />
     <ClInclude Include="..\SRC\sdlutils\VirtualTimer.h" />
+    <ClInclude Include="..\src\utils\Collisions.h" />
     <ClInclude Include="..\SRC\utils\DynamicBitSet.h" />
     <ClInclude Include="..\SRC\utils\GenID.h" />
     <ClInclude Include="..\SRC\utils\mpl.h" />
     <ClInclude Include="..\SRC\utils\ptr_iterator.h" />
     <ClInclude Include="..\SRC\utils\Singleton.h" />
     <ClInclude Include="..\SRC\utils\Vector2D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\resources\config\resources.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

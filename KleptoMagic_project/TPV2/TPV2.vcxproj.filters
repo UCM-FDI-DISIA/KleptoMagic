@@ -3,7 +3,7 @@
   <ItemGroup>
     <ClCompile Include="..\src\Class\EntityStat.cpp" />
     <ClCompile Include="..\src\Class\GameObject.cpp" />
-    <ClCompile Include="..\src\Class\GameState.cpp" />
+    <ClCompile Include="..\src\Class\GameState_OLD.cpp" />
     <ClCompile Include="..\src\Class\gameStateMachine.cpp" />
     <ClCompile Include="..\src\Class\SceneObject.cpp" />
     <ClCompile Include="..\src\Class\Game.cpp" />
@@ -21,7 +21,7 @@
     <ClCompile Include="..\src\Class\PlayState.cpp" />
     <ClCompile Include="..\src\Class\DummyState.cpp" />
     <ClCompile Include="..\src\Class\Collisions.cpp" />
-    <ClCompile Include="..\src\Class\Entity.cpp" />
+    <ClCompile Include="..\src\Class\EntityCmp.cpp" />
     <ClCompile Include="..\src\Class\StatusEffect.cpp" />
     <ClCompile Include="..\src\Class\Button.cpp" />
     <ClCompile Include="..\src\Class\MainMenuState.cpp" />
@@ -32,11 +32,25 @@
     <ClCompile Include="..\src\Class\MovementCtrl.cpp" />
     <ClCompile Include="..\src\ecs\Manager.cpp" />
     <ClCompile Include="..\src\Class\InputManager.cpp" />
+    <ClCompile Include="..\src\game\AsteroidsFacade.cpp" />
+    <ClCompile Include="..\src\game\AsteroidsUtils.cpp" />
+    <ClCompile Include="..\src\game\FighterFacade.cpp" />
+    <ClCompile Include="..\src\game\FighterUtils.cpp" />
+    <ClCompile Include="..\src\game\GameOverState.cpp" />
+    <ClCompile Include="..\src\game\GameState.cpp" />
+    <ClCompile Include="..\src\game\NewGameState.cpp" />
+    <ClCompile Include="..\src\game\NewRoundState.cpp" />
+    <ClCompile Include="..\src\game\PausedState.cpp" />
+    <ClCompile Include="..\src\game\RunningState.cpp" />
+    <ClCompile Include="..\src\utils\Collisions.cpp" />
+    <ClCompile Include="..\src\Class\Image.cpp" />
+    <ClCompile Include="..\src\game\GhostComponent.cpp" />
+    <ClCompile Include="..\src\Class\PlayerCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Class\EntityStat.h" />
     <ClInclude Include="..\src\Class\GameObject.h" />
-    <ClInclude Include="..\src\Class\GameState.h" />
+    <ClInclude Include="..\src\Class\GameState_OLD.h" />
     <ClInclude Include="..\src\Class\gameStateMachine.h" />
     <ClInclude Include="..\src\Class\SceneObject.h" />
     <ClInclude Include="..\src\Class\Game.h" />
@@ -63,7 +77,6 @@
     <ClInclude Include="..\src\Class\PlayState.h" />
     <ClInclude Include="..\src\Class\DummyState.h" />
     <ClInclude Include="..\src\Class\Collisions.h" />
-    <ClInclude Include="..\src\Class\Entity.h" />
     <ClInclude Include="..\src\Class\StatusEffect.h" />
     <ClInclude Include="..\src\Class\Button.h" />
     <ClInclude Include="..\src\Class\MainMenuState.h" />
@@ -81,5 +94,23 @@
     <ClInclude Include="..\src\ecs\Entity.h" />
     <ClInclude Include="..\src\ecs\Manager.h" />
     <ClInclude Include="..\src\Class\InputManager.h" />
+    <ClInclude Include="..\src\Class\EntityCmp.h" />
+    <ClInclude Include="..\src\game\AsteroidsFacade.h" />
+    <ClInclude Include="..\src\game\AsteroidsUtils.h" />
+    <ClInclude Include="..\src\game\FighterFacade.h" />
+    <ClInclude Include="..\src\game\FighterUtils.h" />
+    <ClInclude Include="..\src\game\GameOverState.h" />
+    <ClInclude Include="..\src\game\GameState.h" />
+    <ClInclude Include="..\src\game\NewGameState.h" />
+    <ClInclude Include="..\src\game\NewRoundState.h" />
+    <ClInclude Include="..\src\game\PausedState.h" />
+    <ClInclude Include="..\src\game\RunningState.h" />
+    <ClInclude Include="..\src\utils\Collisions.h" />
+    <ClInclude Include="..\src\Class\Image.h" />
+    <ClInclude Include="..\src\game\GhostComponent.h" />
+    <ClInclude Include="..\src\Class\PlayerCtrl.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\resources\config\resources.json" />
   </ItemGroup>
 </Project>
