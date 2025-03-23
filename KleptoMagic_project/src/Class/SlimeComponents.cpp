@@ -50,13 +50,13 @@ namespace ecs
 		
 		}
 	};
-	class CollideComponent : public Component 
+	class CollideComponent : public Component
 	{
 
 	};
-	class RenderComponent : public Component 
+	class RenderComponent : public Component
 	{
-		
+
 	};
 
 
