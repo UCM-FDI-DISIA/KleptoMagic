@@ -25,6 +25,7 @@ public:
     void update() override;
     void render() override;
     void handleEvent(const SDL_Event& event) override;
+    bool isPressed() const { return _isPressed; }
 
 private:
     bool isInside(int x, int y) const;
@@ -33,6 +34,7 @@ private:
     Vector2D _size;
     InputHandler* _inputHandler;
     Texture* _texture; 
+    bool _isPressed = false;
 };
 
 #endif // BUTTON_H

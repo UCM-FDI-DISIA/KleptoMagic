@@ -15,13 +15,15 @@ void Button::update() {
     int x, y;
     Uint32 mouseState = SDL_GetMouseState(&x, &y);
 
-    //std::cout << "Posicion del mouse: (" << x << ", " << y << ")" << std::endl;
-
     // Verificar si el mouse está dentro del área del botón
     if (isInside(x, y)) {
         if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) { // Verifica si el botón izquierdo está presionado
-            std::cout << "¡Boton clickeado!" << std::endl;
+            std::cout << "Boton clickeado" << std::endl;
+            _isPressed = true;  // Marcamos que el botón fue presionado
             _onClick(); // Ejecuta la función cuando se hace clic
+        }
+        else {
+            _isPressed = false;  // Si no está presionado, marcamos como no presionado
         }
     }
 }

@@ -52,13 +52,18 @@ void NewGameState::update() {
         sdlutils().clearRenderer();
 
         // Dibujar el fondo
-        background->render(0, 0);
+        SDL_Rect destRect = { 0, 0, sdlutils().width(), sdlutils().height() };
+        background->render(destRect);
 
         // Dibujar el botón
         startButton->render();
 
         // Presentar la pantalla
         sdlutils().presentRenderer();
+
+        if (startButton->isPressed()) { 
+            exit = true;
+        }
 
         Uint32 frameTime = sdlutils().currRealTime() - startTime;
 
@@ -83,7 +88,7 @@ void NewGameState::leave() {
 //using ecs::Manager;	
 //
 //NewGameState::NewGameState(){
-//
+//	background = new Texture(sdlutils().renderer(), "resources/images/background-provisional.png");
 //	pressAnyKey = new Texture(sdlutils().renderer(), 
 //		"Press any key to start",
 //		sdlutils().fonts().at("ARIAL24"), 
@@ -92,10 +97,6 @@ void NewGameState::leave() {
 //
 //	x0 = (sdlutils().width() - pressAnyKey->width()) / 2;
 //	y0 = (sdlutils().height() - pressAnyKey->height()) / 2;
-//
-//	
-//	
-//
 //}
 //NewGameState::~NewGameState() {
 //
@@ -129,6 +130,7 @@ void NewGameState::leave() {
 //		sdlutils().clearRenderer();
 //
 //		// render Press Any Key
+//		background->render(0, 0);
 //		pressAnyKey->render(x0, y0);
 //
 //		// present new frame
@@ -149,5 +151,5 @@ void NewGameState::leave() {
 //
 //void NewGameState::leave()
 //{
-//	std::cout << "Actualizando NewGameState" << std::endl;
+//	std::cout << "Saliendo NewGameState" << std::endl;
 //}

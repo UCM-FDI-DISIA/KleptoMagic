@@ -8,7 +8,7 @@ NewRoundState::NewRoundState() {
 	pressEnter = new Texture(sdlutils().renderer(), 
 		"Press ENTER to start the round",
 		sdlutils().fonts().at("ARIAL24"), 
-		build_sdlcolor(0xFFB3B3FF),
+		build_sdlcolor(0x112233ff),
 		build_sdlcolor(0xffffffff));
 	
 	x0 = (sdlutils().width() - pressEnter->width()) / 2;

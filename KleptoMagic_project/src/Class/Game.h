@@ -100,7 +100,7 @@ public:
 	inline ecs::Manager* getMngr() { return _mngr; }
 	inline void setState(State s) {
 		_state->leave();
-		sdlutils().clearRenderer();
+		//sdlutils().clearRenderer();
 		switch (s) {
 		case RUNNING:
 			_state = _running_state;
