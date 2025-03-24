@@ -14,6 +14,10 @@ struct roomPos {
 	{
 		return (this->x == other.x && this->y == other.y);
 	}
+	bool operator!=(roomPos const& other) const
+	{
+		return (this->x != other.x || this->y != other.y);
+	}
 }; 
 
 
@@ -31,11 +35,11 @@ private:
 public:
 	// Used to indicate when a fail has happened during generation
 	bool badGen;
-	DungeonFloor(RoomStorage* roomstorage);
+	DungeonFloor(int minWidth, int minHeight, int maxWidth, int maxHeight, int numRooms, RoomStorage* roomstorage);
 	~DungeonFloor();
 	virtual void render() const;
 	virtual void update();
-	void GenerateFloor();
+	void GenerateFloor(int minWidth, int minHeight, int maxWidth, int maxHeight, int numRooms);
 	vector<char> CheckSpaceAroundRoom(int x, int y);
 	vector<char> ExitsToFillForSpace(int x, int y);
 	void LinkExitsAtPosition(int x, int y, vector<char> exits);

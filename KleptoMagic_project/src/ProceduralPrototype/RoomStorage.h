@@ -33,7 +33,7 @@ public:
 	DungeonRoom* GetRandomSpecialRoom(vector<char> exitsNeeded);
 	// Returns a random boss room that has the required door (U, D, L, R) so it can be connected to a previous room. 
 	// Unlike with regular rooms, this time it can only have the required door and no more.
-	DungeonRoom* GetRandomBossRoom(char exit);
+	DungeonRoom* GetRandomBossRoom(vector<char> exitsNeeded);
 
 	// Reads all room files and creates DungeonRoom instances for each of them within each vector
 	void readAllRoomFiles();

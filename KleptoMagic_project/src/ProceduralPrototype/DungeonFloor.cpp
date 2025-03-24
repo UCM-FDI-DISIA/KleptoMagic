@@ -4,9 +4,9 @@
 
 using namespace std;
 
-DungeonFloor::DungeonFloor(RoomStorage* RoomStorage) : roomstorage(RoomStorage)
+DungeonFloor::DungeonFloor(int minWidth, int minHeight, int maxWidth, int maxHeight, int numRooms, RoomStorage* RoomStorage) : roomstorage(RoomStorage)
 {
-	GenerateFloor();
+	GenerateFloor(minWidth, minHeight, maxWidth, maxHeight, numRooms);
 	PrintFloorLayout_Detailed();
 }
 
@@ -23,15 +23,10 @@ void DungeonFloor::update() {
 
 }
 
-void DungeonFloor::GenerateFloor() {
+void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int maxHeight, int numRooms) {
 	// STEP 1: Preparation
 
-	// Randomly choose the height and width of the dungeon floor
-
-	int minWidth = 20;
-	int minHeight = 20;
-	int maxWidth = 30;
-	int maxHeight = 30;
+	// Randomly choose the height and width of the dungeon floor from given parameters
 
 	std::random_device rd; // obtain a random number from hardware
 	std::mt19937 gen(rd()); // seed the generator
@@ -42,9 +37,6 @@ void DungeonFloor::GenerateFloor() {
 	floor_height = distrH(gen);
 
 	cout << "FLOOR SIZE: " << floor_width << " " << floor_height << endl << endl;
-
-	// Set number of rooms to generate before boss room
-	int roomsToGenerate = 100;
 
 	// Instantiate the room matrix
 	floorLayout = vector<vector<DungeonRoom*>>(floor_width, vector<DungeonRoom*>(floor_height, 0));
@@ -79,7 +71,7 @@ void DungeonFloor::GenerateFloor() {
 
 	bool hasReachedGoal = false;
 	while (!hasReachedGoal) {
-		for (int i = 0; i < roomsToGenerate; i++) {
+		for (int i = 0; i < numRooms; i++) {
 
 			system("CLS");
 
@@ -122,9 +114,8 @@ void DungeonFloor::GenerateFloor() {
 			for (auto i : exitsToConnect) {
 				cout << i;
 			}
-			cout << endl;
 			if (exitsToConnect.size() > 1) {
-				cout << "THIS ROOM NEEDS TO FILL MORE THAN ONE EXIT!!!!!" << endl;
+				cout << " | THIS ROOM NEEDS TO FILL MORE THAN ONE EXIT!!!!!" << endl;
 			}
 
 			// Define what exits the new room can't have, based on other rooms adjacent to the target location for the new room, 
@@ -136,16 +127,17 @@ void DungeonFloor::GenerateFloor() {
 			for (auto i : blacklistedExits) {
 				cout << i;
 			}
-			cout << endl;
 
 			// In the rare case that rooms loop into themselves and a space needs to be filled with all spaces around it already occupied,
 			// no new exits can be created, therefore it must restart generation.
 			// Since generation is already very fast and going one step back will still be likely to end up in another room with limited
 			// space generating soon, we will just restart it completely rather than backtracking.
 			if (blacklistedExits.size() >= 4) {
-				cout << "THIS ROOM IS ENCLOSED! RESTART GENERATION..." << endl;
+				cout << " | THIS ROOM IS ENCLOSED! RESTART GENERATION..." << endl;
 				break;
 			}
+
+			cout << endl;
 
 			// Choose a random regular room that meets the defined criteria and place it at the target location
 			floorLayout[TargetRoomX][TargetRoomY] = roomstorage->GetRandomRegularRoom(exitsToConnect, blacklistedExits);
@@ -156,66 +148,8 @@ void DungeonFloor::GenerateFloor() {
 				<< floorLayout[TargetRoomX][TargetRoomY]->getName() << " "
 				<< floorLayout[TargetRoomX][TargetRoomY]->getAmountOfExits() << endl;
 
-			// Link the exit of the previous room up with the new room
-			// UNNECESSARY: code below links all exits now
-			/*
-			if (CurrentRoomExit == 'U') {
-				floorLayout[CurrentRoomX][CurrentRoomY]->linkU = true;
-				floorLayout[TargetRoomX][TargetRoomY]->linkD = true;
-			}
-			else if (CurrentRoomExit == 'D') {
-				floorLayout[CurrentRoomX][CurrentRoomY]->linkD = true;
-				floorLayout[TargetRoomX][TargetRoomY]->linkU = true;
-			}
-			else if (CurrentRoomExit == 'L') {
-				floorLayout[CurrentRoomX][CurrentRoomY]->linkL = true;
-				floorLayout[TargetRoomX][TargetRoomY]->linkR = true;
-			}
-			else if (CurrentRoomExit == 'R') {
-				floorLayout[CurrentRoomX][CurrentRoomY]->linkR = true;
-				floorLayout[TargetRoomX][TargetRoomY]->linkL = true;
-			}
-			*/
-
 			// Link all exits of the new room that connect to other rooms, including the previous one
-			int x = TargetRoomX;
-			int y = TargetRoomY;
-			vector<char> exits = exitsToConnect;
-			DungeonRoom* currentRoom = nullptr;
-			for (auto i : exits) {
-				// Room above
-				if (i == 'U') {
-					currentRoom = floorLayout[x - 1][y];
-					if (floorLayout[x - 1][y] != nullptr) {
-						floorLayout[x - 1][y]->linkD = true;
-						floorLayout[x][y]->linkU = true;
-					}
-				}
-				// Room below
-				if (i == 'D') {
-					currentRoom = floorLayout[x + 1][y];
-					if (floorLayout[x + 1][y] != nullptr) {
-						floorLayout[x + 1][y]->linkU = true;
-						floorLayout[x][y]->linkD = true;
-					}
-				}
-				// Room left
-				if (i == 'L') {
-					currentRoom = floorLayout[x][y - 1];
-					if (floorLayout[x][y - 1] != nullptr) {
-						floorLayout[x][y - 1]->linkR = true;
-						floorLayout[x][y]->linkL = true;
-					}
-				}
-				// Room right
-				if (i == 'R') {
-					currentRoom = floorLayout[x][y + 1];
-					if (floorLayout[x][y + 1] != nullptr) {
-						floorLayout[x][y + 1]->linkL = true;
-						floorLayout[x][y]->linkR = true;
-					}
-				}
-			}
+			LinkExitsAtPosition(TargetRoomX, TargetRoomY, exitsToConnect);
 
 			cout << "DOOR LINKAGE: "
 				<< floorLayout[CurrentRoomX][CurrentRoomY]->linkU << " "
@@ -233,7 +167,7 @@ void DungeonFloor::GenerateFloor() {
 
 			PrintFloorLayout_Detailed();
 
-			if (i + 1 == roomsToGenerate) {
+			if (i + 1 == numRooms) {
 				hasReachedGoal = true;
 			}
 		}
@@ -302,10 +236,64 @@ void DungeonFloor::GenerateFloor() {
 	}
 	cout << endl;
 
-	// Place in rooms at the locations based on what exits they need to fill.
+	// Decide which of those locations will be the boss room.
+	// For now the condition will only be the room that is furthest away from the start.
+	// In theory, even if it ends up close to the start because of the layout looping a lot, the player
+	// will still want to look at every other room to gather loot.
+	roomPos bossPos = roomPos{ 0,0 };
+	double currentDist = 0;
+	double dist = 0;
+	cout << dist << " " << currentDist << " " << bossPos.x << "|" << bossPos.y << endl;
 	for (auto i : locations) {
+		double distX = centerX - i.x;
+		double distY = centerY - i.y;
+		dist = sqrt(pow(distX, 2) + pow(distY, 2));
+		//cout << "1 ::: " << distX << " " << distY << " | " << pow(distX, 2) << " " << pow(distY, 2) << " | " << dist << endl;
+
+		if (dist >= currentDist) {
+			currentDist = dist;
+			bossPos = i;
+		}
+	}
+
+	cout << "LOCATION OF THE BOSS ROOM: ";
+	cout << bossPos.x << "|" << bossPos.y << " " << endl;
+
+	// Based on the number of rooms to generate, there can only be up to a third of those rooms worth of special rooms.
+	// Pick a random set out of the possible locations to match.
+	vector<roomPos> specialsPos;
+	int specialsN = numRooms / 3;
+	cout << "MAXIMUM NUMBER OF SPECIAL ROOMS ALLOWED (numRooms / 3): " << specialsN << endl;
+	cout << "HOW MANY SPACES WERE THERE?: " << locations.size() - 1 << endl;
+	vector<int> indexes;
+	for (int i = 0; i < specialsN; i++) {
+		bool found = false;
+		while (!found) {
+			std::mt19937 genInd(rd()); // seed the generator
+			std::uniform_int_distribution<> distrInd(0, locations.size() - 1); // define the range
+			int rndIndex = distrInd(genInd); // get a new random index
+			if (std::find(indexes.begin(), indexes.end(), rndIndex) != indexes.end()); // nothing
+			else if (locations[rndIndex] != bossPos) {
+				indexes.push_back(rndIndex);
+				found = true;
+			}
+		}
+	}
+	cout << "POSITIONS THAT WILL BE FILLED WITH SPECIAL ROOMS: ";
+	for (auto i : indexes) {
+		cout << i << " ";
+	}
+	cout << endl;
+
+
+	// Place in special rooms at the final locations based on what exits they need to fill.
+
+	cout << "NOW PLACING SPECIAL ROOMS" << endl;
+
+	for (auto i : indexes) {
+		roomPos pos = locations[i];
 		// Find out what exits need to be filled at the location the new room will be on, based on adjacent rooms and what exits they have.
-		vector<char> exitsToConnect = ExitsToFillForSpace(i.x, i.y);
+		vector<char> exitsToConnect = ExitsToFillForSpace(pos.x, pos.y);
 		cout << "EXITS THAT NEED TO BE FILLED: ";
 		for (auto j : exitsToConnect) {
 			cout << j;
@@ -315,21 +303,27 @@ void DungeonFloor::GenerateFloor() {
 			cout << "THIS ROOM NEEDS TO FILL MORE THAN ONE EXIT!!!!!" << endl;
 		}
 
-		floorLayout[i.x][i.y] = roomstorage->GetRandomSpecialRoom(exitsToConnect);
+		floorLayout[pos.x][pos.y] = roomstorage->GetRandomSpecialRoom(exitsToConnect);
+		LinkExitsAtPosition(pos.x, pos.y, exitsToConnect);
 
-		PrintFloorLayout_Detailed();
+		//PrintFloorLayout_Detailed();
 	}
 
-	/*
-	for (auto i : locations) {
-		cout << i.x << "|" << i.y << endl;
-		floorLayout[i.x][i.y] = new DungeonRoom(R"(.\src\ProceduralPrototype\rooms\SpecialRooms\0000_3_3_test.txt")", roomType::SPECIAL);
-		PrintFloorLayout_Detailed();
+	// Place in the boss room
+	// Find out what exits need to be filled at the location the new room will be on, based on adjacent rooms and what exits they have.
+	cout << "NOW PLACING THE BOSS ROOM" << endl;
+	
+	vector<char> exitsToConnect = ExitsToFillForSpace(bossPos.x, bossPos.y);
+	cout << "EXITS THAT NEED TO BE FILLED: ";
+	for (auto j : exitsToConnect) {
+		cout << j;
 	}
-	*/
-
-
-
+	cout << endl;
+	if (exitsToConnect.size() > 1) {
+		cout << "THIS ROOM NEEDS TO FILL MORE THAN ONE EXIT!!!!!" << endl;
+	}
+	floorLayout[bossPos.x][bossPos.y] = roomstorage->GetRandomBossRoom(exitsToConnect);
+	LinkExitsAtPosition(bossPos.x, bossPos.y, exitsToConnect);
 }
 
 vector<char> DungeonFloor::CheckSpaceAroundRoom(int x, int y) {
@@ -424,37 +418,39 @@ vector<char> DungeonFloor::ExitsToFillForSpace(int x, int y) {
 
 void DungeonFloor::LinkExitsAtPosition(int x, int y, vector<char> exits) {
 	DungeonRoom* currentRoom = nullptr;
-
 	for (auto i : exits) {
 		// Room above
 		if (i == 'U') {
 			currentRoom = floorLayout[x - 1][y];
-			if (currentRoom != nullptr) {
-				currentRoom->linkD = true;
+			if (floorLayout[x - 1][y] != nullptr) {
+				floorLayout[x - 1][y]->linkD = true;
+				floorLayout[x][y]->linkU = true;
 			}
 		}
 		// Room below
 		if (i == 'D') {
 			currentRoom = floorLayout[x + 1][y];
-			if (currentRoom != nullptr) {
-				currentRoom->linkU = true;
+			if (floorLayout[x + 1][y] != nullptr) {
+				floorLayout[x + 1][y]->linkU = true;
+				floorLayout[x][y]->linkD = true;
 			}
 		}
 		// Room left
 		if (i == 'L') {
 			currentRoom = floorLayout[x][y - 1];
-			if (currentRoom != nullptr) {
-				currentRoom->linkR = true;
+			if (floorLayout[x][y - 1] != nullptr) {
+				floorLayout[x][y - 1]->linkR = true;
+				floorLayout[x][y]->linkL = true;
 			}
 		}
 		// Room right
 		if (i == 'R') {
 			currentRoom = floorLayout[x][y + 1];
-			if (currentRoom != nullptr) {
-				currentRoom->linkL = true;
+			if (floorLayout[x][y + 1] != nullptr) {
+				floorLayout[x][y + 1]->linkL = true;
+				floorLayout[x][y]->linkR = true;
 			}
 		}
-		cout << "test" << endl;
 	}
 	/*
 	for (auto i : exits) {

@@ -66,7 +66,7 @@ void procedural_prototype() {
 	cout << "----------------------------------------" << endl;
 	cout << "----------------------------------------" << endl;
 	cout << "----------------------------------------" << endl;
-	DungeonFloor* dungeonfloor = new DungeonFloor(roomstorage);
+	DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 20, roomstorage);
 
 	// --------------------
 	// 
