@@ -2,6 +2,8 @@
 #include <random>
 #include <vector>
 
+using namespace std;
+
 DungeonFloor::DungeonFloor(RoomStorage* RoomStorage) : roomstorage(RoomStorage)
 {
 	GenerateFloor();
@@ -42,14 +44,15 @@ void DungeonFloor::GenerateFloor() {
 	cout << "FLOOR SIZE: " << floor_width << " " << floor_height << endl << endl;
 
 	// Set number of rooms to generate before boss room
-	int roomsToGenerate = 50;
+	int roomsToGenerate = 100;
 
 	// Instantiate the room matrix
 	floorLayout = vector<vector<DungeonRoom*>>(floor_width, vector<DungeonRoom*>(floor_height, 0));
 
-	// Choose one random starting room out of storage, then place it in the center of the room matrix (or close to the center if on even numbers for size)
+	// Choose one random starting room out of storage, then place it in the center of the room matrix 
+	// (or close to the center if on even numbers for size)
 	int centerX = (floor_width) / 2;
-	int centerY = (floor_height) / 2;
+	int centerY = (floor_height) / 2; 
 	floorLayout[centerX][centerY] = roomstorage->GetRandomEntranceRoom();
 
 	// Set variables to indicate the current room being looked into for easy reference, as well as the coordinates of the next room being generated
@@ -65,7 +68,10 @@ void DungeonFloor::GenerateFloor() {
 		<< floorLayout[CurrentRoomX][CurrentRoomY]->getAmountOfExits() << endl;
 
 	// Set variable to indicate what exit the current room being looked into will choose to link the next room onto (U, D, L, R)
-	char CurrentRoomExit = 'N';
+	char CurrentRoomExit;
+
+	// Save the number of attempts at generating the floor for displaying
+	int attempts = 1;
 
 	PrintFloorLayout_Simple();
 
@@ -74,6 +80,8 @@ void DungeonFloor::GenerateFloor() {
 	bool hasReachedGoal = false;
 	while (!hasReachedGoal) {
 		for (int i = 0; i < roomsToGenerate; i++) {
+
+			system("CLS");
 
 			cout << "GENERATING ROOM #" << i << endl << endl;
 
@@ -98,6 +106,8 @@ void DungeonFloor::GenerateFloor() {
 				TargetRoomY = CurrentRoomY + 1;
 			}
 			else if (CurrentRoomExit == '-') {
+				// In the extremely rare (thought nonexistant) case that a room has no more free exits, restart generation as it is an
+				// impossible layout. This is a failsafe that will likely never trigger
 				break;
 			}
 
@@ -127,6 +137,15 @@ void DungeonFloor::GenerateFloor() {
 				cout << i;
 			}
 			cout << endl;
+
+			// In the rare case that rooms loop into themselves and a space needs to be filled with all spaces around it already occupied,
+			// no new exits can be created, therefore it must restart generation.
+			// Since generation is already very fast and going one step back will still be likely to end up in another room with limited
+			// space generating soon, we will just restart it completely rather than backtracking.
+			if (blacklistedExits.size() >= 4) {
+				cout << "THIS ROOM IS ENCLOSED! RESTART GENERATION..." << endl;
+				break;
+			}
 
 			// Choose a random regular room that meets the defined criteria and place it at the target location
 			floorLayout[TargetRoomX][TargetRoomY] = roomstorage->GetRandomRegularRoom(exitsToConnect, blacklistedExits);
@@ -217,6 +236,23 @@ void DungeonFloor::GenerateFloor() {
 			if (i + 1 == roomsToGenerate) {
 				hasReachedGoal = true;
 			}
+		}
+
+		if (!hasReachedGoal) {
+			// Reset the floor for new generation
+			for (int i = 0; i < floor_width; i++) {
+				for (int j = 0; j < floor_height; j++) {
+					floorLayout[i][j] = nullptr;
+				}
+			}
+			floorLayout = vector<vector<DungeonRoom*>>(floor_width, vector<DungeonRoom*>(floor_height, 0));
+			CurrentRoomX = centerX;
+			CurrentRoomY = centerY;
+			TargetRoomX = CurrentRoomX;
+			TargetRoomY = CurrentRoomY;
+			floorLayout[centerX][centerY] = roomstorage->GetRandomEntranceRoom();
+
+			attempts++;
 		}
 	}
 
