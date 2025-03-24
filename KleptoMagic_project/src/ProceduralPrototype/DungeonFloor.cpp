@@ -73,8 +73,6 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 	while (!hasReachedGoal) {
 		for (int i = 0; i < numRooms; i++) {
 
-			system("CLS");
-
 			cout << "GENERATING ROOM #" << i << endl << endl;
 
 			// Define the location of the next room based on the exits and location of the current one.
@@ -324,6 +322,11 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 	}
 	floorLayout[bossPos.x][bossPos.y] = roomstorage->GetRandomBossRoom(exitsToConnect);
 	LinkExitsAtPosition(bossPos.x, bossPos.y, exitsToConnect);
+	system("CLS");
+	cout << "--------------------------------" << endl;
+	cout << "DONE! took " << attempts << " attempts" << endl;
+	cout << "--------------------------------" << endl;
+    
 }
 
 vector<char> DungeonFloor::CheckSpaceAroundRoom(int x, int y) {
@@ -452,34 +455,6 @@ void DungeonFloor::LinkExitsAtPosition(int x, int y, vector<char> exits) {
 			}
 		}
 	}
-	/*
-	for (auto i : exits) {
-		// Above
-		if (i == 'U' && x - 1 >= 0) {
-			if (floorLayout[x - 1][y] != nullptr) {
-				floorLayout[x - 1][y]->linkD = true;
-			}
-		}
-		// Below
-		else if (i == 'D' && x + 1 < floor_width) {
-			if (floorLayout[x + 1][y] != nullptr) {
-				floorLayout[x + 1][y]->linkU = true;
-			}
-		}
-		// Left
-		else if (i == 'L' && y - 1 >= 0) {
-			if (floorLayout[x][y - 1] != nullptr) {
-				floorLayout[x][y - 1]->linkR = true;
-			}
-		}
-		// Right
-		else if (i == 'R' && y + 1 < floor_height) {
-			if (floorLayout[x][y + 1] != nullptr) {
-				floorLayout[x][y + 1]->linkL = true;
-			}
-		}
-	}
-	*/
 }
 
 void DungeonFloor::addPos(roomPos pos, vector<roomPos>& locations) {
