@@ -66,7 +66,7 @@ namespace hdlr {
 // list of handler identifiers - note that we rely on that the
 // first number is 0 in C/C++ standard
 enum hdlrId : hdlrId_t {
-	_HDLRS_LIST_, /* taken from ../game/ecs_defs */
+	_HDLRS_LIST_ /* taken from ../game/ecs_defs */
 
 	// do not remove this
 	_LAST_HDLR_ID

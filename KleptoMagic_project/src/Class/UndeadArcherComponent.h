@@ -12,6 +12,9 @@ namespace ecs
 	{
 	public:
 		float direcionX, direcionY;
+		Transform* _UndeadTransform;
+		Transform* _player;
+
 		UndeadArcherVectorComponent();
 		void initComponent() override
 		{
@@ -30,33 +33,11 @@ namespace ecs
 		}
 	};
 
-	class CollideComponent : public Component
-	{
-		void initComponent() override
-		{
-			auto* _mngr = _ent->getMngr();
-			_slimeTransform = _mngr->getComponent<Transform>(_ent);
-			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
-		}
-	};
-	class RenderComponent : public Component
-	{
-		Texture* texture;
-
-		RenderComponent(Texture* tex) 
-		{
-			texture = tex;
-		}
-		void initComponent() override
-		{
-			auto* _mngr = _ent->getMngr();
-			_slimeTransform = _mngr->getComponent<Transform>(_ent);
-			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
-		}
-	};
 
 	class UndeadArcherStatComponent: public Component
 	{
+		Transform* _UndeadTransform;
+		Transform* _player;
 	public:
 		float speed = 50;
 		float damage = 10;
@@ -66,26 +47,30 @@ namespace ecs
 		void initComponent() override
 		{
 			auto* _mngr = _ent->getMngr();
-			_slimeTransform = _mngr->getComponent<Transform>(_ent);
+			_UndeadTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 		}
 		void update() override {}
 	};
+
+
 	class UndeadAttackComponent : public Component
 	{
 	public:
+		Transform* _UndeadTransform;
+		Transform* _player;
 		Entity* player = nullptr;
 		float attackCooldown;
 		std::chrono::steady_clock::time_point lastAttackTime = std::chrono::steady_clock::now();
 		float attackRange;
-		UndeadAttackComponent(Entity* Player) 
+		UndeadAttackComponent() 
 		{
-			player = Player;
+			
 		}
 		void initComponent() override
 		{
 			auto* _mngr = _ent->getMngr();
-			_slimeTransform = _mngr->getComponent<Transform>(_ent);
+			_UndeadTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 		}
 		void update() override
@@ -94,12 +79,6 @@ namespace ecs
 			{
 				auto vector = static_cast<UndeadArcherVectorComponent*>(_ent->getMngr()->getComponent<UndeadArcherVectorComponent>(_ent));
 				auto stat = static_cast<UndeadArcherStatComponent*>(_ent->getMngr()->getComponent<UndeadArcherStatComponent>(_ent));
-				auto _transform = static_cast<Transform*>(_ent->getMngr()->getComponent<Transform>(_ent));
-
-				auto _player = static_cast<Transform*>(_ent->getMngr()->getComponent<Transform>(player));
-
-
-
 				attackCooldown = 10 - stat->attackspeed;
 				auto now = std::chrono::steady_clock::now();
 				float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
