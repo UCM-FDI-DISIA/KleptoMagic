@@ -11,9 +11,9 @@ protected:
 	Transform* _playerTransform;
 	int _teleRadius = DEFAULT_TELE_RADIUS;
 	int _teleTimer = DEFAULT_TIMER;
+	bool visible = true;
 
 	void teleport();
-	bool canTeleport();
 	
 public:
 	__CMPID_DECL__(ecs::cmp::GHOSTCMP);

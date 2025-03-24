@@ -16,7 +16,8 @@
 	PLAYERCTRL, \
 	GAMECTRL, \
 	GHOSTCMP, \
-	BUTTON
+	BUTTON, \
+	TIMERCMP
 
 
 // Groups list - must have at least one element

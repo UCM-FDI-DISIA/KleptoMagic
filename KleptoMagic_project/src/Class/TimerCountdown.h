@@ -2,8 +2,9 @@
 #define TIMER_COUNTDOWN_H
 
 #include <chrono>
+#include "..\ecs\Component.h"
 
-class TimerCountdown {
+class TimerCountdown : public ecs::Component {
 public:
     TimerCountdown(int duration);   // Constructor to set initial time
     void start();          // Start the timer
@@ -17,6 +18,8 @@ public:
     void resume();
 
 private:
+    __CMPID_DECL__(ecs::cmp::TIMERCMP);
+
     std::chrono::time_point<std::chrono::steady_clock> startTime;
     std::chrono::duration<float> totalDuration;
     float timeMultiplier;
