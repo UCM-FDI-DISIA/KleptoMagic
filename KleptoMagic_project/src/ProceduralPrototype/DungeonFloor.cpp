@@ -535,41 +535,41 @@ void DungeonFloor::PrintFloorLayout_Detailed() {
 				// up exit
 				if (floorLayout[i][j]->hasExitUp()) {
 					if (floorLayout[i][j]->linkU) {
-						render_matrix[sp_i]	[sp_j + 1]	= 'L';
+						render_matrix[sp_i]	[sp_j + 1]	= '#';
 					}
 					else {
-						render_matrix[sp_i]	[sp_j + 1]	= 'D';
+						render_matrix[sp_i]	[sp_j + 1]	= '+';
 					}
 				}
 				// down exit
 				if (floorLayout[i][j]->hasExitDown()) {
 					if (floorLayout[i][j]->linkD) {
-						render_matrix[sp_i + 2][sp_j + 1] = 'L';
+						render_matrix[sp_i + 2][sp_j + 1] = '#';
 					}
 					else {
-						render_matrix[sp_i + 2][sp_j + 1] = 'D';
+						render_matrix[sp_i + 2][sp_j + 1] = '+';
 					}
 				}
 				// left exit
 				if (floorLayout[i][j]->hasExitLeft()) {
 					if (floorLayout[i][j]->linkL) {
-						render_matrix[sp_i + 1][sp_j] = 'L';
+						render_matrix[sp_i + 1][sp_j] = '#';
 					}
 					else {
-						render_matrix[sp_i + 1][sp_j] = 'D';
+						render_matrix[sp_i + 1][sp_j] = '+';
 					}
 				}
 				// right exit
 				if (floorLayout[i][j]->hasExitRight()) {
 					if (floorLayout[i][j]->linkR) {
-						render_matrix[sp_i + 1][sp_j + 2] = 'L';
+						render_matrix[sp_i + 1][sp_j + 2] = '#';
 					}
 					else {
-						render_matrix[sp_i + 1][sp_j + 2] = 'D';
+						render_matrix[sp_i + 1][sp_j + 2] = '+';
 					}
 				}
 			}
-			else render_matrix[sp_i + 1][sp_j + 1] = '-';
+			else render_matrix[sp_i + 1][sp_j + 1] = '.';
 		}
 	}
 
