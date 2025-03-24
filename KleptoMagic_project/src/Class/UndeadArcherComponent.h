@@ -13,6 +13,12 @@ namespace ecs
 	public:
 		float direcionX, direcionY;
 		UndeadArcherVectorComponent();
+		void initComponent() override
+		{
+			auto* _mngr = _ent->getMngr();
+			_slimeTransform = _mngr->getComponent<Transform>(_ent);
+			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+		}
 		void CreateVector(Vector2D playerPos, Vector2D enemyPos) {
 			direcionX = playerPos.getX() - enemyPos.getX();
 			direcionY = playerPos.getY() - enemyPos.getY();
@@ -26,7 +32,12 @@ namespace ecs
 
 	class CollideComponent : public Component
 	{
-		
+		void initComponent() override
+		{
+			auto* _mngr = _ent->getMngr();
+			_slimeTransform = _mngr->getComponent<Transform>(_ent);
+			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+		}
 	};
 	class RenderComponent : public Component
 	{
@@ -35,6 +46,12 @@ namespace ecs
 		RenderComponent(Texture* tex) 
 		{
 			texture = tex;
+		}
+		void initComponent() override
+		{
+			auto* _mngr = _ent->getMngr();
+			_slimeTransform = _mngr->getComponent<Transform>(_ent);
+			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 		}
 	};
 
@@ -46,6 +63,12 @@ namespace ecs
 		float attackspeed = 10;
 		float range = 10;
 		UndeadArcherStatComponent();
+		void initComponent() override
+		{
+			auto* _mngr = _ent->getMngr();
+			_slimeTransform = _mngr->getComponent<Transform>(_ent);
+			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+		}
 		void update() override {}
 	};
 	class UndeadAttackComponent : public Component
@@ -58,6 +81,12 @@ namespace ecs
 		UndeadAttackComponent(Entity* Player) 
 		{
 			player = Player;
+		}
+		void initComponent() override
+		{
+			auto* _mngr = _ent->getMngr();
+			_slimeTransform = _mngr->getComponent<Transform>(_ent);
+			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 		}
 		void update() override
 		{
