@@ -1,7 +1,5 @@
 #include "NewRoundState.h"
 
-#include "FighterUtils.h"
-#include "AsteroidsUtils.h"
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/InputHandler.h"
 
@@ -63,6 +61,7 @@ void NewRoundState::enter()
 	//fighterutils().reset_fighter();
 	//asteroidsutils().remove_all_asteroids();
 	//asteroidsutils().create_asteroids(10); // AJUSTE: Número de asteroides
+	std::cout << "Entrando en NewRoundState" << std::endl;
 }
 
 void NewRoundState::leave()

@@ -15,7 +15,8 @@
 	STATUSEFFECT, \
 	PLAYERCTRL, \
 	GAMECTRL, \
-	LIFECMP
+	GHOSTCMP, \
+	BUTTON
 
 
 // Groups list - must have at least one element
@@ -26,6 +27,6 @@
 // Handlers list - must have at least one element
 //
 #define _HDLRS_LIST_ \
-    FIGHTER, \
+    PLAYER, \
 	GAMEINFO
 

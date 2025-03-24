@@ -19,7 +19,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	//asteroidSpawnTimer.resetTime();
 	//fighterutils().create_fighter();
 	auto player = _mngr->addEntity();
-	_mngr->setHandler(ecs::hdlr::FIGHTER, player);
+	_mngr->setHandler(ecs::hdlr::PLAYER, player);
 	auto tr = _mngr->addComponent<Transform>(player);
 	auto s = 50.0f;
 	auto x = (sdlutils().width() - s) / 2.0f;

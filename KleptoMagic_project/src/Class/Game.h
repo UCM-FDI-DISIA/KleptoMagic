@@ -26,9 +26,6 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../game/GameState.h"
 
-
-
-
 #pragma once
 
 using uint = unsigned int;
@@ -46,8 +43,6 @@ class Game : public Singleton<Game>
 public:
 	// Identificadores de las texturas
 	enum TextureName {
-		MAINMENUBACKGROUND,
-		MAINMENUBUTTON,
 		ENDMENUBACKGROUND,
 		ENDMENUBUTTON,
 		PLAYER,
@@ -105,6 +100,7 @@ public:
 	inline ecs::Manager* getMngr() { return _mngr; }
 	inline void setState(State s) {
 		_state->leave();
+		//sdlutils().clearRenderer();
 		switch (s) {
 		case RUNNING:
 			_state = _running_state;
@@ -151,6 +147,4 @@ private:
 inline Game& game() {
 	return *Game::Instance();
 }
-
-
 #endif
