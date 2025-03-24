@@ -1,17 +1,26 @@
 #include "GhostComponent.h"
+#include "..\ecs\Manager.h"
 
-GhostComponent::GhostComponent(Transform* transform, int radius) 
-	: _ghostTransform(transform), _teleRadius(radius) {}
-
-GhostComponent::~GhostComponent() {
-
+GhostComponent::GhostComponent(int rad) 
+	: _teleRadius(rad) {
 }
 
-void GhostComponent::teleport() {
+GhostComponent::GhostComponent(int rad, int timer) 
+	: _teleRadius(rad), _teleTimer(timer) {
+}
 
+GhostComponent::~GhostComponent() {
 }
 
 void GhostComponent::initComponent() {
+	auto* _mngr = _ent->getMngr();
+	_ghostTransform = _mngr->getComponent<Transform>(_ent);
+	_playerTransform = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+	//_playerTransform = _mngr->getEntities()
+	//assert(_tr != nullptr);
+}
+
+void GhostComponent::teleport() {
 
 }
 
