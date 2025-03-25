@@ -34,8 +34,6 @@ const string textureRoot = "../KleptoMagic_project/resources/images/";
 
 // Especificación de las texturas del juego
 const array<TextureSpec, Game::NUM_TEXTURES> textureSpec{
-	TextureSpec{"background-provisional.png", 1, 1},
-	TextureSpec{"play-button.png", 1, 1},
 	TextureSpec{"endmenu-provisional.png", 1, 1},
 	TextureSpec{"return-button.png", 1, 1},
 	TextureSpec{"player_placeholder.png",1,1}
@@ -129,6 +127,7 @@ bool Game::initGame() {
 	//asteroidsutils().create_asteroids(10);
 
 	_state = _newgame_state;
+
 	auto ginfo = _mngr->addEntity();
 	_mngr->setHandler(ecs::hdlr::GAMEINFO, ginfo);
 	//_mngr->addComponent<GameCtrl>(ginfo);
@@ -160,6 +159,7 @@ void Game::start() {
 	vt.resetTime();
 
 	while (!exit) {
+		std::cout << "Entrando en el bucle principal" << std::endl;
 		Uint32 startTime = vt.regCurrTime();
 
 		NewInputHandler::Instance()->update();
@@ -181,14 +181,19 @@ void Game::start() {
 			exit = true;
 			continue;
 		}*/
+		}
+		std::cout << "Exit: " << exit << std::endl;
+
 
 		//std::cout << _state << std::endl;
 		_state->update();
+		std::cout << "Se ejecutó update()" << std::endl;
+
 
 		Uint32 frameTime = sdlutils().currRealTime() - startTime;
 		if (frameTime < 10) SDL_Delay(10 - frameTime);
 	}
-}
+
 
 
 

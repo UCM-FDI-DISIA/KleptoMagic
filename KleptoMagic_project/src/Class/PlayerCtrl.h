@@ -14,7 +14,6 @@ public:
 	void Move(Vector2D movementVector, float speed); // modificar el vector de direccion y velocidad
 	void update();
 
-
 private:
 	void createStart();
 	Transform* _tr;
