@@ -44,7 +44,7 @@ namespace ecs
 		__CMPID_DECL__(ecs::cmp::SLIMESTATCMP);
 		float speed = 0.5;
 		float damage = 10;
-		float attackspeed = 10;
+		float attackspeed = 1;
 
 		void initComponent() override
 		{
@@ -60,7 +60,6 @@ namespace ecs
 		
 		Transform* _slimeTransform;
 		Transform* _player;
-		Entity* player = nullptr;
 	public : 
 		__CMPID_DECL__(ecs::cmp::SLIMEMOVCMP);
 
@@ -74,15 +73,14 @@ namespace ecs
 
 		void update() override
 
-		{
-			
+		{			
 				auto vector = static_cast<SlimeVectorComponent*>(_ent->getMngr()->getComponent<SlimeVectorComponent>(_ent));
 				auto stat = static_cast<SlimeStatComponent*>(_ent->getMngr()->getComponent<SlimeStatComponent>(_ent));
 
 				if (vector && stat && _slimeTransform)
 				{
 					vector->CreateVector(_slimeTransform->getPos(), _player->getPos());
-					Vector2D velocity (vector->direcionX * stat->speed, vector->direcionY * stat->speed);
+					Vector2D velocity (vector->direcionX * 0.5, vector->direcionY * 0.5);
 					_slimeTransform->getVel() = velocity;
 				}
 			
@@ -95,7 +93,6 @@ namespace ecs
 		
 		Transform* _slimeTransform;
 		Transform* _player;
-		Entity* player = nullptr;
 	public:
 		__CMPID_DECL__(ecs::cmp::SLIMESTATCMP);
 		float attackCooldown;
@@ -112,12 +109,13 @@ namespace ecs
 
 
 			auto stat = static_cast<SlimeStatComponent*>(_ent->getMngr()->getComponent<SlimeStatComponent>(_ent));
-			attackCooldown = 10 - stat->attackspeed;
+			attackCooldown = 10;
 			auto now = std::chrono::steady_clock::now();
 			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
 
 			if (elapsedTime >= attackCooldown)
 			{
+				std::cout << "ataque!";
 				lastAttackTime = now;
 			}
 

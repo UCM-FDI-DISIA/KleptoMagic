@@ -39,6 +39,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	_mngr->addComponent<Image>(slime, &sdlutils().images().at("pacman"));
 	_mngr->addComponent<SlimeVectorComponent>(slime);
 	_mngr->addComponent<SlimeStatComponent>(slime);
+	_mngr->addComponent<SlimeAttackComponent>(slime);
 	_mngr->addComponent<SlimeMovementComponent>(slime);
 
 }
