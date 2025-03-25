@@ -181,7 +181,6 @@ void Game::start() {
 			exit = true;
 			continue;
 		}*/
-		}
 		std::cout << "Exit: " << exit << std::endl;
 
 
@@ -193,8 +192,7 @@ void Game::start() {
 		Uint32 frameTime = sdlutils().currRealTime() - startTime;
 		if (frameTime < 10) SDL_Delay(10 - frameTime);
 	}
-
-
+}
 
 
 //void
