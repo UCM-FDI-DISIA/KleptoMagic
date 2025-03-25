@@ -23,8 +23,8 @@ namespace ecs
 			auto* _mngr = _ent->getMngr();
 		}
 		void CreateVector(Vector2D playerPos, Vector2D enemyPos) {
-			direcionX = playerPos.getX() - enemyPos.getX();
-			direcionY = playerPos.getY() - enemyPos.getY();
+			direcionX = enemyPos.getX() - playerPos.getX() ;
+			direcionY =  enemyPos.getY() - playerPos.getY();
 			float length = std::sqrt(direcionX * direcionX + direcionY * direcionY);
 			if (length != 0) {
 				direcionX /= length;
@@ -42,7 +42,7 @@ namespace ecs
 		Transform* _playerTransform;
 	public:
 		__CMPID_DECL__(ecs::cmp::SLIMESTATCMP);
-		float speed = 50;
+		float speed = 0.5;
 		float damage = 10;
 		float attackspeed = 10;
 
@@ -75,8 +75,7 @@ namespace ecs
 		void update() override
 
 		{
-			if (player != nullptr)
-			{
+			
 				auto vector = static_cast<SlimeVectorComponent*>(_ent->getMngr()->getComponent<SlimeVectorComponent>(_ent));
 				auto stat = static_cast<SlimeStatComponent*>(_ent->getMngr()->getComponent<SlimeStatComponent>(_ent));
 
@@ -86,7 +85,7 @@ namespace ecs
 					Vector2D velocity (vector->direcionX * stat->speed, vector->direcionY * stat->speed);
 					_slimeTransform->getVel() = velocity;
 				}
-			}
+			
 
 		}
 	};

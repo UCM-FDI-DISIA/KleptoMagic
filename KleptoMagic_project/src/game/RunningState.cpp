@@ -33,7 +33,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	_mngr->addComponent<PlayerCtrl>(player);
 
 	//Slime,
-	_mngr->setHandler(ecs::grp::ENEMY,slime);
+	_mngr->setHandler(ecs::hdlr::SLIME, slime);
 	auto slimetr = _mngr->addComponent<Transform>(slime);
 	slimetr->init(Vector2D(x + 100, 5 - 20), Vector2D(), s, s, 0.0f);
 	_mngr->addComponent<Image>(slime, &sdlutils().images().at("pacman"));
