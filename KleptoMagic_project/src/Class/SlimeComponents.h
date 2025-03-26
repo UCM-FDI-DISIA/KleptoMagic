@@ -34,7 +34,6 @@ namespace ecs
 	};
 
 
-
 	class SlimeStatComponent : public Component
 	{
 		
@@ -93,6 +92,7 @@ namespace ecs
 		
 		Transform* _slimeTransform;
 		Transform* _player;
+		bool colision = false;
 	public:
 		__CMPID_DECL__(ecs::cmp::SLIMESTATCMP);
 		float attackCooldown;
@@ -104,6 +104,10 @@ namespace ecs
 			_slimeTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 		}
+		void Colision()
+		{
+			colision = true;
+		}
 		void update() override
 		{
 
@@ -113,12 +117,12 @@ namespace ecs
 			auto now = std::chrono::steady_clock::now();
 			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
 
-			if (elapsedTime >= attackCooldown)
+			if (elapsedTime >= attackCooldown && colision)
 			{
 				std::cout << "ataque!";
 				lastAttackTime = now;
 			}
-
+			colision = false;
 
 		}
 

@@ -20,7 +20,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	//asteroidSpawnTimer.resetTime();
 	//fighterutils().create_fighter();
 	auto player = _mngr->addEntity();
-	auto slime = _mngr->addEntity();
+	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
 
 	//Player
 	_mngr->setHandler(ecs::hdlr::PLAYER, player);
@@ -53,7 +53,7 @@ void RunningState::update() {
 	
 	bool exit = false;
 	auto& ihdlr = ih();
-
+	std::cout << "ataque!";
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
 	//
@@ -87,37 +87,52 @@ void RunningState::update() {
 		colission_thisframe = false;
 		checkCollisions();
 
-		//if (colission_thisframe) {
-		//	fighterutils().take_life();
-		//	if (fighterutils().get_lives() > 0) {
-		//		game().setState(Game::NEWROUND);
-		//	}
-		//	else {
-		//		game().setState(Game::GAMEOVER);
-		//	}
-		//	exit = true;
-		//}
+		if (colission_thisframe)
+		{
+			for (auto enemy : _mngr->getEntities(ecs::grp::ENEMY))
+			{
+				if (_mngr->isAlive(enemy))
+				{	
+					if(enemy->getMngr()->hasComponent<SlimeAttackComponent>(enemy)) 
+					{
+						enemy->getMngr()->getComponent<SlimeAttackComponent>(enemy)->Colision();
+					}									
+				}
 
-		// clear screen
-		sdlutils().clearRenderer();
+			}
+		}
+			//if (colission_thisframe) {
+			//	fighterutils().take_life();
+			//	if (fighterutils().get_lives() > 0) {
+			//		game().setState(Game::NEWROUND);
+			//	}
+			//	else {
+			//		game().setState(Game::GAMEOVER);
+			//	}
+			//	exit = true;
+			//}
 
-		// render
-		_mngr->render();
+			// clear screen
+			sdlutils().clearRenderer();
 
-		// present new frame
-		sdlutils().presentRenderer();
+			// render
+			_mngr->render();
 
-		// spawn new asteroid every 5s
-		//if (asteroidSpawnTimer.currRealTime() >= asteroidSpawnCDms) {
-		//	asteroidSpawnTimer.resetTime();
-		//	asteroidsutils().create_asteroids(1); // AJUSTE: Asteroides spawneando cada 5s
-		//}
+			// present new frame
+			sdlutils().presentRenderer();
 
-		Uint32 frameTime = sdlutils().currRealTime() - startTime;
+			// spawn new asteroid every 5s
+			//if (asteroidSpawnTimer.currRealTime() >= asteroidSpawnCDms) {
+			//	asteroidSpawnTimer.resetTime();
+			//	asteroidsutils().create_asteroids(1); // AJUSTE: Asteroides spawneando cada 5s
+			//}
 
-		if (frameTime < 20)
-			SDL_Delay(20 - frameTime);
-	}
+			Uint32 frameTime = sdlutils().currRealTime() - startTime;
+
+			if (frameTime < 20)
+				SDL_Delay(20 - frameTime);
+		}
+	
 }
 
 void RunningState::checkCollisions() {
@@ -126,22 +141,23 @@ void RunningState::checkCollisions() {
 	////auto f_g = _mngr->getComponent<Gun>(_mngr->getHandler(ecs::hdlr::FIGHTER));
 	//
 	//// Iterate through asteroids
-	/*for (auto enemy : _mngr->getEntities(ecs::grp::ENEMY))
+	for (auto enemy : _mngr->getEntities(ecs::grp::ENEMY))
 	{
 		if(_mngr->isAlive(enemy))
 		{
 			auto enemy_transform = _mngr->getComponent<Transform>(enemy);
 			if (Collisions::collides(
 			_tr->getPos(),_tr->getWidth(),_tr->getHeight(),
-		    enemy_transform->getPos(),enemy_transform->getWidth(),enemy_transform->getHeight()))
+		    enemy_transform->getPos(),enemy_transform->getWidth(),enemy_transform->getHeight()) && !colission_thisframe)
 			{
 				colission_thisframe = true;
+
 			}
 		}
 	
 	}
 
-	*/
+	
 	//	if (_mngr->isAlive(a)) {
 	//		auto a_t = _mngr->getComponent<Transform>(a);
 	//
