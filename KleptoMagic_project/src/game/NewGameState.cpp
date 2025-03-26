@@ -6,7 +6,9 @@
 using ecs::Manager;
 
 NewGameState::NewGameState() {
-        std::cout << "Nuevo NewGameState creado!" << std::endl;
+#ifdef _DEBUG
+    std::cout << "Nuevo NewGameState creado!" << std::endl;
+#endif
 
     // Cargar el fondo
     background = new Texture(sdlutils().renderer(), "resources/images/background-provisional.png");
@@ -27,9 +29,9 @@ NewGameState::NewGameState() {
 }
 
 NewGameState::~NewGameState() {
-    delete background;
-    delete buttonTexture;
-    delete startButton;
+    //delete background;
+    //delete buttonTexture;
+    //delete startButton;
 }
 
 void NewGameState::update() {
@@ -73,11 +75,15 @@ void NewGameState::update() {
 }
 
 void NewGameState::enter() {
+#ifdef _DEBUG
     std::cout << "Entrando en NewGameState" << std::endl;
+#endif
 }
 
 void NewGameState::leave() {
+#ifdef _DEBUG
     std::cout << "Saliendo en NewGameState" << std::endl;
+#endif
 }
 
 //#include "NewGameState.h"
