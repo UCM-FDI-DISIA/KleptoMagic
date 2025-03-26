@@ -41,6 +41,7 @@
     <ClCompile Include="src\Class\MenuState.cpp" />
     <ClCompile Include="src\Class\StatusEffect.cpp" />
     <ClCompile Include="src\Class\Minigame.cpp" />
+    <ClCompile Include="src\Class\MinigameGeneratorComponent.cpp" />
     <ClCompile Include="src\Class\TimerCountdown.cpp" />
     <ClCompile Include="src\ecs\Manager.cpp" />
     <ClCompile Include="src\game\AsteroidsFacade.cpp" />
@@ -58,6 +59,7 @@
     <ClCompile Include="SRC\json\JSONValue.cpp" />
     <ClCompile Include="SRC\json\json_demo.cpp" />
     <ClCompile Include="SRC\main.cpp" />
+    <ClCompile Include="SRC\sdlutils\NewInputHandler.cpp" />
     <ClCompile Include="SRC\sdlutils\SDLNetUtils.cpp" />
     <ClCompile Include="SRC\sdlutils\SDLUtils.cpp" />
     <ClCompile Include="SRC\sdlutils\SDLUtilsError.cpp" />
@@ -89,6 +91,7 @@
     <ClInclude Include="src\Class\Game.h" />
     <ClInclude Include="src\Class\StatusEffect.h" />
     <ClCompile Include="src\Class\Minigame.h" />
+    <ClCompile Include="src\Class\MinigameGeneratorComponent.h" />
     <ClInclude Include="src\Class\TimerCountdown.h" />
     <ClInclude Include="src\Class\Transform.h" />
     <ClInclude Include="src\ecs\Component.h" />

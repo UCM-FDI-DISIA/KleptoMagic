@@ -12,6 +12,7 @@
     <ClCompile Include="SRC\json\JSONValue.cpp" />
     <ClCompile Include="SRC\json\json_demo.cpp" />
     <ClCompile Include="SRC\main.cpp" />
+    <ClInclude Include="src\sdlutils\NewInputHandler.cpp" />
     <ClCompile Include="SRC\sdlutils\SDLNetUtils.cpp" />
     <ClCompile Include="SRC\sdlutils\SDLUtils.cpp" />
     <ClCompile Include="SRC\sdlutils\SDLUtilsError.cpp" />
@@ -26,6 +27,8 @@
     <ClCompile Include="src\Class\Button.cpp" />
     <ClCompile Include="src\Class\MainMenuState.cpp" />
     <ClCompile Include="src\Class\Player.cpp" />
+    <ClCompile Include="src\Class\Minigame.cpp" />
+    <ClCompile Include="src\Class\MinigameGeneratorComponent.cpp" />
     <ClCompile Include="src\Class\TimerCountdown.cpp" />
     <ClCompile Include="src\Class\Enemy.cpp" />
     <ClCompile Include="src\Class\EventHandler.cpp" />
@@ -58,7 +61,7 @@
     <ClInclude Include="src\json\JSONValue.h" />
     <ClInclude Include="src\json\json_demo.h" />
     <ClInclude Include="src\sdlutils\Font.h" />
-    <ClInclude Include="src\sdlutils\InputHandler.h" />
+    <ClInclude Include="src\sdlutils\NewInputHandler.h" />
     <ClInclude Include="src\sdlutils\macros.h" />
     <ClInclude Include="src\sdlutils\Music.h" />
     <ClInclude Include="src\sdlutils\RandomNumberGenerator.h" />
@@ -82,6 +85,8 @@
     <ClInclude Include="src\Class\MainMenuState.h" />
     <ClInclude Include="src\Class\MenuState.h" />
     <ClInclude Include="src\Class\Player.h" />
+    <ClCompile Include="src\Class\Minigame.h" />
+    <ClCompile Include="src\Class\MinigameGeneratorComponent.h" />
     <ClInclude Include="src\Class\TimerCountdown.h" />
     <ClInclude Include="src\Class\Enemy.h" />
     <ClInclude Include="src\Class\EventHandler.h" />

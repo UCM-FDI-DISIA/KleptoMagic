@@ -1,7 +1,7 @@
 #include "PausedState.h"
 
 #include "../sdlutils/SDLUtils.h"
-#include "../sdlutils/InputHandler.h"
+#include "../sdlutils/NewInputHandler.h"
 
 PausedState::PausedState() {
 
@@ -29,7 +29,6 @@ void PausedState::leave() {
 void PausedState::update() {
 	
 	bool exit = false;
-	auto& ihdlr = ih();
 
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
@@ -40,10 +39,10 @@ void PausedState::update() {
 		Uint32 startTime = sdlutils().currRealTime();
 
 		// update the event handler
-		ih().refresh();
+		NewInputHandler::Instance()->update();
 
 		// enter RunningState when any key is down
-		if (ih().keyDownEvent()) {
+		if (NewInputHandler::Instance()->isAnyKeyPressed()) {
 			//here
 			game().setState(Game::RUNNING);
 			exit = true;

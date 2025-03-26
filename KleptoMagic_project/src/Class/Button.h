@@ -6,7 +6,7 @@
 #include "../ecs/ecs_defs.h"
 #include "../ecs/Component.h"
 #include "EventHandler.h"
-#include "../sdlutils/InputHandler.h"
+#include "../sdlutils/NewInputHandler.h"
 #include "InputManager.h"
 #include "../utils/Vector2D.h"
 #include "../sdlutils/Texture.h"
@@ -32,7 +32,6 @@ private:
     std::function<void()> _onClick;
     Vector2D _position;
     Vector2D _size;
-    InputHandler* _inputHandler;
     Texture* _texture; 
     bool _isPressed = false;
 };

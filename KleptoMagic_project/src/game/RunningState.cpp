@@ -28,7 +28,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
 	_mngr->addComponent<Image>(player, &sdlutils().images().at("player"));
 	_mngr->addComponent<PlayerCtrl>(player);
-
+	
 }
 	
 
@@ -39,7 +39,7 @@ RunningState::~RunningState() {
 void RunningState::update() {
 	
 	bool exit = false;
-	//auto& ihdlr = ih();
+	NewInputHandler::Instance()->init();
 
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
@@ -54,7 +54,7 @@ void RunningState::update() {
 		}
 
 		// update the event handler
-		//ih().refresh();
+		NewInputHandler::Instance()->update();
 
 		// if 0 asteroids change to GameOverState
 		//if (asteroidsutils().count_asteroids() <= 0) {

@@ -1,7 +1,7 @@
 #include "NewRoundState.h"
 
 #include "../sdlutils/SDLUtils.h"
-#include "../sdlutils/InputHandler.h"
+#include "../sdlutils/NewInputHandler.h"
 
 NewRoundState::NewRoundState() {
 
@@ -21,7 +21,6 @@ NewRoundState::~NewRoundState() {
 void NewRoundState::update() {
 	
 	bool exit = false;
-	auto& ihdlr = ih();
 
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
@@ -32,10 +31,10 @@ void NewRoundState::update() {
 		Uint32 startTime = sdlutils().currRealTime();
 
 		// update the event handler
-		ih().refresh();
+		NewInputHandler::Instance()->update();
 
 		// enter RunningState when any key is down
-		if (ih().keyDownEvent()) {
+		if (NewInputHandler::Instance()->isAnyKeyPressed()) {
 			game().setState(Game::RUNNING);
 			exit = true;
 		}

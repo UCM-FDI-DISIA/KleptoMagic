@@ -5,7 +5,6 @@ Button::Button(std::function<void()> onClick, Vector2D position, Vector2D size, 
     : _onClick(onClick), _position(position), _size(size), _texture(texture) {}
 
 void Button::initComponent() {
-    _inputHandler = &ih();
 }
 
 void Button::update() {
@@ -36,7 +35,7 @@ void Button::render() {
 }
 
 void Button::handleEvent(const SDL_Event& event) {
-    _inputHandler->update(event);
+    NewInputHandler::Instance()->update();
 }
 
 bool Button::isInside(int x, int y) const {
