@@ -1,6 +1,7 @@
 // This file is part of the course TPV2@UCM - Samir Genaim
 
 #include <SDL.h>
+#include <conio.h>
 
 #include "./../../src/sdlutils/sdlutils_demo.h"
 
@@ -66,7 +67,10 @@ void procedural_prototype() {
 	cout << "----------------------------------------" << endl;
 	cout << "----------------------------------------" << endl;
 	cout << "----------------------------------------" << endl;
-	DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 20, roomstorage);
+	while (true) {
+		DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage);
+		_getch(); // waits for any key press before retrying. this is a demo
+	}
 
 	// --------------------
 	// 

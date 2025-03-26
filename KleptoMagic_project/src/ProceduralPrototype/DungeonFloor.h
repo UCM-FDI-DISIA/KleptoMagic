@@ -32,6 +32,8 @@ private:
 	vector<vector<DungeonRoom*>> floorLayout;
 	// Pointer to room storage
 	RoomStorage* roomstorage;
+	int startX;
+	int startY;
 public:
 	// Used to indicate when a fail has happened during generation
 	bool badGen;
@@ -40,6 +42,8 @@ public:
 	virtual void render() const;
 	virtual void update();
 	void GenerateFloor(int minWidth, int minHeight, int maxWidth, int maxHeight, int numRooms);
+	int getStartX() { return startX; };
+	int getStartY() { return startY; };
 	vector<char> CheckSpaceAroundRoom(int x, int y);
 	vector<char> ExitsToFillForSpace(int x, int y);
 	void LinkExitsAtPosition(int x, int y, vector<char> exits);

@@ -43,13 +43,13 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 
 	// Choose one random starting room out of storage, then place it in the center of the room matrix 
 	// (or close to the center if on even numbers for size)
-	int centerX = (floor_width) / 2;
-	int centerY = (floor_height) / 2; 
-	floorLayout[centerX][centerY] = roomstorage->GetRandomEntranceRoom();
+	int startX = (floor_width) / 2;
+	int startY = (floor_height) / 2; 
+	floorLayout[startX][startY] = roomstorage->GetRandomEntranceRoom();
 
 	// Set variables to indicate the current room being looked into for easy reference, as well as the coordinates of the next room being generated
-	int CurrentRoomX = centerX;
-	int CurrentRoomY = centerY;
+	int CurrentRoomX = startX;
+	int CurrentRoomY = startY;
 	int TargetRoomX = CurrentRoomX;
 	int TargetRoomY = CurrentRoomY;
 
@@ -178,11 +178,11 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 				}
 			}
 			floorLayout = vector<vector<DungeonRoom*>>(floor_width, vector<DungeonRoom*>(floor_height, 0));
-			CurrentRoomX = centerX;
-			CurrentRoomY = centerY;
+			CurrentRoomX = startX;
+			CurrentRoomY = startY;
 			TargetRoomX = CurrentRoomX;
 			TargetRoomY = CurrentRoomY;
-			floorLayout[centerX][centerY] = roomstorage->GetRandomEntranceRoom();
+			floorLayout[startX][startY] = roomstorage->GetRandomEntranceRoom();
 
 			attempts++;
 		}
@@ -238,47 +238,78 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 	// For now the condition will only be the room that is furthest away from the start.
 	// In theory, even if it ends up close to the start because of the layout looping a lot, the player
 	// will still want to look at every other room to gather loot.
+	// After selecting, remove the position from the list of possible positions so it doesn't get in the way
+	// of generating special rooms next.
 	roomPos bossPos = roomPos{ 0,0 };
 	double currentDist = 0;
 	double dist = 0;
+	int bossPosIndex = 0;
 	cout << dist << " " << currentDist << " " << bossPos.x << "|" << bossPos.y << endl;
-	for (auto i : locations) {
-		double distX = centerX - i.x;
-		double distY = centerY - i.y;
+
+	for (int i = 0; i < locations.size(); i++) {
+		double distX = startX - locations[i].x;
+		double distY = startY - locations[i].y;
 		dist = sqrt(pow(distX, 2) + pow(distY, 2));
 		//cout << "1 ::: " << distX << " " << distY << " | " << pow(distX, 2) << " " << pow(distY, 2) << " | " << dist << endl;
 
 		if (dist >= currentDist) {
 			currentDist = dist;
-			bossPos = i;
+			bossPos = locations[i];
+			bossPosIndex = i;
 		}
 	}
+	locations.erase(locations.begin() + bossPosIndex);
+
 
 	cout << "LOCATION OF THE BOSS ROOM: ";
 	cout << bossPos.x << "|" << bossPos.y << " " << endl;
 
+	// Place in the boss room
+	// Find out what exits need to be filled at the location the new room will be on, based on adjacent rooms and what exits they have.
+	cout << "NOW PLACING THE BOSS ROOM" << endl;
+
+	vector<char> exitsToConnect = ExitsToFillForSpace(bossPos.x, bossPos.y);
+	cout << "EXITS THAT NEED TO BE FILLED: ";
+	for (auto j : exitsToConnect) {
+		cout << j;
+	}
+	cout << endl;
+	if (exitsToConnect.size() > 1) {
+		cout << "THIS ROOM NEEDS TO FILL MORE THAN ONE EXIT!!!!!" << endl;
+	}
+	floorLayout[bossPos.x][bossPos.y] = roomstorage->GetRandomBossRoom(exitsToConnect);
+	LinkExitsAtPosition(bossPos.x, bossPos.y, exitsToConnect);
+
 	// Based on the number of rooms to generate, there can only be up to a third of those rooms worth of special rooms.
 	// Pick a random set out of the possible locations to match.
-	vector<roomPos> specialsPos;
 	int specialsN = numRooms / 3;
 	cout << "MAXIMUM NUMBER OF SPECIAL ROOMS ALLOWED (numRooms / 3): " << specialsN << endl;
 	cout << "HOW MANY SPACES WERE THERE?: " << locations.size() - 1 << endl;
-	vector<int> indexes;
-	for (int i = 0; i < specialsN; i++) {
+	vector<bool> locationsPicked(locations.size(), false);
+	vector<int> indexesResult;
+	for (int i = 0; i < specialsN && indexesResult.size() < locations.size(); i++) {
 		bool found = false;
+		std::mt19937 genInd(rd()); // seed the generator
 		while (!found) {
-			std::mt19937 genInd(rd()); // seed the generator
 			std::uniform_int_distribution<> distrInd(0, locations.size() - 1); // define the range
 			int rndIndex = distrInd(genInd); // get a new random index
-			if (std::find(indexes.begin(), indexes.end(), rndIndex) != indexes.end()); // nothing
-			else if (locations[rndIndex] != bossPos) {
-				indexes.push_back(rndIndex);
+			cout << rndIndex << " ";
+			if (!locationsPicked[rndIndex]) {
+				indexesResult.push_back(rndIndex);
+				locationsPicked[rndIndex] = true;
 				found = true;
 			}
+			/*
+			if (std::find(indexesResult.begin(), indexesResult.end(), rndIndex) != indexesResult.end()); // nothing
+			else {
+				indexesResult.push_back(rndIndex);
+				found = true;
+			}
+			*/
 		}
 	}
 	cout << "POSITIONS THAT WILL BE FILLED WITH SPECIAL ROOMS: ";
-	for (auto i : indexes) {
+	for (auto i : indexesResult) {
 		cout << i << " ";
 	}
 	cout << endl;
@@ -288,7 +319,7 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 
 	cout << "NOW PLACING SPECIAL ROOMS" << endl;
 
-	for (auto i : indexes) {
+	for (auto i : indexesResult) {
 		roomPos pos = locations[i];
 		// Find out what exits need to be filled at the location the new room will be on, based on adjacent rooms and what exits they have.
 		vector<char> exitsToConnect = ExitsToFillForSpace(pos.x, pos.y);
@@ -307,21 +338,13 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 		//PrintFloorLayout_Detailed();
 	}
 
-	// Place in the boss room
-	// Find out what exits need to be filled at the location the new room will be on, based on adjacent rooms and what exits they have.
-	cout << "NOW PLACING THE BOSS ROOM" << endl;
-	
-	vector<char> exitsToConnect = ExitsToFillForSpace(bossPos.x, bossPos.y);
-	cout << "EXITS THAT NEED TO BE FILLED: ";
-	for (auto j : exitsToConnect) {
-		cout << j;
+	// TO IMPLEMENT: Turn 1 of the special rooms into a store if there are more than 1 special rooms
+	if (specialsN > 2) {
+		// pick a random one of the special rooms, based on indexesResult. Then, delete that room's index from indexesResult.
 	}
-	cout << endl;
-	if (exitsToConnect.size() > 1) {
-		cout << "THIS ROOM NEEDS TO FILL MORE THAN ONE EXIT!!!!!" << endl;
-	}
-	floorLayout[bossPos.x][bossPos.y] = roomstorage->GetRandomBossRoom(exitsToConnect);
-	LinkExitsAtPosition(bossPos.x, bossPos.y, exitsToConnect);
+
+	// TO IMPLEMENT: Add random content inside of the remainder of the special rooms
+
 	system("CLS");
 	cout << "--------------------------------" << endl;
 	cout << "DONE! took " << attempts << " attempts" << endl;
