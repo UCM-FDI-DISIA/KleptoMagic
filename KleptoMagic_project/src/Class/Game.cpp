@@ -179,7 +179,7 @@ void Game::start() {
 				GameStateMachine::handleEvent(evento);
 			}
 */
-		if (NewInputHandler::instance()->) {
+		if (NewInputHandler::Instance()->isActionPressed(Action::SHOOT)) {
 			exit = true;
 			continue;
 		}
