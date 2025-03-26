@@ -159,7 +159,9 @@ void Game::start() {
 	vt.resetTime();
 
 	while (!exit) {
+#ifdef _DEBUG
 		std::cout << "Entrando en el bucle principal" << std::endl;
+#endif
 		Uint32 startTime = vt.regCurrTime();
 
 		NewInputHandler::Instance()->update();
@@ -177,16 +179,20 @@ void Game::start() {
 				GameStateMachine::handleEvent(evento);
 			}
 */
-		/*if (ihdlr.isKeyDown(SDL_SCANCODE_ESCAPE)) {
+		if (NewInputHandler::instance()->) {
 			exit = true;
 			continue;
-		}*/
+		}
+#ifdef _DEBUG
 		std::cout << "Exit: " << exit << std::endl;
+#endif
 
 
 		//std::cout << _state << std::endl;
 		_state->update();
+#ifdef _DEBUG
 		std::cout << "Se ejecutó update()" << std::endl;
+#endif
 
 
 		Uint32 frameTime = sdlutils().currRealTime() - startTime;

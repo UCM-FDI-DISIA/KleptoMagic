@@ -12,8 +12,8 @@ public:
 	~NewGameState();
 	void update() override;
 private:
-	Texture* pressAnyKey;
-	float x0, y0;
+	//Texture* pressAnyKey;
+	//float x0, y0;
 	Texture* background;  
 	Texture* buttonTexture;  
 	Button* startButton;  

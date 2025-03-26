@@ -5,6 +5,9 @@
 
 NewRoundState::NewRoundState() {
 
+	// Cargar el fondo
+	background = new Texture(sdlutils().renderer(), "resources/images/selectmenu-provisional.png");
+
 	pressEnter = new Texture(sdlutils().renderer(), 
 		"Press ENTER to start the round",
 		sdlutils().fonts().at("ARIAL24"), 
@@ -42,6 +45,10 @@ void NewRoundState::update() {
 		// clear screen
 		sdlutils().clearRenderer();
 
+		// Dibujar el fondo
+		SDL_Rect destRect = { 0, 0, sdlutils().width(), sdlutils().height() };
+		background->render(destRect);
+
 		// render Press Any Key
 		pressEnter->render(x0, y0);
 
@@ -57,10 +64,9 @@ void NewRoundState::update() {
 
 void NewRoundState::enter()
 {
-	//fighterutils().reset_fighter();
-	//asteroidsutils().remove_all_asteroids();
-	//asteroidsutils().create_asteroids(10); // AJUSTE: Número de asteroides
+#ifdef _DEBUG
 	std::cout << "Entrando en NewRoundState" << std::endl;
+#endif
 }
 
 void NewRoundState::leave()

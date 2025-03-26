@@ -18,8 +18,8 @@ public:
 private:
 	void checkCollisions();
 	Manager* _mngr;
-	VirtualTimer asteroidSpawnTimer;
-	const int asteroidSpawnCDms = 5000;
+	//VirtualTimer asteroidSpawnTimer;
+	//const int asteroidSpawnCDms = 5000;
 
 	// Heredado vía GameState
 	void enter() override;
