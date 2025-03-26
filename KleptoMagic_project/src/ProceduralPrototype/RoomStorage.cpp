@@ -9,7 +9,7 @@ namespace fs = std::filesystem;
 RoomStorage::RoomStorage()
 {
 	readAllRoomFiles();
-	/*
+#ifdef _DEBUG
 	for (auto i : EntranceRooms) {
 		printRoomData(i);
 	}
@@ -19,7 +19,7 @@ RoomStorage::RoomStorage()
 	for (auto i : BossRooms) {
 		printRoomData(i);
 	}
-	*/
+#endif
 }
 
 RoomStorage::~RoomStorage()
@@ -203,7 +203,6 @@ void RoomStorage::readAllRoomFiles()
 	Start = fs::directory_iterator{ R"(.\src\ProceduralPrototype\rooms\EntranceRooms)" };
 	End = fs::directory_iterator{};
 	for (auto Iter{ Start }; Iter != End; ++Iter) {
-		//cout << Iter->path().string() << '\n';
 		DungeonRoom* room = new DungeonRoom(Iter->path().string(), roomType::ENTRANCE);
 		EntranceRooms.push_back(room);
 	}
@@ -212,7 +211,6 @@ void RoomStorage::readAllRoomFiles()
 	Start = fs::directory_iterator{R"(.\src\ProceduralPrototype\rooms\RegularRooms)"};
 	End = fs::directory_iterator{};
 	for (auto Iter{ Start }; Iter != End; ++Iter) {
-		//cout << Iter->path().string() << '\n';
 		DungeonRoom* room = new DungeonRoom(Iter->path().string(), roomType::REGULAR);
 		RegularRooms.push_back(room);
 	}
@@ -221,7 +219,6 @@ void RoomStorage::readAllRoomFiles()
 	Start = fs::directory_iterator{ R"(.\src\ProceduralPrototype\rooms\SpecialRooms)" };
 	End = fs::directory_iterator{};
 	for (auto Iter{ Start }; Iter != End; ++Iter) {
-		//cout << Iter->path().string() << '\n';
 		DungeonRoom* room = new DungeonRoom(Iter->path().string(), roomType::SPECIAL);
 		SpecialRooms.push_back(room);
 	}
@@ -230,12 +227,12 @@ void RoomStorage::readAllRoomFiles()
 	Start = fs::directory_iterator{ R"(.\src\ProceduralPrototype\rooms\BossRooms)" };
 	End = fs::directory_iterator{};
 	for (auto Iter{ Start }; Iter != End; ++Iter) {
-		//cout << Iter->path().string() << '\n';
 		DungeonRoom* room = new DungeonRoom(Iter->path().string(), roomType::BOSS);
 		BossRooms.push_back(room);
 	}
 }
 
+#ifdef _DEBUG
 void RoomStorage::printRoomData(DungeonRoom* room) {
 	cout << "NAME:\t" << room->getName() << endl;
 	cout << "SIZE:\t" << room->getWidth() << "x" << room->getHeight() << endl;
@@ -244,3 +241,4 @@ void RoomStorage::printRoomData(DungeonRoom* room) {
 	room->printLayoutSpawns();
 	cout << endl;
 }
+#endif

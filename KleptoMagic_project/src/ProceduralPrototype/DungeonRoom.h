@@ -78,10 +78,11 @@ public:
 	// Returns a random exit available that isn't already connected to another room (U, D, L, R, N (none))
 	char getRandomUnusedExit();
 
+#ifdef _DEBUG
 	// FOR TESTING: prints room tile layout to console, the same way as it is stored
 	void printLayoutTiles();
 	// FOR TESTING: prints room spawns layout to console, the same way as it is stored
 	void printLayoutSpawns();
-
+#endif
 	
 };

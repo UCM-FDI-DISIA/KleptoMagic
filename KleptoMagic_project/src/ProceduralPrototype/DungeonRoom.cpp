@@ -8,7 +8,9 @@
 
 DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 {
+#ifdef _DEBUG
 	cout << "CREATING ROOM: " << filename << endl;
+#endif
 
 	// Split every element of the filename in order to isolate important data built onto it (room size, available exits)
 	vector<string> filename_string_separated = string_splitStringByDelimiter(filename, "\\");
@@ -109,6 +111,7 @@ char DungeonRoom::getRandomUnusedExit() {
 	}
 }
 
+#ifdef _DEBUG
 void DungeonRoom::printLayoutTiles() {
 	for (int i = 0; i < room_height; i++) {
 		for (int j = 0; j < room_width; j++) {
@@ -128,3 +131,4 @@ void DungeonRoom::printLayoutSpawns() {
 	}
 	cout << endl;
 }
+#endif
