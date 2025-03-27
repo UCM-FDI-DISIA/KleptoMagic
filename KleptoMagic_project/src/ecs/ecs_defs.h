@@ -18,16 +18,22 @@
 	GHOSTCMP, \
 	BUTTON, \
 	TIMERCMP
+    SLIMEMOVCMP, \
+    SLIMEATKCMP, \
+    SLIMESTATCMP, \
+    SLIMEVECCMP
 
 
 // Groups list - must have at least one element
 //
 #define _GRPS_LIST_ \
-	ASTEROIDS
-
+	ASTEROIDS,\
+    ENEMY
 // Handlers list - must have at least one element
 //
 #define _HDLRS_LIST_ \
     PLAYER, \
-	GAMEINFO
+	GAMEINFO,\
+    SLIME,\
+    
 
