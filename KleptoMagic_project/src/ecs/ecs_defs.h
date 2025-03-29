@@ -8,7 +8,7 @@
 #define _CMPS_LIST_ \
 	TRANSFORM, \
 	IMAGE, \
-	BULLET, \
+	IMAGEWITHFRAMES,\
 	MOVEMENTCTRL, \
 	ENTITYCMP, \
 	ENTITYSTAT, \
@@ -23,7 +23,7 @@
 // Groups list - must have at least one element
 //
 #define _GRPS_LIST_ \
-	ASTEROIDS
+	BULLET
 
 // Handlers list - must have at least one element
 //

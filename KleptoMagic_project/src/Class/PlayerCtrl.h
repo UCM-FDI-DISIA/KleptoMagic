@@ -18,5 +18,4 @@ public:
 private:
 	void createStart();
 	Transform* _tr;
-	Bullet* _b;
 };

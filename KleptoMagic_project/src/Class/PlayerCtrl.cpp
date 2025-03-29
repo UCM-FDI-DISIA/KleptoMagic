@@ -10,7 +10,6 @@ void PlayerCtrl::initComponent() { //falta get entity stats speed
 	auto*_mngr = _ent->getMngr();
 	_tr = _mngr->getComponent<Transform>(_ent);
 	assert(_tr != nullptr);
-	_b = _mngr->getComponent<Bullet>(_ent);
 }
 //como comentaba en el handleEvent del player cpp o muevo la speed de aqui a alli o
 //o hago un segundo metodo Move que no aplique speed para el knockback pero... creo que mejor lo otro
@@ -37,7 +36,7 @@ void PlayerCtrl::update() {
 	}
 	if(ihldr.isKeyDown(SDL_SCANCODE_SPACE))
 	{
-		_b->pressed();
+		//disparar
 	}
 	Move(movementVector, speed);
 }

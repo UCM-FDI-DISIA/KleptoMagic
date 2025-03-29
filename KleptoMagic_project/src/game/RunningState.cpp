@@ -28,7 +28,8 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
 	_mngr->addComponent<Image>(player, &sdlutils().images().at("player"));
 	_mngr->addComponent<PlayerCtrl>(player);
-	_mngr->addComponent<Bullet>(player);
+	Bullet* bullet = new Bullet();
+	bullet->generateBullets();
 
 }
 	

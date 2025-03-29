@@ -3,19 +3,16 @@
 #include "../ecs/Manager.h"
 #include "../sdlutils/InputHandler.h"
 #include "../sdlutils/SDLUtils.h"
+#include "../Class/ImageWithFrames.h"
 
+
+Bullet::Bullet()
+{
+}
 
 Bullet::~Bullet()
 {
 	
-}
-
-void Bullet::initComponent()
-{
-	//_tr = Game::Instance()->getMngr()->getComponent<Transform>(this->_ent);
-	auto* _mngr = _ent->getMngr();
-	_tr = _mngr->getComponent<Transform>(_ent);
-	assert(_tr != nullptr);
 }
 
 void Bullet::update()
@@ -49,19 +46,24 @@ void Bullet::pressed()
 	}
 }
 
+void Bullet::generateBullets()
+{
+	auto tex = &sdlutils().images().at("star");
+	auto* _mngr = _ent->getMngr();
+	for(int i =0; i<_bullets.size();i++)
+	{
+		
+		_bullets[i] = _mngr->addEntity();
+		_mngr->setHandler(ecs::grp::BULLET,_bullets[i]);
+		_mngr->addComponent<ImageWithFrames>(_bullets[i],tex,1,1);
+		_bulletsTR[i] = _mngr->addComponent<Transform>(_bullets[i])
+		_bulletsTR[i]->init({-1.0f,-20.0f},{12,0}, 25, 25, 0.0f);
+		//auto bullet=_mngr->
+	}
+}
+
 void Bullet::shoot(int index)
 {
-	int x;
-	int y;
-	SDL_GetMouseState(&x, &y);
-	float xf = static_cast<float>(x);
-	float yf = static_cast<float>(y);
-	Vector2D PosRat = { xf,yf};
-	_bullets[index].used = true;
-	_bullets[index].pos.set({ _tr->getPos().getX() + _tr->getWidth() / 2,_tr->getPos().getY() + _tr->getHeight() / 2 });
-	_bullets[index].rot = PosRat.angle(_bullets[index].pos);
-	_bullets[index].vel = Vector2D(0, -1).rotate(_bullets[index].rot) * 10.0f;
-	// falta rotacion Idea: pos del raton - posición del personaje normalizado
-	std::cout << "pew";
+	
 
 }

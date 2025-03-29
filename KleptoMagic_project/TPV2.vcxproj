@@ -30,6 +30,7 @@
     <ClCompile Include="src\Class\GameState_OLD.cpp" />
     <ClCompile Include="src\Class\gameStateMachine.cpp" />
     <ClCompile Include="src\Class\Image.cpp" />
+    <ClCompile Include="src\Class\ImageWithFrames.cpp" />
     <ClCompile Include="src\Class\InputManager.cpp" />
     <ClCompile Include="src\Class\MainMenuState.cpp" />
     <ClCompile Include="src\Class\MovementCtrl.cpp" />
@@ -77,6 +78,7 @@
     <ClInclude Include="src\Class\GameState_OLD.h" />
     <ClInclude Include="src\Class\gameStateMachine.h" />
     <ClInclude Include="src\Class\Image.h" />
+    <ClInclude Include="src\Class\ImageWithFrames.h" />
     <ClInclude Include="src\Class\InputManager.h" />
     <ClInclude Include="src\Class\MainMenuState.h" />
     <ClInclude Include="src\Class\MenuState.h" />
