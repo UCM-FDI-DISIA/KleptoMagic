@@ -9,7 +9,6 @@
 #include "../Class/Image.h"
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
-#include "../Class/Bullet.h"
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
 
@@ -28,7 +27,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
 	_mngr->addComponent<Image>(player, &sdlutils().images().at("player"));
 	_mngr->addComponent<PlayerCtrl>(player);
-	Bullet* bullet = new Bullet();
+	 bullet = new Bullet();
 	bullet->generateBullets();
 
 }
@@ -67,7 +66,10 @@ void RunningState::update() {
 		//	game().setState(Game::PAUSED);
 		//	exit = true;
 		//}
+		if (ihdlr.isKeyDown(SDL_SCANCODE_K)) {
 
+			bullet->pressed();
+		}
 		// update fighter and asteroids here
 		_mngr->update();
 		_mngr->refresh();

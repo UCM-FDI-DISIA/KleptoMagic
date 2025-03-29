@@ -5,6 +5,9 @@
 #include "Transform.h"
 #include "../ecs/Entity.h"
 #include "../ecs/Manager.h"
+#include "Game.h"
+#include "../sdlutils/SDLUtils.h"
+#include "../Class/ImageWithFrames.h"
 class Bullet 
 {
 public:
@@ -22,12 +25,11 @@ public:
 	
 	
 private:
+	VirtualTimer* _tim;
 	constexpr static uint8_t _max_bullets = 20;
-
-	std::array<ecs::entity_t,_max_bullets> _bullets;
-	std::array<Transform, _max_bullets> _bulletsTR;
+	Texture* tex = &sdlutils().images().at("star");
 	float speed=0.0f;
-	void shoot(int index);
+	void shoot();
 
 
 };

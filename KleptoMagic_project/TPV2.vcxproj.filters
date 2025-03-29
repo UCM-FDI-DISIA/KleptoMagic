@@ -47,6 +47,7 @@
     <ClCompile Include="src\game\GhostComponent.cpp" />
     <ClCompile Include="src\Class\PlayerCtrl.cpp" />
     <ClCompile Include="src\Class\ImageWithFrames.cpp" />
+    <ClCompile Include="src\Class\Bullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Class\EntityStat.h" />
@@ -111,6 +112,7 @@
     <ClInclude Include="src\game\GhostComponent.h" />
     <ClInclude Include="src\Class\PlayerCtrl.h" />
     <ClInclude Include="src\Class\ImageWithFrames.h" />
+    <ClInclude Include="src\Class\Bullet.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
