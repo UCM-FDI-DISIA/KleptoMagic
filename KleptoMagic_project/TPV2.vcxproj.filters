@@ -46,6 +46,9 @@
     <ClCompile Include="src\Class\Image.cpp" />
     <ClCompile Include="src\game\GhostComponent.cpp" />
     <ClCompile Include="src\Class\PlayerCtrl.cpp" />
+    <ClCompile Include="src\generation\DungeonFloor.cpp" />
+    <ClCompile Include="src\generation\DungeonRoom.cpp" />
+    <ClCompile Include="src\generation\RoomStorage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Class\EntityStat.h" />
@@ -109,8 +112,12 @@
     <ClInclude Include="src\Class\Image.h" />
     <ClInclude Include="src\game\GhostComponent.h" />
     <ClInclude Include="src\Class\PlayerCtrl.h" />
+    <ClInclude Include="src\generation\DungeonFloor.h" />
+    <ClInclude Include="src\generation\DungeonRoom.h" />
+    <ClInclude Include="src\generation\RoomStorage.h" />
+    <ClInclude Include="src\utils\StringUtils.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\config\resources.json" />
+    <None Include="..\resources\config\resources.json" />
   </ItemGroup>
 </Project>

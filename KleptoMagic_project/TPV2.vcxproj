@@ -53,6 +53,9 @@
     <ClCompile Include="src\game\NewRoundState.cpp" />
     <ClCompile Include="src\game\PausedState.cpp" />
     <ClCompile Include="src\game\RunningState.cpp" />
+    <ClCompile Include="src\generation\DungeonFloor.cpp" />
+    <ClCompile Include="src\generation\DungeonRoom.cpp" />
+    <ClCompile Include="src\generation\RoomStorage.cpp" />
     <ClCompile Include="SRC\json\JSON.cpp" />
     <ClCompile Include="SRC\json\JSONValue.cpp" />
     <ClCompile Include="SRC\json\json_demo.cpp" />
@@ -106,6 +109,9 @@
     <ClInclude Include="src\game\NewRoundState.h" />
     <ClInclude Include="src\game\PausedState.h" />
     <ClInclude Include="src\game\RunningState.h" />
+    <ClInclude Include="src\generation\DungeonFloor.h" />
+    <ClInclude Include="src\generation\DungeonRoom.h" />
+    <ClInclude Include="src\generation\RoomStorage.h" />
     <ClInclude Include="src\json\JSON.h" />
     <ClInclude Include="src\json\JSONValue.h" />
     <ClInclude Include="src\json\json_demo.h" />
@@ -126,6 +132,7 @@
     <ClInclude Include="src\utils\mpl.h" />
     <ClInclude Include="src\utils\ptr_iterator.h" />
     <ClInclude Include="src\utils\Singleton.h" />
+    <ClInclude Include="src\utils\StringUtils.h" />
     <ClInclude Include="src\utils\Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
