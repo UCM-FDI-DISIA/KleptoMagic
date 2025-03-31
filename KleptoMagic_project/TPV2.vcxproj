@@ -37,6 +37,7 @@
     <ClCompile Include="src\Class\InputManager.cpp" />
     <ClCompile Include="src\Class\MainMenuState.cpp" />
     <ClCompile Include="src\Class\MovementCtrl.cpp" />
+    <ClCompile Include="src\Class\ObjectInfo.cpp" />
     <ClCompile Include="src\Class\Player.cpp" />
     <ClCompile Include="src\Class\PlayerCtrl.cpp" />
     <ClCompile Include="src\Class\PlayState.cpp" />
@@ -89,6 +90,7 @@
     <ClInclude Include="src\Class\MainMenuState.h" />
     <ClInclude Include="src\Class\MenuState.h" />
     <ClInclude Include="src\Class\MovementCtrl.h" />
+    <ClInclude Include="src\Class\ObjectInfo.h" />
     <ClInclude Include="src\Class\Player.h" />
     <ClInclude Include="src\Class\PlayerCtrl.h" />
     <ClInclude Include="src\Class\PlayState.h" />
@@ -244,7 +246,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <AssemblerOutput>NoListing</AssemblerOutput>
     </ClCompile>
     <Link>
