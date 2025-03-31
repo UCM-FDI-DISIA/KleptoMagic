@@ -97,12 +97,11 @@ void RunningState::update() {
 		colission_thisframe = false;
 		checkCollisions();
 
-		if (colission_thisframe && Cooldown < 10)
+		if (colission_thisframe )
 		{
 			std::cout << "attack";
-			Cooldown = 0;
+		
 		}
-		Cooldown++;
 			//if (colission_thisframe) {
 			//	fighterutils().take_life();
 			//	if (fighterutils().get_lives() > 0) {
