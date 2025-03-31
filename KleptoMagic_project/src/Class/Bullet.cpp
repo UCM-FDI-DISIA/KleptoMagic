@@ -68,9 +68,9 @@ void Bullet::shoot(int i)
 	_mngr->setHandler(ecs::grp::BULLET, _bullets);
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
 	stats->Created(i);
-	Vector2D vel = (PosRat - _tr->getPos()).normalize() * stats->getSpeed();
+	Vector2D vel = (PosRat - Vector2D(_tr->getPos().getX()+(_tr->getWidth()/2), _tr->getPos().getY()+(_tr->getHeight()/2))).normalize() * stats->getSpeed();
 	auto _bulletsTR = _mngr->addComponent<Transform>(_bullets);
-	_bulletsTR->init(_tr->getPos(), vel, stats->getSize(), stats->getSize(), 0);
+	_bulletsTR->init(Vector2D(_tr->getPos().getX() + (_tr->getWidth() / 2), _tr->getPos().getY() +( _tr->getHeight() / 2)), vel, stats->getSize(), stats->getSize(), 0);
 	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1);
 	_mngr->addComponent<DestroyOnBorder>(_bullets);
 	_tim->resetTime();
