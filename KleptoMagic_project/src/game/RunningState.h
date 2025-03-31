@@ -20,7 +20,7 @@ private:
 	Manager* _mngr;
 	VirtualTimer asteroidSpawnTimer;
 	const int asteroidSpawnCDms = 5000;
-
+	float Cooldown = 0;
 	// Heredado vía GameState
 	void enter() override;
 	void leave() override;
