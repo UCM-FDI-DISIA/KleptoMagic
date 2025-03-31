@@ -15,8 +15,14 @@ private:
 	Texture* pressEnter;
 	float x0, y0;
 	Texture* background;
-	Texture* buttonTexture;
-	Button* selectButton;
+	//Texture* buttonTexture;
+	//Button* selectButton;
+	Button* rogueButton;
+	Button* knightButton;
+	Button* alchemistButton;
+	Button* hunterButton;
+
+	std::string selectedCharacter;
 
 	// Heredado vía GameState
 	void enter() override;

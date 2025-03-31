@@ -5,25 +5,61 @@
     { "id" : "ARIAL24", "file" : "resources/fonts/ARIAL.ttf", "size": 24 },
     { "id" : "ARIAL48", "file" : "resources/fonts/ARIAL.ttf", "size": 48 }
   ],
-  
-  "images" : [
-    { "id" : "sdl_logo", "file" : "resources/images/SDL_logo.png" },
-    { "id" : "tennis_ball", "file" : "resources/images/tennis_ball.png" },
-    { "id" : "star", "file" : "resources/images/star.png"},
-    { "id" : "pacman", "file" : "resources/images/pacman.png"},
-    { "id" : "sprites", "file" : "resources/images/pacman_sprites.png"},
-    { "id" : "player", "file" : "resources/images/player_placeholder.png"},
-    { "id" : "heart",  "file": "resources/images/heart.png"},
-    { "id" : "mainMenu", "file" : "resources/images/background-provisional.png" },
-    {
-        "id": "button",
-        "file": "resources/images/play-button.png"
-    },
-    {
-        "id": "selectMenu",
-        "file" :  "resources/images/selectmenu-provisional.png"
-    }
-  ],
+
+    "images": [
+        {
+            "id": "sdl_logo",
+            "file": "resources/images/SDL_logo.png"
+        },
+        {
+            "id": "tennis_ball",
+            "file": "resources/images/tennis_ball.png"
+        },
+        {
+            "id": "star",
+            "file": "resources/images/star.png"
+        },
+        {
+            "id": "pacman",
+            "file": "resources/images/pacman.png"
+        },
+        {
+            "id": "sprites",
+            "file": "resources/images/pacman_sprites.png"
+        },
+        {
+            "id": "ROGUE",
+            "file": "resources/images/rogue.png"
+        },
+        {
+            "id": "KNIGHT",
+            "file": "resources/images/knight.png"
+        },
+        {
+            "id": "HUNTER",
+            "file": "resources/images/hunter.png"
+        },
+        {
+            "id": "ALCHEMIST",
+            "file": "resources/images/alchemist.png"
+        },
+        {
+            "id": "heart",
+            "file": "resources/images/heart.png"
+        },
+        {
+            "id": "mainMenu",
+            "file": "resources/images/background-provisional.png"
+        },
+        {
+            "id": "button",
+            "file": "resources/images/play-button.png"
+        },
+        {
+            "id": "selectMenu",
+            "file": "resources/images/selectmenu-provisional.png"
+        }
+    ],
   
   "messages" : [
     { "id" : "PressAnyKey", "text" : "Press Any Key", "font" : "ARIAL24", "color" : "0x112233ff", "bg" : "0xffffffff" },

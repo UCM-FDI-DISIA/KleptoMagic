@@ -38,7 +38,22 @@ void Button::render() {
 }
 
 void Button::handleEvent(const SDL_Event& event) {
-    _inputHandler->update(event);
+    //_inputHandler->update(event);
+    if (event.type == SDL_MOUSEBUTTONDOWN) {
+        int x = event.button.x;
+        int y = event.button.y;
+        if (isInside(x, y)) {
+            _isPressed = true;
+        }
+    }
+    else if (event.type == SDL_MOUSEBUTTONUP) {
+        int x = event.button.x;
+        int y = event.button.y;
+        if (isInside(x, y) && _isPressed) {
+            _onClick();  // Solo ejecutar cuando el botón es soltado dentro del área
+        }
+        _isPressed = false;
+    }
 }
 
 bool Button::isInside(int x, int y) const {

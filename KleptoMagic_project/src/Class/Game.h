@@ -100,7 +100,6 @@ public:
 	inline ecs::Manager* getMngr() { return _mngr; }
 	inline void setState(State s) {
 		_state->leave();
-		//sdlutils().clearRenderer();
 		switch (s) {
 		case RUNNING:
 			_state = _running_state;
@@ -127,6 +126,16 @@ public:
 	//InputManager* getInputManager() { return _inputManager; }
 	SDL_Renderer* getRenderer() const { return renderer; }
 
+	void setSelectedCharacter(std::string character) {
+		std::cout << "Guardando personaje: " << character << std::endl;
+		selectedCharacter = character;
+	}
+
+	std::string getSelectedCharacter() {
+		std::cout << "Recuperando personaje: " << selectedCharacter << std::endl;
+		return selectedCharacter;
+	}
+
 private:
 	Game();
 	ecs::Manager* _mngr;
@@ -142,6 +151,8 @@ private:
 	// Interruptor para terminar el juego
 	bool exit;
 
+	// Para menu de seleccion de personajes
+	std::string selectedCharacter;
 };
 
 inline Game& game() {

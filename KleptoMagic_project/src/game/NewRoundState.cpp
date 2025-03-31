@@ -3,12 +3,91 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/InputHandler.h"
 
-NewRoundState::NewRoundState() {
+#include "NewRoundState.h"
+#include "../sdlutils/SDLUtils.h"
+#include "../sdlutils/InputHandler.h"
+
+NewRoundState::NewRoundState() : selectedCharacter("") {
+
+	background = new Texture(sdlutils().renderer(), "resources/images/selectmenu-provisional.png");
+
+	float btnWidth = 100; // Ancho del botón
+	float btnHeight = 100; // Alto del botón
+	float spacing = 50; // Espacio entre botones
+	float startX = (sdlutils().width() - (btnWidth * 4 + spacing * 3)) / 2;
+	float btnY = sdlutils().height() / 2 - btnHeight / 2;
+
+	rogueButton = new Button([this]() {
+		std::cout << "Seleccionado: ROGUE" << std::endl; // Depuración
+		selectedCharacter = "ROGUE";
+		game().setSelectedCharacter(selectedCharacter);
+		std::cout << "getSelectedCharacter: " << game().getSelectedCharacter() << std::endl;
+		game().setState(Game::RUNNING);
+		}, Vector2D(startX, btnY), Vector2D(btnWidth, btnHeight), &sdlutils().images().at("ROGUE"));
+
+	knightButton = new Button([this]() {
+		selectedCharacter = "KNIGHT";
+		game().setSelectedCharacter(selectedCharacter);
+		game().setState(Game::RUNNING);
+		}, Vector2D(startX + (btnWidth + spacing), btnY), Vector2D(btnWidth, btnHeight), &sdlutils().images().at("KNIGHT"));
+
+	alchemistButton = new Button([this]() {
+		selectedCharacter = "ALCHEMIST";
+		game().setSelectedCharacter(selectedCharacter);
+		game().setState(Game::RUNNING);
+		}, Vector2D(startX + 2 * (btnWidth + spacing), btnY), Vector2D(btnWidth, btnHeight), &sdlutils().images().at("ALCHEMIST"));
+
+	hunterButton = new Button([this]() {
+		selectedCharacter = "HUNTER";
+		game().setSelectedCharacter(selectedCharacter);
+		game().setState(Game::RUNNING);
+		}, Vector2D(startX + 3 * (btnWidth + spacing), btnY), Vector2D(btnWidth, btnHeight), &sdlutils().images().at("HUNTER"));
+}
+
+void NewRoundState::update() {
+	bool exit = false;
+	auto& ihdlr = ih();
+
+	sdlutils().resetTime();
+
+	while (!exit) {
+		Uint32 startTime = sdlutils().currRealTime();
+		ih().refresh();
+
+		rogueButton->update();
+		knightButton->update();
+		alchemistButton->update();
+		hunterButton->update();
+
+		sdlutils().clearRenderer();
+		background->render({ 0, 0, sdlutils().width(), sdlutils().height() });
+
+		rogueButton->render();
+		knightButton->render();
+		alchemistButton->render();
+		hunterButton->render();
+
+		sdlutils().presentRenderer();
+
+		if (!selectedCharacter.empty()) {
+			exit = true;
+		}
+
+		Uint32 frameTime = sdlutils().currRealTime() - startTime;
+		if (frameTime < 20)
+			SDL_Delay(20 - frameTime);
+	}
+}
+
+/*NewRoundState::NewRoundState() {
 
 	// Cargar el fondo
 	background = new Texture(sdlutils().renderer(), "resources/images/selectmenu-provisional.png");
 
-	pressEnter = new Texture(sdlutils().renderer(), 
+	// Cargar la textura del botón
+	buttonTexture = new Texture(sdlutils().renderer(), "resources/images/play-button.png");
+
+	/*pressEnter = new Texture(sdlutils().renderer(),
 		"Press ENTER to start the round",
 		sdlutils().fonts().at("ARIAL24"), 
 		build_sdlcolor(0x112233ff),
@@ -16,12 +95,23 @@ NewRoundState::NewRoundState() {
 	
 	x0 = (sdlutils().width() - pressEnter->width()) / 2;
 	y0 = (sdlutils().height() - pressEnter->height()) / 2;
-}
+
+	// Posicionar el botón en el centro
+	float btnWidth = buttonTexture->width();
+	float btnHeight = buttonTexture->height();
+	float btnX = (sdlutils().width() - btnWidth) / 2;
+	float btnY = (sdlutils().height() - btnHeight) / 2;
+
+	// Crear el botón con su callback
+	selectButton = new Button([this]() {
+		game().setState(Game::RUNNING);
+		}, Vector2D(btnX, btnY), Vector2D(btnWidth, btnHeight), buttonTexture);
+}*/
 NewRoundState::~NewRoundState() {
 
 }
 
-void NewRoundState::update() {
+/*void NewRoundState::update() {
 	
 	bool exit = false;
 	auto& ihdlr = ih();
@@ -38,10 +128,13 @@ void NewRoundState::update() {
 		ih().refresh();
 
 		// enter RunningState when any key is down
-		if (ih().keyDownEvent()) {
+		/*if (ih().keyDownEvent()) {
 			game().setState(Game::RUNNING);
 			exit = true;
 		}
+
+		// Actualizar botón (manejo de clic)
+		selectButton->update();
 
 		// clear screen
 		sdlutils().clearRenderer();
@@ -50,18 +143,25 @@ void NewRoundState::update() {
 		SDL_Rect destRect = { 0, 0, sdlutils().width(), sdlutils().height() };
 		background->render(destRect);
 
+		// Dibujar el botón
+		selectButton->render();
+
 		// render Press Any Key
-		pressEnter->render(x0, y0);
+		//pressEnter->render(x0, y0);
 
 		// present new frame
 		sdlutils().presentRenderer();
+
+		if (selectButton->isPressed()) {
+			exit = true;
+		}
 
 		Uint32 frameTime = sdlutils().currRealTime() - startTime;
 
 		if (frameTime < 20)
 			SDL_Delay(20 - frameTime);
 	}
-}
+}*/
 
 void NewRoundState::enter()
 {

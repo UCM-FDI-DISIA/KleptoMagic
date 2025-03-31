@@ -14,6 +14,10 @@
 //#include "../components/Gun.h"
 
 RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
+#ifdef _DEBUG
+	std::cout << "Nuevo RunningState creado!" << std::endl;
+#endif
+
 	//asteroidSpawnTimer(sdlutils().virtualTimer()),
 	//colission_thisframe(false);
 
@@ -29,7 +33,13 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	auto x = (sdlutils().width() - s) / 2.0f;
 	auto y = (sdlutils().height() - s) / 2.0f;
 	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
-	_mngr->addComponent<Image>(player, &sdlutils().images().at("player"));
+	//_mngr->addComponent<Image>(player, &sdlutils().images().at("ALCHEMIST"));
+	std::string selectedCharacter = game().getSelectedCharacter();
+	std::cout << "Personaje seleccionado: " << selectedCharacter << std::endl;
+	if (selectedCharacter.empty()) {
+		selectedCharacter = "ALCHEMIST"; // Valor por defecto si no se ha seleccionado nada
+	}
+	_mngr->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
 	_mngr->addComponent<PlayerCtrl>(player);
 
 	//Slime,
@@ -41,7 +51,6 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	_mngr->addComponent<SlimeStatComponent>(slime);
 	_mngr->addComponent<SlimeAttackComponent>(slime);
 	_mngr->addComponent<SlimeMovementComponent>(slime);
-
 }
 	
 
