@@ -1,4 +1,5 @@
 #include "TimerCountdown.h"
+#include "../ecs/Manager.h"
 
 TimerCountdown::TimerCountdown(int duration) : totalDuration(std::chrono::seconds(duration)), elapsed(0), timeMultiplier(1.0f), paused(false) {}
 
@@ -10,7 +11,7 @@ void TimerCountdown::update() {
 }
 
 void TimerCountdown::initComponent() {
-
+    auto* _mngr = _ent->getMngr();
 }
 
 void TimerCountdown::start() {

@@ -15,7 +15,7 @@ class GhostComponent : public ecs::Component
 protected:
 	Transform* _ghostTransform;
 	Transform* _targetTransform;
-	//TimerCountdown* _timer;
+	TimerCountdown* _timer;
 	std::default_random_engine rndGenerator;
 	std::uniform_real_distribution<float> rndDistributor;
 	int _teleRadius = DEFAULT_TELE_RADIUS;

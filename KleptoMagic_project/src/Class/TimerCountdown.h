@@ -6,6 +6,8 @@
 
 class TimerCountdown : public ecs::Component {
 public:
+    __CMPID_DECL__(ecs::cmp::TIMERCMP);
+
     TimerCountdown(int duration);   // Constructor to set initial time
     void update() override;         // Call this in the game loop to track time
     void initComponent() override;  // Initializes component
@@ -19,8 +21,6 @@ public:
     void resume();          // Unpauses the timer
 
 private:
-    __CMPID_DECL__(ecs::cmp::TIMERCMP);
-
     std::chrono::time_point<std::chrono::steady_clock> startTime;
     std::chrono::duration<float> totalDuration;
     float timeMultiplier;
