@@ -68,21 +68,23 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 	}
 	for (int i = 0; i < room_height; i++) {
 		for (int j = 0; j < room_width; j++) {
-			if (roomTiles[i][j] == 'U') {
+			switch (roomTiles[i][j]) {
+			case 'U':
 				UexitX = j;
 				UexitY = i;
-			}
-			else if (roomTiles[i][j] == 'D') {
+				break;
+			case 'D':
 				DexitX = j;
 				DexitY = i;
-			}
-			else if (roomTiles[i][j] == 'L') {
+				break;
+			case 'L':
 				LexitX = j;
 				LexitY = i;
-			}
-			else if (roomTiles[i][j] == 'R') {
+				break;
+			case 'R':
 				RexitX = j;
 				RexitY = i;
+				break;
 			}
 		}
 	}
