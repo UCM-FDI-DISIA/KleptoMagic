@@ -1,4 +1,3 @@
-#include "EntityStat.h"
 #include "../ecs/Component.h"
 
 class BulletStats: public ecs::Component
@@ -13,14 +12,17 @@ public:
 	float getDamage() { return damage; }
 	float getDistance() { return distance; }
 	float getSize() { return size; }
+	bool getPiercing() { return piercing; }
 	void changeSpeedflat(int i) { speed += i; }
 	void changeDamageflat(int i) { speed += i; }
 	void changeDistanceflat(int i) { speed += i; }
 	void changeflat(int i) { speed += i; }
+	void changePiercing(bool b) { piercing = b; }
 private:
 	float speed;
 	float damage;
 	float distance;
 	float size;
+	bool piercing;
 };
 

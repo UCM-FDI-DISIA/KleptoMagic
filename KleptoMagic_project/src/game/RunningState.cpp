@@ -28,7 +28,6 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	_mngr->addComponent<Image>(player, &sdlutils().images().at("player"));
 	_mngr->addComponent<PlayerCtrl>(player);
 	 bullet = new Bullet();
-	bullet->generateBullets();
 
 }
 	
@@ -68,7 +67,7 @@ void RunningState::update() {
 		//}
 		if (ihdlr.isKeyDown(SDL_SCANCODE_K)) {
 
-			bullet->pressed();
+			bullet->pressed(0);
 		}
 		// update fighter and asteroids here
 		_mngr->update();

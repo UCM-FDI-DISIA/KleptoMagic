@@ -49,6 +49,7 @@
     <ClCompile Include="src\Class\ImageWithFrames.cpp" />
     <ClCompile Include="src\Class\Bullet.cpp" />
     <ClCompile Include="src\Class\BulletStats.cpp" />
+    <ClCompile Include="src\Class\DestroyOnBorder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Class\EntityStat.h" />
@@ -115,6 +116,7 @@
     <ClInclude Include="src\Class\ImageWithFrames.h" />
     <ClInclude Include="src\Class\Bullet.h" />
     <ClInclude Include="src\Class\BulletStats.h" />
+    <ClInclude Include="src\Class\DestroyOnBorder.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />

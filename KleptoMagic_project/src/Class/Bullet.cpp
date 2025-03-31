@@ -14,6 +14,11 @@ Bullet::~Bullet()
 
 void Bullet::update()
 {
+	/*auto* mngr = game().getMngr();
+	for(auto* _bullets : mngr->getEntities(ecs::grp::BULLET))
+	{
+		auto _bulletsTR = mngr->getComponent<Transform>(_bullets);
+	}*/
 }
 
 void Bullet::render()
@@ -28,19 +33,27 @@ void Bullet::hit(int index)
 {
 }
 
-void Bullet::pressed()
+void Bullet::pressed(int i)
 {
 	
 	if (_tim->currRealTime() > 250) {
-		shoot();
+		shoot(i);
 	}
 }
 
-void Bullet::generateBullets()
+void Bullet::collided(ecs::entity_t e)
 {
+	auto* mngr = game().getMngr();
+	auto bullStat = mngr->getComponent<BulletStats>(e);
+	if(!bullStat->getPiercing())
+	{
+		mngr->setAlive(e, false);
+	}
 }
 
-void Bullet::shoot()
+
+
+void Bullet::shoot(int i)
 {
 	auto* _mngr = game().getMngr();
 
@@ -54,11 +67,12 @@ void Bullet::shoot()
 	auto _bullets = _mngr->addEntity();
 	_mngr->setHandler(ecs::grp::BULLET, _bullets);
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
-	stats->Created(0);
+	stats->Created(i);
 	Vector2D vel = (PosRat - _tr->getPos()).normalize() * stats->getSpeed();
 	auto _bulletsTR = _mngr->addComponent<Transform>(_bullets);
 	_bulletsTR->init(_tr->getPos(), vel, stats->getSize(), stats->getSize(), 0);
 	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1);
+	_mngr->addComponent<DestroyOnBorder>(_bullets);
 	_tim->resetTime();
 
 }

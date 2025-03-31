@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "../ecs/Entity.h"
 #include "../ecs/Manager.h"
+#include "../Class/DestroyOnBorder.h"
 #include "Game.h"
 #include "../sdlutils/SDLUtils.h"
 #include "../Class/ImageWithFrames.h"
@@ -21,8 +22,8 @@ public:
 	void render();
 	void reset();
 	void hit(int index);
-	void pressed();
-	void generateBullets();
+	void pressed(int i);
+	void collided(ecs::entity_t e);
 	
 	
 private:
@@ -30,7 +31,7 @@ private:
 	constexpr static uint8_t _max_bullets = 20;
 	Texture* tex = &sdlutils().images().at("star");
 	float speed=0.0f;
-	void shoot();
+	void shoot(int i);
 
 
 };
