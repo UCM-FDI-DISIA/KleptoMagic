@@ -142,6 +142,8 @@ private:
 	// Interruptor para terminar el juego
 	bool exit;
 
+	void createItems();
+
 };
 
 inline Game& game() {
