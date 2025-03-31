@@ -23,7 +23,9 @@
     SLIMEMOVCMP, \
     SLIMEATKCMP, \
     SLIMESTATCMP, \
-    SLIMEVECCMP
+    SLIMEVECCMP, \
+	LIVINGARMORCMP
+
 
 
 // Groups list - must have at least one element
@@ -38,5 +40,5 @@
     PLAYER, \
 	GAMEINFO,\
     SLIME,\
-    
+	LIVINGARMOR
 

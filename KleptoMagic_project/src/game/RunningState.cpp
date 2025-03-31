@@ -10,6 +10,8 @@
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
 #include "../Class/SlimeComponents.h"
+#include "LivingArmorComponent.h"
+#include "../Class/ArmorCMP.h"
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
 
@@ -21,6 +23,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	//fighterutils().create_fighter();
 	auto player = _mngr->addEntity();
 	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
+	auto armor = _mngr->addEntity(ecs::grp::ENEMY);
 
 	//Player
 	_mngr->setHandler(ecs::hdlr::PLAYER, player);
@@ -42,6 +45,37 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	_mngr->addComponent<SlimeStatComponent>(slime);
 	_mngr->addComponent<SlimeAttackComponent>(slime);
 	_mngr->addComponent<SlimeMovementComponent>(slime);
+
+	//Slime,
+	auto slimetr = _mngr->addComponent<Transform>(slime);
+	slimetr->init(Vector2D(x + 100, y - 100), Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(slime, &sdlutils().images().at("pacman"));
+	_mngr->addComponent<SlimeVectorComponent>(slime);
+	_mngr->addComponent<SlimeStatComponent>(slime);
+	_mngr->addComponent<SlimeAttackComponent>(slime);
+	_mngr->addComponent<SlimeMovementComponent>(slime);
+
+	//livingarmor
+	auto livingarmor = _mngr->addEntity();
+	_mngr->setHandler(ecs::hdlr::LIVINGARMOR, livingarmor);
+	auto tr2 = _mngr->addComponent<Transform>(livingarmor);
+	auto s2 = 50.0f;
+	auto x2 = (sdlutils().width() - s2) / 2.0f;
+	auto y2 = (sdlutils().height() - s2) / 2.0f;
+	tr2->init(Vector2D(x2, y2), Vector2D(), s2, s2, 0.0f);
+	_mngr->addComponent<Image>(livingarmor, &sdlutils().images().at("player"));
+	_mngr->addComponent<LivingArmorComponent>(livingarmor, 100.0f, 2.0f);
+
+	// armor
+	auto armortr = _mngr->addComponent<Transform>(armor);
+	armortr->init(Vector2D(x + 100, y - 100), Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(armor, &sdlutils().images().at("pacman"));
+	_mngr->addComponent<ArmorVectorComponent>(armor);
+	_mngr->addComponent<ArmorStatComponent>(armor);
+	_mngr->addComponent<ArmorAttackComponent>(armor);
+	_mngr->addComponent<ArmorMovementComponent>(armor);
+
+
 
 }
 	
