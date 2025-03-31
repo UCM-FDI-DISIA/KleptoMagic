@@ -19,7 +19,7 @@
 	GAMECTRL, \
 	GHOSTCMP, \
 	BULLETSTATS, \
-	BUTTON
+	BUTTON, \
     SLIMEMOVCMP, \
     SLIMEATKCMP, \
     SLIMESTATCMP, \
@@ -30,10 +30,10 @@
 // Groups list - must have at least one element
 //
 #define _GRPS_LIST_ \
-
 	BULLET,\
 	ASTEROIDS,\
     ENEMY
+
 
 // Handlers list - must have at least one element
 //
