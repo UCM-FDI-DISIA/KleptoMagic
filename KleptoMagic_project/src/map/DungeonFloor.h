@@ -37,6 +37,11 @@ private:
 	int startX;
 	// Y coordinate of starting room
 	int startY;
+	// X coordinate of room the player is in
+	int currentX;
+	// Y coordinate of room the player is in
+	int currentY;
+
 public:
 	// minWidth / minHeight / maxWidth / maxHeight : 
 	// - Minimum and maximum width and height of the floor layout matrix. The real size will be picked randomly within these. Reccomended a minimum of 10 width and height.

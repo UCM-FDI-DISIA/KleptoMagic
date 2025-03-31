@@ -7,12 +7,15 @@ using namespace std;
 DungeonFloor::DungeonFloor(int minWidth, int minHeight, int maxWidth, int maxHeight, int numRooms, RoomStorage* RoomStorage) : roomstorage(RoomStorage)
 {
 	GenerateFloor(minWidth, minHeight, maxWidth, maxHeight, numRooms); 
-	
+	currentX = startX;
+	currentY = startY;
+
 #ifdef _DEBUG
 	PrintFloorLayout_Simple();
 	PrintFloorLayout_Detailed();
-#endif
 	cout << "GENERATED" << endl;
+#endif
+
 }
 
 DungeonFloor::~DungeonFloor()
