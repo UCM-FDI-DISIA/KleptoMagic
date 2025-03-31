@@ -1,6 +1,7 @@
 #pragma once
-#include "vector"
-#include "iostream"
+#include <vector>
+#include <iostream>
+#include "Tilemap.h"
 using namespace std;
 
 enum roomType { ENTRANCE, REGULAR, SPECIAL, BOSS };
@@ -20,6 +21,8 @@ private:
 	vector<vector<char>> roomTiles; 
 	// Spawns matrix for the room (objects and entities to be spawned in the room on first load)
 	vector<vector<char>> roomSpawns; 
+
+	// Tilemap object
 
 	// Whether or not an exit exists in any of the cardinal directions, and therefore can connect to another room through there
 	bool doorU, doorD, doorL, doorR;
@@ -81,6 +84,11 @@ public:
 	bool isLockedLeft() { return lockL; };
 	// Returns lockR
 	bool isLockedRight() { return lockR; };
+
+	// Returns the tile matrix
+	vector<vector<char>> returnRoomTiles() { return roomTiles; };
+	// Returns the spawns matrix
+	vector<vector<char>> returnRoomSpawns() { return roomSpawns; };
 
 	// Returns the total amount of exits the room has
 	int getAmountOfExits();
