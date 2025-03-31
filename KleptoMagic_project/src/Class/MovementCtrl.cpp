@@ -1,4 +1,7 @@
 #include "MovementCtrl.h"
+#include "../ecs/Entity.h"
+#include "../ecs/Manager.h"
+#include "../sdlutils/SDLUtils.h"
 //#include <iostream>
 
 
