@@ -25,4 +25,5 @@ private:
 	void enter() override;
 	void leave() override;
 	bool colission_thisframe;
+	Entity* enemycolisioned;
 };

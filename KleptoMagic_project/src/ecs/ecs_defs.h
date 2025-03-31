@@ -20,7 +20,11 @@
     SLIMEMOVCMP, \
     SLIMEATKCMP, \
     SLIMESTATCMP, \
-    SLIMEVECCMP
+    SLIMEVECCMP, \
+    UNDEADMOVCMP, \
+    UNDEADATKCMP, \
+    UNDEADSTATCMP, \
+    UNDEADVECCMP
 
 
 // Groups list - must have at least one element

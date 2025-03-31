@@ -10,7 +10,6 @@ namespace ecs
 	class SlimeVectorComponent : public Component
 	{
 	private:
-		void createStart();
 		
 		Transform* _slimeTransform;
 		Transform* _playerTransform;
@@ -37,8 +36,6 @@ namespace ecs
 	class SlimeStatComponent : public Component
 	{
 		
-		Transform* _ghostTransform;
-		Transform* _playerTransform;
 	public:
 		__CMPID_DECL__(ecs::cmp::SLIMESTATCMP);
 		float speed = 0.5;

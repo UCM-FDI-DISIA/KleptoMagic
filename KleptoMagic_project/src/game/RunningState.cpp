@@ -10,6 +10,7 @@
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
 #include "../Class/SlimeComponents.h"
+#include "../Class/UndeadArcherCMPS.h"
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
 
@@ -21,6 +22,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	//fighterutils().create_fighter();
 	auto player = _mngr->addEntity();
 	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
+	auto archer = _mngr->addEntity(ecs::grp::ENEMY);
 
 	//Player
 	_mngr->setHandler(ecs::hdlr::PLAYER, player);
@@ -33,14 +35,22 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	_mngr->addComponent<PlayerCtrl>(player);
 
 	//Slime,
-	_mngr->setHandler(ecs::hdlr::SLIME, slime);
 	auto slimetr = _mngr->addComponent<Transform>(slime);
-	slimetr->init(Vector2D(x + 100, 5 - 20), Vector2D(), s, s, 0.0f);
+	slimetr->init(Vector2D(x + 100, y - 100), Vector2D(), s, s, 0.0f);
 	_mngr->addComponent<Image>(slime, &sdlutils().images().at("pacman"));
 	_mngr->addComponent<SlimeVectorComponent>(slime);
 	_mngr->addComponent<SlimeStatComponent>(slime);
 	_mngr->addComponent<SlimeAttackComponent>(slime);
 	_mngr->addComponent<SlimeMovementComponent>(slime);
+
+	//Archer
+	auto archertr = _mngr->addComponent<Transform>(archer);
+	archertr->init(Vector2D(x + 70, y - 100), Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(archer, &sdlutils().images().at("star"));
+	_mngr->addComponent<UndeadStatComponent>(archer);
+	_mngr->addComponent<UndeadVectorComponent>(archer);
+	_mngr->addComponent<UndeadMovementComponent>(archer);
+	_mngr->addComponent<UndeadAttackComponent>(archer);
 
 }
 	
@@ -89,17 +99,15 @@ void RunningState::update() {
 
 		if (colission_thisframe)
 		{
-			for (auto enemy : _mngr->getEntities(ecs::grp::ENEMY))
+			
+			
+			if (enemycolisioned->getMngr()->hasComponent< SlimeAttackComponent>(enemycolisioned))
 			{
-				if (_mngr->isAlive(enemy))
-				{	
-					if(enemy->getMngr()->hasComponent<SlimeAttackComponent>(enemy)) 
-					{
-						enemy->getMngr()->getComponent<SlimeAttackComponent>(enemy)->Colision();
-					}									
-				}
-
+				enemycolisioned->getMngr()->getComponent<SlimeAttackComponent>(enemycolisioned)->Colision();
 			}
+				
+				
+		
 		}
 			//if (colission_thisframe) {
 			//	fighterutils().take_life();
@@ -151,6 +159,7 @@ void RunningState::checkCollisions() {
 		    enemy_transform->getPos(),enemy_transform->getWidth(),enemy_transform->getHeight()) && !colission_thisframe)
 			{
 				colission_thisframe = true;
+				enemycolisioned = enemy;
 
 			}
 		}
