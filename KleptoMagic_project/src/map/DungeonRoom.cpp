@@ -1,4 +1,6 @@
 #include "DungeonRoom.h"
+#include "SDL.h"
+#include "SDL_render.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -37,13 +39,13 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 	roomFile.open(filename);
 
 	// Reading the first matrix in the file, AKA the tile layout
-	roomTiles = vector<vector<char>>(room_height, vector<char>(room_width, 0));
+	roomTiles = vector<vector<char>>(room_width, vector<char>(room_height, 0));
 	string line;
 	int row = 0;
 	while (getline(roomFile, line) && row < room_height) {
 		stringstream ss(line);
 		for (int i = 0; i < room_width; i++) {
-			roomTiles[row][i] = line[i];
+			roomTiles[i][row] = line[i];
 		}
 		row++;
 	}
@@ -51,12 +53,12 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 	getline(roomFile, line); // Ignoring the blank line between both matrices in the file
 
 	//Reading the second matrix in the file, AKA the spawn layout
-	roomSpawns = vector<vector<char>>(room_height, vector<char>(room_width, 0));
+	roomSpawns = vector<vector<char>>(room_width, vector<char>(room_height, 0));
 	row = 0;
 	while (getline(roomFile, line) && row < room_height) {
 		stringstream ss(line);
 		for (int i = 0; i < room_width; i++) {
-			roomSpawns[row][i] = line[i];
+			roomSpawns[i][row] = line[i];
 		}
 		row++;
 	}
@@ -70,24 +72,27 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 		for (int j = 0; j < room_width; j++) {
 			switch (roomTiles[i][j]) {
 			case 'U':
-				UexitX = j;
-				UexitY = i;
+				UexitX = i;
+				UexitY = j;
 				break;
 			case 'D':
-				DexitX = j;
-				DexitY = i;
+				DexitX = i;
+				DexitY = j;
 				break;
 			case 'L':
-				LexitX = j;
-				LexitY = i;
+				LexitX = i;
+				LexitY = j;
 				break;
 			case 'R':
-				RexitX = j;
-				RexitY = i;
+				RexitX = i;
+				RexitY = j;
 				break;
 			}
 		}
 	}
+
+	// Create the tilemap for the room
+	tilemap = new Tilemap{ roomTiles };
 
 #ifdef _DEBUG
 	cout << "Name: " << room_name << endl;
@@ -109,11 +114,13 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 
 DungeonRoom::~DungeonRoom()
 {
-
+	// Clear tilemap
+	delete tilemap;
 }
 
-void DungeonRoom::render() const {
-
+void DungeonRoom::render(SDL_Renderer* rend) const {
+	// Render tilemap of current room
+	tilemap->render(rend);
 }
 
 void DungeonRoom::update() {
@@ -160,7 +167,7 @@ char DungeonRoom::getRandomUnusedExit() {
 void DungeonRoom::printLayoutTiles() {
 	for (int i = 0; i < room_height; i++) {
 		for (int j = 0; j < room_width; j++) {
-			cout << roomTiles[i][j];
+			cout << roomTiles[j][i];
 		}
 		cout << endl;
 	}
@@ -170,7 +177,7 @@ void DungeonRoom::printLayoutTiles() {
 void DungeonRoom::printLayoutSpawns() {
 	for (int i = 0; i < room_height; i++) {
 		for (int j = 0; j < room_width; j++) {
-			cout << roomSpawns[i][j];
+			cout << roomSpawns[j][i];
 		}
 		cout << endl;
 	}

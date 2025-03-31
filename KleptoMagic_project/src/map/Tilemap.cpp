@@ -63,6 +63,7 @@ void Tilemap::render(SDL_Renderer* renderer) {
 				SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF); // replace later with actual texture
 				break;
 			default:
+				SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF); // replace later with actual texture
 				break;
 			}
 

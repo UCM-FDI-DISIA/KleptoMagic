@@ -23,6 +23,7 @@ private:
 	vector<vector<char>> roomSpawns; 
 
 	// Tilemap object
+	Tilemap* tilemap;
 
 	// Whether or not an exit exists in any of the cardinal directions, and therefore can connect to another room through there
 	bool doorU, doorD, doorL, doorR;
@@ -55,7 +56,7 @@ public:
 	// Room type must be included as an argument too: enum {ENTRANCE, REGULAR, SPECIAL, BOSS} so it can be identified easier
 	DungeonRoom(string filename, roomType type);
 	~DungeonRoom();
-	virtual void render() const;
+	virtual void render(SDL_Renderer* rend) const;
 	virtual void update();
 
 	// Returns room width in terms of tiles
@@ -66,6 +67,12 @@ public:
 	string getName() { return room_name; };
 	// Returns room type
 	roomType getType() { return room_type; }
+	// Returns the tile matrix
+	vector<vector<char>> getRoomTiles() { return roomTiles; };
+	// Returns the spawns matrix
+	vector<vector<char>> getRoomSpawns() { return roomSpawns; };
+	// Returns the tilemap
+	Tilemap* getTilemap() { return tilemap; };
 
 	// Returns doorU
 	bool hasExitUp() { return doorU; };
@@ -84,11 +91,6 @@ public:
 	bool isLockedLeft() { return lockL; };
 	// Returns lockR
 	bool isLockedRight() { return lockR; };
-
-	// Returns the tile matrix
-	vector<vector<char>> returnRoomTiles() { return roomTiles; };
-	// Returns the spawns matrix
-	vector<vector<char>> returnRoomSpawns() { return roomSpawns; };
 
 	// Returns the total amount of exits the room has
 	int getAmountOfExits();

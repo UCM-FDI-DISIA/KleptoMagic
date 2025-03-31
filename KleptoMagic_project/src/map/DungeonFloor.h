@@ -36,13 +36,13 @@ private:
 	// Pointer to room storage
 	RoomStorage* roomstorage;
 	// X coordinate of starting room
-	int startX;
+	int startX = -1;
 	// Y coordinate of starting room
-	int startY;
+	int startY = -1;
 	// X coordinate of room the player is in
-	int currentX;
+	int currentX = -1;
 	// Y coordinate of room the player is in
-	int currentY;
+	int currentY = -1;
 
 	SDL_Renderer* renderer;
 
@@ -72,7 +72,7 @@ public:
 	int getStartY() { return startY; };
 
 	// Renders the dungeon floor: i.e. renders the current room
-	void render() const;
+	void render();
 
 	// GENERATION ONLY: 
 	// Checks for the existance of rooms or out of bounds for the cells above, below, left and right of the given coordinates. 

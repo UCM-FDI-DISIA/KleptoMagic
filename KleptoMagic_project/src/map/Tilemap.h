@@ -42,5 +42,5 @@ private:
 	vector<vector<TileType>> tilemap;
 	int xOffset = 0;
 	int yOffset = 0;
-	const int TILE_SIZE = 16;
+	const int TILE_SIZE = 64;
 };
