@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "../sdlutils/SDLUtils.h"
 #include "../Class/ImageWithFrames.h"
+#include "BulletStats.h"
 class Bullet 
 {
 public:
