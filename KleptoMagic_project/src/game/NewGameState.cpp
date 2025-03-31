@@ -3,8 +3,8 @@
 #include "../sdlutils/InputHandler.h"
 #include "../utils/Vector2D.h"
 
-#include "../generation/DungeonFloor.h"
-#include "../generation/RoomStorage.h"
+#include "../map/DungeonFloor.h"
+#include "../map/RoomStorage.h"
 #include <conio.h>
 
 using ecs::Manager;
