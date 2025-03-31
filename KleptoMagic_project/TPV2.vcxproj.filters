@@ -12,7 +12,7 @@
     <ClCompile Include="SRC\json\JSONValue.cpp" />
     <ClCompile Include="SRC\json\json_demo.cpp" />
     <ClCompile Include="SRC\main.cpp" />
-    <ClInclude Include="src\sdlutils\NewInputHandler.cpp" />
+    <ClCompile Include="src\sdlutils\NewInputHandler.cpp" />
     <ClCompile Include="SRC\sdlutils\SDLNetUtils.cpp" />
     <ClCompile Include="SRC\sdlutils\SDLUtils.cpp" />
     <ClCompile Include="SRC\sdlutils\SDLUtilsError.cpp" />
@@ -88,8 +88,8 @@
     <ClInclude Include="src\Class\MainMenuState.h" />
     <ClInclude Include="src\Class\MenuState.h" />
     <ClInclude Include="src\Class\Player.h" />
-    <ClCompile Include="src\Class\Minigame.h" />
-    <ClCompile Include="src\Class\MinigameGeneratorComponent.h" />
+    <ClInclude Include="src\Class\Minigame.h" />
+    <ClInclude Include="src\Class\MinigameGeneratorComponent.h" />
     <ClInclude Include="src\Class\TimerCountdown.h" />
     <ClInclude Include="src\Class\Enemy.h" />
     <ClInclude Include="src\Class\EventHandler.h" />

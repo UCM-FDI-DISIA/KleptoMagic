@@ -10,11 +10,13 @@
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
 #include "../Class/TimerCountdown.h"
+#include "../Class/MinigameGeneratorComponent.h"
+#include "../Class/Minigame.h"
 #include "../Class/SlimeComponents.h"
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
 
-RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
+RunningState::RunningState(Manager* mgr) :_mngr(mgr), renderer(nullptr) {
 	//asteroidSpawnTimer(sdlutils().virtualTimer()),
 	//colission_thisframe(false);
 
@@ -47,13 +49,18 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	
 
 RunningState::~RunningState() {
-
+	if (renderer) {
+		SDL_DestroyRenderer(renderer);
+	}
 }
 
 void RunningState::update() {
 	
 	bool exit = false;
 	NewInputHandler::Instance()->init();
+
+	TimerCountdown _timer(300);
+	_timer.start();
 
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
@@ -62,9 +69,66 @@ void RunningState::update() {
 
 	while (!exit) {
 		Uint32 startTime = sdlutils().currRealTime();
+		_timer.update();
+
+
+
+
+
+		// Initialize SDL
+		if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+			std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
+			return;
+		}
+
+		// Create SDL_Window
+		SDL_Window* window = SDL_CreateWindow(
+			"Game Title",                      // Title
+			SDL_WINDOWPOS_CENTERED,            // X position
+			SDL_WINDOWPOS_CENTERED,            // Y position
+			800,                               // Width
+			600,                               // Height
+			SDL_WINDOW_SHOWN                   // Flags
+		);
+
+		if (!window) {
+			std::cerr << "Failed to create window: " << SDL_GetError() << std::endl;
+			SDL_Quit();
+			return;
+		}
+
+		// Create SDL_Renderer
+		SDL_Renderer* renderer = SDL_CreateRenderer(
+			window,
+			-1,
+			SDL_RENDERER_ACCELERATED
+		);
+
+		if (!renderer) {
+			std::cerr << "Failed to create renderer: " << SDL_GetError() << std::endl;
+			SDL_DestroyWindow(window);
+			SDL_Quit();
+			return;
+		}
+
+
+
+
+
+
 
 		if (NewInputHandler::Instance()->isActionPressed(Action::PAUSE)) {
 			//Game::Instance()->setState();
+		}
+
+		if (NewInputHandler::Instance()->isActionPressed(Action::INTERACT)) {
+			ChestQuality chestQuality = ChestQuality::COMMON;
+			MinigameGeneratorComponent _generatorA(&_timer, renderer);
+			Minigame* minigame = _generatorA.generateMinigame(chestQuality);
+
+			if (minigame) {
+				minigame->start(); // Start the generated minigame
+			}
 		}
 
 		// update the event handler

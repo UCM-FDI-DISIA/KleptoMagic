@@ -68,6 +68,7 @@ void NewGameState::update() {
 
         // Actualizar eventos
         //ih().refresh();
+        NewInputHandler::Instance()->update();
 
         // Actualizar botón (manejo de clic)
         startButton->update();

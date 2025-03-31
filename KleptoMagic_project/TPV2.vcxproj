@@ -93,8 +93,8 @@
     <ClInclude Include="src\Class\SceneObject.h" />
     <ClInclude Include="src\Class\Game.h" />
     <ClInclude Include="src\Class\StatusEffect.h" />
-    <ClCompile Include="src\Class\Minigame.h" />
-    <ClCompile Include="src\Class\MinigameGeneratorComponent.h" />
+    <ClInclude Include="src\Class\Minigame.h" />
+    <ClInclude Include="src\Class\MinigameGeneratorComponent.h" />
     <ClInclude Include="src\Class\TimerCountdown.h" />
     <ClInclude Include="src\Class\Transform.h" />
     <ClInclude Include="src\ecs\Component.h" />

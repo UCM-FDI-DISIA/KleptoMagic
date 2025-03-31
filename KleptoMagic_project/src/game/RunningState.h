@@ -18,6 +18,7 @@ public:
 private:
 	void checkCollisions();
 	Manager* _mngr;
+	SDL_Renderer* renderer;
 	//VirtualTimer asteroidSpawnTimer;
 	//const int asteroidSpawnCDms = 5000;
 
