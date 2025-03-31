@@ -15,11 +15,11 @@ class GhostComponent : public ecs::Component
 protected:
 	Transform* _ghostTransform;
 	Transform* _targetTransform;
-	TimerCountdown* _timer;
+	//TimerCountdown* _timer;
 	std::default_random_engine rndGenerator;
 	std::uniform_real_distribution<float> rndDistributor;
 	int _teleRadius = DEFAULT_TELE_RADIUS;
-	int _teleTimer = DEFAULT_TIMER;
+	int _teleTime = DEFAULT_TIMER;
 	bool visible = true;
 
 	void teleportRndPosition();			// Teleports the ghost

@@ -7,7 +7,7 @@
 #include <math.h>
 
 GhostComponent::GhostComponent(int rad, int timer) 
-	: _teleRadius(rad), _teleTimer(timer) {
+	: _teleRadius(rad), _teleTime(timer) {
 	std::uniform_real_distribution<float> rndDistributor(1.2f, 2*M_PI);
 }
 
@@ -23,7 +23,7 @@ void GhostComponent::initComponent() { // Gets it's transform and target's, and 
 	auto* _mngr = _ent->getMngr();
 	_ghostTransform = _mngr->getComponent<Transform>(_ent);
 	_targetTransform = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
-	_timer = _mngr->getComponent<TimerCountdown>(_ent);
+	//_timer = _mngr->getComponent<TimerCountdown>(_ent);
 	assert(_ghostTransform != nullptr);
 	assert(_targetTransform != nullptr);
 	assert(_timer != nullptr);
