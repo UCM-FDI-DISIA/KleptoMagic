@@ -41,6 +41,36 @@ Tilemap::Tilemap(vector<vector<char>> tilematrix) {
 	}
 }
 
+void Tilemap::render(SDL_Renderer* renderer) {
+	for (int x = 0; x < getTilemapWidth(); x++) {
+		for (int y = 0; y < getTilemapHeight(); y++) {
+			SDL_Rect tileRect;
+			tileRect.w = 16;
+			tileRect.h = 16;
+			tileRect.x = (x * 16) + xOffset;
+			tileRect.y = (y * 16) + yOffset;
+
+			switch (tilemap[x][y]) {
+			case BLANK:
+				break;
+			case FLOOR:
+				SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF); // replace later with actual texture
+				break;
+			case WALL:
+				SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF); // replace later with actual texture
+				break;
+			case HOLE:
+				SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF); // replace later with actual texture
+				break;
+			default:
+				break;
+			}
+
+			SDL_RenderDrawRect(renderer, &tileRect);
+		}
+	}
+}
+
 void Tilemap::setTile(int x, int y, TileType type) {
 	if (!((x < 0 || x > getTilemapWidth()) && (y < 0 || y > getTilemapHeight()))) {
 		tilemap[x][y] = type;
