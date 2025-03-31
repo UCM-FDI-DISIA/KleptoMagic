@@ -7,6 +7,8 @@
 #include "../../../src/ecs/Entity.h"
 #include "../../../src/ecs/Manager.h"
 #include "../Class/Game.h"
+#include "../Class/Bullet.h"
+
 
 using namespace ecs;
 
@@ -18,6 +20,7 @@ public:
 private:
 	void checkCollisions();
 	Manager* _mngr;
+	Bullet* bullet;
 	VirtualTimer asteroidSpawnTimer;
 	const int asteroidSpawnCDms = 5000;
 
