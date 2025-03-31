@@ -77,3 +77,7 @@ void EntityStat::ChangeMulti(float mult, Stat stat)
     }
 }
 
+void EntityStat::UpdateDebuff(float sDebuff) {
+    movementDebuff = sDebuff;
+}
+

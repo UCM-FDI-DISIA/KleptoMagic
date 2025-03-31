@@ -1,10 +1,5 @@
 #include "PlayerCtrl.h"
-#include "../ecs/Entity.h"
-#include "../ecs/Manager.h"
 #include "../sdlutils/InputHandler.h"
-#include "../sdlutils/SDLUtils.h"
-//#include <iostream>
-
 
 void PlayerCtrl::initComponent() { //falta get entity stats speed
 	auto*_mngr = _ent->getMngr();

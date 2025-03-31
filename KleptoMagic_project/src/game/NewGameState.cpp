@@ -3,12 +3,33 @@
 #include "../sdlutils/InputHandler.h"
 #include "../utils/Vector2D.h"
 
+#include "../generation/DungeonFloor.h"
+#include "../generation/RoomStorage.h"
+#include <conio.h>
+
 using ecs::Manager;
 
 NewGameState::NewGameState() {
 #ifdef _DEBUG
     std::cout << "Nuevo NewGameState creado!" << std::endl;
 #endif
+
+        // --------------------
+        // PROCEDURAL PROTOTYPE
+        // --------------------
+
+        /*
+        RoomStorage* roomstorage = new RoomStorage();
+        while (true) {
+            DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage);
+            _getch(); // waits for any key press before retrying. this is a demo
+        }
+        */
+
+        // --------------------
+        // 
+        // --------------------
+
 
     // Cargar el fondo
     background = new Texture(sdlutils().renderer(), "resources/images/background-provisional.png");
