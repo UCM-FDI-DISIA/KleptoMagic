@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Class\DestroyOnBorder.cpp" />
+    <ClCompile Include="src\Class\Bullet.cpp" />
+    <ClCompile Include="src\Class\BulletStats.cpp" />
     <ClCompile Include="src\Class\Button.cpp" />
     <ClCompile Include="src\Class\Collisions.cpp" />
     <ClCompile Include="src\Class\DummyState.cpp" />
@@ -30,9 +33,11 @@
     <ClCompile Include="src\Class\GameState_OLD.cpp" />
     <ClCompile Include="src\Class\gameStateMachine.cpp" />
     <ClCompile Include="src\Class\Image.cpp" />
+    <ClCompile Include="src\Class\ImageWithFrames.cpp" />
     <ClCompile Include="src\Class\InputManager.cpp" />
     <ClCompile Include="src\Class\MainMenuState.cpp" />
     <ClCompile Include="src\Class\MovementCtrl.cpp" />
+    <ClCompile Include="src\Class\ObjectInfo.cpp" />
     <ClCompile Include="src\Class\Player.cpp" />
     <ClCompile Include="src\Class\PlayerCtrl.cpp" />
     <ClCompile Include="src\Class\PlayState.cpp" />
@@ -67,6 +72,9 @@
     <ClCompile Include="SRC\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Class\DestroyOnBorder.h" />
+    <ClInclude Include="src\Class\Bullet.h" />
+    <ClInclude Include="src\Class\BulletStats.h" />
     <ClInclude Include="src\Class\Button.h" />
     <ClInclude Include="src\Class\Collisions.h" />
     <ClInclude Include="src\Class\DummyState.h" />
@@ -78,10 +86,12 @@
     <ClInclude Include="src\Class\GameState_OLD.h" />
     <ClInclude Include="src\Class\gameStateMachine.h" />
     <ClInclude Include="src\Class\Image.h" />
+    <ClInclude Include="src\Class\ImageWithFrames.h" />
     <ClInclude Include="src\Class\InputManager.h" />
     <ClInclude Include="src\Class\MainMenuState.h" />
     <ClInclude Include="src\Class\MenuState.h" />
     <ClInclude Include="src\Class\MovementCtrl.h" />
+    <ClInclude Include="src\Class\ObjectInfo.h" />
     <ClInclude Include="src\Class\Player.h" />
     <ClInclude Include="src\Class\PlayerCtrl.h" />
     <ClInclude Include="src\Class\PlayState.h" />
@@ -238,7 +248,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <AssemblerOutput>NoListing</AssemblerOutput>
     </ClCompile>
     <Link>

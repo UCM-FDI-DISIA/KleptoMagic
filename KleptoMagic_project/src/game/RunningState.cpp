@@ -11,6 +11,7 @@
 #include "../Class/PlayerCtrl.h"
 #include "../Class/SlimeComponents.h"
 #include "../Class/UndeadArcherCMPS.h"
+
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
 
@@ -21,10 +22,13 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	//asteroidSpawnTimer.resetTime();
 	//fighterutils().create_fighter();
 	auto player = _mngr->addEntity();
+
 	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
 	auto archer = _mngr->addEntity(ecs::grp::ENEMY);
 
 	//Player
+
+
 	_mngr->setHandler(ecs::hdlr::PLAYER, player);
 	auto tr = _mngr->addComponent<Transform>(player);
 	auto s = 50.0f;
@@ -34,6 +38,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	_mngr->addComponent<Image>(player, &sdlutils().images().at("player"));
 	_mngr->addComponent<PlayerCtrl>(player);
 
+
 	//Slime,
 	auto slimetr = _mngr->addComponent<Transform>(slime);
 	slimetr->init(Vector2D(x + 100, y - 100), Vector2D(), s, s, 0.0f);
@@ -42,6 +47,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	_mngr->addComponent<SlimeStatComponent>(slime);
 	_mngr->addComponent<SlimeAttackComponent>(slime);
 	_mngr->addComponent<SlimeMovementComponent>(slime);
+	 bullet = new Bullet();
 
 	//Archer
 	auto archertr = _mngr->addComponent<Transform>(archer);
@@ -63,7 +69,7 @@ void RunningState::update() {
 	
 	bool exit = false;
 	auto& ihdlr = ih();
-	std::cout << "ataque!";
+
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
 	//
@@ -87,8 +93,11 @@ void RunningState::update() {
 		//	// here
 		//	game().setState(Game::PAUSED);
 		//	exit = true;
-		//
+		//}
+		if (ihdlr.isKeyDown(SDL_SCANCODE_K)) {
 
+			bullet->pressed(0);
+		}
 		// update fighter and asteroids here
 		_mngr->update();
 		_mngr->refresh();
@@ -96,6 +105,7 @@ void RunningState::update() {
 		// checking collisions
 		colission_thisframe = false;
 		checkCollisions();
+
 
 		if (colission_thisframe )
 		{
@@ -113,35 +123,47 @@ void RunningState::update() {
 			//	exit = true;
 			//}
 
-			// clear screen
-			sdlutils().clearRenderer();
+		//if (colission_thisframe) {
+		//	fighterutils().take_life();
+		//	if (fighterutils().get_lives() > 0) {
+		//		game().setState(Game::NEWROUND);
+		//	}
+		//	else {
+		//		game().setState(Game::GAMEOVER);
+		//	}
+		//	exit = true;
+		//}
 
-			// render
-			_mngr->render();
+		// clear screen
+		sdlutils().clearRenderer();
 
-			// present new frame
-			sdlutils().presentRenderer();
 
-			// spawn new asteroid every 5s
-			//if (asteroidSpawnTimer.currRealTime() >= asteroidSpawnCDms) {
-			//	asteroidSpawnTimer.resetTime();
-			//	asteroidsutils().create_asteroids(1); // AJUSTE: Asteroides spawneando cada 5s
-			//}
+		// render
+		_mngr->render();
 
-			Uint32 frameTime = sdlutils().currRealTime() - startTime;
+		// present new frame
+		sdlutils().presentRenderer();
 
-			if (frameTime < 20)
-				SDL_Delay(20 - frameTime);
-		}
-	
+		// spawn new asteroid every 5s
+		//if (asteroidSpawnTimer.currRealTime() >= asteroidSpawnCDms) {
+		//	asteroidSpawnTimer.resetTime();
+		//	asteroidsutils().create_asteroids(1); // AJUSTE: Asteroides spawneando cada 5s
+		//}
+
+		Uint32 frameTime = sdlutils().currRealTime() - startTime;
+
+		if (frameTime < 20)
+			SDL_Delay(20 - frameTime);
+	}
 }
 
 void RunningState::checkCollisions() {
 
-	auto _tr = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+	//auto f_t = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::FIGHTER));
 	////auto f_g = _mngr->getComponent<Gun>(_mngr->getHandler(ecs::hdlr::FIGHTER));
 	//
 	//// Iterate through asteroids
+
 	for (auto enemy : _mngr->getEntities(ecs::grp::ENEMY))
 	{
 		if(_mngr->isAlive(enemy))
@@ -160,6 +182,9 @@ void RunningState::checkCollisions() {
 	}
 
 	
+
+	//for (auto a : _mngr->getEntities(ecs::grp::ASTEROIDS)) {
+
 	//	if (_mngr->isAlive(a)) {
 	//		auto a_t = _mngr->getComponent<Transform>(a);
 	//

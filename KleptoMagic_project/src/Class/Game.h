@@ -26,6 +26,8 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../game/GameState.h"
 
+
+
 #pragma once
 
 using uint = unsigned int;
@@ -141,6 +143,8 @@ private:
 	std::array<Texture*, NUM_TEXTURES> textures;
 	// Interruptor para terminar el juego
 	bool exit;
+
+	void createItems();
 
 };
 

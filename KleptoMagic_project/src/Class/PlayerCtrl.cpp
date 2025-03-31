@@ -15,7 +15,6 @@ void PlayerCtrl::initComponent() { //falta get entity stats speed
 //o hago un segundo metodo Move que no aplique speed para el knockback pero... creo que mejor lo otro
 void PlayerCtrl::Move(Vector2D movementVector, float speed) {
 	_tr->getVel() = movementVector * speed;
-	
 }
 
 void PlayerCtrl::update() {
@@ -34,6 +33,10 @@ void PlayerCtrl::update() {
 	}
 	else if (ihldr.isKeyDown(SDL_SCANCODE_DOWN)) {
 		movementVector = { 0, 1 };
+	}
+	if(ihldr.isKeyDown(SDL_SCANCODE_SPACE))
+	{
+		//disparar
 	}
 	Move(movementVector, speed);
 }

@@ -47,6 +47,11 @@
     <ClCompile Include="src\game\GhostComponent.cpp" />
     <ClCompile Include="src\Class\PlayerCtrl.cpp" />
     <ClCompile Include="src\Class\UndeadArcherCMPS.cpp" />
+    <ClCompile Include="src\Class\ObjectInfo.cpp" />
+    <ClCompile Include="src\Class\ImageWithFrames.cpp" />
+    <ClCompile Include="src\Class\Bullet.cpp" />
+    <ClCompile Include="src\Class\BulletStats.cpp" />
+    <ClCompile Include="src\Class\DestroyOnBorder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Class\EntityStat.h" />
@@ -111,6 +116,11 @@
     <ClInclude Include="src\game\GhostComponent.h" />
     <ClInclude Include="src\Class\PlayerCtrl.h" />
     <ClInclude Include="src\Class\UndeadArcherCMPS.h" />
+    <ClInclude Include="src\Class\ObjectInfo.h" />
+    <ClInclude Include="src\Class\ImageWithFrames.h" />
+    <ClInclude Include="src\Class\Bullet.h" />
+    <ClInclude Include="src\Class\BulletStats.h" />
+    <ClInclude Include="src\Class\DestroyOnBorder.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
