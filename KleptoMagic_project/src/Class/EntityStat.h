@@ -23,11 +23,12 @@ public:
 	void Reset();
 	void ChangeFlat(float add, Stat stat);
 	void ChangeMulti(float mult , Stat stat);
+	void UpdateDebuff(float sDebuff);
 	float getStat(Stat stat) const {
 		switch (stat) {
 		case Stat::HealthTotal: return healthTotal;
 		case Stat::HealthCurrent: return healthCurrent;
-		case Stat::MovementSpeed: return movementSpeed * movementSpeedMult;
+		case Stat::MovementSpeed: return movementSpeed * movementSpeedMult * movementDebuff;
 		case Stat::Damage: return damage * damageMult;
 		case Stat::AttackSpeed: return attackSpeed * attackSpeedMult;
 		case Stat::Shield: return shield;
@@ -51,6 +52,7 @@ private:
 	//Velocidad de movimiento (podria ser negativa? XD)
 	float movementSpeed;
 	float movementSpeedMult;
+	float movementDebuff;
 
 	//Daño
 	float damage;
