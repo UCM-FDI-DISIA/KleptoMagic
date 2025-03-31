@@ -14,7 +14,7 @@ private:
 	int room_height;
 	// Name of the room
 	string room_name; 
-	// Roon type
+	// Room type
 	roomType room_type;
 	// Tile matrix for the room
 	vector<vector<char>> roomTiles; 
@@ -25,6 +25,17 @@ private:
 	bool doorU, doorD, doorL, doorR;
 	// Whether or not an exit in any of the cardinal directions is currently locked and requires opening
 	bool lockU, lockD, lockL, lockR; 
+
+	// X and Y coordinates of the center (for entrance rooms)
+	int CenterX = -1, CenterY = -1;
+	// X and Y coordinates of the U exit
+	int UexitX = -1, UexitY = -1;
+	// X and Y coordinates of the D exit
+	int DexitX = -1, DexitY = -1;
+	// X and Y coordinates of the L exit
+	int LexitX = -1, LexitY = -1;
+	// X and Y coordinates of the R exit
+	int RexitX = -1, RexitY = -1;
 public:
 	// Whether or not any of the exits in any of the cardinal directions are currently linked to another room in said direction
 	// Compared to the other variables, these can be readily changed, as they are only used during floor generation

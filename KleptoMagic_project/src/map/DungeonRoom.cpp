@@ -9,6 +9,7 @@
 DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 {
 #ifdef _DEBUG
+	cout << endl;
 	cout << "CREATING ROOM: " << filename << endl;
 #endif
 
@@ -59,6 +60,48 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 		}
 		row++;
 	}
+
+	// Find and store the center and exit locations
+	if (room_type == roomType::ENTRANCE) {
+		CenterX = room_width / 2;
+		CenterY = room_height / 2;
+	}
+	for (int i = 0; i < room_height; i++) {
+		for (int j = 0; j < room_width; j++) {
+			if (roomTiles[i][j] == 'U') {
+				UexitX = j;
+				UexitY = i;
+			}
+			else if (roomTiles[i][j] == 'D') {
+				DexitX = j;
+				DexitY = i;
+			}
+			else if (roomTiles[i][j] == 'L') {
+				LexitX = j;
+				LexitY = i;
+			}
+			else if (roomTiles[i][j] == 'R') {
+				RexitX = j;
+				RexitY = i;
+			}
+		}
+	}
+
+#ifdef _DEBUG
+	cout << "Name: " << room_name << endl;
+	cout << "Type: " << room_type << endl;
+	cout << "Width: " << room_width << ", " << "Height: " << room_height << endl;
+	if (room_type == roomType::ENTRANCE) {
+		cout << "Center: " << CenterX << "," << CenterY << endl;
+	}
+	cout << "Exit U: " << doorU << " | " << UexitX << "," << UexitY << endl;
+	cout << "Exit D: " << doorD << " | " << DexitX << "," << DexitY << endl;
+	cout << "Exit L: " << doorL << " | " << LexitX << "," << LexitY << endl;
+	cout << "Exit R: " << doorR << " | " << RexitX << "," << RexitY << endl;
+	cout << endl;
+	printLayoutTiles();
+	cout << endl;
+#endif
 
 }
 
