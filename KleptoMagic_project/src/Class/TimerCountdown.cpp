@@ -2,15 +2,19 @@
 
 TimerCountdown::TimerCountdown(int duration) : totalDuration(std::chrono::seconds(duration)), elapsed(0), timeMultiplier(1.0f), paused(false) {}
 
-void TimerCountdown::start() {
-    startTime = std::chrono::steady_clock::now();
-}
-
 void TimerCountdown::update() {
     if (!paused) {
         auto now = std::chrono::steady_clock::now();
         float elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - startTime).count();
     }
+}
+
+void TimerCountdown::initComponent() {
+
+}
+
+void TimerCountdown::start() {
+    startTime = std::chrono::steady_clock::now();
 }
 
 void TimerCountdown::addTime(int seconds) {

@@ -1,4 +1,10 @@
+#ifndef GHOST_COMPONENT_C
+#define GHOST_COMPONENT_C
+
+
 #include "../Class/Transform.h"
+#include "../Class/TimerCountdown.h"
+#include <random>
 
 
 const int DEFAULT_TELE_RADIUS = 100;
@@ -8,21 +14,25 @@ class GhostComponent : public ecs::Component
 {
 protected:
 	Transform* _ghostTransform;
-	Transform* _playerTransform;
+	Transform* _targetTransform;
+	TimerCountdown* _timer;
+	std::default_random_engine rndGenerator;
+	std::uniform_real_distribution<float> rndDistributor;
 	int _teleRadius = DEFAULT_TELE_RADIUS;
 	int _teleTimer = DEFAULT_TIMER;
 	bool visible = true;
 
-	void teleport();
+	void teleportRndPosition();			// Teleports the ghost
 	
 public:
 	__CMPID_DECL__(ecs::cmp::GHOSTCMP);
 
-	GhostComponent(int rad);
-	GhostComponent(int rad, int timer);
-	virtual ~GhostComponent();
+	// inicializadores
+	GhostComponent(int rad = DEFAULT_TELE_RADIUS, int timer = DEFAULT_TIMER);	// Constructor with radius and timer parameters
+	virtual ~GhostComponent();	// Destructor
 	void initComponent() override;
 	void update() override;
 
 };
 
+#endif // GHOST_COMPONENT_C
