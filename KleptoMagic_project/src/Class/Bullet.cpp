@@ -73,6 +73,7 @@ void Bullet::shoot(int i)
 	_bulletsTR->init(Vector2D(_tr->getPos().getX() + (_tr->getWidth() / 2), _tr->getPos().getY() +( _tr->getHeight() / 2)), vel, stats->getSize(), stats->getSize(), 0);
 	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1);
 	_mngr->addComponent<DestroyOnBorder>(_bullets);
+	_mngr->addComponent<HomingComponent>(_bullets);
 	_tim->resetTime();
 
 }

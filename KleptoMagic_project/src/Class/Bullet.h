@@ -10,6 +10,7 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../Class/ImageWithFrames.h"
 #include "BulletStats.h"
+#include "HomingComponent.h"
 class Bullet 
 {
 public:
