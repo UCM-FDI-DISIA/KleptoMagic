@@ -74,6 +74,7 @@
     <ClCompile Include="SRC\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\astar\astar.hpp" />
     <ClInclude Include="src\Class\DestroyOnBorder.h" />
     <ClInclude Include="src\Class\Bullet.h" />
     <ClInclude Include="src\Class\BulletStats.h" />
