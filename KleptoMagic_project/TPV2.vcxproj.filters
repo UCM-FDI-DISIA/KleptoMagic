@@ -54,6 +54,7 @@
     <ClCompile Include="src\map\DungeonFloor.cpp" />
     <ClCompile Include="src\map\DungeonRoom.cpp" />
     <ClCompile Include="src\map\RoomStorage.cpp" />
+    <ClCompile Include="src\map\Tilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Class\EntityStat.h" />
@@ -126,6 +127,7 @@
     <ClInclude Include="src\map\DungeonFloor.h" />
     <ClInclude Include="src\map\DungeonRoom.h" />
     <ClInclude Include="src\map\RoomStorage.h" />
+    <ClInclude Include="src\map\Tilemap.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />

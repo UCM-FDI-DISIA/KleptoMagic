@@ -78,9 +78,9 @@ void RunningState::update() {
 		//	// here
 		//	game().setState(Game::PAUSED);
 		//	exit = true;
-
 		//}
 		if (ihdlr.isKeyDown(SDL_SCANCODE_K)) {
+		
 			bullet->pressed(0);
 		}
 		// update fighter and asteroids here

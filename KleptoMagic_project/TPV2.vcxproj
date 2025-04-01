@@ -23,7 +23,6 @@
     <ClCompile Include="src\Class\Bullet.cpp" />
     <ClCompile Include="src\Class\BulletStats.cpp" />
     <ClCompile Include="src\Class\Button.cpp" />
-    <ClCompile Include="src\Class\Collisions.cpp" />
     <ClCompile Include="src\Class\DummyState.cpp" />
     <ClCompile Include="src\Class\Enemy.cpp" />
     <ClCompile Include="src\Class\EntityCmp.cpp" />
@@ -65,6 +64,7 @@
     <ClCompile Include="src\map\DungeonFloor.cpp" />
     <ClCompile Include="src\map\DungeonRoom.cpp" />
     <ClCompile Include="src\map\RoomStorage.cpp" />
+    <ClCompile Include="src\map\Tilemap.cpp" />
     <ClCompile Include="SRC\sdlutils\SDLNetUtils.cpp" />
     <ClCompile Include="SRC\sdlutils\SDLUtils.cpp" />
     <ClCompile Include="SRC\sdlutils\SDLUtilsError.cpp" />
@@ -78,7 +78,6 @@
     <ClInclude Include="src\Class\Bullet.h" />
     <ClInclude Include="src\Class\BulletStats.h" />
     <ClInclude Include="src\Class\Button.h" />
-    <ClInclude Include="src\Class\Collisions.h" />
     <ClInclude Include="src\Class\DummyState.h" />
     <ClInclude Include="src\Class\Enemy.h" />
     <ClInclude Include="src\Class\EntityCmp.h" />
@@ -125,6 +124,7 @@
     <ClInclude Include="src\map\DungeonFloor.h" />
     <ClInclude Include="src\map\DungeonRoom.h" />
     <ClInclude Include="src\map\RoomStorage.h" />
+    <ClInclude Include="src\map\Tilemap.h" />
     <ClInclude Include="src\sdlutils\Font.h" />
     <ClInclude Include="src\sdlutils\InputHandler.h" />
     <ClInclude Include="src\sdlutils\macros.h" />

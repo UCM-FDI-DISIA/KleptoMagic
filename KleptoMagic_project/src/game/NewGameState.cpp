@@ -19,10 +19,16 @@ NewGameState::NewGameState() {
         /*
         RoomStorage* roomstorage = new RoomStorage();
         while (true) {
-            DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage);
+            DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
+
+            sdlutils().clearRenderer();
+            dungeonfloor->render();
+            sdlutils().presentRenderer();
+            
             _getch(); // waits for any key press before retrying. this is a demo
         }
         */
+        
 
         // --------------------
         // 
