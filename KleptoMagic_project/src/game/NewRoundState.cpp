@@ -8,8 +8,11 @@
 #include "../sdlutils/InputHandler.h"
 
 NewRoundState::NewRoundState() : selectedCharacter("") {
+#ifdef _DEBUG
+	std::cout << "Nuevo NewRoundState creado!" << std::endl;
+#endif
 
-	background = new Texture(sdlutils().renderer(), "resources/images/selectmenu-provisional.png");
+	/*background = new Texture(sdlutils().renderer(), "resources/images/selectmenu-provisional.png");
 
 	float btnWidth = 100; // Ancho del botón
 	float btnHeight = 100; // Alto del botón
@@ -41,7 +44,7 @@ NewRoundState::NewRoundState() : selectedCharacter("") {
 		selectedCharacter = "HUNTER";
 		game().setSelectedCharacter(selectedCharacter);
 		game().setState(Game::RUNNING);
-		}, Vector2D(startX + 3 * (btnWidth + spacing), btnY), Vector2D(btnWidth, btnHeight), &sdlutils().images().at("HUNTER"));
+		}, Vector2D(startX + 3 * (btnWidth + spacing), btnY), Vector2D(btnWidth, btnHeight), &sdlutils().images().at("HUNTER"));*/
 }
 
 void NewRoundState::update() {
@@ -78,6 +81,60 @@ void NewRoundState::update() {
 			SDL_Delay(20 - frameTime);
 	}
 }
+NewRoundState::~NewRoundState() {
+
+}
+
+void NewRoundState::enter()
+{
+#ifdef _DEBUG
+	std::cout << "Entrando en NewRoundState" << std::endl;
+#endif
+
+	background = new Texture(sdlutils().renderer(), "resources/images/selectmenu-provisional.png");
+
+	float btnWidth = 100; // Ancho del botón
+	float btnHeight = 100; // Alto del botón
+	float spacing = 50; // Espacio entre botones
+	float startX = (sdlutils().width() - (btnWidth * 4 + spacing * 3)) / 2;
+	float btnY = sdlutils().height() / 2 - btnHeight / 2;
+
+	rogueButton = new Button([this]() {
+		std::cout << "Seleccionado: ROGUE" << std::endl; // Depuración
+		selectedCharacter = "ROGUE";
+		game().setSelectedCharacter(selectedCharacter);
+		std::cout << "getSelectedCharacter: " << game().getSelectedCharacter() << std::endl;
+		game().setState(Game::RUNNING);
+		}, Vector2D(startX, btnY), Vector2D(btnWidth, btnHeight), &sdlutils().images().at("ROGUE"));
+
+	knightButton = new Button([this]() {
+		selectedCharacter = "KNIGHT";
+		game().setSelectedCharacter(selectedCharacter);
+		game().setState(Game::RUNNING);
+		}, Vector2D(startX + (btnWidth + spacing), btnY), Vector2D(btnWidth, btnHeight), &sdlutils().images().at("KNIGHT"));
+
+	alchemistButton = new Button([this]() {
+		selectedCharacter = "ALCHEMIST";
+		game().setSelectedCharacter(selectedCharacter);
+		game().setState(Game::RUNNING);
+		}, Vector2D(startX + 2 * (btnWidth + spacing), btnY), Vector2D(btnWidth, btnHeight), &sdlutils().images().at("ALCHEMIST"));
+
+	hunterButton = new Button([this]() {
+		selectedCharacter = "HUNTER";
+		game().setSelectedCharacter(selectedCharacter);
+		game().setState(Game::RUNNING);
+		}, Vector2D(startX + 3 * (btnWidth + spacing), btnY), Vector2D(btnWidth, btnHeight), &sdlutils().images().at("HUNTER"));
+}
+
+void NewRoundState::leave()
+{
+	if (selectedCharacter.empty()) {
+		game().setSelectedCharacter(selectedCharacter);
+	}
+#ifdef _DEBUG
+	std::cout << "Personaje: " << selectedCharacter << std::endl;
+#endif
+}
 
 /*NewRoundState::NewRoundState() {
 
@@ -107,9 +164,6 @@ void NewRoundState::update() {
 		game().setState(Game::RUNNING);
 		}, Vector2D(btnX, btnY), Vector2D(btnWidth, btnHeight), buttonTexture);
 }*/
-NewRoundState::~NewRoundState() {
-
-}
 
 /*void NewRoundState::update() {
 	
@@ -162,14 +216,3 @@ NewRoundState::~NewRoundState() {
 			SDL_Delay(20 - frameTime);
 	}
 }*/
-
-void NewRoundState::enter()
-{
-#ifdef _DEBUG
-	std::cout << "Entrando en NewRoundState" << std::endl;
-#endif
-}
-
-void NewRoundState::leave()
-{
-}

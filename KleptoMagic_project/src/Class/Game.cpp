@@ -198,8 +198,6 @@ void Game::start() {
 	}
 }
 
-
-
 //void
 //Game::run()
 //{
