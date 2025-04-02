@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArmorComponents.cpp" />
+    <ClCompile Include="src\Class\ArmorComponents.cpp" />
     <ClCompile Include="src\Class\DestroyOnBorder.cpp" />
     <ClCompile Include="src\Class\Bullet.cpp" />
     <ClCompile Include="src\Class\BulletStats.cpp" />
@@ -73,6 +75,8 @@
     <ClCompile Include="SRC\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArmorComponents.h" />
+    <ClInclude Include="src\Class\ArmorComponents.h" />
     <ClInclude Include="src\Class\DestroyOnBorder.h" />
     <ClInclude Include="src\Class\Bullet.h" />
     <ClInclude Include="src\Class\BulletStats.h" />

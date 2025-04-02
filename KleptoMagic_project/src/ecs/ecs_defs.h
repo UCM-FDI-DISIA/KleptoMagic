@@ -23,7 +23,12 @@
     SLIMEMOVCMP, \
     SLIMEATKCMP, \
     SLIMESTATCMP, \
-    SLIMEVECCMP
+    SLIMEVECCMP, \
+	ARMORVECCMP, \
+	ARMORSTATCMP, \
+	ARMORATKCMP, \
+	ARMORMOVCMP
+
 
 
 // Groups list - must have at least one element
@@ -38,5 +43,6 @@
     PLAYER, \
 	GAMEINFO,\
     SLIME,\
+	ARMOR,\
     
 

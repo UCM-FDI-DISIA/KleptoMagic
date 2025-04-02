@@ -10,6 +10,7 @@
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
 #include "../Class/SlimeComponents.h"
+#include "../Class/ArmorComponents.h"
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
 
@@ -206,7 +207,9 @@ void RunningState::enter()
 	std::cout << "Entrando en RunningState" << std::endl;
 #endif
 	auto player = _mngr->addEntity();
-	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
+	//auto slime = _mngr->addEntity(ecs::grp::ENEMY);
+	auto armor = _mngr->addEntity(ecs::grp::ENEMY);
+
 
 	//Player
 	_mngr->setHandler(ecs::hdlr::PLAYER, player);
@@ -224,6 +227,7 @@ void RunningState::enter()
 	_mngr->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
 	_mngr->addComponent<PlayerCtrl>(player);
 
+	/*
 	//Slime,
 	_mngr->setHandler(ecs::hdlr::SLIME, slime);
 	auto slimetr = _mngr->addComponent<Transform>(slime);
@@ -233,6 +237,18 @@ void RunningState::enter()
 	_mngr->addComponent<SlimeStatComponent>(slime);
 	_mngr->addComponent<SlimeAttackComponent>(slime);
 	_mngr->addComponent<SlimeMovementComponent>(slime);
+	*/
+	//Armor,
+	_mngr->setHandler(ecs::hdlr::ARMOR, armor);
+	auto armorTr = _mngr->addComponent<Transform>(armor);
+	armorTr->init(Vector2D(x + 200, 5 - 20), Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(armor, &sdlutils().images().at("pacman"));
+	_mngr->addComponent<ArmorVectorComponent>(armor);
+	_mngr->addComponent<ArmorStatComponent>(armor);
+	_mngr->addComponent<ArmorAttackComponent>(armor);
+	_mngr->addComponent<ArmorMovementComponent>(armor);
+
+
 }
 
 void RunningState::leave()

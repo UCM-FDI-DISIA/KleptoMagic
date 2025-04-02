@@ -20,7 +20,6 @@
     <ClCompile Include="SRC\utils\Vector2D.cpp" />
     <ClCompile Include="src\Class\PlayState.cpp" />
     <ClCompile Include="src\Class\DummyState.cpp" />
-    <ClCompile Include="src\Class\Collisions.cpp" />
     <ClCompile Include="src\Class\EntityCmp.cpp" />
     <ClCompile Include="src\Class\StatusEffect.cpp" />
     <ClCompile Include="src\Class\Button.cpp" />
@@ -54,6 +53,8 @@
     <ClCompile Include="src\map\DungeonRoom.cpp" />
     <ClCompile Include="src\map\RoomStorage.cpp" />
     <ClCompile Include="src\map\Tilemap.cpp" />
+    <ClCompile Include="ArmorComponents.cpp" />
+    <ClCompile Include="src\Class\ArmorComponents.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Class\EntityStat.h" />
@@ -84,7 +85,6 @@
     <ClInclude Include="src\utils\Vector2D.h" />
     <ClInclude Include="src\Class\PlayState.h" />
     <ClInclude Include="src\Class\DummyState.h" />
-    <ClInclude Include="src\Class\Collisions.h" />
     <ClInclude Include="src\Class\StatusEffect.h" />
     <ClInclude Include="src\Class\Button.h" />
     <ClInclude Include="src\Class\MainMenuState.h" />
@@ -126,6 +126,8 @@
     <ClInclude Include="src\map\DungeonRoom.h" />
     <ClInclude Include="src\map\RoomStorage.h" />
     <ClInclude Include="src\map\Tilemap.h" />
+    <ClInclude Include="ArmorComponents.h" />
+    <ClInclude Include="src\Class\ArmorComponents.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
