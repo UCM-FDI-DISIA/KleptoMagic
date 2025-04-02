@@ -10,6 +10,7 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../Class/ImageWithFrames.h"
 #include "BulletStats.h"
+#include "HomingComponent.h"
 class Bullet 
 {
 public:
@@ -24,7 +25,8 @@ public:
 	void hit(int index);
 	void pressed(int i);
 	void collided(ecs::entity_t e);
-	
+	void addComponent(int i);
+	void checkComponent(int i, ecs::entity_t e);
 	
 private:
 	VirtualTimer* _tim;
@@ -32,7 +34,6 @@ private:
 	Texture* tex = &sdlutils().images().at("star");
 	float speed=0.0f;
 	void shoot(int i);
-
-
+	std::array<bool, 20> componentes;
 };
 

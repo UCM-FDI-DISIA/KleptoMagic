@@ -27,7 +27,9 @@
     UNDEADMOVCMP, \
     UNDEADATKCMP, \
     UNDEADSTATCMP, \
-    UNDEADVECCMP
+    UNDEADVECCMP,\
+	HOMINGCOMPONENT
+
 
 
 // Groups list - must have at least one element
