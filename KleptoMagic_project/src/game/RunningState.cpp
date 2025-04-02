@@ -29,10 +29,8 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	roomstorage = new RoomStorage();
 	dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
 
-	auto player = _mngr->addEntity();
 
-	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
-	auto archer = _mngr->addEntity(ecs::grp::ENEMY);
+
 
 	/*auto player = _mngr->addEntity();
 	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
@@ -58,23 +56,9 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	 bullet = new Bullet();
 	 bullet->addComponent(0);
 	//Slime,
-	auto slimetr = _mngr->addComponent<Transform>(slime);
-	slimetr->init(Vector2D(x + 100, y - 100), Vector2D(), s, s, 0.0f);
-	_mngr->addComponent<Image>(slime, &sdlutils().images().at("pacman"));
-	_mngr->addComponent<SlimeVectorComponent>(slime);
-	_mngr->addComponent<SlimeStatComponent>(slime);
-	_mngr->addComponent<SlimeAttackComponent>(slime);
-	_mngr->addComponent<SlimeMovementComponent>(slime);
-	 bullet = new Bullet();
 
 	//Archer
-	auto archertr = _mngr->addComponent<Transform>(archer);
-	archertr->init(Vector2D(x + 70, y - 100), Vector2D(), s, s, 0.0f);
-	_mngr->addComponent<Image>(archer, &sdlutils().images().at("star"));
-	_mngr->addComponent<UndeadStatComponent>(archer);
-	_mngr->addComponent<UndeadVectorComponent>(archer);
-	_mngr->addComponent<UndeadMovementComponent>(archer);
-	_mngr->addComponent<UndeadAttackComponent>(archer);
+
 
 	_mngr->addComponent<SlimeMovementComponent>(slime);*/
 }
@@ -249,6 +233,7 @@ void RunningState::enter()
 
 	auto player = _mngr->addEntity();
 
+	
 
 	//Player
 	_mngr->setHandler(ecs::hdlr::PLAYER, player);
@@ -268,14 +253,25 @@ void RunningState::enter()
 	bullet = new Bullet();
 	bullet->addComponent(0);
 	//Slime,
-	_mngr->setHandler(ecs::hdlr::SLIME, slime);
+	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
 	auto slimetr = _mngr->addComponent<Transform>(slime);
-	slimetr->init(Vector2D(x + 100, 5 - 20), Vector2D(), s, s, 0.0f);
+	slimetr->init(Vector2D(x + 100, y - 100), Vector2D(), s, s, 0.0f);
 	_mngr->addComponent<Image>(slime, &sdlutils().images().at("pacman"));
 	_mngr->addComponent<SlimeVectorComponent>(slime);
 	_mngr->addComponent<SlimeStatComponent>(slime);
 	_mngr->addComponent<SlimeAttackComponent>(slime);
 	_mngr->addComponent<SlimeMovementComponent>(slime);
+	bullet = new Bullet();
+	//Archer
+	auto archer = _mngr->addEntity(ecs::grp::ENEMY);
+	auto archertr = _mngr->addComponent<Transform>(archer);
+	archertr->init(Vector2D(x + 70, y - 100), Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(archer, &sdlutils().images().at("star"));
+	_mngr->addComponent<UndeadStatComponent>(archer);
+	_mngr->addComponent<UndeadVectorComponent>(archer);
+	_mngr->addComponent<UndeadMovementComponent>(archer);
+	_mngr->addComponent<UndeadAttackComponent>(archer);
+
 }
 
 void RunningState::leave()
