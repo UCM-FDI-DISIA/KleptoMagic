@@ -9,6 +9,8 @@
 #include "../Class/Game.h"
 #include "../map/RoomStorage.h"
 #include "../map/DungeonFloor.h"
+#include "../Class/Bullet.h"
+
 
 using namespace ecs;
 
@@ -20,13 +22,14 @@ public:
 private:
 	void checkCollisions();
 	Manager* _mngr;
+	Bullet* bullet;
 	VirtualTimer asteroidSpawnTimer;
 	const int asteroidSpawnCDms = 5000;
 
 	RoomStorage* roomstorage;
 	DungeonFloor* dungeonfloor;
 
-	// Heredado vía GameState
+	// Heredado vï¿½a GameState
 	void enter() override;
 	void leave() override;
 	bool colission_thisframe;

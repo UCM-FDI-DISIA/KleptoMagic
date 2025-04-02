@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Class\DestroyOnBorder.cpp" />
+    <ClCompile Include="src\Class\Bullet.cpp" />
+    <ClCompile Include="src\Class\BulletStats.cpp" />
     <ClCompile Include="src\Class\Button.cpp" />
     <ClCompile Include="src\Class\DummyState.cpp" />
     <ClCompile Include="src\Class\Enemy.cpp" />
@@ -29,6 +32,7 @@
     <ClCompile Include="src\Class\GameState_OLD.cpp" />
     <ClCompile Include="src\Class\gameStateMachine.cpp" />
     <ClCompile Include="src\Class\Image.cpp" />
+    <ClCompile Include="src\Class\ImageWithFrames.cpp" />
     <ClCompile Include="src\Class\InputManager.cpp" />
     <ClCompile Include="src\Class\MainMenuState.cpp" />
     <ClCompile Include="src\Class\MovementCtrl.cpp" />
@@ -69,6 +73,9 @@
     <ClCompile Include="SRC\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Class\DestroyOnBorder.h" />
+    <ClInclude Include="src\Class\Bullet.h" />
+    <ClInclude Include="src\Class\BulletStats.h" />
     <ClInclude Include="src\Class\Button.h" />
     <ClInclude Include="src\Class\DummyState.h" />
     <ClInclude Include="src\Class\Enemy.h" />
@@ -79,6 +86,7 @@
     <ClInclude Include="src\Class\GameState_OLD.h" />
     <ClInclude Include="src\Class\gameStateMachine.h" />
     <ClInclude Include="src\Class\Image.h" />
+    <ClInclude Include="src\Class\ImageWithFrames.h" />
     <ClInclude Include="src\Class\InputManager.h" />
     <ClInclude Include="src\Class\MainMenuState.h" />
     <ClInclude Include="src\Class\MenuState.h" />

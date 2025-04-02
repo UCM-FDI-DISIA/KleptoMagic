@@ -159,7 +159,9 @@ void Game::start() {
 	vt.resetTime();
 
 	while (!exit) {
+#ifdef _DEBUG
 		std::cout << "Entrando en el bucle principal" << std::endl;
+#endif
 		Uint32 startTime = vt.regCurrTime();
 		ihdlr.refresh();
 
@@ -179,20 +181,22 @@ void Game::start() {
 			exit = true;
 			continue;
 		}
+#ifdef _DEBUG
 		std::cout << "Exit: " << exit << std::endl;
+#endif
 
 
 		//std::cout << _state << std::endl;
 		_state->update();
+#ifdef _DEBUG
 		std::cout << "Se ejecutó update()" << std::endl;
+#endif
 
 
 		Uint32 frameTime = sdlutils().currRealTime() - startTime;
 		if (frameTime < 10) SDL_Delay(10 - frameTime);
 	}
 }
-
-
 
 //void
 //Game::run()

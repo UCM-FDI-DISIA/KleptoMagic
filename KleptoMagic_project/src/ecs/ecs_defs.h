@@ -8,6 +8,8 @@
 #define _CMPS_LIST_ \
 	TRANSFORM, \
 	IMAGE, \
+	DESTROYONBORDER,\
+	IMAGEWITHFRAMES,\
 	MOVEMENTCTRL, \
 	ENTITYCMP, \
 	ENTITYSTAT, \
@@ -16,6 +18,7 @@
 	PLAYERCTRL, \
 	GAMECTRL, \
 	GHOSTCMP, \
+	BULLETSTATS, \
 	BUTTON, \
     SLIMEMOVCMP, \
     SLIMEATKCMP, \
@@ -26,6 +29,7 @@
 // Groups list - must have at least one element
 //
 #define _GRPS_LIST_ \
+	BULLET,  \
 	ASTEROIDS,\
     ENEMY
 // Handlers list - must have at least one element

@@ -14,6 +14,10 @@
 //#include "../components/Gun.h"
 
 RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
+#ifdef _DEBUG
+	std::cout << "Nuevo RunningState creado!" << std::endl;
+#endif
+
 	//asteroidSpawnTimer(sdlutils().virtualTimer()),
 	//colission_thisframe(false);
 
@@ -33,8 +37,15 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	auto x = (sdlutils().width() - s) / 2.0f;
 	auto y = (sdlutils().height() - s) / 2.0f;
 	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
-	_mngr->addComponent<Image>(player, &sdlutils().images().at("player"));
+	//_mngr->addComponent<Image>(player, &sdlutils().images().at("ALCHEMIST"));
+	std::string selectedCharacter = game().getSelectedCharacter();
+	std::cout << "Personaje seleccionado: " << selectedCharacter << std::endl;
+	if (selectedCharacter.empty()) {
+		selectedCharacter = "ALCHEMIST"; // Valor por defecto si no se ha seleccionado nada
+	}
+	_mngr->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
 	_mngr->addComponent<PlayerCtrl>(player);
+	 bullet = new Bullet();
 
 	//Slime,
 	_mngr->setHandler(ecs::hdlr::SLIME, slime);
@@ -44,8 +55,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	_mngr->addComponent<SlimeVectorComponent>(slime);
 	_mngr->addComponent<SlimeStatComponent>(slime);
 	_mngr->addComponent<SlimeAttackComponent>(slime);
-	_mngr->addComponent<SlimeMovementComponent>(slime);
-
+	_mngr->addComponent<SlimeMovementComponent>(slime);*/
 }
 	
 
@@ -81,8 +91,11 @@ void RunningState::update() {
 		//	// here
 		//	game().setState(Game::PAUSED);
 		//	exit = true;
-		//
-
+		//}
+		if (ihdlr.isKeyDown(SDL_SCANCODE_K)) {
+		
+			bullet->pressed(0);
+		}
 		// update fighter and asteroids here
 		_mngr->update();
 		_mngr->refresh();
@@ -196,6 +209,37 @@ void RunningState::checkCollisions() {
 
 void RunningState::enter()
 {
+#ifdef _DEBUG
+	std::cout << "Entrando en RunningState" << std::endl;
+#endif
+	auto player = _mngr->addEntity();
+	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
+
+	//Player
+	_mngr->setHandler(ecs::hdlr::PLAYER, player);
+	auto tr = _mngr->addComponent<Transform>(player);
+	auto s = 50.0f;
+	auto x = (sdlutils().width() - s) / 2.0f;
+	auto y = (sdlutils().height() - s) / 2.0f;
+	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
+	//_mngr->addComponent<Image>(player, &sdlutils().images().at("ALCHEMIST"));
+	std::string selectedCharacter = game().getSelectedCharacter();
+	std::cout << "Personaje seleccionado: " << selectedCharacter << std::endl;
+	if (selectedCharacter.empty()) {
+		selectedCharacter = "ALCHEMIST"; // Valor por defecto si no se ha seleccionado nada
+	}
+	_mngr->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
+	_mngr->addComponent<PlayerCtrl>(player);
+
+	//Slime,
+	_mngr->setHandler(ecs::hdlr::SLIME, slime);
+	auto slimetr = _mngr->addComponent<Transform>(slime);
+	slimetr->init(Vector2D(x + 100, 5 - 20), Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(slime, &sdlutils().images().at("pacman"));
+	_mngr->addComponent<SlimeVectorComponent>(slime);
+	_mngr->addComponent<SlimeStatComponent>(slime);
+	_mngr->addComponent<SlimeAttackComponent>(slime);
+	_mngr->addComponent<SlimeMovementComponent>(slime);
 }
 
 void RunningState::leave()
