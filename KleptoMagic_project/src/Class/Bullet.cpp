@@ -88,7 +88,7 @@ void Bullet::shoot(int i)
 	stats->Created(1);
 	Vector2D vel = (PosRat - Vector2D(_tr->getPos().getX()+(_tr->getWidth()/2), _tr->getPos().getY()+(_tr->getHeight()/2))).normalize() * stats->getSpeed();
 	auto _bulletsTR = _mngr->addComponent<Transform>(_bullets);
-	_bulletsTR->init(Vector2D(_tr->getPos().getX() + (_tr->getWidth() / stats->getSize()), _tr->getPos().getY() +( _tr->getHeight() / stats->getSize())), vel, stats->getSize(), stats->getSize(), 0);
+	_bulletsTR->init(Vector2D(_tr->getPos().getX() + _tr->getWidth() / 2, _tr->getPos().getY() + _tr->getHeight() / 2)-Vector2D(stats->getSize()/2,stats->getSize()/2), vel, stats->getSize(), stats->getSize(), 0);
 	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1);
 	_mngr->addComponent<DestroyOnBorder>(_bullets);
 	for(int i=0;i<componentes.size();i++)

@@ -83,7 +83,7 @@ void RunningState::update() {
 		//}
 
 		//}
-		if (ihdlr.isKeyDown(SDL_SCANCODE_K)) {
+		if (ihdlr.isKeyDown(SDL_SCANCODE_SPACE)) {
 
 			bullet->pressed(0);
 		}
