@@ -27,7 +27,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	roomstorage = new RoomStorage();
 	dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
 
-	auto player = _mngr->addEntity();
+	/*auto player = _mngr->addEntity();
 	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
 	HomingComponent* comp;
 	comp = new HomingComponent();
@@ -56,7 +56,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	_mngr->addComponent<SlimeVectorComponent>(slime);
 	_mngr->addComponent<SlimeStatComponent>(slime);
 	_mngr->addComponent<SlimeAttackComponent>(slime);
-	_mngr->addComponent<SlimeMovementComponent>(slime);
+	_mngr->addComponent<SlimeMovementComponent>(slime);*/
 }
 	
 
@@ -216,9 +216,11 @@ void RunningState::enter()
 #ifdef _DEBUG
 	std::cout << "Entrando en RunningState" << std::endl;
 #endif
+
 	auto player = _mngr->addEntity();
 	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
-
+	HomingComponent* comp;
+	comp = new HomingComponent();
 	//Player
 	_mngr->setHandler(ecs::hdlr::PLAYER, player);
 	auto tr = _mngr->addComponent<Transform>(player);
@@ -234,7 +236,8 @@ void RunningState::enter()
 	}
 	_mngr->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
 	_mngr->addComponent<PlayerCtrl>(player);
-
+	bullet = new Bullet();
+	bullet->addComponent(0);
 	//Slime,
 	_mngr->setHandler(ecs::hdlr::SLIME, slime);
 	auto slimetr = _mngr->addComponent<Transform>(slime);
