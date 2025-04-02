@@ -42,9 +42,6 @@ NewGameState::NewGameState() {
     // Posicionar el bot�n en el centro
     float btnWidth = buttonTexture->width();
     float btnHeight = buttonTexture->height();
-    // Posicionar el bot�n en el centro
-    float btnWidth = buttonTexture->width() / 2;
-    float btnHeight = buttonTexture->height() / 2;
     float btnX = (sdlutils().width() - btnWidth) / 2;
     float btnY = (sdlutils().height() - btnHeight) / 2;
 

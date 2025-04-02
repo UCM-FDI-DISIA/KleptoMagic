@@ -124,7 +124,7 @@ namespace ecs
 				if (elapsedTime >= 10 && attackRange <= 200)
 				{
 					//create bullet
-					std::cout << "Flechazo!";
+					
 					lastAttackTime = now;
 					_UndeadTransform->getVel() =  _UndeadTransform->getVel() * 0;
 				}

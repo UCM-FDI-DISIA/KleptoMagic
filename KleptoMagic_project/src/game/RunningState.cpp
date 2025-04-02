@@ -51,6 +51,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	}
 	_mngr->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
 	_mngr->addComponent<PlayerCtrl>(player);
+	
 
 
 	//Slime,
@@ -122,7 +123,7 @@ void RunningState::update() {
 
 		if (colission_thisframe )
 		{
-			std::cout << "attack";
+		
 		
 		}
 			//if (colission_thisframe) {
@@ -177,7 +178,7 @@ void RunningState::update() {
 
 void RunningState::checkCollisions() {
 
-	//auto f_t = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::FIGHTER));
+	auto _tr = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 	////auto f_g = _mngr->getComponent<Gun>(_mngr->getHandler(ecs::hdlr::FIGHTER));
 	//
 	//// Iterate through asteroids
@@ -238,7 +239,7 @@ void RunningState::enter()
 	std::cout << "Entrando en RunningState" << std::endl;
 #endif
 	auto player = _mngr->addEntity();
-	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
+
 
 	//Player
 	_mngr->setHandler(ecs::hdlr::PLAYER, player);
@@ -256,15 +257,6 @@ void RunningState::enter()
 	_mngr->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
 	_mngr->addComponent<PlayerCtrl>(player);
 
-	//Slime,
-	_mngr->setHandler(ecs::hdlr::SLIME, slime);
-	auto slimetr = _mngr->addComponent<Transform>(slime);
-	slimetr->init(Vector2D(x + 100, 5 - 20), Vector2D(), s, s, 0.0f);
-	_mngr->addComponent<Image>(slime, &sdlutils().images().at("pacman"));
-	_mngr->addComponent<SlimeVectorComponent>(slime);
-	_mngr->addComponent<SlimeStatComponent>(slime);
-	_mngr->addComponent<SlimeAttackComponent>(slime);
-	_mngr->addComponent<SlimeMovementComponent>(slime);
 }
 
 void RunningState::leave()
