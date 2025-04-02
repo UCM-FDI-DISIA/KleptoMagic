@@ -18,6 +18,7 @@
 	PLAYERCTRL, \
 	GAMECTRL, \
 	GHOSTCMP, \
+	BULLETSTATS, \
 	BUTTON, \
     SLIMEMOVCMP, \
     SLIMEATKCMP, \
@@ -26,16 +27,15 @@
     UNDEADMOVCMP, \
     UNDEADATKCMP, \
     UNDEADSTATCMP, \
-    UNDEADVECCMP,\
-	BULLETSTATS, \
-	BUTTON
+    UNDEADVECCMP
 
 
 // Groups list - must have at least one element
 //
 #define _GRPS_LIST_ \
-	BULLET
-
+	BULLET,  \
+	ASTEROIDS,\
+    ENEMY
 // Handlers list - must have at least one element
 //
 #define _HDLRS_LIST_ \

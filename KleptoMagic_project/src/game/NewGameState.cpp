@@ -7,20 +7,41 @@ using ecs::Manager;
 
 NewGameState::NewGameState() {
         std::cout << "Nuevo NewGameState creado!" << std::endl;
+        // --------------------
+        // PROCEDURAL PROTOTYPE
+        // --------------------
+
+        /*
+        RoomStorage* roomstorage = new RoomStorage();
+        while (true) {
+            DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
+
+            sdlutils().clearRenderer();
+            dungeonfloor->render();
+            sdlutils().presentRenderer();
+            
+            _getch(); // waits for any key press before retrying. this is a demo
+        }
+        */
+        
+
+        // --------------------
+        // 
+        // --------------------
 
     // Cargar el fondo
     background = new Texture(sdlutils().renderer(), "resources/images/background-provisional.png");
 
-    // Cargar la textura del botón
+    // Cargar la textura del botï¿½n
     buttonTexture = new Texture(sdlutils().renderer(), "resources/images/play-button.png");
 
-    // Posicionar el botón en el centro
+    // Posicionar el botï¿½n en el centro
     float btnWidth = buttonTexture->width();
     float btnHeight = buttonTexture->height();
     float btnX = (sdlutils().width() - btnWidth) / 2;
     float btnY = (sdlutils().height() - btnHeight) / 2;
 
-    // Crear el botón con su callback
+    // Crear el botï¿½n con su callback
     startButton = new Button([this]() {
         game().setState(Game::NEWROUND);
         }, Vector2D(btnX, btnY), Vector2D(btnWidth, btnHeight), buttonTexture);
@@ -39,13 +60,13 @@ void NewGameState::update() {
     sdlutils().resetTime();
 
     while (!exit) {
-        //std::cout << "En el bucle de actualización de newgame" << std::endl;
+        //std::cout << "En el bucle de actualizaciï¿½n de newgame" << std::endl;
         Uint32 startTime = sdlutils().currRealTime();
 
         // Actualizar eventos
         ih().refresh();
 
-        // Actualizar botón (manejo de clic)
+        // Actualizar botï¿½n (manejo de clic)
         startButton->update();
 
         // Limpiar pantalla
@@ -55,7 +76,7 @@ void NewGameState::update() {
         SDL_Rect destRect = { 0, 0, sdlutils().width(), sdlutils().height() };
         background->render(destRect);
 
-        // Dibujar el botón
+        // Dibujar el botï¿½n
         startButton->render();
 
         // Presentar la pantalla
