@@ -7,6 +7,8 @@
 #include "../../../src/ecs/Entity.h"
 #include "../../../src/ecs/Manager.h"
 #include "../Class/Game.h"
+#include "../map/RoomStorage.h"
+#include "../map/DungeonFloor.h"
 #include "../Class/Bullet.h"
 
 
@@ -24,7 +26,10 @@ private:
 	VirtualTimer asteroidSpawnTimer;
 	const int asteroidSpawnCDms = 5000;
 
-	// Heredado vía GameState
+	RoomStorage* roomstorage;
+	DungeonFloor* dungeonfloor;
+
+	// Heredado vï¿½a GameState
 	void enter() override;
 	void leave() override;
 	bool colission_thisframe;

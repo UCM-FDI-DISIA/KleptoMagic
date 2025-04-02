@@ -18,7 +18,9 @@ void Button::update() {
     // Verificar si el mouse está dentro del área del botón
     if (isInside(x, y)) {
         if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) { // Verifica si el botón izquierdo está presionado
+#ifdef _DEBUG
             std::cout << "Boton clickeado" << std::endl;
+#endif
             _isPressed = true;  // Marcamos que el botón fue presionado
             _onClick(); // Ejecuta la función cuando se hace clic
         }
@@ -36,7 +38,22 @@ void Button::render() {
 }
 
 void Button::handleEvent(const SDL_Event& event) {
-    _inputHandler->update(event);
+    //_inputHandler->update(event);
+    if (event.type == SDL_MOUSEBUTTONDOWN) {
+        int x = event.button.x;
+        int y = event.button.y;
+        if (isInside(x, y)) {
+            _isPressed = true;
+        }
+    }
+    else if (event.type == SDL_MOUSEBUTTONUP) {
+        int x = event.button.x;
+        int y = event.button.y;
+        if (isInside(x, y) && _isPressed) {
+            _onClick();  // Solo ejecutar cuando el botón es soltado dentro del área
+        }
+        _isPressed = false;
+    }
 }
 
 bool Button::isInside(int x, int y) const {

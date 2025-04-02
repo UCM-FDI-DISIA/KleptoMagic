@@ -20,7 +20,7 @@ class Button : public ecs::Component, public EventHandler {
 public:
     __CMPID_DECL__(ecs::cmp::BUTTON)
 
-        Button(std::function<void()> onClick, Vector2D position, Vector2D size, Texture* texture);
+    Button(std::function<void()> onClick, Vector2D position, Vector2D size, Texture* texture);
     void initComponent() override;
     void update() override;
     void render() override;

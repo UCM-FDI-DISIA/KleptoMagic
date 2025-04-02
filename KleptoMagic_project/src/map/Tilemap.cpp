@@ -45,10 +45,10 @@ void Tilemap::render(SDL_Renderer* renderer) {
 	for (int x = 0; x < getTilemapWidth(); x++) {
 		for (int y = 0; y < getTilemapHeight(); y++) {
 			SDL_Rect tileRect;
-			tileRect.w = 16;
-			tileRect.h = 16;
-			tileRect.x = (x * 16) + xOffset;
-			tileRect.y = (y * 16) + yOffset;
+			tileRect.w = TILE_SIZE;
+			tileRect.h = TILE_SIZE;
+			tileRect.x = (x * TILE_SIZE) + xOffset;
+			tileRect.y = (y * TILE_SIZE) + yOffset;
 
 			switch (tilemap[x][y]) {
 			case BLANK:
