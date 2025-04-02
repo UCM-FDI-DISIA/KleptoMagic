@@ -4,9 +4,13 @@
 #include "../utils/Vector2D.h"
 
 using ecs::Manager;
+using namespace std;
 
 NewGameState::NewGameState() {
-        std::cout << "Nuevo NewGameState creado!" << std::endl;
+#ifdef _DEBUG
+    std::cout << "Nuevo NewGameState creado!" << std::endl;
+#endif
+
         // --------------------
         // PROCEDURAL PROTOTYPE
         // --------------------
@@ -38,19 +42,22 @@ NewGameState::NewGameState() {
     // Posicionar el bot�n en el centro
     float btnWidth = buttonTexture->width();
     float btnHeight = buttonTexture->height();
+    // Posicionar el bot�n en el centro
+    float btnWidth = buttonTexture->width() / 2;
+    float btnHeight = buttonTexture->height() / 2;
     float btnX = (sdlutils().width() - btnWidth) / 2;
     float btnY = (sdlutils().height() - btnHeight) / 2;
 
     // Crear el bot�n con su callback
     startButton = new Button([this]() {
-        game().setState(Game::NEWROUND);
+        releaseTime = SDL_GetTicks() + 100;  // Espera 100ms antes de cambiar de estado
         }, Vector2D(btnX, btnY), Vector2D(btnWidth, btnHeight), buttonTexture);
 }
 
 NewGameState::~NewGameState() {
-    delete background;
-    delete buttonTexture;
-    delete startButton;
+    //delete background;
+    //delete buttonTexture;
+    //delete startButton;
 }
 
 void NewGameState::update() {
@@ -69,6 +76,12 @@ void NewGameState::update() {
         // Actualizar bot�n (manejo de clic)
         startButton->update();
 
+        // Si han pasado 100ms y el usuario solt� el clic, cambiamos de estado
+        if (releaseTime > 0 && SDL_GetTicks() > releaseTime && !(SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT))) {
+            game().setState(Game::NEWROUND);
+            exit = true;
+        }
+
         // Limpiar pantalla
         sdlutils().clearRenderer();
 
@@ -84,6 +97,9 @@ void NewGameState::update() {
 
         if (startButton->isPressed()) { 
             exit = true;
+#ifdef _DEBUG
+            cout << "isPressed: " << exit << endl;
+#endif
         }
 
         Uint32 frameTime = sdlutils().currRealTime() - startTime;
@@ -94,11 +110,15 @@ void NewGameState::update() {
 }
 
 void NewGameState::enter() {
+#ifdef _DEBUG
     std::cout << "Entrando en NewGameState" << std::endl;
+#endif
 }
 
 void NewGameState::leave() {
+#ifdef _DEBUG
     std::cout << "Saliendo en NewGameState" << std::endl;
+#endif
 }
 
 //#include "NewGameState.h"
