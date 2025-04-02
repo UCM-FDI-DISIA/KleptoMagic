@@ -14,4 +14,5 @@ public:
 void update();
 private:
 	Transform* _tr;
+
 };

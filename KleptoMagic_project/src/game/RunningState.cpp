@@ -21,7 +21,8 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	//fighterutils().create_fighter();
 	auto player = _mngr->addEntity();
 	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
-
+	HomingComponent* comp;
+	comp = new HomingComponent();
 	//Player
 	_mngr->setHandler(ecs::hdlr::PLAYER, player);
 	auto tr = _mngr->addComponent<Transform>(player);
@@ -32,7 +33,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	_mngr->addComponent<Image>(player, &sdlutils().images().at("player"));
 	_mngr->addComponent<PlayerCtrl>(player);
 	 bullet = new Bullet();
-
+	 bullet->addComponent(0);
 	//Slime,
 	_mngr->setHandler(ecs::hdlr::SLIME, slime);
 	auto slimetr = _mngr->addComponent<Transform>(slime);

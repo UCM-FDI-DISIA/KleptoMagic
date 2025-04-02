@@ -22,14 +22,15 @@ void HomingComponent::update()
 	float distance = 0;
 	for (auto enemy: mngr->getEntities(ecs::grp::ENEMY))
 	{
+		auto* stats = mngr->getComponent<BulletStats>(this->_ent);
 		auto enemyTR = mngr->getComponent<Transform>(enemy);
-		Vector2D distanceE = Vector2D(enemyTR->getPos().getX()+enemyTR->getWidth()/4, enemyTR->getPos().getY() + enemyTR->getHeight() / 2) - _tr->getPos();
+		Vector2D distanceE = Vector2D(enemyTR->getPos().getX()+enemyTR->getWidth()/2, enemyTR->getPos().getY() + enemyTR->getHeight() / 2) - Vector2D(_tr->getPos().getX()+(stats->getSize()/2), _tr->getPos().getY()+(stats->getSize()/2));
 		float distanceHypo = sqrt( pow(distanceE.getX(), 2) + pow(distanceE.getY(), 2));
 		if(distance==0||distanceHypo<distance)
 		{
 			distance = distanceHypo;
 			
-			_tr->getVel().set(distanceE.normalize() * mngr->getComponent<BulletStats>(this->_ent)->getSpeed());
+			_tr->getVel().set(distanceE.normalize() *stats->getSpeed());
 		}
 
 	}
