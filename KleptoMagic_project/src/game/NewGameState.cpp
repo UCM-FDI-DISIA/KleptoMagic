@@ -16,7 +16,7 @@ NewGameState::NewGameState() {
         // PROCEDURAL PROTOTYPE
         // --------------------
 
-        
+        /*
         RoomStorage* roomstorage = new RoomStorage();
         while (true) {
             DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
@@ -27,6 +27,7 @@ NewGameState::NewGameState() {
             
             _getch(); // waits for any key press before retrying. this is a demo
         }
+        */
         
 
         // --------------------

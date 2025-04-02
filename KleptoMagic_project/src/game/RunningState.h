@@ -7,6 +7,8 @@
 #include "../../../src/ecs/Entity.h"
 #include "../../../src/ecs/Manager.h"
 #include "../Class/Game.h"
+#include "../map/RoomStorage.h"
+#include "../map/DungeonFloor.h"
 
 using namespace ecs;
 
@@ -20,6 +22,9 @@ private:
 	Manager* _mngr;
 	VirtualTimer asteroidSpawnTimer;
 	const int asteroidSpawnCDms = 5000;
+
+	RoomStorage* roomstorage;
+	DungeonFloor* dungeonfloor;
 
 	// Heredado vía GameState
 	void enter() override;

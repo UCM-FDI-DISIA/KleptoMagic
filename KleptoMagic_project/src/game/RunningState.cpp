@@ -19,6 +19,10 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 
 	//asteroidSpawnTimer.resetTime();
 	//fighterutils().create_fighter();
+
+	roomstorage = new RoomStorage();
+	dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
+
 	auto player = _mngr->addEntity();
 	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
 
@@ -117,6 +121,9 @@ void RunningState::update() {
 
 			// render
 			_mngr->render();
+
+			// render dungeon
+			dungeonfloor->render();
 
 			// present new frame
 			sdlutils().presentRenderer();
