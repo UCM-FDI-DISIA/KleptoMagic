@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SDL.h>
+#include <SDL_image.h>
 #include "DungeonRoom.h"
 #include "RoomStorage.h"
 
@@ -34,9 +36,16 @@ private:
 	// Pointer to room storage
 	RoomStorage* roomstorage;
 	// X coordinate of starting room
-	int startX;
+	int startX = -1;
 	// Y coordinate of starting room
-	int startY;
+	int startY = -1;
+	// X coordinate of room the player is in
+	int currentX = -1;
+	// Y coordinate of room the player is in
+	int currentY = -1;
+
+	SDL_Renderer* renderer;
+
 public:
 	// minWidth / minHeight / maxWidth / maxHeight : 
 	// - Minimum and maximum width and height of the floor layout matrix. The real size will be picked randomly within these. Reccomended a minimum of 10 width and height.
@@ -46,7 +55,7 @@ public:
 	// 
 	// roomstorage 
 	// - A pointer towards the room storage is required, which should be constructed on game start.
-	DungeonFloor(int minWidth, int minHeight, int maxWidth, int maxHeight, int numRooms, RoomStorage* roomstorage);
+	DungeonFloor(int minWidth, int minHeight, int maxWidth, int maxHeight, int numRooms, RoomStorage* storage, SDL_Renderer* rend);
 	~DungeonFloor();
 
 	// Render and Update are not needed.
@@ -61,6 +70,9 @@ public:
 	int getStartX() { return startX; };
 	// Returns the Y coordinate for the floor's starting room
 	int getStartY() { return startY; };
+
+	// Renders the dungeon floor: i.e. renders the current room
+	void render();
 
 	// GENERATION ONLY: 
 	// Checks for the existance of rooms or out of bounds for the cells above, below, left and right of the given coordinates. 

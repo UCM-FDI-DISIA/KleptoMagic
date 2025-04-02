@@ -19,8 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Class\DestroyOnBorder.cpp" />
+    <ClCompile Include="src\Class\Bullet.cpp" />
+    <ClCompile Include="src\Class\BulletStats.cpp" />
     <ClCompile Include="src\Class\Button.cpp" />
-    <ClCompile Include="src\Class\Collisions.cpp" />
     <ClCompile Include="src\Class\DummyState.cpp" />
     <ClCompile Include="src\Class\Enemy.cpp" />
     <ClCompile Include="src\Class\EntityCmp.cpp" />
@@ -30,6 +32,7 @@
     <ClCompile Include="src\Class\GameState_OLD.cpp" />
     <ClCompile Include="src\Class\gameStateMachine.cpp" />
     <ClCompile Include="src\Class\Image.cpp" />
+    <ClCompile Include="src\Class\ImageWithFrames.cpp" />
     <ClCompile Include="src\Class\InputManager.cpp" />
     <ClCompile Include="src\Class\MainMenuState.cpp" />
     <ClCompile Include="src\Class\MovementCtrl.cpp" />
@@ -53,13 +56,14 @@
     <ClCompile Include="src\game\NewRoundState.cpp" />
     <ClCompile Include="src\game\PausedState.cpp" />
     <ClCompile Include="src\game\RunningState.cpp" />
-    <ClCompile Include="src\generation\DungeonFloor.cpp" />
-    <ClCompile Include="src\generation\DungeonRoom.cpp" />
-    <ClCompile Include="src\generation\RoomStorage.cpp" />
     <ClCompile Include="SRC\json\JSON.cpp" />
     <ClCompile Include="SRC\json\JSONValue.cpp" />
     <ClCompile Include="SRC\json\json_demo.cpp" />
     <ClCompile Include="SRC\main.cpp" />
+    <ClCompile Include="src\map\DungeonFloor.cpp" />
+    <ClCompile Include="src\map\DungeonRoom.cpp" />
+    <ClCompile Include="src\map\RoomStorage.cpp" />
+    <ClCompile Include="src\map\Tilemap.cpp" />
     <ClCompile Include="SRC\sdlutils\SDLNetUtils.cpp" />
     <ClCompile Include="SRC\sdlutils\SDLUtils.cpp" />
     <ClCompile Include="SRC\sdlutils\SDLUtilsError.cpp" />
@@ -69,8 +73,10 @@
     <ClCompile Include="SRC\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Class\DestroyOnBorder.h" />
+    <ClInclude Include="src\Class\Bullet.h" />
+    <ClInclude Include="src\Class\BulletStats.h" />
     <ClInclude Include="src\Class\Button.h" />
-    <ClInclude Include="src\Class\Collisions.h" />
     <ClInclude Include="src\Class\DummyState.h" />
     <ClInclude Include="src\Class\Enemy.h" />
     <ClInclude Include="src\Class\EntityCmp.h" />
@@ -80,6 +86,7 @@
     <ClInclude Include="src\Class\GameState_OLD.h" />
     <ClInclude Include="src\Class\gameStateMachine.h" />
     <ClInclude Include="src\Class\Image.h" />
+    <ClInclude Include="src\Class\ImageWithFrames.h" />
     <ClInclude Include="src\Class\InputManager.h" />
     <ClInclude Include="src\Class\MainMenuState.h" />
     <ClInclude Include="src\Class\MenuState.h" />
@@ -109,12 +116,13 @@
     <ClInclude Include="src\game\NewRoundState.h" />
     <ClInclude Include="src\game\PausedState.h" />
     <ClInclude Include="src\game\RunningState.h" />
-    <ClInclude Include="src\generation\DungeonFloor.h" />
-    <ClInclude Include="src\generation\DungeonRoom.h" />
-    <ClInclude Include="src\generation\RoomStorage.h" />
     <ClInclude Include="src\json\JSON.h" />
     <ClInclude Include="src\json\JSONValue.h" />
     <ClInclude Include="src\json\json_demo.h" />
+    <ClInclude Include="src\map\DungeonFloor.h" />
+    <ClInclude Include="src\map\DungeonRoom.h" />
+    <ClInclude Include="src\map\RoomStorage.h" />
+    <ClInclude Include="src\map\Tilemap.h" />
     <ClInclude Include="src\sdlutils\Font.h" />
     <ClInclude Include="src\sdlutils\InputHandler.h" />
     <ClInclude Include="src\sdlutils\macros.h" />

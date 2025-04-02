@@ -41,6 +41,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	}
 	_mngr->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
 	_mngr->addComponent<PlayerCtrl>(player);
+	 bullet = new Bullet();
 
 	//Slime,
 	_mngr->setHandler(ecs::hdlr::SLIME, slime);
@@ -86,8 +87,11 @@ void RunningState::update() {
 		//	// here
 		//	game().setState(Game::PAUSED);
 		//	exit = true;
-		//
-
+		//}
+		if (ihdlr.isKeyDown(SDL_SCANCODE_K)) {
+		
+			bullet->pressed(0);
+		}
 		// update fighter and asteroids here
 		_mngr->update();
 		_mngr->refresh();

@@ -1,6 +1,7 @@
 #pragma once
-#include "vector"
-#include "iostream"
+#include <vector>
+#include <iostream>
+#include "Tilemap.h"
 using namespace std;
 
 enum roomType { ENTRANCE, REGULAR, SPECIAL, BOSS };
@@ -14,17 +15,31 @@ private:
 	int room_height;
 	// Name of the room
 	string room_name; 
-	// Roon type
+	// Room type
 	roomType room_type;
 	// Tile matrix for the room
 	vector<vector<char>> roomTiles; 
 	// Spawns matrix for the room (objects and entities to be spawned in the room on first load)
 	vector<vector<char>> roomSpawns; 
 
+	// Tilemap object
+	Tilemap* tilemap;
+
 	// Whether or not an exit exists in any of the cardinal directions, and therefore can connect to another room through there
 	bool doorU, doorD, doorL, doorR;
 	// Whether or not an exit in any of the cardinal directions is currently locked and requires opening
 	bool lockU, lockD, lockL, lockR; 
+
+	// X and Y coordinates of the center (for entrance rooms)
+	int CenterX = -1, CenterY = -1;
+	// X and Y coordinates of the U exit
+	int UexitX = -1, UexitY = -1;
+	// X and Y coordinates of the D exit
+	int DexitX = -1, DexitY = -1;
+	// X and Y coordinates of the L exit
+	int LexitX = -1, LexitY = -1;
+	// X and Y coordinates of the R exit
+	int RexitX = -1, RexitY = -1;
 public:
 	// Whether or not any of the exits in any of the cardinal directions are currently linked to another room in said direction
 	// Compared to the other variables, these can be readily changed, as they are only used during floor generation
@@ -41,7 +56,7 @@ public:
 	// Room type must be included as an argument too: enum {ENTRANCE, REGULAR, SPECIAL, BOSS} so it can be identified easier
 	DungeonRoom(string filename, roomType type);
 	~DungeonRoom();
-	virtual void render() const;
+	virtual void render(SDL_Renderer* rend) const;
 	virtual void update();
 
 	// Returns room width in terms of tiles
@@ -52,6 +67,12 @@ public:
 	string getName() { return room_name; };
 	// Returns room type
 	roomType getType() { return room_type; }
+	// Returns the tile matrix
+	vector<vector<char>> getRoomTiles() { return roomTiles; };
+	// Returns the spawns matrix
+	vector<vector<char>> getRoomSpawns() { return roomSpawns; };
+	// Returns the tilemap
+	Tilemap* getTilemap() { return tilemap; };
 
 	// Returns doorU
 	bool hasExitUp() { return doorU; };

@@ -1,18 +1,23 @@
 #include "DungeonFloor.h"
+#include "SDL.h"
+#include "SDL_image.h"
 #include <random>
 #include <vector>
 
 using namespace std;
 
-DungeonFloor::DungeonFloor(int minWidth, int minHeight, int maxWidth, int maxHeight, int numRooms, RoomStorage* RoomStorage) : roomstorage(RoomStorage)
+DungeonFloor::DungeonFloor(int minWidth, int minHeight, int maxWidth, int maxHeight, int numRooms, RoomStorage* storage, SDL_Renderer* rend) : roomstorage(storage), renderer(rend)
 {
 	GenerateFloor(minWidth, minHeight, maxWidth, maxHeight, numRooms); 
-	
+	currentX = startX;
+	currentY = startY;
+
 #ifdef _DEBUG
 	PrintFloorLayout_Simple();
 	PrintFloorLayout_Detailed();
-#endif
 	cout << "GENERATED" << endl;
+#endif
+
 }
 
 DungeonFloor::~DungeonFloor()
@@ -40,8 +45,8 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 
 	// Choose one random starting room out of storage, then place it in the center of the room matrix 
 	// (or close to the center if on even numbers for size)
-	int startX = (floor_width) / 2;
-	int startY = (floor_height) / 2; 
+	startX = (floor_width) / 2;
+	startY = (floor_height) / 2; 
 	floorLayout[startX][startY] = roomstorage->GetRandomEntranceRoom();
 
 	// Set variables to indicate the current room being looked into for easy reference, as well as the coordinates of the next room being generated
@@ -378,6 +383,13 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 	cout << "--------------------------------" << endl;
 #endif
     
+	currentX = startX;
+	currentY = startY;
+
+}
+
+void DungeonFloor::render() {
+	floorLayout[currentX][currentY]->render(renderer);
 }
 
 vector<char> DungeonFloor::CheckSpaceAroundRoom(int x, int y) {

@@ -3,8 +3,8 @@
 #include "../sdlutils/InputHandler.h"
 #include "../utils/Vector2D.h"
 
-#include "../generation/DungeonFloor.h"
-#include "../generation/RoomStorage.h"
+#include "../map/DungeonFloor.h"
+#include "../map/RoomStorage.h"
 #include <conio.h>
 
 using ecs::Manager;
@@ -22,10 +22,16 @@ NewGameState::NewGameState() {
         /*
         RoomStorage* roomstorage = new RoomStorage();
         while (true) {
-            DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage);
+            DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
+
+            sdlutils().clearRenderer();
+            dungeonfloor->render();
+            sdlutils().presentRenderer();
+            
             _getch(); // waits for any key press before retrying. this is a demo
         }
         */
+        
 
         // --------------------
         // 
