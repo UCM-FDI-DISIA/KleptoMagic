@@ -1,8 +1,9 @@
 #include "BulletStats.h"
-
+#include "Game.h"
+#include "../ecs/Manager.h"
 BulletStats::BulletStats()
 {
-	
+	_tim = new VirtualTimer();
 }
 
 BulletStats::~BulletStats()
@@ -15,16 +16,17 @@ void BulletStats::Created(int i)
 	{
 		speed = 5;
 		damage = 15;
-		distance = 20;
+		distance = 20000;
 		size = 25;
 		piercing = false;
+		
 	}
 	else
 	if (i == 1)
 	{
 		speed = 5;
 		damage = 15;
-		distance = 2;
+		distance = 2000;
 		size = 100;
 		piercing = true;
 	}
@@ -33,7 +35,7 @@ void BulletStats::Created(int i)
 	{
 		speed = 5;
 		damage = 15;
-		distance = 20;
+		distance = 20000;
 		size = 40;
 		piercing = false;
 	}
@@ -42,8 +44,16 @@ void BulletStats::Created(int i)
 	{
 		speed = 5;
 		damage = 15;
-		distance = 20;
+		distance = 20000;
 		size = 50;
 		piercing = false;
+	}
+	duration = distance / speed;
+}
+void BulletStats::update()
+{
+	if (_tim->currRealTime() > duration) 
+	{
+		game().getMngr()->setAlive(this->_ent, false);
 	}
 }
