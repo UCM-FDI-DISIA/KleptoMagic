@@ -152,7 +152,7 @@ Game::~Game() {
 }
 
 void Game::start() {
-	bool exit = false;
+	exit = false;
 	//auto& ihdlr = ih();
 	auto& vt = sdlutils().virtualTimer();
 
@@ -200,6 +200,12 @@ void Game::start() {
 	}
 }
 
+
+void Game::createItems() {
+
+
+
+}
 
 //void
 //Game::run()

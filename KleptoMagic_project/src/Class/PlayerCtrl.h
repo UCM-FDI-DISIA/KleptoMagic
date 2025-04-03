@@ -3,6 +3,7 @@
 #include "../utils/Vector2D.h"
 #include "../ecs/Component.h"
 #include "Transform.h"
+#include "Bullet.h"
 #include "../ecs/Entity.h"
 #include "../ecs/Manager.h"
 

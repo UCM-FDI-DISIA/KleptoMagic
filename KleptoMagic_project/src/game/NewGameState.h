@@ -17,6 +17,7 @@ private:
 	Texture* background;  
 	Texture* buttonTexture;  
 	Button* startButton;  
+	Uint32 releaseTime = 0;  // Nueva variable para controlar la espera
 
 	// Heredado vía GameState
 	void enter() override;

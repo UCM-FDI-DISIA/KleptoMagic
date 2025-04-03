@@ -14,17 +14,17 @@ void Button::update() {
     int x, y;
     Uint32 mouseState = SDL_GetMouseState(&x, &y);
 
-    // Verificar si el mouse está dentro del área del botón
+    // Verificar si el mouse estï¿½ dentro del ï¿½rea del botï¿½n
     if (isInside(x, y)) {
-        if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) { // Verifica si el botón izquierdo está presionado
+        if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) { // Verifica si el botï¿½n izquierdo estï¿½ presionado
 #ifdef _DEBUG
             std::cout << "Boton clickeado" << std::endl;
 #endif
-            _isPressed = true;  // Marcamos que el botón fue presionado
-            _onClick(); // Ejecuta la función cuando se hace clic
+            _isPressed = true;  // Marcamos que el botï¿½n fue presionado
+            _onClick(); // Ejecuta la funciï¿½n cuando se hace clic
         }
         else {
-            _isPressed = false;  // Si no está presionado, marcamos como no presionado
+            _isPressed = false;  // Si no estï¿½ presionado, marcamos como no presionado
         }
     }
 }
@@ -32,12 +32,28 @@ void Button::update() {
 void Button::render() {
     if (_texture) {
         SDL_Rect dest = { (int)_position.getX(), (int)_position.getY(), (int)_size.getX(), (int)_size.getY() };
-        _texture->render(dest); // Usa la función render de Texture
+        _texture->render(dest); // Usa la funciï¿½n render de Texture
     }
 }
 
 void Button::handleEvent(const SDL_Event& event) {
     NewInputHandler::Instance()->update();
+    //_inputHandler->update(event);
+    if (event.type == SDL_MOUSEBUTTONDOWN) {
+        int x = event.button.x;
+        int y = event.button.y;
+        if (isInside(x, y)) {
+            _isPressed = true;
+        }
+    }
+    else if (event.type == SDL_MOUSEBUTTONUP) {
+        int x = event.button.x;
+        int y = event.button.y;
+        if (isInside(x, y) && _isPressed) {
+            _onClick();  // Solo ejecutar cuando el botï¿½n es soltado dentro del ï¿½rea
+        }
+        _isPressed = false;
+    }
 }
 
 bool Button::isInside(int x, int y) const {
@@ -65,7 +81,7 @@ bool Button::isInside(int x, int y) const {
 //		SDL_Point point{ event.button.x, event.button.y };
 //		if (SDL_PointInRect(&point, &buttonBox)) {
 //#ifdef _DEBUG
-//			std::cout << "Botón clickeado!" << std::endl;
+//			std::cout << "Botï¿½n clickeado!" << std::endl;
 //#endif
 //			emit();
 //		}
