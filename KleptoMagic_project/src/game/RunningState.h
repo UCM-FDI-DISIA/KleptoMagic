@@ -4,8 +4,8 @@
 #include "GameState.h"
 #include "../sdlutils/Texture.h"
 #include "../sdlutils/VirtualTimer.h"
-#include "../../../src/ecs/Entity.h"
-#include "../../../src/ecs/Manager.h"
+#include "../../src/ecs/Entity.h"
+#include "../../src/ecs/Manager.h"
 #include "../Class/Game.h"
 
 using namespace ecs;
@@ -18,7 +18,6 @@ public:
 private:
 	void checkCollisions();
 	Manager* _mngr;
-	SDL_Renderer* renderer;
 	//VirtualTimer asteroidSpawnTimer;
 	//const int asteroidSpawnCDms = 5000;
 
