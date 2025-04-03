@@ -18,4 +18,5 @@ public:
 private:
 	void createStart();
 	Transform* _tr;
+	DungeonFloor* dungeonfloor; // Pointer needed in order to check collisions with tiles to decide whether to move or not
 };
