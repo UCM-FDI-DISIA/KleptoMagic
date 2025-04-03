@@ -57,7 +57,6 @@ public:
 	DungeonRoom(string filename, roomType type);
 	~DungeonRoom();
 	virtual void render(SDL_Renderer* rend) const;
-	virtual void update();
 
 	// Returns room width in terms of tiles
 	int getWidth() { return room_width; }; 

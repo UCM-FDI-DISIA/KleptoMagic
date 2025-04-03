@@ -28,6 +28,8 @@ public:
 	void setXOffset(int offset) { xOffset = offset; };
 	void setYOffset(int offset) { yOffset = offset; };
 
+	int checkCollision(int x, int y);
+
 	int getTilemapWidth() { return tilemap.size(); };
 	int getTilemapHeight() { return tilemap[0].size(); };
 	int getXOffset() { return xOffset; };

@@ -72,6 +72,33 @@ void Tilemap::render(SDL_Renderer* renderer) {
 	}
 }
 
+int Tilemap::checkCollision(int x, int y) {
+	int xInTiles = x / TILE_SIZE;
+	int yInTiles = y / TILE_SIZE;
+	if (x < 0 || x > getTilemapWidth() || y < 0 || y > getTilemapHeight()) {
+		return 0;
+	}
+	else {
+		switch (tilemap[xInTiles][yInTiles]) {
+		case FLOOR:
+			return 0;
+			break;
+		case BLANK:
+			return 1;
+			break;
+		case WALL:
+			return 1;
+			break;
+		case HOLE:
+			return 2;
+			break;
+		default:
+			return 0;
+			break;
+		}
+	}
+}
+
 void Tilemap::setTile(int x, int y, TileType type) {
 	if (!((x < 0 || x > getTilemapWidth()) && (y < 0 || y > getTilemapHeight()))) {
 		tilemap[x][y] = type;
