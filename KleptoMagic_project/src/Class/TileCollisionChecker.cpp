@@ -2,32 +2,38 @@
 #include "../ecs/Entity.h"
 #include "../ecs/Manager.h"
 #include "../sdlutils/SDLUtils.h"
-
+#include <iostream>
 
 void TileCollisionChecker::initComponent() {
 	auto* _mngr = _ent->getMngr();
-	_tr = _mngr->getComponent<Transform>(_ent);
-	assert(_tr != nullptr);
 }
 
-void TileCollisionChecker::setDungeonFloor(DungeonFloor* floor) {
+void TileCollisionChecker::init(Transform* tr, DungeonFloor* floor) {
+	_tr = tr;
 	dungeonfloor = floor;
 }
 
 void TileCollisionChecker::update() {
 	auto pos = _tr->getPos();
-	switch (dungeonfloor->checkCollisions(pos.getX(), pos.getY())) {
+	int centerX = pos.getX() + (_tr->getWidth() / 2);
+	int centerY = pos.getY() + (_tr->getHeight() / 2);
+
+	int xPostMove = centerX + _tr->getVel().getX();
+	int yPostMove = centerY + _tr->getVel().getY();
+
+	int result = dungeonfloor->checkCollisions(xPostMove, yPostMove);
+	switch (result) {
 	case 0:
-		currentCollision = FLOOR;
+		currentCollision = COL_FLOOR;
 		break;
 	case 1:
-		currentCollision = WALL;
+		currentCollision = COL_WALL;
 		break;
 	case 2:
-		currentCollision = HOLE;
+		currentCollision = COL_HOLE;
 		break;
 	default:
-		currentCollision = FLOOR;
+		currentCollision = COL_FLOOR;
 		break;
 	}
 }

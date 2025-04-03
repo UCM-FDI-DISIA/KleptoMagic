@@ -8,9 +8,9 @@
 #include "../map/DungeonFloor.h"
 
 enum TileCollision {
-	FLOOR = 0,
-	WALL = 1,
-	HOLE = 2
+	COL_FLOOR = 0,
+	COL_WALL = 1,
+	COL_HOLE = 2
 };
 
 class TileCollisionChecker : public ecs::Component {
@@ -18,12 +18,15 @@ public:
 	__CMPID_DECL__(ecs::cmp::TILECOLLISIONCHECKER);
 
 	void initComponent() override;
-	void setDungeonFloor(DungeonFloor* floor);
+	void init(Transform* tr, DungeonFloor* floor);
 	void update();
+	TileCollision getCurrCollision() { return currentCollision; };
 
 private:
 	void createStart();
 	Transform* _tr;
 	DungeonFloor* dungeonfloor;
+	// Tells you the current type of tile you are about to collide (stand) on the next frame. It accounts for the center of the entity. 
+	// 0 = Floor. 1 = Wall. 2 = Hole.
 	TileCollision currentCollision;
 };

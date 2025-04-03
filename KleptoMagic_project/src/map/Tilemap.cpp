@@ -6,35 +6,35 @@ using namespace std;
 Tilemap::Tilemap(vector<vector<char>> tilematrix) {
 
 	// Instantiate the tilemap with the same size as the tile matrix
-	tilemap = vector<vector<TileType>>(tilematrix.size(), vector<TileType>(tilematrix[0].size(), BLANK));
+	tilemap = vector<vector<TileType>>(tilematrix.size(), vector<TileType>(tilematrix[0].size(), TILE_BLANK));
 
 	// Run through the matrix and translate chars to tile types within the tilemap itself
 	for (int i = 0; i < tilematrix.size(); i++) {
 		for (int j = 0; j < tilematrix[0].size(); j++) {
 			switch (tilematrix[i][j]) {
 			case 'B':
-				setTile(i, j, BLANK);
+				setTile(i, j, TILE_BLANK);
 				break;
 			case '*':
-				setTile(i, j, FLOOR);
+				setTile(i, j, TILE_FLOOR);
 				break;
 			case 'W':
-				setTile(i, j, WALL);
+				setTile(i, j, TILE_WALL);
 				break;
 			case 'H':
-				setTile(i, j, HOLE);
+				setTile(i, j, TILE_HOLE);
 				break;
 			case 'U':
-				setTile(i, j, EXIT_U);
+				setTile(i, j, TILE_EXIT_U);
 				break;
 			case 'D':
-				setTile(i, j, EXIT_D);
+				setTile(i, j, TILE_EXIT_D);
 				break;
 			case 'L':
-				setTile(i, j, EXIT_L);
+				setTile(i, j, TILE_EXIT_L);
 				break;
 			case 'R':
-				setTile(i, j, EXIT_R);
+				setTile(i, j, TILE_EXIT_R);
 				break;
 			}
 		}
@@ -51,15 +51,15 @@ void Tilemap::render(SDL_Renderer* renderer) {
 			tileRect.y = (y * TILE_SIZE) + yOffset;
 
 			switch (tilemap[x][y]) {
-			case BLANK:
+			case TILE_BLANK:
 				break;
-			case FLOOR:
+			case TILE_FLOOR:
 				SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF); // replace later with actual texture
 				break;
-			case WALL:
+			case TILE_WALL:
 				SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF); // replace later with actual texture
 				break;
-			case HOLE:
+			case TILE_HOLE:
 				SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF); // replace later with actual texture
 				break;
 			default:
@@ -73,23 +73,25 @@ void Tilemap::render(SDL_Renderer* renderer) {
 }
 
 int Tilemap::checkCollision(int x, int y) {
-	int xInTiles = x / TILE_SIZE;
-	int yInTiles = y / TILE_SIZE;
-	if (x < 0 || x > getTilemapWidth() || y < 0 || y > getTilemapHeight()) {
+
+	int xInTiles = (x / TILE_SIZE);
+	int yInTiles = (y / TILE_SIZE);
+
+	if (xInTiles < 0 || xInTiles > getTilemapWidth() - 1 || yInTiles < 0 || yInTiles > getTilemapHeight() - 1) {
 		return 0;
 	}
 	else {
 		switch (tilemap[xInTiles][yInTiles]) {
-		case FLOOR:
+		case TILE_FLOOR:
 			return 0;
 			break;
-		case BLANK:
+		case TILE_BLANK:
 			return 1;
 			break;
-		case WALL:
+		case TILE_WALL:
 			return 1;
 			break;
-		case HOLE:
+		case TILE_HOLE:
 			return 2;
 			break;
 		default:

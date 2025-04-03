@@ -3,6 +3,7 @@
 #include "../utils/Vector2D.h"
 #include "../ecs/Component.h"
 #include "Transform.h"
+#include "TileCollisionChecker.h"
 #include "Bullet.h"
 #include "../ecs/Entity.h"
 #include "../ecs/Manager.h"
@@ -18,5 +19,4 @@ public:
 private:
 	void createStart();
 	Transform* _tr;
-	DungeonFloor* dungeonfloor; // Pointer needed in order to check collisions with tiles to decide whether to move or not
 };
