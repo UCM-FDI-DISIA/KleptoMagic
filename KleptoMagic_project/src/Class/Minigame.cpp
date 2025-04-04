@@ -7,13 +7,14 @@
 Minigame::Minigame(TimerCountdown& timer, SDL_Renderer* mainGameRenderer, int vectorSize, int holeStart, int holeSize, float frequency) :
 					gameTimer(timer), mainRenderer(mainGameRenderer), lockVector(vectorSize, -1 /*Wall*/),
 					holeStart(holeStart), holeSize(holeSize), lockpickPosition(0), frequency(frequency),
-					elapsedTime(0), running(false), quitMinigame(false), lockpickSpeed(0.5f), waitInterval(1.0f) {}
+					elapsedTime(0), running(false), quitMinigame(false), lockpickSpeed(0.1f), waitInterval(2.0f) {}
 
 void Minigame::start() {
 	for (int i = 0; i < holeSize; ++i) {
 		int index = (holeStart + i) % lockVector.size();					   // If holeStart + holeSize > vectorSize, goes around and continues from the beggining
 		lockVector[index] = 1;												   // Hole
 	}
+	lockpickPosition = 0;
 	elapsedTime = 0;														   // To calculate frequency
 	running = true;
 
@@ -48,28 +49,6 @@ void Minigame::minigameLogic(float deltaTime) {
 		}
 	}
 
-	// Handle lockpick movement logic
-	if (movingUp) {
-		lockpickProgress += lockpickSpeed * deltaTime;
-		if (lockpickProgress >= 1.0f) {
-			lockpickProgress = 1.0f;
-			movingUp = false;
-
-			if (attemptPick()) {											   // Successful attempt
-				
-			}
-			else {															   // Failed attempt
-				waiting = true;												   // Start cooldown
-			}
-		}
-	}
-	else if (lockpickProgress > 0) {
-		lockpickProgress -= lockpickSpeed * deltaTime;						   // Return to starting position
-		if (lockpickProgress <= 0) {
-			lockpickProgress = 0;											   // Reset to bottom
-		}
-	}
-
 	if (!waiting && !movingUp) {
 		if (NewInputHandler::Instance()->isActionPressed(Action::SHOOT)) {
 			movingUp = true;
@@ -84,11 +63,38 @@ void Minigame::minigameLogic(float deltaTime) {
 	elapsedTime += deltaTime;
 
 	while (elapsedTime >= frequency) {
-		elapsedTime -= frequency;
+		//elapsedTime -= frequency;
+		elapsedTime = 0;
 		lockpickPosition = (lockpickPosition + 1) % lockVector.size();         // Advance lockpickPosition and loops it back if needed
-	}
 
-	render(mainRenderer, lockpickProgress);
+		if (movingUp) {
+			lockpickProgress += lockpickSpeed;
+			if (lockpickProgress >= 1.0f) {
+				lockpickProgress = 1.0f;
+				movingUp = false;
+
+				if (attemptPick()) {											   // Successful attempt
+
+				}
+				else {															   // Failed attempt
+					waiting = true;												   // Start cooldown
+				}
+			}
+		}
+		else if (lockpickProgress > 0) {
+			lockpickProgress -= lockpickSpeed;						   // Return to starting position
+			if (lockpickProgress <= 0) {
+				lockpickProgress = 0;											   // Reset to bottom
+			}
+		}
+
+
+
+
+		std::cout << "HoleStart: " << holeStart << std::endl;
+		std::cout << "Lockpick = " << lockpickPosition << std::endl;
+		render(mainRenderer, lockpickProgress);
+	}
 }
 
 bool Minigame::attemptPick() {
@@ -97,11 +103,13 @@ bool Minigame::attemptPick() {
 	if (lockVector[lockpickPosition] == 1) {
 		int penalty = calculatePenalty(lockpickPosition);
 		gameTimer.addTime(-penalty);										   // Add the penalty to the main game timer
+		std::cout << "Minigame -" << penalty << std::endl;
 		running = false;													   // End the minigame on success
 		return true;													       // Successful pick
 	}
 	else {
 		gameTimer.addTime(-10);												   // Hit the wall; subtract 10 seconds and continue
+		std::cout << "Minigame -10" << std::endl;
 		return false;														   // Failed attempt
 	}
 }
@@ -120,15 +128,15 @@ int Minigame::calculatePenalty(int position) {
 void Minigame::render(SDL_Renderer* mainGameRenderer, float lockpickProgress) {
 	if (!running) return;
 
-	SDL_SetRenderDrawColor(mainRenderer, 0, 0, 0, 150);                        // Black with 150 alpha to hide main game
+	SDL_SetRenderDrawColor(mainRenderer, 0, 0, 0, 200);                        // Black with 50 alpha to hide main game
 	SDL_Rect overlay = { 0, 0, 800, 600 };                                     // Adjust to screen size
 	SDL_RenderFillRect(mainRenderer, &overlay);
 
 	SDL_SetRenderDrawColor(mainRenderer, 100, 100, 100, 255);				   // Gray lock
-	drawCircle(400, 300, 100);
+	drawCircle(400, 300, 100, 10);
 
 	SDL_SetRenderDrawColor(mainRenderer, 100, 200, 100, 255);				   // Green hole
-	drawHole(400, 300, 100, lockpickPosition, holeSize);
+	drawHole(400, 300, 100, 10, ((holeStart - lockpickPosition + lockVector.size()) % lockVector.size()), holeSize, lockVector.size());
 
 	SDL_SetRenderDrawColor(mainRenderer, 200, 200, 120, 255);				   // Yellow lockpick
 	drawLockpick(400, 300, 100, lockpickProgress);
@@ -136,36 +144,126 @@ void Minigame::render(SDL_Renderer* mainGameRenderer, float lockpickProgress) {
 	SDL_RenderPresent(mainRenderer);										   // Present changes
 }
 
-void Minigame::drawCircle(int centerX, int centerY, int radius) {
-	for (int w = 0; w < radius * 2; w++) {
-		for (int h = 0; h < radius * 2; h++) {
-			int dx = radius - w;
-			int dy = radius - h;
-			if ((dx * dx + dy * dy) <= (radius * radius)) {					   // Checks if the current point is inside the circle
+void Minigame::drawCircle(int centerX, int centerY, int radius, int thickness) {
+	for (int w = -radius; w <= radius; w++) {
+		for (int h = -radius; h <= radius; h++) {
+			int dx = w;
+			int dy = h;
+			int distanceSquared = dx * dx + dy * dy;
+
+			if (distanceSquared >= (radius - thickness) * (radius - thickness) &&
+				distanceSquared <= radius * radius) { // Only draw points near the outer edge
 				SDL_RenderDrawPoint(mainRenderer, centerX + dx, centerY + dy);
 			}
 		}
 	}
 }
 
-void Minigame::drawHole(int centerX, int centerY, int radius, float startAngle, float holeSize) {
-	float endAngle = startAngle + holeSize;
-	for (float angle = startAngle; angle < endAngle; angle += 0.01) {		   // Goes through the hole's angle range
-		int x = centerX + radius * std::cos(angle);
-		int y = centerY + radius * std::sin(angle);
-		SDL_RenderDrawPoint(mainRenderer, x, y);
+void Minigame::drawHole(int centerX, int centerY, int radius, int thickness, float holeStart, float holeSize, int vectorSize) {
+	float holeAngle = (static_cast<float>(holeSize) / vectorSize) * 2 * M_PI; // Convert hole size to radians
+	float startAngle = (static_cast<float>(holeStart) / vectorSize) * 2 * M_PI; // Convert hole start position to radians
+	if (startAngle >= 2 * M_PI) {
+		startAngle -= 2 * M_PI;
+	}
+	float endAngle = startAngle + holeAngle;
+
+	std::cout << startAngle << std::endl;
+
+	// If hole extends beyond full circle, split it into two segments
+	if (endAngle > 2 * M_PI) {
+		float overflow = endAngle - 2 * M_PI;
+
+		// First segment (from startAngle to 2PI)
+		for (float angle = startAngle; angle < 2 * M_PI; angle += 0.01) {
+			int outerX = centerX + radius * std::cos(angle + M_PI / 2);
+			int outerY = centerY + radius * std::sin(angle + M_PI / 2);
+			int innerX = centerX + (radius - thickness) * std::cos(angle + M_PI / 2);
+			int innerY = centerY + (radius - thickness) * std::sin(angle + M_PI / 2);
+			SDL_RenderDrawLine(mainRenderer, innerX, innerY, outerX, outerY);
+		}
+
+		// Second segment (from 0 to overflow)
+		for (float angle = 0; angle < overflow; angle += 0.01) {
+			int outerX = centerX + radius * std::cos(angle + M_PI / 2);
+			int outerY = centerY + radius * std::sin(angle + M_PI / 2);
+			int innerX = centerX + (radius - thickness) * std::cos(angle + M_PI / 2);
+			int innerY = centerY + (radius - thickness) * std::sin(angle + M_PI / 2);
+			SDL_RenderDrawLine(mainRenderer, innerX, innerY, outerX, outerY);
+		}
+	}
+	else {
+		// Normal case (hole is within one continuous section)
+		for (float angle = startAngle; angle < endAngle; angle += 0.01) {
+			int outerX = centerX + radius * std::cos(angle + M_PI / 2);
+			int outerY = centerY + radius * std::sin(angle + M_PI / 2);
+			int innerX = centerX + (radius - thickness) * std::cos(angle + M_PI / 2);
+			int innerY = centerY + (radius - thickness) * std::sin(angle + M_PI / 2);
+			SDL_RenderDrawLine(mainRenderer, innerX, innerY, outerX, outerY);
+		}
 	}
 }
 
+//void Minigame::drawHole(int centerX, int centerY, int radius, int thickness, float holeStart, float holeSize, int vectorSize) {
+//	float holeAngle = (static_cast<float>(holeSize) / vectorSize) * 2 * M_PI; // Convert hole size to radians
+//	float startAngle = (static_cast<float>(holeStart) / vectorSize) * 2 * M_PI; // Convert hole start position to radians
+//
+//	// Adjust endAngle for clockwise motion
+//	float endAngle = startAngle - holeAngle;
+//	if (endAngle < 0) {
+//		endAngle += 2 * M_PI; // Wrap around when it goes negative
+//	}
+//
+//	//std::cout << "Start Angle: " << startAngle << ", End Angle: " << endAngle << std::endl;
+//
+//	// If hole extends beyond 0 radians, split into two parts
+//	if (startAngle < holeAngle) {
+//		float overflow = holeAngle - startAngle;
+//
+//		// First segment (from startAngle to 0)
+//		for (float angle = startAngle; angle > 0; angle -= 0.01) {
+//			int outerX = centerX + radius * std::cos(angle + M_PI / 2);
+//			int outerY = centerY + radius * std::sin(angle + M_PI / 2);
+//			int innerX = centerX + (radius - thickness) * std::cos(angle + M_PI / 2);
+//			int innerY = centerY + (radius - thickness) * std::sin(angle + M_PI / 2);
+//			SDL_RenderDrawLine(mainRenderer, innerX, innerY, outerX, outerY);
+//		}
+//
+//		// Second segment (from 2PI to endAngle)
+//		for (float angle = 2 * M_PI; angle > endAngle; angle -= 0.01) {
+//			int outerX = centerX + radius * std::cos(angle + M_PI / 2);
+//			int outerY = centerY + radius * std::sin(angle + M_PI / 2);
+//			int innerX = centerX + (radius - thickness) * std::cos(angle + M_PI / 2);
+//			int innerY = centerY + (radius - thickness) * std::sin(angle + M_PI / 2);
+//			SDL_RenderDrawLine(mainRenderer, innerX, innerY, outerX, outerY);
+//		}
+//	}
+//	else {
+//		// Normal case (single continuous section)
+//		for (float angle = startAngle; angle > endAngle; angle -= 0.01) {
+//			int outerX = centerX + radius * std::cos(angle + M_PI / 2);
+//			int outerY = centerY + radius * std::sin(angle + M_PI / 2);
+//			int innerX = centerX + (radius - thickness) * std::cos(angle + M_PI / 2);
+//			int innerY = centerY + (radius - thickness) * std::sin(angle + M_PI / 2);
+//			SDL_RenderDrawLine(mainRenderer, innerX, innerY, outerX, outerY);
+//		}
+//	}
+//}
+
+
+
+
 void Minigame::drawLockpick(int centerX, int centerY, int radius, float progress) {
-	int lockpickLength = 50; // The length of the lockpick stick
+	int lockpickLength = 80;
+	int lockpickWidth = 10;
 
-	// Calculate the lockpick's current endpoint
-	int startX = centerX;
-	int startY = centerY + radius + 10; // Start slightly below the circle
-	int endX = centerX;
-	int endY = startY - static_cast<int>(lockpickLength * progress); // Move upward based on progress
+	int startX = centerX - lockpickWidth / 2;  // Define left edge
+	int startY = centerY + radius + 70; // Positioned below the lock
 
-	// Draw the lockpick
-	SDL_RenderDrawLine(mainRenderer, startX, startY, endX, endY);
+	int endY = startY - std::max(5, static_cast<int>(lockpickLength * progress));
+
+	// Define lockpick rectangle
+	SDL_Rect lockpickRect = { startX, endY, lockpickWidth, startY - endY };
+
+	// Render filled rectangle for solid shape
+	SDL_RenderFillRect(mainRenderer, &lockpickRect);
 }

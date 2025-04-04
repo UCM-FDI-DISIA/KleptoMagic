@@ -34,9 +34,5 @@ void PlayerCtrl::update() {
 	else if (NewInputHandler::Instance()->isActionHeld(Action::MOVE_DOWN)) {
 		movementVector = { 0, 1 };
 	}
-	if(NewInputHandler::Instance()->isActionHeld(Action::SHOOT))
-	{
-		//disparar
-	}
 	Move(movementVector, speed);
 }

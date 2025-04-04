@@ -11,6 +11,8 @@
 #include "../map/DungeonFloor.h"
 #include "../Class/Bullet.h"
 
+#include <chrono>
+
 
 using namespace ecs;
 
@@ -34,4 +36,7 @@ private:
 	void leave() override;
 	bool colission_thisframe;
 	Entity* enemycolisioned;
+
+	std::chrono::time_point<std::chrono::steady_clock> startTimeDelta;
+	float DeltaTime;
 };

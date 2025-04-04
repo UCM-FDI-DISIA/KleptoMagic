@@ -21,26 +21,26 @@ Minigame* MinigameGeneratorComponent::generateMinigame(ChestQuality chestQuality
 void MinigameGeneratorComponent::setMinigameParameters(ChestQuality quality, int& vectorSize, int& holeSize, float& frequency) {
     switch (quality) {
     case ChestQuality::COMMON:
-        vectorSize = 150 + (rand() % 151);                 // Random between 150 and 300
-        frequency = 1.2f;
+        vectorSize = 600 + (rand() % 301);                 // Random between 600 and 900
+        frequency = 2.0f;
         holeSize = static_cast<int>(vectorSize * 0.25f);   // 25% of vector size
         break;
 
     case ChestQuality::RARE:
-        vectorSize = 150 + (rand() % 151);                 // Random between 150 and 300
-        frequency = 1.0f;
+        vectorSize = 200 + (rand() % 101);                 // Random between 200 and 300
+        frequency = 1.5f;
         holeSize = static_cast<int>(vectorSize * 0.20f);   // 20% of vector size
         break;
 
     case ChestQuality::LEGENDARY:
-        vectorSize = 100 + (rand() % 101);                 // Random between 100 and 200
-        frequency = 0.8f;
+        vectorSize = 150 + (rand() % 101);                 // Random between 150 and 250
+        frequency = 1.0f;
         holeSize = static_cast<int>(vectorSize * 0.15f);   // 15% of vector size
         break;
 
     default:
-        vectorSize = 150;                                  // Default vector size
-        frequency = 1.0f;                                  // Default frequency
+        vectorSize = 250;                                  // Default vector size
+        frequency = 2.0f;                                  // Default frequency
         holeSize = static_cast<int>(vectorSize * 0.20f);   // Default hole size (20%)
         break;
     }

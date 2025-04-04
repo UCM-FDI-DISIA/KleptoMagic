@@ -10,8 +10,8 @@
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
 #include "../Class/TimerCountdown.h"
-#include "../Class/MinigameGeneratorComponent.cpp"
-#include "../Class/Minigame.cpp"
+#include "../Class/MinigameGeneratorComponent.h"
+#include "../Class/Minigame.h"
 #include "../Class/SlimeComponents.h"
 #include "../Class/UndeadArcherCMPS.h"
 
@@ -80,6 +80,8 @@ void RunningState::update() {
 	bool exit = false;
 	NewInputHandler::Instance()->init();
 
+	startTimeDelta = std::chrono::steady_clock::now();
+
 	TimerCountdown _timer(300);
 	_timer.start();
 
@@ -91,24 +93,36 @@ void RunningState::update() {
 	while (!exit) {
 		Uint32 startTime = sdlutils().currRealTime();
 		_timer.update();
-		std::cout << _timer.getTimeLeft() << std::endl;
 
-		if (NewInputHandler::Instance()->isActionPressed(Action::PAUSE)) {
-			//Game::Instance()->setState();
+		if (NewInputHandler::Instance()->isActionHeld(Action::ABILITY)) {
+			std::cout << _timer.getTimeLeft() << std::endl;
 		}
 
 		if (NewInputHandler::Instance()->isActionPressed(Action::INTERACT)) {
+			std::cout << "Minigame creating" << std::endl;
 			ChestQuality chestQuality = ChestQuality::COMMON;
 			MinigameGeneratorComponent _generatorA(&_timer, sdlutils().renderer());
 			Minigame* minigame = _generatorA.generateMinigame(chestQuality);
 
 			if (minigame) {
+				std::cout << "Minigame created" << std::endl;
 				minigame->start(); // Start the generated minigame
+				
+				auto now = std::chrono::steady_clock::now();
+				startTimeDelta = now;
+
+				while (minigame->running) {
+					auto now = std::chrono::steady_clock::now();
+					auto DeltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - startTimeDelta).count();
+					_timer.update();
+					//std::cout << _timer.getTimeLeft() << std::endl;
+					NewInputHandler::Instance()->update();
+					minigame->minigameLogic(DeltaTime);
+					startTimeDelta = now;
+				}
+				minigame->minigameLogic(DeltaTime);
 			}
 		}
-
-		// update the event handler
-		NewInputHandler::Instance()->update();
 
 		// if 0 asteroids change to GameOverState
 		//if (asteroidsutils().count_asteroids() <= 0) {
@@ -126,10 +140,14 @@ void RunningState::update() {
 		//}
 
 		//}
-		if (ihdlr.isKeyDown(SDL_SCANCODE_SPACE)) {
-
+		if (NewInputHandler::Instance()->isActionHeld(Action::SHOOT))
+		{
 			bullet->pressed(0);
 		}
+
+		// update the event handler
+		NewInputHandler::Instance()->update();
+
 		// update fighter and asteroids here
 		_mngr->update();
 		_mngr->refresh();

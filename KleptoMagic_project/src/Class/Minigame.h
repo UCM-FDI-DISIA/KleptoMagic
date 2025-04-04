@@ -13,6 +13,7 @@ public:
 	void end();                          // Resets Timer's speed multiplier (Should also switch scenes)
 	void minigameLogic(float deltaTime); // Runs minigame
     bool attemptPick();                  // Player attempts to stop the lockpick
+    bool running;                        // If the minigame is currently active
 
     void render(SDL_Renderer* mainGameRenderer, float lockpickProgress); // Visual renderization
 
@@ -24,15 +25,14 @@ private:
     int lockpickPosition;                // Current position of the lockpick
     float frequency;                     // Speed of the lockpick's movement       (Should be [0.01] positions/sec)
     float elapsedTime;
-    bool running;                        // If the minigame is currently active
     bool quitMinigame;                   // Giving up, no rewards
-    float lockpickSpeed;                 // 0.5 seconds for the lockpick to move upward
-    float waitInterval;                  // 1 second cooldown between attempts
+    float lockpickSpeed;                 // 1 seconds for the lockpick to move upward
+    float waitInterval;                  // 2 second cooldown between attempts
 
     int calculatePenalty(int position);  // Calculates penalty based on the lockpicks's position in the hole
 
     SDL_Renderer* mainRenderer;
-    void drawCircle(int centerX, int centerY, int radius);
-    void drawHole(int centerX, int centerY, int radius, float startAngle, float holeSize);
+    void drawCircle(int centerX, int centerY, int radius, int thickness);
+    void drawHole(int centerX, int centerY, int radius, int thickness, float startAngle, float holeSize, int vectorSize);
     void drawLockpick(int centerX, int centerY, int radius, float progress);
 };
