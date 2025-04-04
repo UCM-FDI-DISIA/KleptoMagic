@@ -123,10 +123,6 @@ void DungeonRoom::render(SDL_Renderer* rend) const {
 	tilemap->render(rend);
 }
 
-void DungeonRoom::update() {
-
-}
-
 int DungeonRoom::getAmountOfExits() {
 	int counter = 0;
 	if (doorU) counter++;

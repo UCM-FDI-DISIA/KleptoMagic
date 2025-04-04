@@ -6,6 +6,7 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/NewInputHandler.h"
 #include "../Class/Transform.h"
+#include "../Class/TileCollisionChecker.h"
 #include "../Class/Image.h"
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
@@ -281,6 +282,7 @@ void RunningState::enter()
 
 	//Player
 	_mngr->setHandler(ecs::hdlr::PLAYER, player);
+
 	auto tr = _mngr->addComponent<Transform>(player);
 	auto s = 50.0f;
 	auto x = (sdlutils().width() - s) / 2.0f;
@@ -294,6 +296,9 @@ void RunningState::enter()
 	}
 	_mngr->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
 	_mngr->addComponent<PlayerCtrl>(player);
+	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(player);
+	tilechecker->init(tr, dungeonfloor);
+
 	bullet = new Bullet();
 	bullet->addComponent(0);
 	//Slime,

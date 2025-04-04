@@ -288,6 +288,9 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 	cout << bossPos.x << "|" << bossPos.y << " " << endl;
 #endif
 
+	bossX = bossPos.x;
+	bossY = bossPos.y;
+
 	// Place in the boss room
 	// Find out what exits need to be filled at the location the new room will be on, based on adjacent rooms and what exits they have.
 #ifdef _DEBUG
@@ -376,20 +379,27 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 
 	// TO IMPLEMENT: Add random content inside of the remainder of the special rooms
 
+	currentX = startX;
+	currentY = startY;
+
 #ifdef _DEBUG
 	system("CLS");
 	cout << "--------------------------------" << endl;
 	cout << "DONE! took " << attempts << " attempts" << endl;
+
+	cout << "Starting room at " << startX << "," << startY << endl;
+	cout << "Boss room at " << bossX << "," << bossY << endl;
+
 	cout << "--------------------------------" << endl;
 #endif
-    
-	currentX = startX;
-	currentY = startY;
-
 }
 
 void DungeonFloor::render() {
 	floorLayout[currentX][currentY]->render(renderer);
+}
+
+int DungeonFloor::checkCollisions(int x, int y) {
+	return floorLayout[currentX][currentY]->getTilemap()->checkCollision(x, y);
 }
 
 vector<char> DungeonFloor::CheckSpaceAroundRoom(int x, int y) {

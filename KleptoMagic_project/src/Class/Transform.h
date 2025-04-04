@@ -70,5 +70,6 @@ private:
 	float _width;
 	float _height;
 	float _rot;
+
 };
 

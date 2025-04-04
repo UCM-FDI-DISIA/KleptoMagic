@@ -57,6 +57,9 @@
     <ClCompile Include="src\map\RoomStorage.cpp" />
     <ClCompile Include="src\map\Tilemap.cpp" />
     <ClInclude Include="src\map\Tilemap.h" />
+    <ClCompile Include="src\Class\ObjectInfo.cpp" />
+    <ClCompile Include="src\Class\UndeadArcherCMPS.cpp" />
+    <ClCompile Include="src\Class\TileCollisionChecker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
@@ -134,11 +137,14 @@
     <ClInclude Include="src\map\DungeonFloor.h" />
     <ClInclude Include="src\map\DungeonRoom.h" />
     <ClInclude Include="src\map\RoomStorage.h" />
- </ItemGroup>
+    <ClInclude Include="src\Class\ObjectInfo.h" />
+    <ClInclude Include="src\Class\UndeadArcherCMPS.h" />
+    <ClInclude Include="src\Class\TileCollisionChecker.h" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
     <ClInclude Include="src\utils\Vector2D.h" />
     <ClInclude Include="src\Class\HomingComponent.h" />
-     <ClCompile Include="src\Class\HomingComponent.cpp" />
+    <ClCompile Include="src\Class\HomingComponent.cpp" />
   </ItemGroup>
 </Project>
