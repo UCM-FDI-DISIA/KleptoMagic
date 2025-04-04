@@ -27,15 +27,15 @@ public:
 	void collided(ecs::entity_t e);
 	void addComponent(int i);
 	void checkComponent(int i, ecs::entity_t e);
-	void changeAttSpeedFlat(float i) { attSpeedFlat += i; }
-	void changeAttSpeedMul(float i) { attSpeedMul += i; }
+	void changeAttSpeedCapFlat(float i) { attSpeedCapFlat += i; }
+	void changeAttSpeedCapMul(float i) { attSpeedCapMul += i; }
 private:
 	VirtualTimer* _tim;
 	constexpr static uint8_t _max_bullets = 20;
 	Texture* tex = &sdlutils().images().at("star");
 	void shoot();
 	std::array<bool, 20> componentes;
-	float attSpeedFlat=250;
-	float attSpeedMul = 1;
+	float attSpeedCapFlat=250;
+	float attSpeedCapMul = 1;
 };
 

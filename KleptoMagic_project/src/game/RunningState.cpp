@@ -110,7 +110,7 @@ void RunningState::update() {
 			bullet->pressed();
 		}if (ihdlr.isKeyDown(SDL_SCANCODE_K)) {
 
-			bullet->changeAttSpeedMul(-0.5);
+			bullet->changeAttSpeedCapMul(-0.05);
 		}
 		// update fighter and asteroids here
 		_mngr->update();
