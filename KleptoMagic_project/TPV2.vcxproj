@@ -49,6 +49,7 @@
     <ClCompile Include="src\Class\MinigameGeneratorComponent.cpp" />
     <ClCompile Include="src\Class\TileCollisionChecker.cpp" />
     <ClCompile Include="src\Class\TimerCountdown.cpp" />
+    <ClCompile Include="src\Class\Transform.cpp" />
     <ClCompile Include="src\Class\UndeadArcherCMPS.cpp" />
     <ClCompile Include="src\ecs\Manager.cpp" />
     <ClCompile Include="src\game\AsteroidsFacade.cpp" />

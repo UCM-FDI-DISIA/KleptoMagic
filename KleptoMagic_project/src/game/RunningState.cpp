@@ -298,6 +298,7 @@ void RunningState::enter()
 	_mngr->addComponent<PlayerCtrl>(player);
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(player);
 	tilechecker->init(tr, dungeonfloor);
+	tr->initTileChecker(tilechecker);
 
 	bullet = new Bullet();
 	bullet->addComponent(0);

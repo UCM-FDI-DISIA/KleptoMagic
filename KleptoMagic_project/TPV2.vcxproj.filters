@@ -60,6 +60,7 @@
     <ClCompile Include="src\Class\ObjectInfo.cpp" />
     <ClCompile Include="src\Class\UndeadArcherCMPS.cpp" />
     <ClCompile Include="src\Class\TileCollisionChecker.cpp" />
+    <ClCompile Include="src\Class\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
