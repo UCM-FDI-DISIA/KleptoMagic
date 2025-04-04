@@ -107,7 +107,10 @@ void RunningState::update() {
 		//}
 		if (ihdlr.isKeyDown(SDL_SCANCODE_SPACE)) {
 
-			bullet->pressed(0);
+			bullet->pressed();
+		}if (ihdlr.isKeyDown(SDL_SCANCODE_K)) {
+
+			bullet->changeAttSpeedMul(-0.5);
 		}
 		// update fighter and asteroids here
 		_mngr->update();

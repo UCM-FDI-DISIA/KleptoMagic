@@ -9,7 +9,7 @@ public:
 	BulletStats();
 	~BulletStats();
 	void update();
-	void Created(int i);
+	float Created();
 	float getSpeed() { return speed*speedMul; }
 	float getDamage() { return damage*damageMul; }
 	float getDistance() { return distance*distanceMul; }

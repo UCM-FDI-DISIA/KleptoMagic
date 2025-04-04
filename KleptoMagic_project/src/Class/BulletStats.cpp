@@ -10,45 +10,47 @@ BulletStats::~BulletStats()
 {
 }
 
-void BulletStats::Created(int i)
+float BulletStats::Created()
 {
-	if (i == 0)
+	std::string s=game().getSelectedCharacter();
+	if(s=="ROGUE")
 	{
-		speed = 5;
+		speed = 10;
 		damage = 15;
 		distance = 20000;
 		size = 25;
 		piercing = false;
-		
+		duration = distance / speed;
+		return 250;
 	}
-	else
-	if (i == 1)
-	{
+	else if(s=="KNIGHT"){
 		speed = 5;
 		damage = 15;
-		distance = 2000;
-		size = 100;
+		distance = 200;
+		size = 150;
 		piercing = true;
+		duration = distance / speed;
+		return 300;
 	}
-	else
-	if (i == 2)
-	{
-		speed = 5;
+	else if(s=="ALCHEMIST"){
+		speed = 2.5;
 		damage = 15;
 		distance = 20000;
 		size = 40;
 		piercing = false;
+		duration = distance / speed;
+		return 500;
 	}
-	else
-	if (i == 3)
-	{
+	else if(s=="HUNTER"){
 		speed = 5;
 		damage = 15;
-		distance = 20000;
+		distance = 999999;
 		size = 50;
-		piercing = false;
+		piercing = true;
+		duration = distance / speed;
+		return 700;
 	}
-	duration = distance / speed;
+	
 }
 void BulletStats::update()
 {

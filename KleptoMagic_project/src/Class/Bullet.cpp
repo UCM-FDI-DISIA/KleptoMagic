@@ -37,11 +37,11 @@ void Bullet::hit(int index)
 {
 }
 
-void Bullet::pressed(int i)
+void Bullet::pressed()
 {
 	
-	if (_tim->currRealTime() > 250) {
-		shoot(i);
+	if (_tim->currRealTime() > attSpeedFlat*attSpeedMul) {
+		shoot();
 	}
 }
 
@@ -71,7 +71,7 @@ void Bullet::checkComponent(int i, ecs::entity_t bullet)
 
 
 
-void Bullet::shoot(int i)
+void Bullet::shoot()
 {
 	auto* _mngr = game().getMngr();
 
@@ -85,7 +85,7 @@ void Bullet::shoot(int i)
 	auto _bullets = _mngr->addEntity();
 	_mngr->setHandler(ecs::grp::BULLET, _bullets);
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
-	stats->Created(1);
+	attSpeedFlat= stats->Created();
 	Vector2D vel = (PosRat - Vector2D(_tr->getPos().getX()+(_tr->getWidth()/2), _tr->getPos().getY()+(_tr->getHeight()/2))).normalize() * stats->getSpeed();
 	auto _bulletsTR = _mngr->addComponent<Transform>(_bullets);
 	_bulletsTR->init(Vector2D(_tr->getPos().getX() + _tr->getWidth() / 2, _tr->getPos().getY() + _tr->getHeight() / 2)-Vector2D(stats->getSize()/2,stats->getSize()/2), vel, stats->getSize(), stats->getSize(), 0);
