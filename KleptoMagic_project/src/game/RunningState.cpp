@@ -297,7 +297,7 @@ void RunningState::enter()
 	_mngr->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
 	_mngr->addComponent<PlayerCtrl>(player);
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(player);
-	tilechecker->init(tr, dungeonfloor);
+	tilechecker->init(false, tr, dungeonfloor);
 	tr->initTileChecker(tilechecker);
 
 	bullet = new Bullet();

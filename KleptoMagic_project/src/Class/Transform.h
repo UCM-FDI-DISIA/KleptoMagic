@@ -73,6 +73,6 @@ private:
 	float _height;
 	float _rot;
 
-	TileCollisionChecker* _tilechecker;
+	TileCollisionChecker* _tilechecker; // Starts as nullptr. Init using initTileChecker() if the entity has to abide by tile collisions.
 };
 

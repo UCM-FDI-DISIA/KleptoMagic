@@ -3,10 +3,7 @@
 
 void Transform::update() {
 	if (_tilechecker != nullptr) {
-
-		auto collision = _tilechecker->getCurrCollision();
-		cout << collision << endl;
-		if (collision == 0) {
+		if (_tilechecker->getCanMove()) {
 			_pos = _pos + _vel;
 		}
 	}

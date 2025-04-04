@@ -18,9 +18,11 @@ public:
 	__CMPID_DECL__(ecs::cmp::TILECOLLISIONCHECKER);
 
 	void initComponent() override;
-	void init(Transform* tr, DungeonFloor* floor);
+	// Flying = true means the entity will not treat holes as walls.
+	void init(bool flying, Transform* tr, DungeonFloor* floor);
 	void update();
-	TileCollision getCurrCollision() { return currentCollision; };
+	TileCollision getCurrCollisionType() { return currentCollision; };
+	bool getCanMove() { return canMove; };
 
 private:
 	void createStart();
@@ -29,4 +31,8 @@ private:
 	// Tells you the current type of tile you are about to collide (stand) on the next frame. It accounts for the center of the entity. 
 	// 0 = Floor. 1 = Wall. 2 = Hole.
 	TileCollision currentCollision;
+	// Dictates if the entity considers holes to be collidable or not
+	bool canFly;
+	// Shows whether or not the entity can move according to the position it'll be in next frame
+	bool canMove;
 };
