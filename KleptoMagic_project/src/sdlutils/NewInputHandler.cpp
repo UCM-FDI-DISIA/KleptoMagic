@@ -13,6 +13,8 @@ bool NewInputHandler::init() {
 void NewInputHandler::update() {
     for (auto& pair : _actionPressed) pair.second = false;
     for (auto& pair : _actionReleased) pair.second = false;
+    _movementVector.setX(0);
+    _movementVector.setY(0);
     _anyKeyPressed = false;
 
     SDL_Event event;
@@ -39,6 +41,7 @@ void NewInputHandler::update() {
                 break;
         }
     }
+    UpdateMovementVector();
 }
 
 void NewInputHandler::onKeyDown(SDL_Event& event) {
@@ -63,6 +66,13 @@ void NewInputHandler::onKeyDown(SDL_Event& event) {
     }
 
     _actionHeld[action] = true; // Held activates every frame while button is held
+}
+
+void NewInputHandler::UpdateMovementVector() {
+    if (_actionHeld[Action::MOVE_LEFT])  _movementVector.setX(_movementVector.getX() - 1);
+    if (_actionHeld[Action::MOVE_RIGHT]) _movementVector.setX(_movementVector.getX() + 1);
+    if (_actionHeld[Action::MOVE_UP])    _movementVector.setY(_movementVector.getY() - 1);
+    if (_actionHeld[Action::MOVE_DOWN])  _movementVector.setY(_movementVector.getY() + 1);
 }
 
 void NewInputHandler::onKeyUp(SDL_Event& event) {

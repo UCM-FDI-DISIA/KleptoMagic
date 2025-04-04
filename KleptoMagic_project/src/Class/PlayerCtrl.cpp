@@ -19,20 +19,6 @@ void PlayerCtrl::Move(Vector2D movementVector, float speed) {
 }
 
 void PlayerCtrl::update() {
-	Vector2D movementVector = { 0, 0 };
 	float speed = 1; //get entity Stats speed
-
-	if (NewInputHandler::Instance()->isActionHeld(Action::MOVE_RIGHT)) {
-		movementVector = { 1, 0 };
-	}
-	else if (NewInputHandler::Instance()->isActionHeld(Action::MOVE_LEFT)) {
-		movementVector = { -1, 0 };
-	}
-	else if (NewInputHandler::Instance()->isActionHeld(Action::MOVE_UP)) {
-		movementVector = { 0, -1 };
-	}
-	else if (NewInputHandler::Instance()->isActionHeld(Action::MOVE_DOWN)) {
-		movementVector = { 0, 1 };
-	}
-	Move(movementVector, speed);
+	Move(NewInputHandler::Instance()->getMovementVector(), speed);
 }

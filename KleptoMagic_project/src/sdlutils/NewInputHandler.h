@@ -32,18 +32,21 @@ public:
     bool isActionHeld(Action action) { return _actionHeld[action]; };
     bool isActionReleased(Action action) { return _actionReleased[action]; };
     bool isAnyKeyPressed() { return _anyKeyPressed; };
+    Vector2D getMovementVector() { return _movementVector.normalize(); };
     
 private:
     void onKeyDown(SDL_Event& event);
     void onKeyUp(SDL_Event& event);
     void onGameControllerButtonDown(SDL_Event& event);
     void onGameControllerButtonUp(SDL_Event& event);
+    void UpdateMovementVector();
 
     std::unordered_map<Action, bool> _actionPressed;
     std::unordered_map<Action, bool> _actionHeld;
     std::unordered_map<Action, bool> _actionReleased;
 
     bool _anyKeyPressed;
+    Vector2D _movementVector;
 };
 
 #endif // H_NEWINPUTHANDLER_H
