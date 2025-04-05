@@ -38,17 +38,35 @@ NewGameState::NewGameState() {
 
     // Cargar la textura del bot�n
     buttonTexture = new Texture(sdlutils().renderer(), "resources/images/play-button.png");
+    exitButtonTexture = new Texture(sdlutils().renderer(), "resources/images/exit-button.png");
 
-    // Posicionar el bot�n en el centro
-    float btnWidth = buttonTexture->width();
-    float btnHeight = buttonTexture->height();
-    float btnX = (sdlutils().width() - btnWidth) / 2;
-    float btnY = (sdlutils().height() - btnHeight) / 2;
+    // Tamaño reducido para ambos botones 
+    float scale = 0.4f;
 
-    // Crear el bot�n con su callback
+    float btnWidth = buttonTexture->width() * scale;
+    float btnHeight = buttonTexture->height() * scale;
+
+    float exitBtnWidth = exitButtonTexture->width() * scale;
+    float exitBtnHeight = exitButtonTexture->height() * scale;
+
+    // Posicion base
+    float centerX = (sdlutils().width() - btnWidth) / 2;
+    float baseY = sdlutils().height() * 0.50f;
+
+    // Boton Play
+    float playBtnY = baseY;
     startButton = new Button([this]() {
-        releaseTime = SDL_GetTicks() + 100;  // Espera 100ms antes de cambiar de estado
-        }, Vector2D(btnX, btnY), Vector2D(btnWidth, btnHeight), buttonTexture);
+        releaseTime = SDL_GetTicks() + 100;
+        }, Vector2D(centerX, playBtnY), Vector2D(btnWidth, btnHeight), buttonTexture);
+
+    // Boton Exit
+    float exitBtnX = centerX - 35;  // Ajuste lateral
+    float exitBtnY = playBtnY + btnHeight + 12;  // Espaciado vertical
+
+    exitButton = new Button([this]() {
+        game().exitGame(); // Sale del juego directamente
+        }, Vector2D(exitBtnX, exitBtnY), Vector2D(exitBtnWidth, exitBtnHeight), exitButtonTexture);
+
 }
 
 NewGameState::~NewGameState() {
@@ -74,6 +92,7 @@ void NewGameState::update() {
 
         // Actualizar bot�n (manejo de clic)
         startButton->update();
+        exitButton->update();
 
         // Si han pasado 100ms y el usuario solt� el clic, cambiamos de estado
         if (releaseTime > 0 && SDL_GetTicks() > releaseTime && !(SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT))) {
@@ -90,6 +109,7 @@ void NewGameState::update() {
 
         // Dibujar el bot�n
         startButton->render();
+        exitButton->render();
 
         // Presentar la pantalla
         sdlutils().presentRenderer();
@@ -97,7 +117,13 @@ void NewGameState::update() {
         if (startButton->isPressed()) { 
             exit = true;
 #ifdef _DEBUG
-            cout << "isPressed: " << exit << endl;
+            cout << "Play isPressed: : " << exit << endl;
+#endif
+        }
+        else if (exitButton->isPressed()) {
+            exit = true;
+#ifdef _DEBUG
+            cout << "Exit isPressed: : " << exit << endl;
 #endif
         }
 
