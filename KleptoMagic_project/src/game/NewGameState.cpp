@@ -40,22 +40,33 @@ NewGameState::NewGameState() {
     buttonTexture = new Texture(sdlutils().renderer(), "resources/images/play-button.png");
     exitButtonTexture = new Texture(sdlutils().renderer(), "resources/images/exit-button.png");
 
-    // Posicionar el bot�n en el centro
-    float btnWidth = buttonTexture->width() / 2;
-    float btnHeight = buttonTexture->height() / 2;
-    float btnX = (sdlutils().width() - btnWidth) / 2;
-    float btnY = (sdlutils().height() - btnHeight) / 2;
+    // Tamaño reducido para ambos botones 
+    float scale = 0.4f;
 
-    // Crear el bot�n con su callback
+    float btnWidth = buttonTexture->width() * scale;
+    float btnHeight = buttonTexture->height() * scale;
+
+    float exitBtnWidth = exitButtonTexture->width() * scale;
+    float exitBtnHeight = exitButtonTexture->height() * scale;
+
+    // Posicion base
+    float centerX = (sdlutils().width() - btnWidth) / 2;
+    float baseY = sdlutils().height() * 0.50f;
+
+    // Boton Play
+    float playBtnY = baseY;
     startButton = new Button([this]() {
-        releaseTime = SDL_GetTicks() + 100;  // Espera 100ms antes de cambiar de estado
-        }, Vector2D(btnX, btnY), Vector2D(btnWidth, btnHeight), buttonTexture);
+        releaseTime = SDL_GetTicks() + 100;
+        }, Vector2D(centerX, playBtnY), Vector2D(btnWidth, btnHeight), buttonTexture);
 
-    float exitBtnX = exitButtonTexture->width() / 4;
-    float exitBtnY = exitButtonTexture->height() / 4;
+    // Boton Exit
+    float exitBtnX = centerX - 35;  // Ajuste lateral
+    float exitBtnY = playBtnY + btnHeight + 12;  // Espaciado vertical
+
     exitButton = new Button([this]() {
-        game().exitGame(); // Set game to exit
-        }, Vector2D(exitBtnX, exitBtnY), Vector2D(btnWidth / 2, btnHeight / 2), exitButtonTexture); 
+        game().exitGame(); // Sale del juego directamente
+        }, Vector2D(exitBtnX, exitBtnY), Vector2D(exitBtnWidth, exitBtnHeight), exitButtonTexture);
+
 }
 
 NewGameState::~NewGameState() {
