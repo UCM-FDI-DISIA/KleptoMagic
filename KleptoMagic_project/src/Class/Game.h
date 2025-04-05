@@ -26,6 +26,7 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../game/GameState.h"
 
+#include "../game/EnemyUtils.h"
 
 
 #pragma once

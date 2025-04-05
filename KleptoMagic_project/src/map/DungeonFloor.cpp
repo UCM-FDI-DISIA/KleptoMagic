@@ -3,14 +3,14 @@
 #include "SDL_image.h"
 #include <random>
 #include <vector>
+#include "../game/EnemyUtils.h"
 
 using namespace std;
 
 DungeonFloor::DungeonFloor(int minWidth, int minHeight, int maxWidth, int maxHeight, int numRooms, RoomStorage* storage, SDL_Renderer* rend) : roomstorage(storage), renderer(rend)
 {
 	GenerateFloor(minWidth, minHeight, maxWidth, maxHeight, numRooms); 
-	currentX = startX;
-	currentY = startY;
+	enemyutils().setDungeonFloor(this);
 
 #ifdef _DEBUG
 	PrintFloorLayout_Simple();

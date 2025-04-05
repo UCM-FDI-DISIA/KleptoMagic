@@ -1,4 +1,5 @@
 #include "MoveThroughRooms.h"
+#include "../game/EnemyUtils.h"
 
 void MoveThroughRooms::initComponent() { //falta get entity stats speed
 	auto* _mngr = _ent->getMngr();
@@ -15,6 +16,7 @@ void MoveThroughRooms::enterRoom(char exit) {
 	float position_realX = position.getX() - (_tr->getWidth() / 2);
 	float position_realY = position.getY() - (_tr->getHeight() / 2);
 	_tr->getPos() = Vector2D{position_realX, position_realY};
+	enemyutils().remove_all_enemies();
 }
 
 void MoveThroughRooms::update() {

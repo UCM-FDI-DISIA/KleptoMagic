@@ -114,10 +114,11 @@ bool Game::initGame() {
 	//	return false;
 	//}
 
-	//if (!FighterUtils::Init(_mngr)) {
-	//	std::cerr << "Error inicializando FighterUtils" << std::endl;
-	//	return false;
-	//}
+	if (!EnemyUtils::Init(_mngr)) {
+		std::cerr << "Error initializing EnemyUtils" << std::endl;
+		return false;
+	}
+
 	_running_state = new RunningState(_mngr);
 	_gameover_state = new GameOverState();
 	_newgame_state = new NewGameState();
@@ -147,8 +148,8 @@ Game::~Game() {
 		SDLUtils::Release();
 
 	// release AsteroidsUtils if the instance was created correctly.
-	//if (AsteroidsUtils::HasInstance())
-	//	AsteroidsUtils::Release();
+	if (EnemyUtils::HasInstance())
+		EnemyUtils::Release();
 }
 
 void Game::start() {

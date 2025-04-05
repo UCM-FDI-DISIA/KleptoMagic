@@ -56,15 +56,15 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 	while (getline(roomFile, line) && row < room_height) {
 		stringstream ss(line);
 		for (int i = 0; i < room_width; i++) {
-			string name;
+			EnemyNames name;
 			switch (line[i]) {
 			case 's':
 				// slime
-				name = "slime";
+				name = ENEMY_SLIME;
 				break;
 			case 'a':
 				// archer
-				name = "archer";
+				name = ENEMY_ARCHER;
 				break;
 			}
 			roomSpawns.push_back(spawnData(Vector2D{ (float)i, (float)row }, name));

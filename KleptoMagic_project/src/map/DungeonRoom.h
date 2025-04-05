@@ -3,15 +3,16 @@
 #include <iostream>
 #include "Tilemap.h"
 #include "../utils/Vector2D.h"
+#include "../game/EnemyFacade.h"
 using namespace std;
 
 enum roomType { ENTRANCE, REGULAR, SPECIAL, BOSS };
 
 struct spawnData {
 	Vector2D pos;
-	string name;
+	EnemyNames name;
 
-	spawnData(Vector2D p, string n) : pos(p), name(n) {};
+	spawnData(Vector2D p, EnemyNames n) : pos(p), name(n) {};
 };
 
 class DungeonRoom

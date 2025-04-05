@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\game\EnemyFacade.cpp" />
+    <ClCompile Include="src\game\EnemyUtils.cpp" />
     <ClCompile Include="src\Class\MoveThroughRooms.cpp" />
     <ClCompile Include="src\Class\HomingComponent.cpp" />
     <ClCompile Include="src\Class\DestroyOnBorder.cpp" />
@@ -82,6 +84,8 @@
     <ClCompile Include="SRC\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\game\EnemyFacade.h" />
+    <ClInclude Include="src\game\EnemyUtils.h" />
     <ClInclude Include="src\Class\MoveThroughRooms.h" />
     <ClInclude Include="src\Class\HomingComponent.h" />
     <ClInclude Include="src\Class\DestroyOnBorder.h" />
