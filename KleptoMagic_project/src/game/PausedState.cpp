@@ -4,15 +4,9 @@
 #include "../sdlutils/NewInputHandler.h"
 
 PausedState::PausedState() {
-
-	pressAnyKey = new Texture(sdlutils().renderer(), 
-		"Press any key to resume the game",
-		sdlutils().fonts().at("ARIAL24"), 
-		build_sdlcolor(0x112233ff),
-		build_sdlcolor(0xffffffff));
-	
-	x0 = (sdlutils().width() - pressAnyKey->width()) / 2;
-	y0 = (sdlutils().height() - pressAnyKey->height()) / 2;
+#ifdef _DEBUG
+	std::cout << "Nuevo PauseState creado!" << std::endl;
+#endif
 }
 PausedState::~PausedState() {
 
@@ -20,6 +14,27 @@ PausedState::~PausedState() {
 
 void PausedState::enter() {
 	sdlutils().virtualTimer().pause();
+	// Cargar el fondo
+	background = new Texture(sdlutils().renderer(), "resources/images/pausemenu-provisional.png");
+
+	// Provisional
+	pressAnyKey = new Texture(sdlutils().renderer(),
+		"Press any key to resume the game",
+		sdlutils().fonts().at("ARIAL24"),
+		build_sdlcolor(0x112233ff),
+		build_sdlcolor(0xffffffff));
+
+	x0 = (sdlutils().width() - pressAnyKey->width()) / 2;
+	y0 = (sdlutils().height() - pressAnyKey->height()) / 2;
+
+	titule = new Texture(sdlutils().renderer(),
+		"PAUSE",
+		sdlutils().fonts().at("ARIAL48"),
+		build_sdlcolor(0x112233ff),
+		build_sdlcolor(0xffffffff));
+
+	x1 = (sdlutils().width() - titule->width()) / 2;
+	y1 = titule->height();
 }
 
 void PausedState::leave() {
@@ -51,8 +66,12 @@ void PausedState::update() {
 		// clear screen
 		sdlutils().clearRenderer();
 
+		// Render background picture
+		background->render({ 0, 0, sdlutils().width(), sdlutils().height() });
+
 		// render Press Any Key
 		pressAnyKey->render(x0, y0);
+		titule->render(x1, y1);
 
 		// present new frame
 		sdlutils().presentRenderer();

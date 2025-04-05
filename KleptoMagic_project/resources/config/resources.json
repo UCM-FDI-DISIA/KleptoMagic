@@ -58,6 +58,10 @@
         {
             "id": "playButton",
             "file": "resources/images/play-button.png"
+        },        
+        {
+            "id": "pauseMenu",
+            "file": "resources/images/pausemenu-provisional.png"
         },
         {
             "id": "selectMenu",

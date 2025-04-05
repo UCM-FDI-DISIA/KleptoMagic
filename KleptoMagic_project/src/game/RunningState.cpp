@@ -125,32 +125,10 @@ void RunningState::update() {
 			}
 		}
 
-		// if 0 asteroids change to GameOverState
-		//if (asteroidsutils().count_asteroids() <= 0) {
-		//	// here
-		//	game().setState(Game::GAMEOVER);
-		//	exit = true;
-		//}
-		//
-		//// if pressed P enter PauseState
-		//if (ihdlr.isKeyDown(SDL_SCANCODE_P)) {
-		//	// here
-		//	game().setState(Game::PAUSED);
-		//	exit = true;
-
-		//}
-
-		//}
-		/*
-
-		if (ihdlr.isKeyDown(SDL_SCANCODE_SPACE)) {
-
-			bullet->pressed();
-		}if (ihdlr.isKeyDown(SDL_SCANCODE_K)) {
-
-			bullet->changeAttSpeedCapMul(-0.05);
+		if (NewInputHandler::Instance()->isActionPressed(Action::PAUSE)) {
+			game().setState(Game::PAUSED);
+			exit = true;
 		}
-			*/
 		
 		if (NewInputHandler::Instance()->isActionHeld(Action::SHOOT))
 		{
