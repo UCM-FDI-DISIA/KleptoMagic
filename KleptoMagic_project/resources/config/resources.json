@@ -52,7 +52,11 @@
             "file": "resources/images/background-provisional.png"
         },
         {
-            "id": "button",
+            "id": "exitButton",
+            "file": "resources/images/exit-button.png"
+        },
+        {
+            "id": "playButton",
             "file": "resources/images/play-button.png"
         },
         {

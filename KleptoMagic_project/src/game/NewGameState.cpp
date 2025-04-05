@@ -38,10 +38,11 @@ NewGameState::NewGameState() {
 
     // Cargar la textura del bot�n
     buttonTexture = new Texture(sdlutils().renderer(), "resources/images/play-button.png");
+    exitButtonTexture = new Texture(sdlutils().renderer(), "resources/images/exit-button.png");
 
     // Posicionar el bot�n en el centro
-    float btnWidth = buttonTexture->width();
-    float btnHeight = buttonTexture->height();
+    float btnWidth = buttonTexture->width() / 2;
+    float btnHeight = buttonTexture->height() / 2;
     float btnX = (sdlutils().width() - btnWidth) / 2;
     float btnY = (sdlutils().height() - btnHeight) / 2;
 
@@ -49,6 +50,12 @@ NewGameState::NewGameState() {
     startButton = new Button([this]() {
         releaseTime = SDL_GetTicks() + 100;  // Espera 100ms antes de cambiar de estado
         }, Vector2D(btnX, btnY), Vector2D(btnWidth, btnHeight), buttonTexture);
+
+    float exitBtnX = exitButtonTexture->width() / 4;
+    float exitBtnY = exitButtonTexture->height() / 4;
+    exitButton = new Button([this]() {
+        game().exitGame(); // Set game to exit
+        }, Vector2D(exitBtnX, exitBtnY), Vector2D(btnWidth / 2, btnHeight / 2), exitButtonTexture); 
 }
 
 NewGameState::~NewGameState() {
@@ -74,6 +81,7 @@ void NewGameState::update() {
 
         // Actualizar bot�n (manejo de clic)
         startButton->update();
+        exitButton->update();
 
         // Si han pasado 100ms y el usuario solt� el clic, cambiamos de estado
         if (releaseTime > 0 && SDL_GetTicks() > releaseTime && !(SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT))) {
@@ -90,6 +98,7 @@ void NewGameState::update() {
 
         // Dibujar el bot�n
         startButton->render();
+        exitButton->render();
 
         // Presentar la pantalla
         sdlutils().presentRenderer();
@@ -97,7 +106,13 @@ void NewGameState::update() {
         if (startButton->isPressed()) { 
             exit = true;
 #ifdef _DEBUG
-            cout << "isPressed: " << exit << endl;
+            cout << "Play isPressed: : " << exit << endl;
+#endif
+        }
+        else if (exitButton->isPressed()) {
+            exit = true;
+#ifdef _DEBUG
+            cout << "Exit isPressed: : " << exit << endl;
 #endif
         }
 

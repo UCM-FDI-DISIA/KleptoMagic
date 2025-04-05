@@ -138,6 +138,10 @@ public:
 		return selectedCharacter;
 	}
 
+	inline void exitGame() {
+		exit = true;
+	}
+
 private:
 	Game();
 	ecs::Manager* _mngr;
