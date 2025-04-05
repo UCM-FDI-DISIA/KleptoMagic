@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+class DungeonRoom;
+
 using namespace std;
 
 enum TileType {
@@ -19,7 +21,7 @@ enum TileType {
 
 class Tilemap {
 public:
-	Tilemap(vector<vector<char>> tilematrix);
+	Tilemap(vector<vector<char>> tilematrix, DungeonRoom* dungeonroom);
 	~Tilemap() = default;
 
 	void render(SDL_Renderer* renderer);
@@ -29,6 +31,7 @@ public:
 	void setYOffset(int offset) { yOffset = offset; };
 
 	int checkCollision(int x, int y);
+	char checkExit(int x, int y);
 
 	int getTilemapWidth() { return tilemap.size(); };
 	int getTilemapHeight() { return tilemap[0].size(); };
@@ -44,5 +47,7 @@ private:
 	vector<vector<TileType>> tilemap;
 	int xOffset = 0;
 	int yOffset = 0;
-	const int TILE_SIZE = 100;
+	const int TILE_SIZE = 50;
+
+	DungeonRoom* room;
 };

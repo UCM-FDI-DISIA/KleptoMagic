@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include "Tilemap.h"
+#include "../utils/Vector2D.h"
 using namespace std;
 
 enum roomType { ENTRANCE, REGULAR, SPECIAL, BOSS };
@@ -24,6 +25,8 @@ private:
 
 	// Tilemap object
 	Tilemap* tilemap;
+	// Size of tilemap tiles
+	int tilesize;
 
 	// Whether or not an exit exists in any of the cardinal directions, and therefore can connect to another room through there
 	bool doorU, doorD, doorL, doorR;
@@ -42,7 +45,7 @@ private:
 	int RexitX = -1, RexitY = -1;
 public:
 	// Whether or not any of the exits in any of the cardinal directions are currently linked to another room in said direction
-	// Compared to the other variables, these can be readily changed, as they are only used during floor generation
+	// Compared to the other variables, these can be readily changed, as they are only used during floor generation and rendering (?)
 	bool linkU, linkD, linkL, linkR;
 
 	// ROOM FILE NAME FORMAT
@@ -56,6 +59,7 @@ public:
 	// Room type must be included as an argument too: enum {ENTRANCE, REGULAR, SPECIAL, BOSS} so it can be identified easier
 	DungeonRoom(string filename, roomType type);
 	~DungeonRoom();
+	void CreateTilemap();
 	virtual void render(SDL_Renderer* rend) const;
 
 	// Returns room width in terms of tiles
@@ -97,6 +101,8 @@ public:
 	vector<char> getUnusedExits();
 	// Returns a random exit available that isn't already connected to another room (U, D, L, R, N (none))
 	char getRandomUnusedExit();
+	// Returns the real in-world position the tile right after an exit of the room (used to place the player after they enter a room)
+	Vector2D PositionAfterEntering(char exit);
 
 #ifdef _DEBUG
 	// FOR TESTING: prints room tile layout to console, the same way as it is stored

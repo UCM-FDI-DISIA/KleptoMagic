@@ -7,6 +7,7 @@
 #include "../sdlutils/NewInputHandler.h"
 #include "../Class/Transform.h"
 #include "../Class/TileCollisionChecker.h"
+#include "../Class/MoveThroughRooms.h"
 #include "../Class/Image.h"
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
@@ -311,6 +312,9 @@ void RunningState::enter()
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(player);
 	tilechecker->init(false, tr, dungeonfloor);
 	tr->initTileChecker(tilechecker);
+	auto movethroughrooms = _mngr->addComponent<MoveThroughRooms>(player);
+	movethroughrooms->init(dungeonfloor);
+	movethroughrooms->enterRoom(' ');
 
 	bullet = new Bullet();
 	bullet->addComponent(0);

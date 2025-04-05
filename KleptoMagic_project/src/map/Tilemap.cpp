@@ -1,9 +1,10 @@
 #include "Tilemap.h"
 #include <iostream>
+#include "DungeonRoom.h"
 
 using namespace std;
 
-Tilemap::Tilemap(vector<vector<char>> tilematrix) {
+Tilemap::Tilemap(vector<vector<char>> tilematrix, DungeonRoom* dungeonroom) : room(dungeonroom) {
 
 	// Instantiate the tilemap with the same size as the tile matrix
 	tilemap = vector<vector<TileType>>(tilematrix.size(), vector<TileType>(tilematrix[0].size(), TILE_BLANK));
@@ -25,16 +26,36 @@ Tilemap::Tilemap(vector<vector<char>> tilematrix) {
 				setTile(i, j, TILE_HOLE);
 				break;
 			case 'U':
-				setTile(i, j, TILE_EXIT_U);
+				if (dungeonroom->linkU) {
+					setTile(i, j, TILE_EXIT_U);
+				}
+				else {
+					setTile(i, j, TILE_WALL);
+				}
 				break;
 			case 'D':
-				setTile(i, j, TILE_EXIT_D);
+				if (dungeonroom->linkD) {
+					setTile(i, j, TILE_EXIT_D);
+				}
+				else {
+					setTile(i, j, TILE_WALL);
+				}
 				break;
 			case 'L':
-				setTile(i, j, TILE_EXIT_L);
+				if (dungeonroom->linkL) {
+					setTile(i, j, TILE_EXIT_L);
+				}
+				else {
+					setTile(i, j, TILE_WALL);
+				}
 				break;
 			case 'R':
-				setTile(i, j, TILE_EXIT_R);
+				if (dungeonroom->linkR) {
+					setTile(i, j, TILE_EXIT_R);
+				}
+				else {
+					setTile(i, j, TILE_WALL);
+				}
 				break;
 			}
 		}
@@ -52,6 +73,7 @@ void Tilemap::render(SDL_Renderer* renderer) {
 
 			switch (tilemap[x][y]) {
 			case TILE_BLANK:
+				SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF); // replace later with actual texture
 				break;
 			case TILE_FLOOR:
 				SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF); // replace later with actual texture
@@ -73,7 +95,6 @@ void Tilemap::render(SDL_Renderer* renderer) {
 }
 
 int Tilemap::checkCollision(int x, int y) {
-
 	int xInTiles = (x / TILE_SIZE);
 	int yInTiles = (y / TILE_SIZE);
 
@@ -96,6 +117,34 @@ int Tilemap::checkCollision(int x, int y) {
 			break;
 		default:
 			return 0;
+			break;
+		}
+	}
+}
+
+char Tilemap::checkExit(int x, int y) {
+	int xInTiles = (x / TILE_SIZE);
+	int yInTiles = (y / TILE_SIZE);
+
+	if (xInTiles < 0 || xInTiles > getTilemapWidth() - 1 || yInTiles < 0 || yInTiles > getTilemapHeight() - 1) {
+		return 0;
+	}
+	else {
+		switch (tilemap[xInTiles][yInTiles]) {
+		case TILE_EXIT_U:
+			return 'U';
+			break;
+		case TILE_EXIT_D:
+			return 'D';
+			break;
+		case TILE_EXIT_L:
+			return 'L';
+			break;
+		case TILE_EXIT_R:
+			return 'R';
+			break;
+		default:
+			return ' ';
 			break;
 		}
 	}

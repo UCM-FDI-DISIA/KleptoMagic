@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Class\MoveThroughRooms.cpp" />
     <ClCompile Include="src\Class\HomingComponent.cpp" />
     <ClCompile Include="src\Class\DestroyOnBorder.cpp" />
     <ClCompile Include="src\Class\Bullet.cpp" />
@@ -81,6 +82,7 @@
     <ClCompile Include="SRC\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Class\MoveThroughRooms.h" />
     <ClInclude Include="src\Class\HomingComponent.h" />
     <ClInclude Include="src\Class\DestroyOnBorder.h" />
     <ClInclude Include="src\Class\Bullet.h" />
