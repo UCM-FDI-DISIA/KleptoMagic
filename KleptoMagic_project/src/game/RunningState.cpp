@@ -154,7 +154,7 @@ void RunningState::update() {
 		
 		if (NewInputHandler::Instance()->isActionHeld(Action::SHOOT))
 		{
-			bullet->pressed(0);
+			bullet->pressed();
 
 		}
 

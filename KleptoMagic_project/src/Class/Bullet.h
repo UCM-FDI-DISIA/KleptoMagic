@@ -37,5 +37,6 @@ private:
 	std::array<bool, 20> componentes;
 	float attSpeedCapFlat=250;
 	float attSpeedCapMul = 1;
+	std::string player;
 };
 

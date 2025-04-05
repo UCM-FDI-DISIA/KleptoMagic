@@ -9,7 +9,7 @@ public:
 	BulletStats();
 	~BulletStats();
 	void update();
-	float Created();
+	float Created(std::string s);
 	float getSpeed() { return speed*speedMul; }
 	float getDamage() { return damage*damageMul; }
 	float getDistance() { return distance*distanceMul; }

@@ -10,9 +10,9 @@ BulletStats::~BulletStats()
 {
 }
 
-float BulletStats::Created()
+float BulletStats::Created(std::string s)
 {
-	std::string s=game().getSelectedCharacter();
+	
 	if(s=="ROGUE")
 	{
 		speed = 10;
