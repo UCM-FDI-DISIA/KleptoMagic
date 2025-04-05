@@ -7,6 +7,13 @@ using namespace std;
 
 enum roomType { ENTRANCE, REGULAR, SPECIAL, BOSS };
 
+struct spawnData {
+	Vector2D pos;
+	string name;
+
+	spawnData(Vector2D p, string n) : pos(p), name(n) {};
+};
+
 class DungeonRoom
 {
 private:
@@ -20,8 +27,8 @@ private:
 	roomType room_type;
 	// Tile matrix for the room
 	vector<vector<char>> roomTiles; 
-	// Spawns matrix for the room (objects and entities to be spawned in the room on first load)
-	vector<vector<char>> roomSpawns; 
+	// Entities vector for the room (enemies, decor, etc.)
+	vector<spawnData> roomSpawns; 
 
 	// Tilemap object
 	Tilemap* tilemap;
@@ -72,8 +79,6 @@ public:
 	roomType getType() { return room_type; }
 	// Returns the tile matrix
 	vector<vector<char>> getRoomTiles() { return roomTiles; };
-	// Returns the spawns matrix
-	vector<vector<char>> getRoomSpawns() { return roomSpawns; };
 	// Returns the tilemap
 	Tilemap* getTilemap() { return tilemap; };
 

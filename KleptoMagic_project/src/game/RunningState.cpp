@@ -275,7 +275,7 @@ void RunningState::enter()
 	_mngr->setHandler(ecs::hdlr::PLAYER, player);
 
 	auto tr = _mngr->addComponent<Transform>(player);
-	auto s = 50.0f;
+	auto s = 100.0f;
 	auto x = (sdlutils().width() - s) / 2.0f;
 	auto y = (sdlutils().height() - s) / 2.0f;
 	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);

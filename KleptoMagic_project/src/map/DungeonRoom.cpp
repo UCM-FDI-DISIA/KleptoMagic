@@ -53,12 +53,21 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 	getline(roomFile, line); // Ignoring the blank line between both matrices in the file
 
 	//Reading the second matrix in the file, AKA the spawn layout
-	roomSpawns = vector<vector<char>>(room_width, vector<char>(room_height, 0));
-	row = 0;
 	while (getline(roomFile, line) && row < room_height) {
 		stringstream ss(line);
 		for (int i = 0; i < room_width; i++) {
-			roomSpawns[i][row] = line[i];
+			string name;
+			switch (line[i]) {
+			case 's':
+				// slime
+				name = "slime";
+				break;
+			case 'a':
+				// archer
+				name = "archer";
+				break;
+			}
+			roomSpawns.push_back(spawnData(Vector2D{ i, row }, name));
 		}
 		row++;
 	}
@@ -215,11 +224,8 @@ void DungeonRoom::printLayoutTiles() {
 }
 
 void DungeonRoom::printLayoutSpawns() {
-	for (int i = 0; i < room_height; i++) {
-		for (int j = 0; j < room_width; j++) {
-			cout << roomSpawns[j][i];
-		}
-		cout << endl;
+	for (auto i : roomSpawns) {
+		cout << i.pos << " " << i.name << endl;
 	}
 	cout << endl;
 }
