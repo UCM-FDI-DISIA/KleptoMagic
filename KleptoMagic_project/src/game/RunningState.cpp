@@ -4,12 +4,15 @@
 #include "AsteroidsUtils.h"
 #include "../utils/Collisions.h"
 #include "../sdlutils/SDLUtils.h"
-#include "../sdlutils/InputHandler.h"
+#include "../sdlutils/NewInputHandler.h"
 #include "../Class/Transform.h"
 #include "../Class/TileCollisionChecker.h"
 #include "../Class/Image.h"
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
+#include "../Class/TimerCountdown.h"
+#include "../Class/MinigameGeneratorComponent.h"
+#include "../Class/Minigame.h"
 #include "../Class/SlimeComponents.h"
 #include "../Class/UndeadArcherCMPS.h"
 
@@ -76,7 +79,12 @@ RunningState::~RunningState() {
 void RunningState::update() {
 	
 	bool exit = false;
-	auto& ihdlr = ih();
+	NewInputHandler::Instance()->init();
+
+	startTimeDelta = std::chrono::steady_clock::now();
+
+	TimerCountdown _timer(300);
+	_timer.start();
 
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
@@ -85,9 +93,37 @@ void RunningState::update() {
 
 	while (!exit) {
 		Uint32 startTime = sdlutils().currRealTime();
+		_timer.update();
 
-		// update the event handler
-		ih().refresh();
+		if (NewInputHandler::Instance()->isActionHeld(Action::ABILITY)) {
+			std::cout << _timer.getTimeLeft() << std::endl;
+		}
+
+		if (NewInputHandler::Instance()->isActionPressed(Action::INTERACT)) {
+			std::cout << "Minigame creating" << std::endl;
+			ChestQuality chestQuality = ChestQuality::COMMON;
+			MinigameGeneratorComponent _generatorA(&_timer, sdlutils().renderer());
+			Minigame* minigame = _generatorA.generateMinigame(chestQuality);
+
+			if (minigame) {
+				std::cout << "Minigame created" << std::endl;
+				minigame->start(); // Start the generated minigame
+				
+				auto now = std::chrono::steady_clock::now();
+				startTimeDelta = now;
+
+				while (minigame->running) {
+					auto now = std::chrono::steady_clock::now();
+					auto DeltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - startTimeDelta).count();
+					_timer.update();
+					//std::cout << _timer.getTimeLeft() << std::endl;
+					NewInputHandler::Instance()->update();
+					minigame->minigameLogic(DeltaTime);
+					startTimeDelta = now;
+				}
+				minigame->minigameLogic(DeltaTime);
+			}
+		}
 
 		// if 0 asteroids change to GameOverState
 		//if (asteroidsutils().count_asteroids() <= 0) {
@@ -105,6 +141,8 @@ void RunningState::update() {
 		//}
 
 		//}
+		/*
+
 		if (ihdlr.isKeyDown(SDL_SCANCODE_SPACE)) {
 
 			bullet->pressed();
@@ -112,6 +150,17 @@ void RunningState::update() {
 
 			bullet->changeAttSpeedCapMul(-0.05);
 		}
+			*/
+		
+		if (NewInputHandler::Instance()->isActionHeld(Action::SHOOT))
+		{
+			bullet->pressed(0);
+
+		}
+
+		// update the event handler
+		NewInputHandler::Instance()->update();
+
 		// update fighter and asteroids here
 		_mngr->update();
 		_mngr->refresh();
@@ -260,7 +309,8 @@ void RunningState::enter()
 	_mngr->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
 	_mngr->addComponent<PlayerCtrl>(player);
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(player);
-	tilechecker->init(tr, dungeonfloor);
+	tilechecker->init(false, tr, dungeonfloor);
+	tr->initTileChecker(tilechecker);
 
 	bullet = new Bullet();
 	bullet->addComponent(0);

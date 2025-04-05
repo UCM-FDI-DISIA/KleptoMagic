@@ -1,6 +1,6 @@
 #include "NewGameState.h"
 #include "../sdlutils/SDLUtils.h"
-#include "../sdlutils/InputHandler.h"
+#include "../sdlutils/NewInputHandler.h"
 #include "../utils/Vector2D.h"
 
 using ecs::Manager;
@@ -59,7 +59,8 @@ NewGameState::~NewGameState() {
 
 void NewGameState::update() {
     bool exit = false;
-    auto& ihdlr = ih();
+    //auto& ihdlr = ih();
+
 
     sdlutils().resetTime();
 
@@ -68,7 +69,8 @@ void NewGameState::update() {
         Uint32 startTime = sdlutils().currRealTime();
 
         // Actualizar eventos
-        ih().refresh();
+        //ih().refresh();
+        NewInputHandler::Instance()->update();
 
         // Actualizar bot�n (manejo de clic)
         startButton->update();
