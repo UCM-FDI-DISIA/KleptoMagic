@@ -67,7 +67,7 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 				name = "archer";
 				break;
 			}
-			roomSpawns.push_back(spawnData(Vector2D{ i, row }, name));
+			roomSpawns.push_back(spawnData(Vector2D{ (float)i, (float)row }, name));
 		}
 		row++;
 	}

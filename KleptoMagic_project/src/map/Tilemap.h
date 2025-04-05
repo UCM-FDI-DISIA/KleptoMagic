@@ -47,7 +47,7 @@ private:
 	vector<vector<TileType>> tilemap;
 	int xOffset = 0;
 	int yOffset = 0;
-	const int TILE_SIZE = 100;
+	const int TILE_SIZE = 50;
 
 	DungeonRoom* room;
 };
