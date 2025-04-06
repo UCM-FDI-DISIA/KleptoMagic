@@ -1,11 +1,7 @@
 #include "NewGameState.h"
 #include "../sdlutils/SDLUtils.h"
-#include "../sdlutils/InputHandler.h"
+#include "../sdlutils/NewInputHandler.h"
 #include "../utils/Vector2D.h"
-
-#include "../map/DungeonFloor.h"
-#include "../map/RoomStorage.h"
-#include <conio.h>
 
 using ecs::Manager;
 using namespace std;
@@ -15,45 +11,40 @@ NewGameState::NewGameState() {
     std::cout << "Nuevo NewGameState creado!" << std::endl;
 #endif
 
-        // --------------------
-        // PROCEDURAL PROTOTYPE
-        // --------------------
-
-        /*
-        RoomStorage* roomstorage = new RoomStorage();
-        while (true) {
-            DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
-
-            sdlutils().clearRenderer();
-            dungeonfloor->render();
-            sdlutils().presentRenderer();
-            
-            _getch(); // waits for any key press before retrying. this is a demo
-        }
-        */
-        
-
-        // --------------------
-        // 
-        // --------------------
-
-
     // Cargar el fondo
     background = new Texture(sdlutils().renderer(), "resources/images/background-provisional.png");
 
-    // Cargar la textura del botón
+    // Cargar la textura del botï¿½n
     buttonTexture = new Texture(sdlutils().renderer(), "resources/images/play-button.png");
+    exitButtonTexture = new Texture(sdlutils().renderer(), "resources/images/exit-button.png");
 
-    // Posicionar el botón en el centro
-    float btnWidth = buttonTexture->width() / 2;
-    float btnHeight = buttonTexture->height() / 2;
-    float btnX = (sdlutils().width() - btnWidth) / 2;
-    float btnY = (sdlutils().height() - btnHeight) / 2;
+    // TamaÃ±o reducido para ambos botones 
+    float scale = 0.4f;
 
-    // Crear el botón con su callback
+    float btnWidth = buttonTexture->width() * scale;
+    float btnHeight = buttonTexture->height() * scale;
+
+    float exitBtnWidth = exitButtonTexture->width() * scale;
+    float exitBtnHeight = exitButtonTexture->height() * scale;
+
+    // Posicion base
+    float centerX = (sdlutils().width() - btnWidth) / 2;
+    float baseY = sdlutils().height() * 0.50f;
+
+    // Boton Play
+    float playBtnY = baseY;
     startButton = new Button([this]() {
-        releaseTime = SDL_GetTicks() + 100;  // Espera 100ms antes de cambiar de estado
-        }, Vector2D(btnX, btnY), Vector2D(btnWidth, btnHeight), buttonTexture);
+        releaseTime = SDL_GetTicks() + 100;
+        }, Vector2D(centerX, playBtnY), Vector2D(btnWidth, btnHeight), buttonTexture);
+
+    // Boton Exit
+    float exitBtnX = centerX - 35;  // Ajuste lateral
+    float exitBtnY = playBtnY + btnHeight + 12;  // Espaciado vertical
+
+    exitButton = new Button([this]() {
+        game().exitGame(); // Sale del juego directamente
+        }, Vector2D(exitBtnX, exitBtnY), Vector2D(exitBtnWidth, exitBtnHeight), exitButtonTexture);
+
 }
 
 NewGameState::~NewGameState() {
@@ -64,21 +55,24 @@ NewGameState::~NewGameState() {
 
 void NewGameState::update() {
     bool exit = false;
-    auto& ihdlr = ih();
+    //auto& ihdlr = ih();
+
 
     sdlutils().resetTime();
 
     while (!exit) {
-        //std::cout << "En el bucle de actualización de newgame" << std::endl;
+        //std::cout << "En el bucle de actualizaciï¿½n de newgame" << std::endl;
         Uint32 startTime = sdlutils().currRealTime();
 
         // Actualizar eventos
-        ih().refresh();
+        //ih().refresh();
+        NewInputHandler::Instance()->update();
 
-        // Actualizar botón (manejo de clic)
+        // Actualizar botï¿½n (manejo de clic)
         startButton->update();
+        exitButton->update();
 
-        // Si han pasado 100ms y el usuario soltó el clic, cambiamos de estado
+        // Si han pasado 100ms y el usuario soltï¿½ el clic, cambiamos de estado
         if (releaseTime > 0 && SDL_GetTicks() > releaseTime && !(SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT))) {
             game().setState(Game::NEWROUND);
             exit = true;
@@ -91,8 +85,9 @@ void NewGameState::update() {
         SDL_Rect destRect = { 0, 0, sdlutils().width(), sdlutils().height() };
         background->render(destRect);
 
-        // Dibujar el botón
+        // Dibujar el botï¿½n
         startButton->render();
+        exitButton->render();
 
         // Presentar la pantalla
         sdlutils().presentRenderer();
@@ -100,7 +95,13 @@ void NewGameState::update() {
         if (startButton->isPressed()) { 
             exit = true;
 #ifdef _DEBUG
-            cout << "isPressed: " << exit << endl;
+            cout << "Play isPressed: : " << exit << endl;
+#endif
+        }
+        else if (exitButton->isPressed()) {
+            exit = true;
+#ifdef _DEBUG
+            cout << "Exit isPressed: : " << exit << endl;
 #endif
         }
 

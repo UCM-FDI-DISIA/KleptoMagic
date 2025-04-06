@@ -7,7 +7,7 @@
 #include "DummyState.h"
 #include "MainMenuState.h"
 #include "PlayState.h"
-#include "../sdlutils/InputHandler.h"
+#include "../sdlutils/NewInputHandler.h"
 
 //componentes :D
 #include "../ecs/Manager.h"
@@ -47,8 +47,8 @@ bool Game::init() {
 		return false;
 	}
 
-	if (!InputHandler::Init()) {
-		std::cerr << "Error inicializando InputHandler" << std::endl;
+	if (!NewInputHandler::Init()) {
+		std::cerr << "Error inicializando NewInputHandler" << std::endl;
 		return false;
 	}
 
@@ -114,10 +114,11 @@ bool Game::initGame() {
 	//	return false;
 	//}
 
-	//if (!FighterUtils::Init(_mngr)) {
-	//	std::cerr << "Error inicializando FighterUtils" << std::endl;
-	//	return false;
-	//}
+	if (!EnemyUtils::Init(_mngr)) {
+		std::cerr << "Error initializing EnemyUtils" << std::endl;
+		return false;
+	}
+
 	_running_state = new RunningState(_mngr);
 	_gameover_state = new GameOverState();
 	_newgame_state = new NewGameState();
@@ -139,21 +140,21 @@ Game::~Game() {
 	delete _mngr;
 
 	// release InputHandler if the instance was created correctly.
-	if (InputHandler::HasInstance())
-		InputHandler::Release();
+	//if (InputHandler::HasInstance())
+	//	InputHandler::Release();
 
 	// release SLDUtil if the instance was created correctly.
 	if (SDLUtils::HasInstance())
 		SDLUtils::Release();
 
 	// release AsteroidsUtils if the instance was created correctly.
-	//if (AsteroidsUtils::HasInstance())
-	//	AsteroidsUtils::Release();
+	if (EnemyUtils::HasInstance())
+		EnemyUtils::Release();
 }
 
 void Game::start() {
-	bool exit = false;
-	auto& ihdlr = ih();
+	exit = false;
+	//auto& ihdlr = ih();
 	auto& vt = sdlutils().virtualTimer();
 
 	vt.resetTime();
@@ -163,7 +164,9 @@ void Game::start() {
 		std::cout << "Entrando en el bucle principal" << std::endl;
 #endif
 		Uint32 startTime = vt.regCurrTime();
-		ihdlr.refresh();
+
+		NewInputHandler::Instance()->update();
+		//ihdlr.refresh();
 
 /*
 		//SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
@@ -177,7 +180,7 @@ void Game::start() {
 				GameStateMachine::handleEvent(evento);
 			}
 */
-		if (ihdlr.isKeyDown(SDL_SCANCODE_ESCAPE)) {
+		if (NewInputHandler::Instance()->isActionPressed(Action::SHOOT)) {
 			exit = true;
 			continue;
 		}
@@ -196,6 +199,13 @@ void Game::start() {
 		Uint32 frameTime = sdlutils().currRealTime() - startTime;
 		if (frameTime < 10) SDL_Delay(10 - frameTime);
 	}
+}
+
+
+void Game::createItems() {
+
+
+
 }
 
 //void

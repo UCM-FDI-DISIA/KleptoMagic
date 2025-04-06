@@ -26,6 +26,7 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../game/GameState.h"
 
+#include "../game/EnemyUtils.h"
 
 
 #pragma once
@@ -138,6 +139,10 @@ public:
 		return selectedCharacter;
 	}
 
+	inline void exitGame() {
+		exit = true;
+	}
+
 private:
 	Game();
 	ecs::Manager* _mngr;
@@ -153,6 +158,8 @@ private:
 	// Interruptor para terminar el juego
 	bool exit;
 
+
+	void createItems();
 	// Para menu de seleccion de personajes
 	std::string selectedCharacter;
 };

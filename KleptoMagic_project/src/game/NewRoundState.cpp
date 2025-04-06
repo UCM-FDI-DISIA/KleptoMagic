@@ -1,7 +1,7 @@
 #include "NewRoundState.h"
 
 #include "../sdlutils/SDLUtils.h"
-#include "../sdlutils/InputHandler.h"
+#include "../sdlutils/NewInputHandler.h"
 
 #include "NewRoundState.h"
 #include "../sdlutils/SDLUtils.h"
@@ -14,14 +14,14 @@ NewRoundState::NewRoundState() : selectedCharacter("") {
 
 	/*background = new Texture(sdlutils().renderer(), "resources/images/selectmenu-provisional.png");
 
-	float btnWidth = 100; // Ancho del botón
-	float btnHeight = 100; // Alto del botón
+	float btnWidth = 100; // Ancho del botï¿½n
+	float btnHeight = 100; // Alto del botï¿½n
 	float spacing = 50; // Espacio entre botones
 	float startX = (sdlutils().width() - (btnWidth * 4 + spacing * 3)) / 2;
 	float btnY = sdlutils().height() / 2 - btnHeight / 2;
 
 	rogueButton = new Button([this]() {
-		std::cout << "Seleccionado: ROGUE" << std::endl; // Depuración
+		std::cout << "Seleccionado: ROGUE" << std::endl; // Depuraciï¿½n
 		selectedCharacter = "ROGUE";
 		game().setSelectedCharacter(selectedCharacter);
 		std::cout << "getSelectedCharacter: " << game().getSelectedCharacter() << std::endl;
@@ -49,13 +49,14 @@ NewRoundState::NewRoundState() : selectedCharacter("") {
 
 void NewRoundState::update() {
 	bool exit = false;
-	auto& ihdlr = ih();
+	//auto& ihdlr = ih();
 
 	sdlutils().resetTime();
 
 	while (!exit) {
 		Uint32 startTime = sdlutils().currRealTime();
-		ih().refresh();
+		//ih().refresh();
+    NewInputHandler::Instance()->update();
 
 		rogueButton->update();
 		knightButton->update();
@@ -93,14 +94,14 @@ void NewRoundState::enter()
 
 	background = new Texture(sdlutils().renderer(), "resources/images/selectmenu-provisional.png");
 
-	float btnWidth = 100; // Ancho del botón
-	float btnHeight = 100; // Alto del botón
+	float btnWidth = 100; // Ancho del botï¿½n
+	float btnHeight = 100; // Alto del botï¿½n
 	float spacing = 50; // Espacio entre botones
 	float startX = (sdlutils().width() - (btnWidth * 4 + spacing * 3)) / 2;
 	float btnY = sdlutils().height() / 2 - btnHeight / 2;
 
 	rogueButton = new Button([this]() {
-		std::cout << "Seleccionado: ROGUE" << std::endl; // Depuración
+		std::cout << "Seleccionado: ROGUE" << std::endl; // Depuraciï¿½n
 		selectedCharacter = "ROGUE";
 		game().setSelectedCharacter(selectedCharacter);
 		std::cout << "getSelectedCharacter: " << game().getSelectedCharacter() << std::endl;
@@ -141,7 +142,7 @@ void NewRoundState::leave()
 	// Cargar el fondo
 	background = new Texture(sdlutils().renderer(), "resources/images/selectmenu-provisional.png");
 
-	// Cargar la textura del botón
+	// Cargar la textura del botï¿½n
 	buttonTexture = new Texture(sdlutils().renderer(), "resources/images/play-button.png");
 
 	/*pressEnter = new Texture(sdlutils().renderer(),
@@ -153,13 +154,13 @@ void NewRoundState::leave()
 	x0 = (sdlutils().width() - pressEnter->width()) / 2;
 	y0 = (sdlutils().height() - pressEnter->height()) / 2;
 
-	// Posicionar el botón en el centro
+	// Posicionar el botï¿½n en el centro
 	float btnWidth = buttonTexture->width();
 	float btnHeight = buttonTexture->height();
 	float btnX = (sdlutils().width() - btnWidth) / 2;
 	float btnY = (sdlutils().height() - btnHeight) / 2;
 
-	// Crear el botón con su callback
+	// Crear el botï¿½n con su callback
 	selectButton = new Button([this]() {
 		game().setState(Game::RUNNING);
 		}, Vector2D(btnX, btnY), Vector2D(btnWidth, btnHeight), buttonTexture);
@@ -168,7 +169,6 @@ void NewRoundState::leave()
 /*void NewRoundState::update() {
 	
 	bool exit = false;
-	auto& ihdlr = ih();
 
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
@@ -179,7 +179,7 @@ void NewRoundState::leave()
 		Uint32 startTime = sdlutils().currRealTime();
 
 		// update the event handler
-		ih().refresh();
+		NewInputHandler::Instance()->update();
 
 		// enter RunningState when any key is down
 		/*if (ih().keyDownEvent()) {
@@ -187,7 +187,7 @@ void NewRoundState::leave()
 			exit = true;
 		}
 
-		// Actualizar botón (manejo de clic)
+		// Actualizar botï¿½n (manejo de clic)
 		selectButton->update();
 
 		// clear screen
@@ -197,7 +197,7 @@ void NewRoundState::leave()
 		SDL_Rect destRect = { 0, 0, sdlutils().width(), sdlutils().height() };
 		background->render(destRect);
 
-		// Dibujar el botón
+		// Dibujar el botï¿½n
 		selectButton->render();
 
 		// render Press Any Key
