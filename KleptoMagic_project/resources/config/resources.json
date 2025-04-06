@@ -49,15 +49,15 @@
         },
         {
             "id": "mainMenu",
-            "file": "resources/images/background-provisional.png"
+            "file": "resources/images/mainMenu.png"
         },
         {
             "id": "exitButton",
-            "file": "resources/images/exit-button.png"
+            "file": "resources/images/quit.png"
         },
         {
             "id": "playButton",
-            "file": "resources/images/play-button.png"
+            "file": "resources/images/play.png"
         },        
         {
             "id": "pauseMenu",
