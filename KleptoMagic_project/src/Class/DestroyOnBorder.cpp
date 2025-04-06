@@ -21,7 +21,9 @@ void DestroyOnBorder::update()
 
 	if(pos.getX()<-side_||pos.getX()>sdlutils().width()+side_||pos.getY()<-height_||pos.getY()>sdlutils().height()+height_)
 	{
+#ifdef _DEBUG
 		std::cout << "se elimino";
+#endif
 		game().getMngr()->setAlive(this->_ent, false);
 	}
 }

@@ -101,10 +101,14 @@ void NewRoundState::enter()
 	float btnY = sdlutils().height() / 2 - btnHeight / 2;
 
 	rogueButton = new Button([this]() {
+#ifdef _DEBUG
 		std::cout << "Seleccionado: ROGUE" << std::endl; // Depuraci�n
+#endif
 		selectedCharacter = "ROGUE";
 		game().setSelectedCharacter(selectedCharacter);
+#ifdef _DEBUG
 		std::cout << "getSelectedCharacter: " << game().getSelectedCharacter() << std::endl;
+#endif
 		game().setState(Game::RUNNING);
 		}, Vector2D(startX, btnY), Vector2D(btnWidth, btnHeight), &sdlutils().images().at("ROGUE"));
 

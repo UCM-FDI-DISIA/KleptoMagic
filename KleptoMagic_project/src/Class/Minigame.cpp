@@ -90,9 +90,10 @@ void Minigame::minigameLogic(float deltaTime) {
 
 
 
-
+#ifdef _DEBUG
 		std::cout << "HoleStart: " << holeStart << std::endl;
 		std::cout << "Lockpick = " << lockpickPosition << std::endl;
+#endif
 		render(mainRenderer, lockpickProgress);
 	}
 }
@@ -102,14 +103,19 @@ bool Minigame::attemptPick() {
 
 	if (lockVector[lockpickPosition] == 1) {
 		int penalty = calculatePenalty(lockpickPosition);
-		gameTimer.addTime(-penalty);										   // Add the penalty to the main game timer
+		gameTimer.addTime(-penalty);
+										   // Add the penalty to the main game timer
+#ifdef _DEBUG
 		std::cout << "Minigame -" << penalty << std::endl;
+#endif
 		running = false;													   // End the minigame on success
 		return true;													       // Successful pick
 	}
 	else {
 		gameTimer.addTime(-10);												   // Hit the wall; subtract 10 seconds and continue
+#ifdef _DEBUG
 		std::cout << "Minigame -10" << std::endl;
+#endif
 		return false;														   // Failed attempt
 	}
 }
@@ -167,7 +173,9 @@ void Minigame::drawHole(int centerX, int centerY, int radius, int thickness, flo
 	}
 	float endAngle = startAngle + holeAngle;
 
+#ifdef _DEBUG
 	std::cout << startAngle << std::endl;
+#endif
 
 	// If hole extends beyond full circle, split it into two segments
 	if (endAngle > 2 * M_PI) {
