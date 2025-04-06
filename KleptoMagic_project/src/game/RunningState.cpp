@@ -292,6 +292,7 @@ void RunningState::enter()
 	
 	enemyutils().spawn_enemy(ENEMY_SLIME, Vector2D{ 100.0f, 100.0f });
 	enemyutils().spawn_enemy(ENEMY_ARCHER, Vector2D{ 200.0f, 200.0f });
+	enemyutils().spawn_enemy(ENEMY_ARMOR, Vector2D{ 300.0f, 300.0f });
 }
 
 void RunningState::leave()

@@ -66,6 +66,10 @@
         {
             "id": "selectMenu",
             "file": "resources/images/selectmenu-provisional.png"
+        },
+        {
+            "id": "bifrutas",
+            "file": "resources/images/bifrutas.jpg"
         }
     ],
   
