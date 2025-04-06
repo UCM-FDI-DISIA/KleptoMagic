@@ -4,7 +4,9 @@
 BulletStats::BulletStats()
 {
 	_tim = new VirtualTimer();
+#ifdef _DEBUG
 	std::cout << _tim->currRealTime();
+#endif
 }
 
 BulletStats::~BulletStats()
@@ -55,7 +57,9 @@ float BulletStats::Created(std::string s)
 }
 void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool pierc)
 {
+#ifdef _DEBUG
 	std::cout << _tim->currRealTime();
+#endif
 	speed = spe;
 	damage = dmg;
 	distance = dist;

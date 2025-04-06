@@ -99,17 +99,23 @@ void RunningState::update() {
 		_timer.update();
 
 		if (NewInputHandler::Instance()->isActionHeld(Action::ABILITY)) {
+#ifdef _DEBUG
 			std::cout << _timer.getTimeLeft() << std::endl;
+#endif
 		}
 
 		if (NewInputHandler::Instance()->isActionPressed(Action::INTERACT)) {
+#ifdef _DEBUG
 			std::cout << "Minigame creating" << std::endl;
+#endif
 			ChestQuality chestQuality = ChestQuality::COMMON;
 			MinigameGeneratorComponent _generatorA(&_timer, sdlutils().renderer());
 			Minigame* minigame = _generatorA.generateMinigame(chestQuality);
 
 			if (minigame) {
+#ifdef _DEBUG
 				std::cout << "Minigame created" << std::endl;
+#endif
 				minigame->start(); // Start the generated minigame
 				
 				auto now = std::chrono::steady_clock::now();
@@ -274,7 +280,9 @@ void RunningState::enter()
 	auto y = (sdlutils().height() - s) / 2.0f;
 	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
 	std::string selectedCharacter = game().getSelectedCharacter();
+#ifdef _DEBUG
 	std::cout << "Personaje seleccionado: " << selectedCharacter << std::endl;
+#endif
 	if (selectedCharacter.empty()) {
 		selectedCharacter = "ALCHEMIST"; // Valor por defecto si no se ha seleccionado nada
 	}
