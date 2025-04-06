@@ -38,7 +38,9 @@ void InputManager::update() {
     #ifdef _DEBUG
 	printInput();
     if (_controller == nullptr) {
+#ifdef _DEBUG
         std::cout << "Gamepad not found. Waiting for connection..." << std::endl;
+#endif
     }
     #endif
     
@@ -66,7 +68,9 @@ void InputManager::connectController(int index) {
     if (SDL_IsGameController(index)) {
         _controller = SDL_GameControllerOpen(index);
         if (_controller) {
+#ifdef _DEBUG
             std::cout << "Gamepad connected: " << SDL_GameControllerName(_controller) << std::endl;
+#endif
         }
     }
 }
@@ -75,7 +79,9 @@ void InputManager::disconnectController() {
     if (_controller) {
         SDL_GameControllerClose(_controller);
         _controller = nullptr;
+#ifdef _DEBUG
         std::cout << "Gamepad disconnected." << std::endl;
+#endif
     }
 }
 
@@ -103,6 +109,8 @@ void InputManager::shutdown() {
 }
 
 void InputManager::printInput() {
+#ifdef _DEBUG
     std::cout << "MovementVector: " << MovementVector.getX() << ", " << MovementVector.getY() << std::endl;
+#endif
     system("cls");
 }

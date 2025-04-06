@@ -159,7 +159,9 @@ void Tilemap::setTile(int x, int y, TileType type) {
 void Tilemap::printTilemap() {
 	for (int i = 0; i < getTilemapWidth(); i++) {
 		for (int j = 0; j < getTilemapHeight(); j++) {
+#ifdef _DEBUG
 			cout << tilemap[i][j];
+#endif
 		}
 		cout << endl;
 	}
