@@ -96,7 +96,10 @@ public:
 	char checkEnterExit(int x, int y);
 	// Feed it an exit, then move the current room to the one in the direction of the exit. Returns the position the player should then be loaded at.
 	// If fed ' ', it assumes it is the entrance (spawn) room and will set the current room to the start room, and return the center of said room.
+	// Additionally uses EnemyUtils to clear all alive enemies. (must be replaced with can't exit while there are alive enemies)
 	Vector2D enterRoom(char exit);
+	// Use EnemyUtils to spawn all enemies of the current room.
+	void spawnEnemies();
 
 	// GENERATION ONLY: 
 	// Checks for the existance of rooms or out of bounds for the cells above, below, left and right of the given coordinates. 

@@ -3,16 +3,23 @@
 #include <iostream>
 #include "Tilemap.h"
 #include "../utils/Vector2D.h"
-#include "../game/EnemyFacade.h"
+#include "../game/EnemyUtils.h"
 using namespace std;
 
 enum roomType { ENTRANCE, REGULAR, SPECIAL, BOSS };
 
-struct spawnData {
+struct spawnData_enemy {
 	Vector2D pos;
 	EnemyNames name;
 
-	spawnData(Vector2D p, EnemyNames n) : pos(p), name(n) {};
+	spawnData_enemy(Vector2D p, EnemyNames n) : pos(p), name(n) {};
+};
+
+struct spawnData_entity {
+	Vector2D pos;
+	//EntityNames name;
+
+	//spawnData_enemy(Vector2D p, EnemyNames n) : pos(p), name(n) {};
 };
 
 class DungeonRoom
@@ -28,8 +35,10 @@ private:
 	roomType room_type;
 	// Tile matrix for the room
 	vector<vector<char>> roomTiles; 
-	// Entities vector for the room (enemies, decor, etc.)
-	vector<spawnData> roomSpawns; 
+	// Enemy spawns vector for the room
+	vector<spawnData_enemy> roomEnemies; 
+	// Entity spawns vector for the room (chests, decor, etc.)
+	vector<spawnData_entity> roomEntities;
 
 	// Tilemap object
 	Tilemap* tilemap;
@@ -69,6 +78,9 @@ public:
 	~DungeonRoom();
 	void CreateTilemap();
 	virtual void render(SDL_Renderer* rend) const;
+
+	// Spawns all the enemies stored in roomEnemies using EnemyUtils
+	void spawnEnemies();
 
 	// Returns room width in terms of tiles
 	int getWidth() { return room_width; }; 
@@ -113,8 +125,6 @@ public:
 #ifdef _DEBUG
 	// FOR TESTING: prints room tile layout to console, the same way as it is stored
 	void printLayoutTiles();
-	// FOR TESTING: prints room spawns layout to console, the same way as it is stored
-	void printLayoutSpawns();
 #endif
 	
 };
