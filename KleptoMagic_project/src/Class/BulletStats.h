@@ -21,10 +21,12 @@ public:
 	void changeDamageMul(float i) { damageMul += i; }
 	void changeDistanceflat(int i) { distance += i; refreshDuration();}
 	void changeDistanceMul(float i) { distanceMul += i; refreshDuration(); }
-	void changeSizeflat(int i) { speed += i; }
-	void changeSizeMul(float i) { speedMul += i; }
+	void changeSizeflat(int i) { size += i; }
+	void changeSizeMul(float i) { sizeMul += i; }
 	void changePiercing(bool b) { piercing = b; }
 	void refreshDuration() { duration = distance / speed; }
+	//void setStats(float spe,float dmg,float dist,float siz,bool pierc);
+	void refreshStats(float spe,float dmg,float dist,float siz,bool pierc);
 private:
 	float speed;
 	float speedMul=1;

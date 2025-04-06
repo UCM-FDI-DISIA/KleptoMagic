@@ -27,6 +27,16 @@ public:
 	void collided(ecs::entity_t e);
 	void addComponent(int i);
 	void checkComponent(int i, ecs::entity_t e);
+	void changeSpeedflat(int i) { bulStat->changeSpeedflat(i); }
+	void changeSpeedMul(float i) { bulStat->changeSpeedMul( i); }
+	void changeDamageflat(int i) { bulStat->changeDamageflat( i); }
+	void changeDamageMul(float i) { bulStat->changeDamageMul(i); }
+	void changeDistanceflat(int i) { bulStat->changeDistanceflat( i); }
+	void changeDistanceMul(float i) { bulStat->changeDistanceMul( i); }
+	void changeSizeflat(int i) { bulStat->changeSizeflat( i); }
+	void changeSizeMul(float i) { bulStat->changeSizeMul( i); }
+	void changePiercing(bool b) { bulStat->changePiercing( b); }
+	void refreshDuration() { ; }
 	void changeAttSpeedCapFlat(float i) { attSpeedCapFlat += i; }
 	void changeAttSpeedCapMul(float i) { attSpeedCapMul += i; }
 private:
@@ -38,5 +48,6 @@ private:
 	float attSpeedCapFlat=250;
 	float attSpeedCapMul = 1;
 	std::string player;
+	BulletStats* bulStat = new BulletStats();
 };
 
