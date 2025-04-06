@@ -2,7 +2,7 @@
 
 #include "AsteroidsUtils.h"
 #include "../sdlutils/SDLUtils.h"
-#include "../sdlutils/NewInputHandler.h"
+#include "../sdlutils/InputHandler.h"
 
 GameOverState::GameOverState() {
 
@@ -34,6 +34,7 @@ void GameOverState::enter() {
 void GameOverState::update() {
 	
 	bool exit = false;
+	auto& ihdlr = ih();
 
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
@@ -44,10 +45,10 @@ void GameOverState::update() {
 		Uint32 startTime = sdlutils().currRealTime();
 
 		// update the event handler
-		NewInputHandler::Instance()->update();
+		ih().refresh();
 
 		// enter NewGameState when any key is down
-		if (NewInputHandler::Instance()->isAnyKeyPressed()) {
+		if (ih().keyDownEvent()) {
 			//here
 			game().setState(Game::NEWGAME);
 			exit = true;

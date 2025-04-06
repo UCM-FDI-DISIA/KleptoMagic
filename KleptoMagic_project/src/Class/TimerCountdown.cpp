@@ -9,10 +9,7 @@ void TimerCountdown::start() {
 void TimerCountdown::update() {
     if (!paused) {
         auto now = std::chrono::steady_clock::now();
-        getTimeLeft();    // This is an int, can be used to show on UI
-        if (isFinished()) {
-            // Script to activate boss? Trap? Idk
-        }
+        float elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - startTime).count();
     }
 }
 
@@ -25,7 +22,7 @@ void TimerCountdown::addTime(int seconds) {
 
 void TimerCountdown::setSpeedMultiplier(float multiplier) {
     if (timeMultiplier != multiplier) {
-        addTime(-getElapsedTime()/1000);  // Creates new timer starting from last timer point but with different timeMultiplier (If timer was in 3:45, creates a new timer from this point but with different speed)
+        addTime(-getElapsedTime());  // Creates new timer starting from last timer point but with different timeMultiplier
         timeMultiplier = multiplier;
         start();
     }
@@ -47,20 +44,18 @@ int TimerCountdown::getTimeLeft() const {
 
 int TimerCountdown::getElapsedTime() const {
     auto now = std::chrono::steady_clock::now();
-    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>((now - startTime) * timeMultiplier).count();
+    auto elapsed = std::chrono::duration_cast<std::chrono::seconds>((now - startTime) * timeMultiplier).count();
     return elapsed;
 }
 
 void TimerCountdown::pause() {
-    if (paused) return;                           // Do nothing if the timer isn't running
+    if (paused) return; // Do nothing if the timer isn't running
+    addTime(-getElapsedTime()); // Subtract elapsed time from total duration
     paused = true;
-    pauseTime = std::chrono::steady_clock::now(); // Store the time when paused
 }
 
 void TimerCountdown::resume() {
     if (!paused) return;
-    auto now = std::chrono::steady_clock::now();
-    auto pauseDuration = now - pauseTime;         // Calculate how long it was paused
-    startTime += pauseDuration;                   // Adjust startTime according pause duration
+    start();             // Restart the timer
     paused = false;
 }

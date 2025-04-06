@@ -1,12 +1,18 @@
 #include "PausedState.h"
 
 #include "../sdlutils/SDLUtils.h"
-#include "../sdlutils/NewInputHandler.h"
+#include "../sdlutils/InputHandler.h"
 
 PausedState::PausedState() {
-#ifdef _DEBUG
-	std::cout << "Nuevo PauseState creado!" << std::endl;
-#endif
+
+	pressAnyKey = new Texture(sdlutils().renderer(), 
+		"Press any key to resume the game",
+		sdlutils().fonts().at("ARIAL24"), 
+		build_sdlcolor(0x112233ff),
+		build_sdlcolor(0xffffffff));
+	
+	x0 = (sdlutils().width() - pressAnyKey->width()) / 2;
+	y0 = (sdlutils().height() - pressAnyKey->height()) / 2;
 }
 PausedState::~PausedState() {
 
@@ -14,27 +20,6 @@ PausedState::~PausedState() {
 
 void PausedState::enter() {
 	sdlutils().virtualTimer().pause();
-	// Cargar el fondo
-	background = new Texture(sdlutils().renderer(), "resources/images/pausemenu-provisional.png");
-
-	// Provisional
-	pressAnyKey = new Texture(sdlutils().renderer(),
-		"Press any key to resume the game",
-		sdlutils().fonts().at("ARIAL24"),
-		build_sdlcolor(0x112233ff),
-		build_sdlcolor(0xffffffff));
-
-	x0 = (sdlutils().width() - pressAnyKey->width()) / 2;
-	y0 = (sdlutils().height() - pressAnyKey->height()) / 2;
-
-	titule = new Texture(sdlutils().renderer(),
-		"PAUSE",
-		sdlutils().fonts().at("ARIAL48"),
-		build_sdlcolor(0x112233ff),
-		build_sdlcolor(0xffffffff));
-
-	x1 = (sdlutils().width() - titule->width()) / 2;
-	y1 = titule->height();
 }
 
 void PausedState::leave() {
@@ -44,6 +29,7 @@ void PausedState::leave() {
 void PausedState::update() {
 	
 	bool exit = false;
+	auto& ihdlr = ih();
 
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
@@ -54,10 +40,10 @@ void PausedState::update() {
 		Uint32 startTime = sdlutils().currRealTime();
 
 		// update the event handler
-		NewInputHandler::Instance()->update();
+		ih().refresh();
 
 		// enter RunningState when any key is down
-		if (NewInputHandler::Instance()->isAnyKeyPressed()) {
+		if (ih().keyDownEvent()) {
 			//here
 			game().setState(Game::RUNNING);
 			exit = true;
@@ -66,12 +52,8 @@ void PausedState::update() {
 		// clear screen
 		sdlutils().clearRenderer();
 
-		// Render background picture
-		background->render({ 0, 0, sdlutils().width(), sdlutils().height() });
-
 		// render Press Any Key
 		pressAnyKey->render(x0, y0);
-		titule->render(x1, y1);
 
 		// present new frame
 		sdlutils().presentRenderer();

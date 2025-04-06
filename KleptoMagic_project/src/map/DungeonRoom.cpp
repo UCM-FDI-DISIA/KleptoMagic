@@ -53,28 +53,21 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 	getline(roomFile, line); // Ignoring the blank line between both matrices in the file
 
 	//Reading the second matrix in the file, AKA the spawn layout
+	roomSpawns = vector<vector<char>>(room_width, vector<char>(room_height, 0));
+	row = 0;
 	while (getline(roomFile, line) && row < room_height) {
 		stringstream ss(line);
 		for (int i = 0; i < room_width; i++) {
-			EnemyNames name;
-			switch (line[i]) {
-			case 's':
-				// slime
-				name = ENEMY_SLIME;
-				break;
-			case 'a':
-				// archer
-				name = ENEMY_ARCHER;
-				break;
-			}
-			roomSpawns.push_back(spawnData(Vector2D{ (float)i, (float)row }, name));
+			roomSpawns[i][row] = line[i];
 		}
 		row++;
 	}
 
 	// Find and store the center and exit locations
-	CenterX = room_width / 2;
-	CenterY = room_height / 2;
+	if (room_type == roomType::ENTRANCE) {
+		CenterX = room_width / 2;
+		CenterY = room_height / 2;
+	}
 	for (int i = 0; i < room_height; i++) {
 		for (int j = 0; j < room_width; j++) {
 			switch (roomTiles[i][j]) {
@@ -98,11 +91,16 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 		}
 	}
 
+	// Create the tilemap for the room
+	tilemap = new Tilemap{ roomTiles };
+
 #ifdef _DEBUG
 	cout << "Name: " << room_name << endl;
 	cout << "Type: " << room_type << endl;
 	cout << "Width: " << room_width << ", " << "Height: " << room_height << endl;
-	cout << "Center: " << CenterX << "," << CenterY << endl;
+	if (room_type == roomType::ENTRANCE) {
+		cout << "Center: " << CenterX << "," << CenterY << endl;
+	}
 	cout << "Exit U: " << doorU << " | " << UexitX << "," << UexitY << endl;
 	cout << "Exit D: " << doorD << " | " << DexitX << "," << DexitY << endl;
 	cout << "Exit L: " << doorL << " | " << LexitX << "," << LexitY << endl;
@@ -120,17 +118,13 @@ DungeonRoom::~DungeonRoom()
 	delete tilemap;
 }
 
-void DungeonRoom::CreateTilemap() {
-	// Create the tilemap for the room
-	tilemap = new Tilemap{ roomTiles, this };
-
-	// Store tile size from tilemap for use later
-	tilesize = tilemap->getTileSize();
-}
-
 void DungeonRoom::render(SDL_Renderer* rend) const {
 	// Render tilemap of current room
 	tilemap->render(rend);
+}
+
+void DungeonRoom::update() {
+
 }
 
 int DungeonRoom::getAmountOfExits() {
@@ -169,49 +163,6 @@ char DungeonRoom::getRandomUnusedExit() {
 	}
 }
 
-Vector2D DungeonRoom::PositionAfterEntering(char exit) {
-	switch (exit) {
-		float x;
-		float y;
-	case 'U':
-		x = UexitX * tilesize + (tilesize / 2);
-		y = UexitY * tilesize + (tilesize / 2);
-		// Offset to the next tile after the exit
-		y = y + tilesize;
-		return Vector2D{x , y };
-		break;
-	case 'D':
-		x = DexitX * tilesize + (tilesize / 2);
-		y = DexitY * tilesize + (tilesize / 2);
-		// Offset to the next tile after the exit
-		y = y - tilesize;
-		return Vector2D{ x , y };
-		break;
-	case 'L':
-		x = LexitX * tilesize + (tilesize / 2);
-		y = LexitY * tilesize + (tilesize / 2);
-		// Offset to the next tile after the exit
-		x = x + tilesize;
-		return Vector2D{ x , y };
-		break;
-	case 'R':
-		x = RexitX * tilesize + (tilesize / 2);
-		y = RexitY * tilesize + (tilesize / 2);
-		// Offset to the next tile after the exit
-		x = x - tilesize;
-		return Vector2D{ x , y };
-		break;
-	case ' ':
-		x = CenterX * tilesize + (tilesize / 2);
-		y = CenterY * tilesize + (tilesize / 2);
-		return Vector2D{ x , y };
-		break;
-	default:
-		return Vector2D{ -1,-1 };
-		break;
-	}
-}
-
 #ifdef _DEBUG
 void DungeonRoom::printLayoutTiles() {
 	for (int i = 0; i < room_height; i++) {
@@ -224,8 +175,11 @@ void DungeonRoom::printLayoutTiles() {
 }
 
 void DungeonRoom::printLayoutSpawns() {
-	for (auto i : roomSpawns) {
-		cout << i.pos << " " << i.name << endl;
+	for (int i = 0; i < room_height; i++) {
+		for (int j = 0; j < room_width; j++) {
+			cout << roomSpawns[j][i];
+		}
+		cout << endl;
 	}
 	cout << endl;
 }

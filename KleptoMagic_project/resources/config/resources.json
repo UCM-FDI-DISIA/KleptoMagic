@@ -52,16 +52,8 @@
             "file": "resources/images/background-provisional.png"
         },
         {
-            "id": "exitButton",
-            "file": "resources/images/exit-button.png"
-        },
-        {
-            "id": "playButton",
+            "id": "button",
             "file": "resources/images/play-button.png"
-        },        
-        {
-            "id": "pauseMenu",
-            "file": "resources/images/pausemenu-provisional.png"
         },
         {
             "id": "selectMenu",

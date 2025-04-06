@@ -4,7 +4,6 @@
 #include <SDL_image.h>
 #include "DungeonRoom.h"
 #include "RoomStorage.h"
-#include "../utils/Vector2D.h"
 
 #include "vector"
 #include "iostream"
@@ -44,10 +43,6 @@ private:
 	int currentX = -1;
 	// Y coordinate of room the player is in
 	int currentY = -1;
-	// X coordinate of boss room
-	int bossX = -1;
-	// Y coordinate of boss room
-	int bossY = -1;
 
 	SDL_Renderer* renderer;
 
@@ -75,28 +70,9 @@ public:
 	int getStartX() { return startX; };
 	// Returns the Y coordinate for the floor's starting room
 	int getStartY() { return startY; };
-	// Returns the X coordinate for the floor's current room
-	int getCurrentX() { return currentX; };
-	// Returns the Y coordinate for the floor's current room
-	int getCurrentY() { return currentY; };
-	// Returns the X coordinate for the floor's boss room
-	int getBossX() { return bossX; };
-	// Returns the Y coordinate for the floor's boss room
-	int getBossY() { return bossY; };
 
 	// Renders the dungeon floor: i.e. renders the current room
 	void render();
-
-	// Feed it X and Y coordinates from an in-world position of an object. 
-	// Returns based on what type of tile (from the tilemap of the current room) that object is currently inside of:"
-	// 0 - Floor. 1 - Wall. 2 - Hole.
-	int checkCollisions(int x, int y);
-	// Feed it X and Y coordinates from an in-world position of an object. 
-	// Returns an exit (U, D, L, R) if the entity is currently inside a tile corresponding to one of the room's exits.
-	char checkEnterExit(int x, int y);
-	// Feed it an exit, then move the current room to the one in the direction of the exit. Returns the position the player should then be loaded at.
-	// If fed ' ', it assumes it is the entrance (spawn) room and will set the current room to the start room, and return the center of said room.
-	Vector2D enterRoom(char exit);
 
 	// GENERATION ONLY: 
 	// Checks for the existance of rooms or out of bounds for the cells above, below, left and right of the given coordinates. 

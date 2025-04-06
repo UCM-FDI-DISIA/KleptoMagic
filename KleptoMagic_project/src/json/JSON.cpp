@@ -26,8 +26,6 @@
 
 #include <fstream>
 
-
-
 /**
  * Blocks off the public constructor
  *
@@ -208,7 +206,6 @@ bool JSON::ExtractString(const char **data, std::string &str)
 		else if (next_char == '"')
 		{
 			(*data)++;
-#pragma warning(suppress : 4996)
 			str.reserve(); // Remove unused capacity
 			return true;
 		}

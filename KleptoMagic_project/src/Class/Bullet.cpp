@@ -5,11 +5,6 @@
 Bullet::Bullet()
 {
 	_tim = new VirtualTimer();
-	for(int i=0;i<componentes.size();i++)
-	{
-		componentes[i] = false;
-	}
-	player = game().getSelectedCharacter();
 }
 
 Bullet::~Bullet()
@@ -38,11 +33,11 @@ void Bullet::hit(int index)
 {
 }
 
-void Bullet::pressed()
+void Bullet::pressed(int i)
 {
 	
-	if (_tim->currRealTime() > attSpeedCapFlat*attSpeedCapMul) {
-		shoot();
+	if (_tim->currRealTime() > 250) {
+		shoot(i);
 	}
 }
 
@@ -56,23 +51,9 @@ void Bullet::collided(ecs::entity_t e)
 	}
 }
 
-void Bullet::addComponent(int i)
-{
-	componentes[i] = true;
-}
-
-void Bullet::checkComponent(int i, ecs::entity_t bullet)
-{
-	auto* _mngr = game().getMngr();
-	if(i==0)
-	{
-		_mngr->addComponent<HomingComponent>(bullet);
-	}
-}
 
 
-
-void Bullet::shoot()
+void Bullet::shoot(int i)
 {
 	auto* _mngr = game().getMngr();
 
@@ -86,16 +67,12 @@ void Bullet::shoot()
 	auto _bullets = _mngr->addEntity();
 	_mngr->setHandler(ecs::grp::BULLET, _bullets);
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
-	attSpeedCapFlat= stats->Created(player);
-	Vector2D vel = (PosRat - Vector2D(_tr->getPos().getX()+(_tr->getWidth()/2), _tr->getPos().getY()+(_tr->getHeight()/2))).normalize() * stats->getSpeed();
+	stats->Created(i);
+	Vector2D vel = (PosRat - _tr->getPos()).normalize() * stats->getSpeed();
 	auto _bulletsTR = _mngr->addComponent<Transform>(_bullets);
-	_bulletsTR->init(Vector2D(_tr->getPos().getX() + _tr->getWidth() / 2, _tr->getPos().getY() + _tr->getHeight() / 2)-Vector2D(stats->getSize()/2,stats->getSize()/2), vel, stats->getSize(), stats->getSize(), 0);
+	_bulletsTR->init(_tr->getPos(), vel, stats->getSize(), stats->getSize(), 0);
 	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1);
 	_mngr->addComponent<DestroyOnBorder>(_bullets);
-	for(int i=0;i<componentes.size();i++)
-	{
-		if (componentes[i]) { checkComponent(i,_bullets); }
-	}
 	_tim->resetTime();
 
 }

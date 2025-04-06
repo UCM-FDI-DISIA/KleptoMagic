@@ -1,5 +1,8 @@
 #include "../ecs/Component.h"
 #include <unordered_map>
+#include "../ecs/Entity.h"
+#include "../ecs/Manager.h"
+#include "EntityStat.h"
 
 
 class StatusEffect : public ecs::Component
@@ -10,19 +13,24 @@ class StatusEffect : public ecs::Component
 	enum Status {slow, stun, dot};
 	//struct con int duración, int Potencia
 	struct StatusInfo {
-		int duration;
-		int strength;
+		float duration = 0;
+		int strength = 0;
 	};
 	//pair de enum Status y struct de info
 	std::unordered_map<Status, StatusInfo> effects;
+
+	EntityStat* _entStat;
 	
 public:
-	StatusEffect(int time, int strenght, int effectTypenumber);
-	//getter generico
-	//setter generico
-	//update
+	StatusEffect();
+	void initComponent() override;
+	void update();
+
 	Status GetStatus();
 	void SetStatus();
-	void Updaate();
+	void AddStatus(Status stat, int strength, float time);
+
+	void DecreaseTime();
+	void UpdateSpeed();
 	~StatusEffect();
 };
