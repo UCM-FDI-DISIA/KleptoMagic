@@ -206,7 +206,7 @@ void RunningState::enter()
 #ifdef _DEBUG
 	std::cout << "Entrando en RunningState" << std::endl;
 #endif
-	//auto player = _mngr->addEntity();
+	auto player = _mngr->addEntity();
 	//auto slime = _mngr->addEntity(ecs::grp::ENEMY);
 	auto armor = _mngr->addEntity(ecs::grp::ENEMY);
 
