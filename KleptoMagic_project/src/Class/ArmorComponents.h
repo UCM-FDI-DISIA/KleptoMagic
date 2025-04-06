@@ -124,5 +124,41 @@ namespace ecs
 		}
 	};
 
+	// class ArmorCollisionComponent : public Component clase para colisiones, teniendo en cuenta el tamaño del armor y el player y que la armadura no recibe daño si el ataque viene desde la direccion en la que se mueve
+	/*
+	class ArmorCollisionComponent : public Component
+	{
+		Transform* _armorTransform;
+		Transform* _player;
+	public:
+		__CMPID_DECL__(ecs::cmp::ARMORCOLCMP);
+		void initComponent() override
+		{
+			auto* _mngr = _ent->getMngr();
+			_armorTransform = _mngr->getComponent<Transform>(_ent);
+			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+		}
+		void update() override
+		{
+			auto stat = static_cast<ArmorStatComponent*>(_ent->getMngr()->getComponent<ArmorStatComponent>(_ent));
+			auto attack = static_cast<ArmorAttackComponent*>(_ent->getMngr()->getComponent<ArmorAttackComponent>(_ent));
+			auto vector = static_cast<ArmorVectorComponent*>(_ent->getMngr()->getComponent<ArmorVectorComponent>(_ent));
+			if (_armorTransform->collides(_player))
+			{
+				attack->Colision();
+				stat->damage = 0;
+				vector->direcionX = 0;
+				vector->direcionY = 0;
+			}
+			else
+			{
+				stat->damage = 10;
+				vector->direcionX = 1;
+				vector->direcionY = 1;
+			}
+		}
+	};
+	*/
+
 
 }
