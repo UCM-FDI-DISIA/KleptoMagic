@@ -20,19 +20,22 @@ namespace ecs
 	public:
 		__CMPID_DECL__(ecs::cmp::ARMORVECCMP);
 		float direcionX, direcionY;
+		Vector2D _dest;
 
 		void initComponent() override
 		{
 			auto* _mngr = _ent->getMngr();
+			CreateVector();
 		}
 		void CreateVector() {
-			// Generar direcci�n aleatoria
+			// Generar direcci�n aleatoria dentro de la sala
 			std::random_device rd;
 			std::mt19937 gen(rd());
-			std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
-			Vector2D currentDir_ = Vector2D(dist(gen), dist(gen)).normalize();
+			std::uniform_real_distribution<float> dist(0.0f, 400.0f);
+			Vector2D currentDir_ = Vector2D(dist(gen), dist(gen));
 			direcionX = currentDir_.getX();
 			direcionY = currentDir_.getY();
+			_dest = Vector2D(direcionX, direcionY);
 		}
 	};
 
@@ -42,7 +45,7 @@ namespace ecs
 		Transform* _playerTransform;
 	public:
 		__CMPID_DECL__(ecs::cmp::ARMORSTATCMP);
-		float speed = 0.5;
+		float speed = 0.1;
 		float damage = 10;
 		float attackspeed = 1;
 		void initComponent() override
@@ -105,16 +108,33 @@ namespace ecs
 
 			// Actualizar temporizador y cambiar direcci�n si es necesario
 			float timer_ = 0.0f;
-			float directionChangeTime_ = 500.0f;		//Time to change direction in milliseconds
+			float directionChangeTime_ = 1500.0f;		//Time to change direction in milliseconds
 
+			/*
 			timer_ += sdlutils().virtualTimer().currRealTime();
 			if (timer_ >= directionChangeTime_) {
 				// Generar direcci�n aleatoria
 				vector->CreateVector();
-				Vector2D velocity(vector->direcionX * 0.5, vector->direcionY * 0.5);
+				Vector2D velocity(vector->direcionX * stat->speed, vector->direcionY * stat->speed);
 				_armorTransform->getVel() = velocity;
 				timer_ = 0;
+				sdlutils().virtualTimer().resetTime();
 			}
+			*/
+			// Posici�n actual del asteroide
+			Vector2D currentPos = _armorTransform->getPos();
+			float distance = (vector->_dest - currentPos).magnitude();
+
+
+			// 1. Verificar si est� cerca del destino
+			if (distance < 60) {
+				vector->CreateVector(); // Cambiar destino
+			}
+
+			// 2. Calcular direcci�n al destino (q - p)
+			Vector2D dir = (vector->_dest - currentPos).normalize();
+
+			_armorTransform->getVel() = dir;
 
 			// Mover la entidad
 			/*
