@@ -465,6 +465,10 @@ Vector2D DungeonFloor::enterRoom(char exit) {
 	return posAfterEnter;
 }
 
+void DungeonFloor::spawnEnemies() {
+	floorLayout[currentX][currentY]->spawnEnemies();
+}
+
 vector<char> DungeonFloor::CheckSpaceAroundRoom(int x, int y) {
 	vector<char> invalidExits;
 	auto currRoom = floorLayout[x][y];

@@ -51,6 +51,7 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 	}
 
 	getline(roomFile, line); // Ignoring the blank line between both matrices in the file
+	row = 0;
 
 	//Reading the second matrix in the file, AKA the spawn layout
 	while (getline(roomFile, line) && row < room_height) {
@@ -61,13 +62,14 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 			case 's':
 				// slime
 				name = ENEMY_SLIME;
+				roomEnemies.push_back(spawnData_enemy(Vector2D{ (float)i, (float)row }, name));
 				break;
 			case 'a':
 				// archer
 				name = ENEMY_ARCHER;
+				roomEnemies.push_back(spawnData_enemy(Vector2D{ (float)i, (float)row }, name));
 				break;
 			}
-			roomSpawns.push_back(spawnData(Vector2D{ (float)i, (float)row }, name));
 		}
 		row++;
 	}
@@ -131,6 +133,15 @@ void DungeonRoom::CreateTilemap() {
 void DungeonRoom::render(SDL_Renderer* rend) const {
 	// Render tilemap of current room
 	tilemap->render(rend);
+}
+
+void DungeonRoom::spawnEnemies() {
+	for (auto i : roomEnemies) {
+		float realX = i.pos.getX() * tilesize;
+		float realY = i.pos.getX() * tilesize;
+		Vector2D realPos = { (float)realX, (float)realY };
+		enemyutils().spawn_enemy(i.name, realPos);
+	}
 }
 
 int DungeonRoom::getAmountOfExits() {
@@ -219,13 +230,6 @@ void DungeonRoom::printLayoutTiles() {
 			cout << roomTiles[j][i];
 		}
 		cout << endl;
-	}
-	cout << endl;
-}
-
-void DungeonRoom::printLayoutSpawns() {
-	for (auto i : roomSpawns) {
-		cout << i.pos << " " << i.name << endl;
 	}
 	cout << endl;
 }

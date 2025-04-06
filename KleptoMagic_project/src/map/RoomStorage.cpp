@@ -237,7 +237,6 @@ void RoomStorage::printRoomData(DungeonRoom* room) {
 	cout << "SIZE:\t" << room->getWidth() << "x" << room->getHeight() << endl;
 	cout << endl;
 	room->printLayoutTiles();
-	room->printLayoutSpawns();
 	cout << endl;
 }
 #endif

@@ -17,6 +17,7 @@ void MoveThroughRooms::enterRoom(char exit) {
 	float position_realY = position.getY() - (_tr->getHeight() / 2);
 	_tr->getPos() = Vector2D{position_realX, position_realY};
 	enemyutils().remove_all_enemies();
+	_dungeonfloor->spawnEnemies();
 }
 
 void MoveThroughRooms::update() {
