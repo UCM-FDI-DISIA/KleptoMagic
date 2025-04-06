@@ -18,6 +18,7 @@ private:
 
 	void spawn_SLIME(Vector2D pos);
 	void spawn_ARCHER(Vector2D pos);
+	void spawn_ARMOR(Vector2D pos);
 
 public:
 	void setDungeonFloor(DungeonFloor* floor) { _dungeonfloor = floor; }

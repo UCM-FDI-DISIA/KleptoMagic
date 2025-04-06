@@ -62,6 +62,9 @@
     <ClCompile Include="src\Class\TileCollisionChecker.cpp" />
     <ClCompile Include="src\Class\Transform.cpp" />
     <ClCompile Include="src\Class\MoveThroughRooms.cpp" />
+    <ClCompile Include="src\game\EnemyFacade.cpp" />
+    <ClCompile Include="src\game\EnemyUtils.cpp" />
+    <ClCompile Include="src\Class\LivingArmorCMP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
@@ -143,6 +146,9 @@
     <ClInclude Include="src\Class\UndeadArcherCMPS.h" />
     <ClInclude Include="src\Class\TileCollisionChecker.h" />
     <ClInclude Include="src\Class\MoveThroughRooms.h" />
+    <ClInclude Include="src\game\EnemyFacade.h" />
+    <ClInclude Include="src\game\EnemyUtils.h" />
+    <ClInclude Include="src\Class\LivingArmorCMP.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
