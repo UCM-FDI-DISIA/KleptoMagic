@@ -69,6 +69,11 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 				name = ENEMY_ARCHER;
 				roomEnemies.push_back(spawnData_enemy(Vector2D{ (float)i, (float)row }, name));
 				break;
+			case 'l':
+				// armor
+				name = ENEMY_ARMOR;
+				roomEnemies.push_back(spawnData_enemy(Vector2D{ (float)i, (float)row }, name));
+				break;
 			}
 		}
 		row++;

@@ -103,8 +103,7 @@ bool Minigame::attemptPick() {
 
 	if (lockVector[lockpickPosition] == 1) {
 		int penalty = calculatePenalty(lockpickPosition);
-		gameTimer.addTime(-penalty);
-										   // Add the penalty to the main game timer
+		gameTimer.addTime(-penalty);										   // Add the penalty to the main game timer
 #ifdef _DEBUG
 		std::cout << "Minigame -" << penalty << std::endl;
 #endif
@@ -172,11 +171,9 @@ void Minigame::drawHole(int centerX, int centerY, int radius, int thickness, flo
 		startAngle -= 2 * M_PI;
 	}
 	float endAngle = startAngle + holeAngle;
-
 #ifdef _DEBUG
 	std::cout << startAngle << std::endl;
 #endif
-
 	// If hole extends beyond full circle, split it into two segments
 	if (endAngle > 2 * M_PI) {
 		float overflow = endAngle - 2 * M_PI;
