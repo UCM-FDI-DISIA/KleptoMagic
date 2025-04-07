@@ -17,7 +17,7 @@ void NewRoundState::update() {
 	bool exit = false;
 	//auto& ihdlr = ih();
 	float startX = (sdlutils().width() - (btnWidth * 4 + spacing * 3)) / 2 + 12;
-	float imgY = (sdlutils().height() / 2) - btnHeight - 20; 
+	float imgY = (sdlutils().height() / 2) - btnHeight - 20 + 30; 
 	int imgOffsetX = 25;
 
 	SDL_Rect rogueRect = { static_cast<int>(startX + imgOffsetX), static_cast<int>(imgY), static_cast<int>(imgSize), static_cast<int>(imgSize) };
@@ -77,7 +77,7 @@ void NewRoundState::enter()
 	hunter = new Texture(sdlutils().renderer(), "resources/images/hunter.png");
 
 	float startX = (sdlutils().width() - (btnWidth * 4 + spacing * 3)) / 2 + 18;
-	float btnY = sdlutils().height() / 2 - btnHeight / 2;
+	float btnY = sdlutils().height() / 2 - btnHeight / 2 + 30;
 
 	rogueButton = new Button([this]() {
 #ifdef _DEBUG
