@@ -12,17 +12,22 @@ public:
 	~NewRoundState();
 	void update() override;
 private:
-	Texture* pressEnter;
-	float x0, y0;
 	Texture* background;
-	//Texture* buttonTexture;
-	//Button* selectButton;
+	Texture* rogue;
+	Texture* knight;
+	Texture* alchemist;
+	Texture* hunter;
 	Button* rogueButton;
 	Button* knightButton;
 	Button* alchemistButton;
 	Button* hunterButton;
 
 	std::string selectedCharacter;
+
+	float imgSize = 100;
+	float btnWidth = 140; // Ancho del boton
+	float btnHeight = 100; // Alto del boton
+	float spacing = 12; // Espacio entre botones
 
 	// Heredado vía GameState
 	void enter() override;
