@@ -19,7 +19,7 @@ float BulletStats::Created(std::string s)
 		speed = 10;
 		damage = 15;
 		distance = 20000;
-		size = 25;
+		size = 100;
 		piercing = false;
 		duration = distance / speed;
 		return 250;

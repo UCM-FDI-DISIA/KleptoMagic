@@ -142,9 +142,10 @@ void RunningState::update() {
 		// update the event handler
 		NewInputHandler::Instance()->update();
 
-		// update fighter and asteroids here
+		// update
 		_mngr->update();
 		_mngr->refresh();
+		bullet->update();
 
 		// checking collisions
 		colission_thisframe = false;
@@ -288,7 +289,8 @@ void RunningState::enter()
 	movethroughrooms->enterRoom(' ');
 
 	bullet = new Bullet();
-	bullet->addComponent(0);
+	//bullet->addComponent(0);
+	bullet->setDungeonFloor(dungeonfloor);
 
 	/*
 	enemyutils().spawn_enemy(ENEMY_SLIME, Vector2D{ 100.0f, 100.0f });

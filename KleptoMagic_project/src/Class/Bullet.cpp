@@ -20,11 +20,16 @@ Bullet::~Bullet()
 
 void Bullet::update()
 {
-	/*auto* mngr = game().getMngr();
-	for(auto* _bullets : mngr->getEntities(ecs::grp::BULLET))
+	auto* mngr = game().getMngr();
+	for (auto bull : mngr->getEntities(ecs::grp::BULLET))
 	{
-		auto _bulletsTR = mngr->getComponent<Transform>(_bullets);
-	}*/
+		auto bullStat = mngr->getComponent<BulletStats>(bull);
+		if (!bullStat->getPiercing() && _dungeonfloor != nullptr)
+		{
+			auto tilecollision = mngr->getComponent<TileCollisionChecker>(bull);
+			if (!tilecollision->getCanMove()) { mngr->setAlive(bull,false); }
+		}
+	}
 }
 
 void Bullet::render()
@@ -84,18 +89,24 @@ void Bullet::shoot()
 	float yf = static_cast<float>(y);
 	Vector2D PosRat = { xf,yf };
 	
-	auto _bullets = _mngr->addEntity();
-	_mngr->setHandler(ecs::grp::BULLET, _bullets);
+	auto _bullets = _mngr->addEntity(ecs::grp::BULLET);
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
 	stats->refreshStats(bulStat->getSpeed(),bulStat->getDamage(),bulStat->getDistance(),bulStat->getSize(),bulStat->getPiercing());
 	Vector2D vel = (PosRat - Vector2D(_tr->getPos().getX()+(_tr->getWidth()/2), _tr->getPos().getY()+(_tr->getHeight()/2))).normalize() * stats->getSpeed();
+	float rot = vel.normalize().angle(Vector2D(1, 0));
 	auto _bulletsTR = _mngr->addComponent<Transform>(_bullets);
-	_bulletsTR->init(Vector2D(_tr->getPos().getX() + _tr->getWidth() / 2, _tr->getPos().getY() + _tr->getHeight() / 2)-Vector2D(stats->getSize()/2,stats->getSize()/2), vel, stats->getSize(), stats->getSize(), 0);
+	_bulletsTR->init(Vector2D(_tr->getPos().getX() + _tr->getWidth() / 2, _tr->getPos().getY() + _tr->getHeight() / 2)-Vector2D(stats->getSize()/2,stats->getSize()/2), vel, stats->getSize(), stats->getSize(), rot);
 	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1);
 	_mngr->addComponent<DestroyOnBorder>(_bullets);
 	for(int i=0;i<componentes.size();i++)
 	{
 		if (componentes[i]) { checkComponent(i,_bullets); }
+	}
+	if(!bulStat->getPiercing())
+	{
+		auto tilechecker = _mngr->addComponent<TileCollisionChecker>(_bullets);
+		tilechecker->init(true, _bulletsTR, _dungeonfloor);
+		_bulletsTR->initTileChecker(tilechecker);
 	}
 	_tim->resetTime();
 

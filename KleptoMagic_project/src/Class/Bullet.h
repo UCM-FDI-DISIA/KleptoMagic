@@ -11,6 +11,8 @@
 #include "../Class/ImageWithFrames.h"
 #include "BulletStats.h"
 #include "HomingComponent.h"
+#include "../map/DungeonFloor.h"
+#include "../Class/TileCollisionChecker.h"
 class Bullet 
 {
 public:
@@ -39,6 +41,8 @@ public:
 	void refreshDuration() { ; }
 	void changeAttSpeedCapFlat(float i) { attSpeedCapFlat += i; }
 	void changeAttSpeedCapMul(float i) { attSpeedCapMul += i; }
+	void setDungeonFloor(DungeonFloor* floor) { _dungeonfloor = floor; }
+	
 private:
 	VirtualTimer* _tim;
 	constexpr static uint8_t _max_bullets = 20;
@@ -49,5 +53,6 @@ private:
 	float attSpeedCapMul = 1;
 	std::string player;
 	BulletStats* bulStat = new BulletStats();
+	DungeonFloor* _dungeonfloor = nullptr;
 };
 
