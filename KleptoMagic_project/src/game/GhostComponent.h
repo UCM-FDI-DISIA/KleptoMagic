@@ -8,7 +8,7 @@
 
 
 const int DEFAULT_TELE_RADIUS = 100;
-const int DEFAULT_COOLDOWN_TIMER = 10;
+const int DEFAULT_COOLDOWN_TIMER = 3;
 #pragma once
 class GhostComponent : public ecs::Component
 {

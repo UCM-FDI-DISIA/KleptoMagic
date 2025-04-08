@@ -22,7 +22,7 @@ void GhostComponent::update() {
 
 	if (elapsedTime >= _cooldownTime)
 	{
-		std::cout << "ataqueFantasma!";
+		std::cout << "ataqueFantasma!" << std::endl;
 		lastAttackTime = now;
 		teleportRndPosition();
 	}
@@ -40,8 +40,8 @@ void GhostComponent::initComponent() { // Gets it's transform and target's, and 
 void GhostComponent::teleportRndPosition() {
 	Vector2D result;
 	float rndAng = rndDistributor(rndGenerator);
-	result.setX(_targetTransform->getPos().getX() * cos(rndAng));
-	result.setY(_targetTransform->getPos().getY() * sin(rndAng));
+	result.setX(_targetTransform->getPos().getX() + ( _teleRadius * cos(rndAng)));
+	result.setY(_targetTransform->getPos().getY() + (_teleRadius * sin(rndAng)));
 
 	_ghostTransform->getPos() = result;
 }
