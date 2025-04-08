@@ -26,6 +26,9 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../game/GameState.h"
 
+#include "../game/EnemyUtils.h"
+
+
 #pragma once
 
 using uint = unsigned int;
@@ -100,7 +103,6 @@ public:
 	inline ecs::Manager* getMngr() { return _mngr; }
 	inline void setState(State s) {
 		_state->leave();
-		//sdlutils().clearRenderer();
 		switch (s) {
 		case RUNNING:
 			_state = _running_state;
@@ -127,6 +129,24 @@ public:
 	//InputManager* getInputManager() { return _inputManager; }
 	SDL_Renderer* getRenderer() const { return renderer; }
 
+	void setSelectedCharacter(std::string character) {
+#ifdef _DEBUG
+		std::cout << "Guardando personaje: " << character << std::endl;
+#endif
+		selectedCharacter = character;
+	}
+
+	std::string getSelectedCharacter() {
+#ifdef _DEBUG
+		std::cout << "Recuperando personaje: " << selectedCharacter << std::endl;
+#endif
+		return selectedCharacter;
+	}
+
+	inline void exitGame() {
+		exit = true;
+	}
+
 private:
 	Game();
 	ecs::Manager* _mngr;
@@ -142,6 +162,10 @@ private:
 	// Interruptor para terminar el juego
 	bool exit;
 
+
+	void createItems();
+	// Para menu de seleccion de personajes
+	std::string selectedCharacter;
 };
 
 inline Game& game() {

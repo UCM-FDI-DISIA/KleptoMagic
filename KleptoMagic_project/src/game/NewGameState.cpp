@@ -1,52 +1,80 @@
 #include "NewGameState.h"
 #include "../sdlutils/SDLUtils.h"
-#include "../sdlutils/InputHandler.h"
+#include "../sdlutils/NewInputHandler.h"
 #include "../utils/Vector2D.h"
 
 using ecs::Manager;
+using namespace std;
 
 NewGameState::NewGameState() {
-        std::cout << "Nuevo NewGameState creado!" << std::endl;
+#ifdef _DEBUG
+    std::cout << "Nuevo NewGameState creado!" << std::endl;
+#endif
 
     // Cargar el fondo
-    background = new Texture(sdlutils().renderer(), "resources/images/background-provisional.png");
+    background = new Texture(sdlutils().renderer(), "resources/images/mainMenu.png");
 
-    // Cargar la textura del botón
-    buttonTexture = new Texture(sdlutils().renderer(), "resources/images/play-button.png");
+    // Cargar la textura del botï¿½n
+    buttonTexture = new Texture(sdlutils().renderer(), "resources/images/play.png");
+    exitButtonTexture = new Texture(sdlutils().renderer(), "resources/images/quit.png");
 
-    // Posicionar el botón en el centro
-    float btnWidth = buttonTexture->width();
-    float btnHeight = buttonTexture->height();
-    float btnX = (sdlutils().width() - btnWidth) / 2;
-    float btnY = (sdlutils().height() - btnHeight) / 2;
+    float btnWidth = buttonTexture->width() / 4;
+    float btnHeight = buttonTexture->height() / 4;
 
-    // Crear el botón con su callback
+    float exitBtnWidth = exitButtonTexture->width() / 4;
+    float exitBtnHeight = exitButtonTexture->height() / 4;
+
+    // Posicion base
+    float centerX = (sdlutils().width() - btnWidth) / 2;
+    float baseY = sdlutils().height() * 0.50f;
+
+    // Boton Play
+    float playBtnX = centerX - 50;
+    float playBtnY = baseY;
     startButton = new Button([this]() {
-        game().setState(Game::NEWROUND);
-        }, Vector2D(btnX, btnY), Vector2D(btnWidth, btnHeight), buttonTexture);
+        releaseTime = SDL_GetTicks() + 100;
+        }, Vector2D(playBtnX, playBtnY), Vector2D(btnWidth, btnHeight), buttonTexture);
+
+    // Boton Exit
+    float exitBtnX = centerX - 50;  // Ajuste lateral
+    float exitBtnY = playBtnY + btnHeight - 12;  // Espaciado vertical
+
+    exitButton = new Button([this]() {
+        game().exitGame(); // Sale del juego directamente
+        }, Vector2D(exitBtnX, exitBtnY), Vector2D(exitBtnWidth, exitBtnHeight), exitButtonTexture);
+
 }
 
 NewGameState::~NewGameState() {
-    delete background;
-    delete buttonTexture;
-    delete startButton;
+    //delete background;
+    //delete buttonTexture;
+    //delete startButton;
 }
 
 void NewGameState::update() {
     bool exit = false;
-    auto& ihdlr = ih();
+    //auto& ihdlr = ih();
+
 
     sdlutils().resetTime();
 
     while (!exit) {
-        //std::cout << "En el bucle de actualización de newgame" << std::endl;
+        //std::cout << "En el bucle de actualizaciï¿½n de newgame" << std::endl;
         Uint32 startTime = sdlutils().currRealTime();
 
         // Actualizar eventos
-        ih().refresh();
+        //ih().refresh();
+        NewInputHandler::Instance()->update();
 
-        // Actualizar botón (manejo de clic)
+        // Actualizar botï¿½n (manejo de clic)
         startButton->update();
+        exitButton->update();
+
+        // Si han pasado 100ms y el usuario soltï¿½ el clic, cambiamos de estado
+        if (releaseTime > 0 && SDL_GetTicks() > releaseTime && !(SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT))) {
+            game().setState(Game::NEWROUND);
+            exit = true;
+        }
 
         // Limpiar pantalla
         sdlutils().clearRenderer();
@@ -55,14 +83,24 @@ void NewGameState::update() {
         SDL_Rect destRect = { 0, 0, sdlutils().width(), sdlutils().height() };
         background->render(destRect);
 
-        // Dibujar el botón
+        // Dibujar el botï¿½n
         startButton->render();
+        exitButton->render();
 
         // Presentar la pantalla
         sdlutils().presentRenderer();
 
         if (startButton->isPressed()) { 
             exit = true;
+#ifdef _DEBUG
+            cout << "Play isPressed: : " << exit << endl;
+#endif
+        }
+        else if (exitButton->isPressed()) {
+            exit = true;
+#ifdef _DEBUG
+            cout << "Exit isPressed: : " << exit << endl;
+#endif
         }
 
         Uint32 frameTime = sdlutils().currRealTime() - startTime;
@@ -73,11 +111,15 @@ void NewGameState::update() {
 }
 
 void NewGameState::enter() {
+#ifdef _DEBUG
     std::cout << "Entrando en NewGameState" << std::endl;
+#endif
 }
 
 void NewGameState::leave() {
+#ifdef _DEBUG
     std::cout << "Saliendo en NewGameState" << std::endl;
+#endif
 }
 
 //#include "NewGameState.h"

@@ -5,18 +5,77 @@
     { "id" : "ARIAL24", "file" : "resources/fonts/ARIAL.ttf", "size": 24 },
     { "id" : "ARIAL48", "file" : "resources/fonts/ARIAL.ttf", "size": 48 }
   ],
-  
-  "images" : [
-    { "id" : "sdl_logo", "file" : "resources/images/SDL_logo.png" },
-    { "id" : "tennis_ball", "file" : "resources/images/tennis_ball.png" },
-    { "id" : "star", "file" : "resources/images/star.png"},
-    { "id" : "pacman", "file" : "resources/images/pacman.png"},
-    { "id" : "sprites", "file" : "resources/images/pacman_sprites.png"},
-    { "id" : "player", "file" : "resources/images/player_placeholder.png"},
-    { "id" : "heart",  "file": "resources/images/heart.png"},
-    { "id" : "mainMenu", "file" : "resources/images/background-provisional.png" },
-    { "id" : "button", "file": "resources/images/play-button.png"}
-  ],
+
+    "images": [
+        {
+            "id": "sdl_logo",
+            "file": "resources/images/SDL_logo.png"
+        },
+        {
+            "id": "tennis_ball",
+            "file": "resources/images/tennis_ball.png"
+        },
+        {
+            "id": "star",
+            "file": "resources/images/star.png"
+        },
+        {
+            "id": "pacman",
+            "file": "resources/images/pacman.png"
+        },
+        {
+            "id": "sprites",
+            "file": "resources/images/pacman_sprites.png"
+        },
+        {
+            "id": "ROGUE",
+            "file": "resources/images/rogue.png"
+        },
+        {
+            "id": "KNIGHT",
+            "file": "resources/images/knight.png"
+        },
+        {
+            "id": "HUNTER",
+            "file": "resources/images/hunter.png"
+        },
+        {
+            "id": "ALCHEMIST",
+            "file": "resources/images/alchemist.png"
+        },
+        {
+            "id": "heart",
+            "file": "resources/images/heart.png"
+        },
+        {
+            "id": "MAINMENU",
+            "file": "resources/images/mainMenu.png"
+        },
+        {
+            "id": "QUIT",
+            "file": "resources/images/quit.png"
+        },
+        {
+            "id": "PLAY",
+            "file": "resources/images/play.png"
+        },
+        {
+            "id": "pauseMenu",
+            "file": "resources/images/pausemenu-provisional.png"
+        },
+        {
+            "id": "SELECTMENU",
+            "file": "resources/images/selectMenu.png"
+        },
+        {
+            "id": "SELECT",
+            "file": "resources/images/select.png"
+        },
+        {
+            "id": "bifrutas",
+            "file": "resources/images/bifrutas.jpg"
+        }
+    ],
   
   "messages" : [
     { "id" : "PressAnyKey", "text" : "Press Any Key", "font" : "ARIAL24", "color" : "0x112233ff", "bg" : "0xffffffff" },

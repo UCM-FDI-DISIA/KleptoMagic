@@ -4,6 +4,7 @@
 #include "GameState.h"
 #include "../sdlutils/Texture.h"
 #include "../Class/Game.h"
+#include "../Class/Button.h"
 
 class NewRoundState : virtual public GameState {
 public:
@@ -11,8 +12,22 @@ public:
 	~NewRoundState();
 	void update() override;
 private:
-	Texture* pressEnter;
-	float x0, y0;
+	Texture* background;
+	Texture* rogue;
+	Texture* knight;
+	Texture* alchemist;
+	Texture* hunter;
+	Button* rogueButton;
+	Button* knightButton;
+	Button* alchemistButton;
+	Button* hunterButton;
+
+	std::string selectedCharacter;
+
+	float imgSize = 100;
+	float btnWidth = 140; // Ancho del boton
+	float btnHeight = 100; // Alto del boton
+	float spacing = 12; // Espacio entre botones
 
 	// Heredado vía GameState
 	void enter() override;

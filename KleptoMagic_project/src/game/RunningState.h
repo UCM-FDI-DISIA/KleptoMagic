@@ -4,9 +4,15 @@
 #include "GameState.h"
 #include "../sdlutils/Texture.h"
 #include "../sdlutils/VirtualTimer.h"
-#include "../../../src/ecs/Entity.h"
-#include "../../../src/ecs/Manager.h"
+#include "../../src/ecs/Entity.h"
+#include "../../src/ecs/Manager.h"
 #include "../Class/Game.h"
+#include "../map/RoomStorage.h"
+#include "../map/DungeonFloor.h"
+#include "../Class/Bullet.h"
+
+#include <chrono>
+
 
 using namespace ecs;
 
@@ -18,11 +24,19 @@ public:
 private:
 	void checkCollisions();
 	Manager* _mngr;
+	Bullet* bullet;
 	VirtualTimer asteroidSpawnTimer;
 	const int asteroidSpawnCDms = 5000;
 
-	// Heredado vía GameState
+	RoomStorage* roomstorage;
+	DungeonFloor* dungeonfloor;
+
+	// Heredado vï¿½a GameState
 	void enter() override;
 	void leave() override;
 	bool colission_thisframe;
+	Entity* enemycolisioned;
+
+	std::chrono::time_point<std::chrono::steady_clock> startTimeDelta;
+	float DeltaTime;
 };
