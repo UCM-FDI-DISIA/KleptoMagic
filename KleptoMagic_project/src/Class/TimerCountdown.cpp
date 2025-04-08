@@ -14,10 +14,6 @@ void TimerCountdown::update() {
     }
 }
 
-void TimerCountdown::initComponent() {
-    auto* _mngr = _ent->getMngr();
-}
-
 void TimerCountdown::start() {
     startTime = std::chrono::steady_clock::now();
 }
