@@ -35,5 +35,6 @@
     PLAYER, \
 	GAMEINFO,\
     SLIME,\
+	GHOST, \
     
 

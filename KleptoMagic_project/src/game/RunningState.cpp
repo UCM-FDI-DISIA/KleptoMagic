@@ -11,6 +11,7 @@
 #include "../Class/PlayerCtrl.h"
 #include "../game/GhostComponent.h"
 #include "../Class/SlimeComponents.h"
+#include "../Class/TimerCountdown.h"
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
 
@@ -22,6 +23,7 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	//fighterutils().create_fighter();
 	auto player = _mngr->addEntity();
 	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
+	auto ghost = _mngr->addEntity(ecs::grp::ENEMY);
 
 	//Player
 	_mngr->setHandler(ecs::hdlr::PLAYER, player);
@@ -43,6 +45,12 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	_mngr->addComponent<SlimeAttackComponent>(slime);
 	_mngr->addComponent<SlimeMovementComponent>(slime);
 
+	//Fantasma
+	_mngr->setHandler(ecs::hdlr::GHOST, ghost);
+	auto ghosttr = _mngr->addComponent<Transform>(ghost);
+	ghosttr->init(Vector2D(x + 100, 5 - 20), Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(ghost, &sdlutils().images().at("pacman"));
+	_mngr->addComponent<GhostComponent>(ghost);
 }
 	
 

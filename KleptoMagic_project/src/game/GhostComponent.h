@@ -3,8 +3,8 @@
 
 
 #include "../Class/Transform.h"
-#include "../Class/TimerCountdown.h"
 #include <random>
+#include <chrono>
 
 
 const int DEFAULT_TELE_RADIUS = 100;
@@ -15,7 +15,6 @@ class GhostComponent : public ecs::Component
 protected:
 	Transform* _ghostTransform;
 	Transform* _targetTransform;
-	TimerCountdown* _timer;
 	std::default_random_engine rndGenerator;
 	std::uniform_real_distribution<float> rndDistributor;
 	std::chrono::steady_clock::time_point lastAttackTime;

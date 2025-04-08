@@ -33,16 +33,13 @@ void GhostComponent::initComponent() { // Gets it's transform and target's, and 
 	auto* _mngr = _ent->getMngr();
 	_ghostTransform = _mngr->getComponent<Transform>(_ent);
 	_targetTransform = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
-	_timer = _mngr->getComponent<TimerCountdown>(_ent);
 	assert(_ghostTransform != nullptr);
 	assert(_targetTransform != nullptr);
-	assert(_timer != nullptr);
 }
 
 void GhostComponent::teleportRndPosition() {
 	Vector2D result;
 	float rndAng = rndDistributor(rndGenerator);
-
 	result.setX(_targetTransform->getPos().getX() * cos(rndAng));
 	result.setY(_targetTransform->getPos().getY() * sin(rndAng));
 

@@ -1,7 +1,8 @@
 #include "TimerCountdown.h"
 #include "../ecs/Manager.h"
 
-TimerCountdown::TimerCountdown(int duration) : totalDuration(std::chrono::seconds(duration)), elapsed(0), timeMultiplier(1.0f), paused(false) {}
+TimerCountdown::TimerCountdown(int duration) 
+    : totalDuration(std::chrono::seconds(duration)), elapsed(0), timeMultiplier(1.0f), paused(false) {}
 
 void TimerCountdown::update() {
     if (!paused) {
