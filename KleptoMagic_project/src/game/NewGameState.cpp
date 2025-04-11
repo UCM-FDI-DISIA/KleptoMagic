@@ -14,7 +14,7 @@ NewGameState::NewGameState() {
     // Cargar el fondo
     background = new Texture(sdlutils().renderer(), "resources/images/mainMenu.png");
 
-    // Cargar la textura del bot�n
+    // Cargar la textura del boton
     buttonTexture = new Texture(sdlutils().renderer(), "resources/images/play.png");
     exitButtonTexture = new Texture(sdlutils().renderer(), "resources/images/quit.png");
 
@@ -37,7 +37,7 @@ NewGameState::NewGameState() {
 
     // Boton Exit
     float exitBtnX = centerX - 50;  // Ajuste lateral
-    float exitBtnY = playBtnY + btnHeight - 12;  // Espaciado vertical
+    float exitBtnY = playBtnY + btnHeight;  // Espaciado vertical
 
     exitButton = new Button([this]() {
         game().exitGame(); // Sale del juego directamente
@@ -59,18 +59,18 @@ void NewGameState::update() {
     sdlutils().resetTime();
 
     while (!exit) {
-        //std::cout << "En el bucle de actualizaci�n de newgame" << std::endl;
+        //std::cout << "En el bucle de actualizacion de newgame" << std::endl;
         Uint32 startTime = sdlutils().currRealTime();
 
         // Actualizar eventos
         //ih().refresh();
         NewInputHandler::Instance()->update();
 
-        // Actualizar bot�n (manejo de clic)
+        // Actualizar boton (manejo de clic)
         startButton->update();
         exitButton->update();
 
-        // Si han pasado 100ms y el usuario solt� el clic, cambiamos de estado
+        // Si han pasado 100ms y el usuario solto el clic, cambiamos de estado
         if (releaseTime > 0 && SDL_GetTicks() > releaseTime && !(SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT))) {
             game().setState(Game::NEWROUND);
             exit = true;
@@ -121,77 +121,3 @@ void NewGameState::leave() {
     std::cout << "Saliendo en NewGameState" << std::endl;
 #endif
 }
-
-//#include "NewGameState.h"
-//#include "../sdlutils/SDLUtils.h"
-//#include "../sdlutils/InputHandler.h"
-//
-//
-//using ecs::Manager;	
-//
-//NewGameState::NewGameState(){
-//	background = new Texture(sdlutils().renderer(), "resources/images/background-provisional.png");
-//	pressAnyKey = new Texture(sdlutils().renderer(), 
-//		"Press any key to start",
-//		sdlutils().fonts().at("ARIAL24"), 
-//		build_sdlcolor(0x112233ff),
-//		build_sdlcolor(0xffffffff));
-//
-//	x0 = (sdlutils().width() - pressAnyKey->width()) / 2;
-//	y0 = (sdlutils().height() - pressAnyKey->height()) / 2;
-//}
-//NewGameState::~NewGameState() {
-//
-//}
-//
-//void NewGameState::update() {
-//	
-//	bool exit = false;
-//	auto& ihdlr = ih();
-//
-//	// reset the time before starting - so we calculate correct
-//	// delta-time in the first iteration
-//	//
-//	sdlutils().resetTime();
-//
-//	while (!exit) {
-//		Uint32 startTime = sdlutils().currRealTime();
-//
-//		// update the event handler
-//		ih().refresh();
-//
-//		// enter NewRoundState when any key is down
-//		if (ih().keyDownEvent()) {
-//			//fighterutils().reset_lives();
-//			//here
-//			game().setState(Game::NEWROUND);
-//			exit = true;
-//		}
-//
-//		// clear screen
-//		sdlutils().clearRenderer();
-//
-//		// render Press Any Key
-//		background->render(0, 0);
-//		pressAnyKey->render(x0, y0);
-//
-//		// present new frame
-//		sdlutils().presentRenderer();
-//
-//		Uint32 frameTime = sdlutils().currRealTime() - startTime;
-//
-//		if (frameTime < 20)
-//			SDL_Delay(20 - frameTime);
-//	}
-//}
-//
-//void NewGameState::enter()
-//{
-//	//fighterutils().reset_lives();
-//	std::cout << "Entrando en NewGameState" << std::endl;
-//}
-//
-//void NewGameState::leave()
-//{
-//	std::cout << "Saliendo NewGameState" << std::endl;
-//}
