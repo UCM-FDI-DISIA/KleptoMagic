@@ -33,7 +33,7 @@ NewGameState::NewGameState() {
     float playBtnY = baseY;
     startButton = new Button([this]() {
         releaseTime = SDL_GetTicks() + 100;
-        }, Vector2D(playBtnX, playBtnY), Vector2D(btnWidth, btnHeight), buttonTexture);
+        }, Vector2D(playBtnX, playBtnY), Vector2D(btnWidth, btnHeight), buttonTexture, "mainMenuButton");
 
     // Boton Exit
     float exitBtnX = centerX - 50;  // Ajuste lateral
@@ -41,7 +41,7 @@ NewGameState::NewGameState() {
 
     exitButton = new Button([this]() {
         game().exitGame(); // Sale del juego directamente
-        }, Vector2D(exitBtnX, exitBtnY), Vector2D(exitBtnWidth, exitBtnHeight), exitButtonTexture);
+        }, Vector2D(exitBtnX, exitBtnY), Vector2D(exitBtnWidth, exitBtnHeight), exitButtonTexture, "mainMenuButton");
 
 }
 

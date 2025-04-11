@@ -1,8 +1,8 @@
 #include "Button.h"
 #include "../sdlutils/SDLUtils.h"
 
-Button::Button(std::function<void()> onClick, Vector2D position, Vector2D size, Texture* texture)
-    : _onClick(onClick), _position(position), _size(size), _texture(texture) {}
+Button::Button(std::function<void()> onClick, Vector2D position, Vector2D size, Texture* texture, const std::string& soundId)
+    : _onClick(onClick), _position(position), _size(size), _texture(texture), _soundId(soundId) {}
 
 void Button::initComponent() {
 }
@@ -23,6 +23,9 @@ void Button::update() {
 #ifdef _DEBUG
             std::cout << "Boton clickeado" << std::endl;
 #endif
+            if (!_soundId.empty()) {
+                sdlutils().soundEffects().at(_soundId).play();
+            }
             _isPressed = true;  // Marcamos que el boton fue presionado
             _onClick(); // Ejecuta la funcion cuando se hace clic
         }
@@ -54,7 +57,7 @@ void Button::handleEvent(const SDL_Event& event) {
         int x = event.button.x;
         int y = event.button.y;
         if (isInside(x, y) && _isPressed) {
-            _onClick();  // Solo ejecutar cuando el boton es soltado dentro del �rea
+            _onClick();  // Solo ejecutar cuando el boton es soltado dentro del area
         }
         _isPressed = false;
     }
