@@ -37,7 +37,7 @@ void PausedState::enter() {
 	y1 = titule->height();
 
 	// Crear el botón Resume
-	resumeTexture = new Texture(sdlutils().renderer(), "resources/images/select.png");
+	resumeTexture = new Texture(sdlutils().renderer(), "resources/images/resume.png");
 
 	float btnWidth = resumeTexture->width() / 4;
 	float btnHeight = resumeTexture->height() / 4;

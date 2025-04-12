@@ -83,7 +83,7 @@ void NewGameState::update() {
         SDL_Rect destRect = { 0, 0, sdlutils().width(), sdlutils().height() };
         background->render(destRect);
 
-        // Dibujar el bot�n
+        // Dibujar el boton
         startButton->render();
         exitButton->render();
 

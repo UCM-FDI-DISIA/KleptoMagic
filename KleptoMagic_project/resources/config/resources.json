@@ -72,6 +72,10 @@
             "file": "resources/images/select.png"
         },
         {
+            "id": "RESUME",
+            "file": "resources/images/resume.png"
+        },
+        {
             "id": "bifrutas",
             "file": "resources/images/bifrutas.jpg"
         }
