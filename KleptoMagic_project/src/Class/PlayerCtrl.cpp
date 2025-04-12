@@ -19,6 +19,6 @@ void PlayerCtrl::Move(Vector2D movementVector, float speed) {
 }
 
 void PlayerCtrl::update() {
-	float speed = 1; //get entity Stats speed
+	float speed = 4; //get entity Stats speed
 	Move(NewInputHandler::Instance()->getMovementVector(), speed);
 }

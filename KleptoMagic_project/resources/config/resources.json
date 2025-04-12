@@ -48,24 +48,28 @@
             "file": "resources/images/heart.png"
         },
         {
-            "id": "mainMenu",
-            "file": "resources/images/background-provisional.png"
+            "id": "MAINMENU",
+            "file": "resources/images/mainMenu.png"
         },
         {
-            "id": "exitButton",
-            "file": "resources/images/exit-button.png"
+            "id": "QUIT",
+            "file": "resources/images/quit.png"
         },
         {
-            "id": "playButton",
-            "file": "resources/images/play-button.png"
-        },        
+            "id": "PLAY",
+            "file": "resources/images/play.png"
+        },
         {
             "id": "pauseMenu",
             "file": "resources/images/pausemenu-provisional.png"
         },
         {
-            "id": "selectMenu",
-            "file": "resources/images/selectmenu-provisional.png"
+            "id": "SELECTMENU",
+            "file": "resources/images/selectMenu.png"
+        },
+        {
+            "id": "SELECT",
+            "file": "resources/images/select.png"
         },
         {
             "id": "bifrutas",

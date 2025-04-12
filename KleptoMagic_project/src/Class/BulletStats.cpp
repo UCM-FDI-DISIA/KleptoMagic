@@ -4,7 +4,9 @@
 BulletStats::BulletStats()
 {
 	_tim = new VirtualTimer();
+#ifdef _DEBUG
 	std::cout << _tim->currRealTime();
+#endif
 }
 
 BulletStats::~BulletStats()
@@ -27,7 +29,7 @@ float BulletStats::Created(std::string s)
 	else if(s=="KNIGHT"){
 		speed = 5;
 		damage = 15;
-		distance = 200;
+		distance = 50;
 		size = 150;
 		piercing = true;
 		duration = distance / speed;
@@ -55,7 +57,9 @@ float BulletStats::Created(std::string s)
 }
 void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool pierc)
 {
+#ifdef _DEBUG
 	std::cout << _tim->currRealTime();
+#endif
 	speed = spe;
 	damage = dmg;
 	distance = dist;
@@ -66,7 +70,7 @@ void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool
 void BulletStats::update()
 {
 	
-	if (_tim->currTime() > duration) 
+	if (_tim->currRealTime() > duration) 
 	{
 		game().getMngr()->setAlive(this->_ent, false);
 	}

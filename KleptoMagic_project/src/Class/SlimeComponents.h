@@ -32,7 +32,6 @@ namespace ecs
 		}
 	};
 
-
 	class SlimeStatComponent : public Component
 	{
 		
@@ -48,8 +47,6 @@ namespace ecs
 		}
 		void update() override {}
 	};
-
-
 
 	class SlimeMovementComponent : public Component
 	{
@@ -82,7 +79,7 @@ namespace ecs
 			
 
 		}
-	};
+	};  
 
 	class SlimeAttackComponent : public Component
 	{

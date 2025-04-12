@@ -12,34 +12,32 @@ NewGameState::NewGameState() {
 #endif
 
     // Cargar el fondo
-    background = new Texture(sdlutils().renderer(), "resources/images/background-provisional.png");
+    background = new Texture(sdlutils().renderer(), "resources/images/mainMenu.png");
 
     // Cargar la textura del bot�n
-    buttonTexture = new Texture(sdlutils().renderer(), "resources/images/play-button.png");
-    exitButtonTexture = new Texture(sdlutils().renderer(), "resources/images/exit-button.png");
+    buttonTexture = new Texture(sdlutils().renderer(), "resources/images/play.png");
+    exitButtonTexture = new Texture(sdlutils().renderer(), "resources/images/quit.png");
 
-    // Tamaño reducido para ambos botones 
-    float scale = 0.4f;
+    float btnWidth = buttonTexture->width() / 4;
+    float btnHeight = buttonTexture->height() / 4;
 
-    float btnWidth = buttonTexture->width() * scale;
-    float btnHeight = buttonTexture->height() * scale;
-
-    float exitBtnWidth = exitButtonTexture->width() * scale;
-    float exitBtnHeight = exitButtonTexture->height() * scale;
+    float exitBtnWidth = exitButtonTexture->width() / 4;
+    float exitBtnHeight = exitButtonTexture->height() / 4;
 
     // Posicion base
     float centerX = (sdlutils().width() - btnWidth) / 2;
     float baseY = sdlutils().height() * 0.50f;
 
     // Boton Play
+    float playBtnX = centerX - 50;
     float playBtnY = baseY;
     startButton = new Button([this]() {
         releaseTime = SDL_GetTicks() + 100;
-        }, Vector2D(centerX, playBtnY), Vector2D(btnWidth, btnHeight), buttonTexture);
+        }, Vector2D(playBtnX, playBtnY), Vector2D(btnWidth, btnHeight), buttonTexture);
 
     // Boton Exit
-    float exitBtnX = centerX - 35;  // Ajuste lateral
-    float exitBtnY = playBtnY + btnHeight + 12;  // Espaciado vertical
+    float exitBtnX = centerX - 50;  // Ajuste lateral
+    float exitBtnY = playBtnY + btnHeight - 12;  // Espaciado vertical
 
     exitButton = new Button([this]() {
         game().exitGame(); // Sale del juego directamente

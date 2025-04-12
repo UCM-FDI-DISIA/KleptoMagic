@@ -13,10 +13,11 @@
 #include "../Class/Image.h"
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
+#include "../game/GhostComponent.h"
+#include "../Class/SlimeComponents.h"
 #include "../Class/TimerCountdown.h"
 #include "../Class/MinigameGeneratorComponent.h"
 #include "../Class/Minigame.h"
-#include "../Class/SlimeComponents.h"
 #include "../Class/UndeadArcherCMPS.h"
 
 //#include "../components/Health.h"
@@ -69,6 +70,12 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	_mngr->addComponent<SlimeMovementComponent>(slime);
 	 bullet = new Bullet();
 
+	//Fantasma
+	_mngr->setHandler(ecs::hdlr::GHOST, ghost);
+	auto ghosttr = _mngr->addComponent<Transform>(ghost);
+	ghosttr->init(Vector2D(x + 100, 5 - 20), Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(ghost, &sdlutils().images().at("pacman"));
+	_mngr->addComponent<GhostComponent>(ghost);
 	//Archer
 
 	_mngr->addComponent<SlimeMovementComponent>(slime);*/
@@ -99,17 +106,23 @@ void RunningState::update() {
 		_timer.update();
 
 		if (NewInputHandler::Instance()->isActionHeld(Action::ABILITY)) {
+#ifdef _DEBUG
 			std::cout << _timer.getTimeLeft() << std::endl;
+#endif
 		}
 
 		if (NewInputHandler::Instance()->isActionPressed(Action::INTERACT)) {
+#ifdef _DEBUG
 			std::cout << "Minigame creating" << std::endl;
+#endif
 			ChestQuality chestQuality = ChestQuality::COMMON;
 			MinigameGeneratorComponent _generatorA(&_timer, sdlutils().renderer());
 			Minigame* minigame = _generatorA.generateMinigame(chestQuality);
 
 			if (minigame) {
+#ifdef _DEBUG
 				std::cout << "Minigame created" << std::endl;
+#endif
 				minigame->start(); // Start the generated minigame
 				
 				auto now = std::chrono::steady_clock::now();
@@ -275,7 +288,9 @@ void RunningState::enter()
 	auto y = (sdlutils().height() - s) / 2.0f;
 	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
 	std::string selectedCharacter = game().getSelectedCharacter();
+#ifdef _DEBUG
 	std::cout << "Personaje seleccionado: " << selectedCharacter << std::endl;
+#endif
 	if (selectedCharacter.empty()) {
 		selectedCharacter = "ALCHEMIST"; // Valor por defecto si no se ha seleccionado nada
 	}

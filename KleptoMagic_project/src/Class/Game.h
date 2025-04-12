@@ -130,12 +130,16 @@ public:
 	SDL_Renderer* getRenderer() const { return renderer; }
 
 	void setSelectedCharacter(std::string character) {
+#ifdef _DEBUG
 		std::cout << "Guardando personaje: " << character << std::endl;
+#endif
 		selectedCharacter = character;
 	}
 
 	std::string getSelectedCharacter() {
+#ifdef _DEBUG
 		std::cout << "Recuperando personaje: " << selectedCharacter << std::endl;
+#endif
 		return selectedCharacter;
 	}
 

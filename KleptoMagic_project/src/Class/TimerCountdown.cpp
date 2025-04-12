@@ -1,10 +1,8 @@
 #include "TimerCountdown.h"
+#include "../ecs/Manager.h"
 
-TimerCountdown::TimerCountdown(int duration) : totalDuration(std::chrono::seconds(duration)), elapsed(0), timeMultiplier(1.0f), paused(false) {}
-
-void TimerCountdown::start() {
-    startTime = std::chrono::steady_clock::now();
-}
+TimerCountdown::TimerCountdown(int duration) 
+    : totalDuration(std::chrono::seconds(duration)), elapsed(0), timeMultiplier(1.0f), paused(false) {}
 
 void TimerCountdown::update() {
     if (!paused) {
@@ -14,6 +12,10 @@ void TimerCountdown::update() {
             // Script to activate boss? Trap? Idk
         }
     }
+}
+
+void TimerCountdown::start() {
+    startTime = std::chrono::steady_clock::now();
 }
 
 void TimerCountdown::addTime(int seconds) {
