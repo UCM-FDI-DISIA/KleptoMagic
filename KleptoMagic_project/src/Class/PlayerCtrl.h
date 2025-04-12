@@ -4,7 +4,7 @@
 #include "../ecs/Component.h"
 #include "Transform.h"
 #include "TileCollisionChecker.h"
-#include "Bullet.h"
+#include "BulletUtils.h"
 #include "../ecs/Entity.h"
 #include "../ecs/Manager.h"
 

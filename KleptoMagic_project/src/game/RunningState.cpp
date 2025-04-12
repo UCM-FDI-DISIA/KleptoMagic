@@ -13,10 +13,11 @@
 #include "../Class/Image.h"
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
+#include "../game/GhostComponent.h"
+#include "../Class/SlimeComponents.h"
 #include "../Class/TimerCountdown.h"
 #include "../Class/MinigameGeneratorComponent.h"
 #include "../Class/Minigame.h"
-#include "../Class/SlimeComponents.h"
 #include "../Class/UndeadArcherCMPS.h"
 
 //#include "../components/Health.h"
@@ -69,6 +70,12 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	_mngr->addComponent<SlimeMovementComponent>(slime);
 	 bullet = new Bullet();
 
+	//Fantasma
+	_mngr->setHandler(ecs::hdlr::GHOST, ghost);
+	auto ghosttr = _mngr->addComponent<Transform>(ghost);
+	ghosttr->init(Vector2D(x + 100, 5 - 20), Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(ghost, &sdlutils().images().at("pacman"));
+	_mngr->addComponent<GhostComponent>(ghost);
 	//Archer
 
 	_mngr->addComponent<SlimeMovementComponent>(slime);*/
@@ -148,9 +155,10 @@ void RunningState::update() {
 		// update the event handler
 		NewInputHandler::Instance()->update();
 
-		// update fighter and asteroids here
+		// update
 		_mngr->update();
 		_mngr->refresh();
+		bullet->update();
 
 		// checking collisions
 		colission_thisframe = false;
@@ -292,11 +300,13 @@ void RunningState::enter()
 	tilechecker->init(false, tr, dungeonfloor);
 	tr->initTileChecker(tilechecker);
 	auto movethroughrooms = _mngr->addComponent<MoveThroughRooms>(player);
-	movethroughrooms->init(dungeonfloor);
+	bullet = new BulletUtils();
+	//bullet->addComponent(0);
+	bullet->setDungeonFloor(dungeonfloor);
+	movethroughrooms->init(dungeonfloor,bullet);
 	movethroughrooms->enterRoom(' ');
 
-	bullet = new Bullet();
-	bullet->addComponent(0);
+	
 
 	/*
 	enemyutils().spawn_enemy(ENEMY_SLIME, Vector2D{ 100.0f, 100.0f });

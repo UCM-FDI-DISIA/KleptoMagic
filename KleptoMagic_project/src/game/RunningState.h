@@ -9,7 +9,7 @@
 #include "../Class/Game.h"
 #include "../map/RoomStorage.h"
 #include "../map/DungeonFloor.h"
-#include "../Class/Bullet.h"
+#include "../Class/BulletUtils.h"
 
 #include <chrono>
 
@@ -20,11 +20,12 @@ class RunningState : virtual public GameState {
 public:
 	RunningState(Manager* mgr);
 	~RunningState();
+	BulletUtils* getBulletUtils() {return bullet;}
 	void update() override;
 private:
 	void checkCollisions();
 	Manager* _mngr;
-	Bullet* bullet;
+	BulletUtils* bullet;
 	VirtualTimer asteroidSpawnTimer;
 	const int asteroidSpawnCDms = 5000;
 

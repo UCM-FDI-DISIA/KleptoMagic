@@ -25,7 +25,7 @@
     <ClCompile Include="src\Class\MoveThroughRooms.cpp" />
     <ClCompile Include="src\Class\HomingComponent.cpp" />
     <ClCompile Include="src\Class\DestroyOnBorder.cpp" />
-    <ClCompile Include="src\Class\Bullet.cpp" />
+    <ClCompile Include="src\Class\BulletUtils.cpp" />
     <ClCompile Include="src\Class\BulletStats.cpp" />
     <ClCompile Include="src\Class\Button.cpp" />
     <ClCompile Include="src\Class\DummyState.cpp" />
@@ -91,7 +91,7 @@
     <ClInclude Include="src\Class\MoveThroughRooms.h" />
     <ClInclude Include="src\Class\HomingComponent.h" />
     <ClInclude Include="src\Class\DestroyOnBorder.h" />
-    <ClInclude Include="src\Class\Bullet.h" />
+    <ClInclude Include="src\Class\BulletUtils.h" />
     <ClInclude Include="src\Class\BulletStats.h" />
     <ClInclude Include="src\Class\Button.h" />
     <ClInclude Include="src\Class\DummyState.h" />
