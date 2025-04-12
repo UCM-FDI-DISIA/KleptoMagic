@@ -15,7 +15,7 @@ PausedState::~PausedState() {
 void PausedState::enter() {
 	sdlutils().virtualTimer().pause();
 	// Cargar el fondo
-	background = new Texture(sdlutils().renderer(), "resources/images/pausemenu-provisional.png");
+	background = new Texture(sdlutils().renderer(), "resources/images/pauseMenu.png");
 
 	// Provisional
 	/*pressAnyKey = new Texture(sdlutils().renderer(),
