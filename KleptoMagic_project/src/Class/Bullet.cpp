@@ -93,7 +93,8 @@ void Bullet::shoot()
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
 	stats->refreshStats(bulStat->getSpeed(),bulStat->getDamage(),bulStat->getDistance(),bulStat->getSize(),bulStat->getPiercing());
 	Vector2D vel = (PosRat - Vector2D(_tr->getPos().getX()+(_tr->getWidth()/2), _tr->getPos().getY()+(_tr->getHeight()/2))).normalize() * stats->getSpeed();
-	float rot = vel.normalize().angle(Vector2D(1, 0));
+	float rot = -vel.normalize().angle(Vector2D(0, -1));
+	std::cout << rot<<'\n';
 	auto _bulletsTR = _mngr->addComponent<Transform>(_bullets);
 	_bulletsTR->init(Vector2D(_tr->getPos().getX() + _tr->getWidth() / 2, _tr->getPos().getY() + _tr->getHeight() / 2)-Vector2D(stats->getSize()/2,stats->getSize()/2), vel, stats->getSize(), stats->getSize(), rot);
 	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1);
