@@ -4,6 +4,7 @@
 #include "GameState.h"
 #include "../sdlutils/Texture.h"
 #include "../Class/Game.h"
+#include "../Class/Button.h"
 
 class PausedState : virtual public GameState {
 public:
@@ -13,9 +14,12 @@ public:
 	void update() override;
 	void leave() override;
 private:
-	Texture* pressAnyKey;
+	//Texture* pressAnyKey;
 	float x0, y0;
+	float titleWidth, titleHeight;
 	Texture* background;
-	Texture* titule;
-	float x1, y1;
+	Texture* title;
+
+	Button* resumeButton;
+	Texture* resumeTexture;
 };

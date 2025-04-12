@@ -15,26 +15,31 @@ PausedState::~PausedState() {
 void PausedState::enter() {
 	sdlutils().virtualTimer().pause();
 	// Cargar el fondo
-	background = new Texture(sdlutils().renderer(), "resources/images/pausemenu-provisional.png");
+	background = new Texture(sdlutils().renderer(), "resources/images/pauseMenu.png");
 
-	// Provisional
-	pressAnyKey = new Texture(sdlutils().renderer(),
-		"Press any key to resume the game",
-		sdlutils().fonts().at("ARIAL24"),
-		build_sdlcolor(0x112233ff),
-		build_sdlcolor(0xffffffff));
+	// Cargar imagen de titulo
+	title = new Texture(sdlutils().renderer(), "resources/images/pause.png");
 
-	x0 = (sdlutils().width() - pressAnyKey->width()) / 2;
-	y0 = (sdlutils().height() - pressAnyKey->height()) / 2;
+	// Escalado al tamaño del boton
+	titleWidth = title->width() / 2;
+	titleHeight = title->height() / 2;
 
-	titule = new Texture(sdlutils().renderer(),
-		"PAUSE",
-		sdlutils().fonts().at("ARIAL48"),
-		build_sdlcolor(0x112233ff),
-		build_sdlcolor(0xffffffff));
+	// Centrado horizontal y arriba con margen
+	x0 = (sdlutils().width() - titleWidth) / 2;
+	y0 = sdlutils().height() * 0.2f - 120; 
 
-	x1 = (sdlutils().width() - titule->width()) / 2;
-	y1 = titule->height();
+	// Crear el boton Resume
+	resumeTexture = new Texture(sdlutils().renderer(), "resources/images/resume.png");
+
+	float btnWidth = resumeTexture->width() / 4;
+	float btnHeight = resumeTexture->height() / 4;
+
+	float playBtnX = (sdlutils().width() - btnWidth) / 2;
+	float playBtnY = (sdlutils().height() - btnHeight) / 2 + 100;
+
+	resumeButton = new Button([this]() {
+		game().setState(Game::RUNNING);
+		}, Vector2D(playBtnX, playBtnY), Vector2D(btnWidth, btnHeight), resumeTexture, "button");
 }
 
 void PausedState::leave() {
@@ -53,14 +58,20 @@ void PausedState::update() {
 	while (!exit) {
 		Uint32 startTime = sdlutils().currRealTime();
 
-		// update the event handler
+		/*while (SDL_PollEvent(&event)) {
+			if (event.type == SDL_QUIT) {
+				exit = true;
+				game().quit();
+			}
+			resumeButton->handleEvent(event);
+		}*/
+
 		NewInputHandler::Instance()->update();
 
-		// enter RunningState when any key is down
-		if (NewInputHandler::Instance()->isAnyKeyPressed()) {
-			//here
-			game().setState(Game::RUNNING);
-			exit = true;
+		resumeButton->update(); // Detecta si fue presionado
+
+		if (resumeButton->isPressed()) {
+			exit = true; // Salimos del estado pausado
 		}
 
 		// clear screen
@@ -69,9 +80,9 @@ void PausedState::update() {
 		// Render background picture
 		background->render({ 0, 0, sdlutils().width(), sdlutils().height() });
 
-		// render Press Any Key
-		pressAnyKey->render(x0, y0);
-		titule->render(x1, y1);
+		SDL_Rect dest = { static_cast<int>(x0), static_cast<int>(y0), static_cast<int>(titleWidth), static_cast<int>(titleHeight) };
+		title->render(dest);
+		resumeButton->render();
 
 		// present new frame
 		sdlutils().presentRenderer();
