@@ -38,6 +38,11 @@ void Bullet::render()
 
 void Bullet::reset()
 {
+	auto* mngr = game().getMngr();
+	for (auto bull : mngr->getEntities(ecs::grp::BULLET))
+	{
+		mngr->setAlive(bull, false);
+	}
 }
 
 void Bullet::hit(int index)
