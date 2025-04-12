@@ -16,9 +16,9 @@ public:
 private:
 	//Texture* pressAnyKey;
 	float x0, y0;
+	float titleWidth, titleHeight;
 	Texture* background;
-	Texture* titule;
-	float x1, y1;
+	Texture* title;
 
 	Button* resumeButton;
 	Texture* resumeTexture;
