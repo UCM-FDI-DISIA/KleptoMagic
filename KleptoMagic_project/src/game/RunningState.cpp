@@ -16,8 +16,7 @@
 #include "../game/GhostComponent.h"
 #include "../Class/SlimeComponents.h"
 #include "../Class/TimerCountdown.h"
-#include "../Class/MinigameGeneratorComponent.h"
-#include "../Class/Minigame.h"
+#include "../Class/TimerRenderer.h"
 #include "../Class/UndeadArcherCMPS.h"
 
 //#include "../components/Health.h"
@@ -95,6 +94,7 @@ void RunningState::update() {
 
 	TimerCountdown _timer(300);
 	_timer.start();
+	TimerRenderer _timerRndr(&_timer, sdlutils().renderer());
 
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
@@ -112,33 +112,7 @@ void RunningState::update() {
 		}
 
 		if (NewInputHandler::Instance()->isActionPressed(Action::INTERACT)) {
-#ifdef _DEBUG
-			std::cout << "Minigame creating" << std::endl;
-#endif
-			ChestQuality chestQuality = ChestQuality::COMMON;
-			MinigameGeneratorComponent _generatorA(&_timer, sdlutils().renderer());
-			Minigame* minigame = _generatorA.generateMinigame(chestQuality);
 
-			if (minigame) {
-#ifdef _DEBUG
-				std::cout << "Minigame created" << std::endl;
-#endif
-				minigame->start(); // Start the generated minigame
-				
-				auto now = std::chrono::steady_clock::now();
-				startTimeDelta = now;
-
-				while (minigame->running) {
-					auto now = std::chrono::steady_clock::now();
-					auto DeltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - startTimeDelta).count();
-					_timer.update();
-					//std::cout << _timer.getTimeLeft() << std::endl;
-					NewInputHandler::Instance()->update();
-					minigame->minigameLogic(DeltaTime);
-					startTimeDelta = now;
-				}
-				minigame->minigameLogic(DeltaTime);
-			}
 		}
 
 		if (NewInputHandler::Instance()->isActionPressed(Action::PAUSE)) {
@@ -200,6 +174,8 @@ void RunningState::update() {
 
 		// render
 		_mngr->render();
+
+		_timerRndr.render(sdlutils().renderer(), _timer.getTimeLeft());
 
 		// present new frame
 		sdlutils().presentRenderer();

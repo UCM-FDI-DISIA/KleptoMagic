@@ -29,6 +29,7 @@
     <ClCompile Include="src\Class\Minigame.cpp" />
     <ClCompile Include="src\Class\MinigameGeneratorComponent.cpp" />
     <ClCompile Include="src\Class\TimerCountdown.cpp" />
+    <ClCompile Include="src\Class\TimerRenderer.cpp" />
     <ClCompile Include="src\Class\Enemy.cpp" />
     <ClCompile Include="src\Class\EventHandler.cpp" />
     <ClCompile Include="src\Class\MovementCtrl.cpp" />
@@ -97,6 +98,7 @@
     <ClInclude Include="src\Class\Minigame.h" />
     <ClInclude Include="src\Class\MinigameGeneratorComponent.h" />
     <ClInclude Include="src\Class\TimerCountdown.h" />
+    <ClInclude Include="src\Class\TimerRenderer.h" />
     <ClInclude Include="src\Class\Transform.h" />
     <ClInclude Include="src\ecs\Component.h" />
     <ClInclude Include="src\ecs\ecs.h" />

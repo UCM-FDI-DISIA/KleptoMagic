@@ -53,6 +53,7 @@
     <ClCompile Include="src\Class\MinigameGeneratorComponent.cpp" />
     <ClCompile Include="src\Class\TileCollisionChecker.cpp" />
     <ClCompile Include="src\Class\TimerCountdown.cpp" />
+    <ClCompile Include="src\Class\TimerRenderer.cpp" />
     <ClCompile Include="src\Class\Transform.cpp" />
     <ClCompile Include="src\Class\UndeadArcherCMPS.cpp" />
     <ClCompile Include="src\ecs\Manager.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="src\Class\MinigameGeneratorComponent.h" />
     <ClInclude Include="src\Class\TileCollisionChecker.h" />
     <ClInclude Include="src\Class\TimerCountdown.h" />
+    <ClInclude Include="src\Class\TimerRenderer.h" />
     <ClInclude Include="src\Class\Transform.h" />
     <ClInclude Include="src\Class\UndeadArcherCMPS.h" />
     <ClInclude Include="src\ecs\Component.h" />
