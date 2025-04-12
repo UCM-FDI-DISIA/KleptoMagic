@@ -1,8 +1,8 @@
-#include "Bullet.h"
+#include "BulletUtils.h"
 
 
 
-Bullet::Bullet()
+BulletUtils::BulletUtils()
 {
 	_tim = new VirtualTimer();
 	for(int i=0;i<componentes.size();i++)
@@ -13,12 +13,12 @@ Bullet::Bullet()
 	attSpeedCapFlat= bulStat->Created(player);
 }
 
-Bullet::~Bullet()
+BulletUtils::~BulletUtils()
 {
 	
 }
 
-void Bullet::update()
+void BulletUtils::update()
 {
 	auto* mngr = game().getMngr();
 	for (auto bull : mngr->getEntities(ecs::grp::BULLET))
@@ -32,11 +32,11 @@ void Bullet::update()
 	}
 }
 
-void Bullet::render()
+void BulletUtils::render()
 {
 }
 
-void Bullet::reset()
+void BulletUtils::reset()
 {
 	auto* mngr = game().getMngr();
 	for (auto bull : mngr->getEntities(ecs::grp::BULLET))
@@ -45,11 +45,11 @@ void Bullet::reset()
 	}
 }
 
-void Bullet::hit(int index)
+void BulletUtils::hit(int index)
 {
 }
 
-void Bullet::pressed()
+void BulletUtils::pressed()
 {
 	
 	if (_tim->currRealTime() > attSpeedCapFlat*attSpeedCapMul) {
@@ -57,7 +57,7 @@ void Bullet::pressed()
 	}
 }
 
-void Bullet::collided(ecs::entity_t e)
+void BulletUtils::collided(ecs::entity_t e)
 {
 	auto* mngr = game().getMngr();
 	auto bullStat = mngr->getComponent<BulletStats>(e);
@@ -67,12 +67,12 @@ void Bullet::collided(ecs::entity_t e)
 	}
 }
 
-void Bullet::addComponent(int i)
+void BulletUtils::addComponent(int i)
 {
 	componentes[i] = true;
 }
 
-void Bullet::checkComponent(int i, ecs::entity_t bullet)
+void BulletUtils::checkComponent(int i, ecs::entity_t bullet)
 {
 	auto* _mngr = game().getMngr();
 	if(i==0)
@@ -83,7 +83,7 @@ void Bullet::checkComponent(int i, ecs::entity_t bullet)
 
 
 
-void Bullet::shoot()
+void BulletUtils::shoot()
 {
 	auto* _mngr = game().getMngr();
 

@@ -300,12 +300,13 @@ void RunningState::enter()
 	tilechecker->init(false, tr, dungeonfloor);
 	tr->initTileChecker(tilechecker);
 	auto movethroughrooms = _mngr->addComponent<MoveThroughRooms>(player);
-	movethroughrooms->init(dungeonfloor);
-	movethroughrooms->enterRoom(' ');
-
-	bullet = new Bullet();
+	bullet = new BulletUtils();
 	//bullet->addComponent(0);
 	bullet->setDungeonFloor(dungeonfloor);
+	movethroughrooms->init(dungeonfloor,bullet);
+	movethroughrooms->enterRoom(' ');
+
+	
 
 	/*
 	enemyutils().spawn_enemy(ENEMY_SLIME, Vector2D{ 100.0f, 100.0f });

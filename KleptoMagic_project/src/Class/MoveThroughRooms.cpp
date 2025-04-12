@@ -1,14 +1,16 @@
 #include "MoveThroughRooms.h"
 #include "../game/EnemyUtils.h"
-
+#include "../Class/BulletUtils.h"
 void MoveThroughRooms::initComponent() { //falta get entity stats speed
 	auto* _mngr = _ent->getMngr();
 	_tr = _mngr->getComponent<Transform>(_ent);
 	assert(_tr != nullptr);
+	
 }
 
-void MoveThroughRooms::init(DungeonFloor* floor) {
+void MoveThroughRooms::init(DungeonFloor* floor, BulletUtils* bull) {
 	_dungeonfloor = floor;
+	bullet = bull;
 }
 
 void MoveThroughRooms::enterRoom(char exit) {
@@ -31,6 +33,7 @@ void MoveThroughRooms::update() {
 	char result = _dungeonfloor->checkEnterExit(xPostMove, yPostMove);
 
 	if (result != ' ') {
+		bullet->reset();
 		enterRoom(result);
 	}
 }

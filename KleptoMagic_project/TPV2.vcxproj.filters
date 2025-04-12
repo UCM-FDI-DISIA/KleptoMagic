@@ -49,7 +49,7 @@
     <ClCompile Include="src\game\GhostComponent.cpp" />
     <ClCompile Include="src\Class\PlayerCtrl.cpp" />
     <ClCompile Include="src\Class\ImageWithFrames.cpp" />
-    <ClCompile Include="src\Class\Bullet.cpp" />
+    <ClCompile Include="src\Class\BulletUtils.cpp" />
     <ClCompile Include="src\Class\BulletStats.cpp" />
     <ClCompile Include="src\Class\DestroyOnBorder.cpp" />
     <ClCompile Include="src\map\DungeonFloor.cpp" />
@@ -71,7 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Class\DestroyOnBorder.h" />
-    <ClInclude Include="src\Class\Bullet.h" />
+    <ClInclude Include="src\Class\BulletUtils.h" />
     <ClInclude Include="src\Class\BulletStats.h" />
     <ClInclude Include="src\Class\Button.h" />
     <ClInclude Include="src\Class\DummyState.h" />

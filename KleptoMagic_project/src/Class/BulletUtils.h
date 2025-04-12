@@ -13,12 +13,12 @@
 #include "HomingComponent.h"
 #include "../map/DungeonFloor.h"
 #include "../Class/TileCollisionChecker.h"
-class Bullet 
+class BulletUtils 
 {
 public:
 	
-	Bullet();
-	~Bullet();
+	BulletUtils();
+	~BulletUtils();
 	
 	
 	void update();
