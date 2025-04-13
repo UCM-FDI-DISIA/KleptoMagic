@@ -10,7 +10,8 @@ class DungeonFloor;
 enum EnemyNames {
 	ENEMY_SLIME = 0,
 	ENEMY_ARCHER = 1,
-	ENEMY_ARMOR = 2
+	ENEMY_ARMOR = 2, 
+	ENEMY_BOSS = 3
 };
 
 using namespace ecs;
