@@ -66,6 +66,7 @@
     <ClCompile Include="src\game\EnemyFacade.cpp" />
     <ClCompile Include="src\game\EnemyUtils.cpp" />
     <ClCompile Include="src\Class\LivingArmorCMP.cpp" />
+    <ClCompile Include="src\Class\BossCMP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
@@ -151,6 +152,7 @@
     <ClInclude Include="src\game\EnemyFacade.h" />
     <ClInclude Include="src\game\EnemyUtils.h" />
     <ClInclude Include="src\Class\LivingArmorCMP.h" />
+    <ClInclude Include="src\Class\BossCMP.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
