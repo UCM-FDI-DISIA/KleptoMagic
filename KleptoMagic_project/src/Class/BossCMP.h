@@ -23,7 +23,7 @@ namespace ecs
 			_BossTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 		}
-		void CreateVector(Vector2D playerPos, Vector2D enemyPos) {
+		float CreateVector(Vector2D playerPos, Vector2D enemyPos) {
 			// Calculamos el vector dirección
 			direcionX = playerPos.getX() - enemyPos.getX();
 			direcionY = playerPos.getY() - enemyPos.getY();
@@ -36,6 +36,8 @@ namespace ecs
 				direcionX /= magnitude;  // Normalizamos X
 				direcionY /= magnitude;  // Normalizamos Y
 			}
+
+			return magnitude;
 		}
 	};
 
@@ -74,21 +76,26 @@ namespace ecs
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 		}
 
-		void Move()
-
+		
+		void Teleport() 
 		{
-			auto vector = static_cast<BossVectorComponent*>(_ent->getMngr()->getComponent<BossVectorComponent>(_ent));
-			auto stat = static_cast<BossStatComponent*>(_ent->getMngr()->getComponent<BossStatComponent>(_ent));
+			if (_BossTransform) {
+				// Generar una nueva posición alejada de la actual
+				float newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100); // Alejarse entre -100 y 100 unidades en X
+				float newY = _BossTransform->getPos().getY() + (std::rand() % 200 - 100); // Alejarse entre -100 y 100 unidades en Y
 
-			if (vector && stat && _BossTransform)
-			{
-				vector->CreateVector(_player->getPos(), _BossTransform->getPos());
-				Vector2D velocity(vector->direcionX * 0.5, vector->direcionY * 0.5);
-				_BossTransform->getVel() = velocity;
+				// Asegurarse de que la nueva posición esté suficientemente alejada
+				while (std::sqrt((newX - _BossTransform->getPos().getX()) * (newX - _BossTransform->getPos().getX()) +
+					(newY - _BossTransform->getPos().getY()) * (newY - _BossTransform->getPos().getY())) < 100) {
+					newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100);
+					newY = _BossTransform->getPos().getY() + (std::rand() % 200 - 100);
+				}
+
+				// Asignar la nueva posición al Transform del enemigo
+				_BossTransform->getPos().set(newX, newY);
 			}
-
-
 		}
+
 	};
 
 	class BossAttackComponent : public Component
@@ -100,6 +107,7 @@ namespace ecs
 		float attackCooldown;
 		std::chrono::steady_clock::time_point lastAttackTime = std::chrono::steady_clock::now();
 		double attackRange;
+		float teleportCooldown = 5.0f;
 		__CMPID_DECL__(ecs::cmp::BOSSATKCMP);
 		void initComponent() override
 		{
@@ -117,9 +125,9 @@ namespace ecs
 			auto now = std::chrono::steady_clock::now();
 			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
 
-			vector->CreateVector(_player->getPos(), _BossTransform->getPos());
+			float distance = vector->CreateVector(_player->getPos(), _BossTransform->getPos());
 			Vector2D attackdirection(vector->direcionX * 1, vector->direcionY * 1);
-			attackRange = vector->magnitude;
+			attackRange = distance;
 
 			if (elapsedTime >= 10 && attackRange <= 200)
 			{
@@ -128,9 +136,9 @@ namespace ecs
 				lastAttackTime = now;
 				_BossTransform->getVel() = _BossTransform->getVel() * 0;
 			}
-			if (attackRange > 200)
+			if (attackRange < 100)
 			{
-				movement->Move();
+				movement->Teleport();
 			}
 
 		}
