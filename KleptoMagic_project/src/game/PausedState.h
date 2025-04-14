@@ -22,4 +22,7 @@ private:
 
 	Button* resumeButton;
 	Texture* resumeTexture;
+
+	Button* homeButton;
+	Texture* homeTexture;
 };
