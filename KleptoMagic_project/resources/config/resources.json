@@ -27,6 +27,10 @@
             "id": "sprites",
             "file": "resources/images/pacman_sprites.png"
         },
+		{
+            "id": "tileset",
+            "file": "resources/images/tileset.png"
+        },
         {
             "id": "ROGUE",
             "file": "resources/images/rogue.png"
