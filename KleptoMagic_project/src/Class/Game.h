@@ -44,15 +44,6 @@ class Game : public Singleton<Game>
 	friend Singleton<Game>;
 
 public:
-	// Identificadores de las texturas
-	enum TextureName {
-		ENDMENUBACKGROUND,
-		ENDMENUBUTTON,
-		PLAYER,
-		NUM_TEXTURES
-	};
-	//Texture* getTexture(TextureName name) const;
-
 	enum State {
 		RUNNING, PAUSED, NEWGAME, NEWROUND, GAMEOVER
 	};
@@ -157,8 +148,7 @@ private:
 	GameState* _newgame_state;
 	GameState* _newround_state;
 	GameState* _gameover_state;
-	// Array con todas las texturas del juego
-	std::array<Texture*, NUM_TEXTURES> textures;
+
 	// Interruptor para terminar el juego
 	bool exit;
 

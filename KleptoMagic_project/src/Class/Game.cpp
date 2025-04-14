@@ -21,24 +21,6 @@
 
 using namespace std;
 
-// Formato de la especificación de una textura
-struct TextureSpec
-{
-	const char* name;	// Ruta del archivo
-	uint numColumns;	// Número de frames por fila
-	uint numRows;		// Número de frames por columna
-};
-
-// Directorio raíz de los archivos de textura
-const string textureRoot = "../KleptoMagic_project/resources/images/";
-
-// Especificación de las texturas del juego
-const array<TextureSpec, Game::NUM_TEXTURES> textureSpec{
-	TextureSpec{"endmenu-provisional.png", 1, 1},
-	TextureSpec{"return-button.png", 1, 1},
-	TextureSpec{"player_placeholder.png",1,1}
-};
-
 Game::Game() : exit(false), _mngr(nullptr), _state(nullptr){}
 
 bool Game::init() {
@@ -53,79 +35,21 @@ bool Game::init() {
 	}
 
 	return true;
-
-	/*
-	// Inicializa la SDL
-	SDL_Init(SDL_INIT_EVERYTHING);
-	window = SDL_CreateWindow("First test with SDL",
-		SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
-		WIN_WIDTH,
-		WIN_HEIGHT,
-		SDL_WINDOW_SHOWN);
-
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
-	if (window == nullptr || renderer == nullptr)
-		throw "Error cargando SDL"s;
-
-
-
-
-	// Carga las texturas
-	/*for (int i = 0; i < NUM_TEXTURES; ++i)
-		textures[i] = new Texture(renderer,
-			(textureRoot + textureSpec[i].name).c_str()); * /
-	for (int i = 0; i < NUM_TEXTURES; ++i) {
-		std::string texturePath = textureRoot + textureSpec[i].name;
-#ifdef _DEBUG
-		std::cout << "Cargando textura: " << texturePath << std::endl;
-#endif
-		textures[i] = new Texture(renderer, texturePath);
-		if (textures[i] == nullptr) {
-#ifdef _DEBUG
-			std::cerr << "Error: No se pudo cargar la textura " << texturePath << std::endl;
-#endif
-		}
-	}
-
-
-	//dummy = new DummyState();
-	//GameStateMachine::pushState(dummy);
-	// Creación de playstates
-	playstate = new PlayState(this); //se fue a su metodo propio
-
-	_inputManager = new InputManager();
-	mainmenu = new MainMenuState(this, textures[Game::MAINMENUBACKGROUND]);
-	GameStateMachine::pushState(mainmenu);
-	//GameStateMachine::pushState(playstate);
-
-	//mainmenu = new MainMenuState(this, textures[Game::BACKGROUND]);
-	//GameStateMachine::pushState(mainmenu);
-	GameStateMachine::pushState(playstate);
-	*/
 }
 
 bool Game::initGame() {
 	_mngr = new Manager();
-
-	//if (!AsteroidsUtils::Init(_mngr)) {
-	//	std::cerr << "Error inicializando AsteroidsUtils" << std::endl;
-	//	return false;
-	//}
 
 	if (!EnemyUtils::Init(_mngr)) {
 		std::cerr << "Error initializing EnemyUtils" << std::endl;
 		return false;
 	}
 
-	_running_state = new RunningState(_mngr);
-	_gameover_state = new GameOverState();
 	_newgame_state = new NewGameState();
 	_newround_state = new NewRoundState();
+	_running_state = new RunningState(/*_mngr*/);
 	_paused_state = new PausedState();
-	//fighterutils().create_fighter();
-	//asteroidsutils().create_asteroids(10);
+	_gameover_state = new GameOverState();
 
 	_state = _newgame_state;
 
@@ -138,10 +62,6 @@ bool Game::initGame() {
 
 Game::~Game() {
 	delete _mngr;
-
-	// release InputHandler if the instance was created correctly.
-	//if (InputHandler::HasInstance())
-	//	InputHandler::Release();
 
 	// release SLDUtil if the instance was created correctly.
 	if (SDLUtils::HasInstance())
@@ -168,18 +88,6 @@ void Game::start() {
 		NewInputHandler::Instance()->update();
 		//ihdlr.refresh();
 
-/*
-		//SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
-
-		SDL_Event evento;
-		GameStateMachine::handleEvent(evento);
-		while (SDL_PollEvent(&evento)) {
-			if (evento.type == SDL_QUIT)
-				exit = true;
-			else {
-				GameStateMachine::handleEvent(evento);
-			}
-*/
 		if (NewInputHandler::Instance()->isActionPressed(Action::SHOOT)) {
 			exit = true;
 			continue;
