@@ -1,8 +1,5 @@
 #include "RunningState.h"
-
-#include "FighterUtils.h"
-#include "AsteroidsUtils.h"
-
+#include "../game/PausedState.h"
 #include "EnemyUtils.h"
 #include "../utils/Collisions.h"
 #include "../sdlutils/SDLUtils.h"
@@ -67,7 +64,7 @@ void RunningState::update() {
 		}
 
 		if (NewInputHandler::Instance()->isActionPressed(Action::PAUSE)) {
-			game().setState(Game::PAUSED);
+			game().pushState(new PausedState());
 			exit = true;
 		}
 		

@@ -21,7 +21,7 @@
 
 using namespace std;
 
-Game::Game() : exit(false), _mngr(nullptr), _state(nullptr){}
+Game::Game() : exit(false), _mngr(nullptr) {}
 
 bool Game::init() {
 	if (!SDLUtils::Init("KleptoMagic", 800, 600, "resources/config/resources.json")) {
@@ -45,13 +45,7 @@ bool Game::initGame() {
 		return false;
 	}
 
-	_newgame_state = new NewGameState();
-	_newround_state = new NewRoundState();
-	_running_state = new RunningState(/*_mngr*/);
-	_paused_state = new PausedState();
-	_gameover_state = new GameOverState();
-
-	_state = _newgame_state;
+	setGameState(new NewGameState());
 
 	auto ginfo = _mngr->addEntity();
 	_mngr->setHandler(ecs::hdlr::GAMEINFO, ginfo);
@@ -97,8 +91,10 @@ void Game::start() {
 #endif
 
 
-		//std::cout << _state << std::endl;
-		_state->update();
+		if (!_stateStack.empty()) {
+			_stateStack.top()->update();
+		}
+
 #ifdef _DEBUG
 		std::cout << "Se ejecutó update()" << std::endl;
 #endif
@@ -106,6 +102,33 @@ void Game::start() {
 
 		Uint32 frameTime = sdlutils().currRealTime() - startTime;
 		if (frameTime < 10) SDL_Delay(10 - frameTime);
+	}
+}
+
+void Game::setGameState(GameState* state) {
+	if (!_stateStack.empty()) {
+		_stateStack.top()->leave();
+	}
+	_stateStack.push(state);
+	_stateStack.top()->enter();
+}
+
+void Game::pushState(GameState* state) {
+	if (!_stateStack.empty()) {
+		_stateStack.top()->leave();
+	}
+	_stateStack.push(state);
+	_stateStack.top()->enter();
+}
+
+void Game::popState() {
+	if (!_stateStack.empty()) {
+		_stateStack.top()->leave();
+		_stateStack.pop();
+	}
+
+	if (!_stateStack.empty()) {
+		_stateStack.top()->enter();
 	}
 }
 

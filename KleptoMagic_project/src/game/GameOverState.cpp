@@ -47,11 +47,11 @@ void GameOverState::update() {
 		NewInputHandler::Instance()->update();
 
 		// enter NewGameState when any key is down
-		if (NewInputHandler::Instance()->isAnyKeyPressed()) {
+		/*if (NewInputHandler::Instance()->isAnyKeyPressed()) {
 			//here
 			game().setState(Game::NEWGAME);
 			exit = true;
-		}
+		}*/
 
 		// clear screen
 		sdlutils().clearRenderer();
