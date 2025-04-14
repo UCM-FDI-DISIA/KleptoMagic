@@ -1,5 +1,5 @@
 #include "PausedState.h"
-
+#include "../game/NewGameState.h"
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/NewInputHandler.h"
 
@@ -39,10 +39,10 @@ void PausedState::enter() {
 	float playBtnY = (sdlutils().height() - btnHeight) / 2 + 50;
 
 	resumeButton = new Button([this]() {
-		game().setState(Game::RUNNING);
+		game().popState();
 		}, Vector2D(playBtnX, playBtnY), Vector2D(btnWidth, btnHeight), resumeTexture, "button");
 	homeButton = new Button([this]() {
-		game().setState(Game::NEWGAME);
+		game().setGameState(new NewGameState());
 		}, Vector2D(playBtnX, playBtnY + 100), Vector2D(btnWidth, btnHeight), homeTexture, "button");
 
 #ifdef _DEBUG
@@ -82,7 +82,7 @@ void PausedState::update() {
 		resumeButton->update(); // Detecta si fue presionado
 		homeButton->update();
 
-		if (resumeButton->isPressed() /* || homeButton->isPressed()*/) {
+		if (resumeButton->isPressed() || homeButton->isPressed()) {
 			exit = true; // Salimos del estado pausado
 		}
 
