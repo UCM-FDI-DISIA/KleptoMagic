@@ -23,11 +23,12 @@ private:
     int holeStart;                       // Starting position of the hole          ([Random] in between Vector Size)
     int holeSize;                        //                                        (Should be in between [15-25]% of Vector Size)
     int lockpickPosition;                // Current position of the lockpick
-    float frequency;                     // Speed of the lockpick's movement       (Should be [0.01] positions/sec)
+    float frequency;                     // Speed of the lockpick's movement       (Should be 1 positions/ [10.0] millisec)
     float elapsedTime;
     bool quitMinigame;                   // Giving up, no rewards
-    float lockpickSpeed;                 // 1 seconds for the lockpick to move upward
-    float waitInterval;                  // 2 second cooldown between attempts
+    float lockpickProgress;				 // Lockpick movement progress (0: bottom, 1: fully extended)
+    float lockpickSpeed;                 // 0.5 seconds for the lockpick to move upward
+    float waitInterval;                  // 1 second cooldown between attempts
 
     int calculatePenalty(int position);  // Calculates penalty based on the lockpicks's position in the hole
 

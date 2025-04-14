@@ -57,6 +57,31 @@ void BulletUtils::pressed()
 	}
 }
 
+void BulletUtils::enemyShoot(Transform* _enemyTR, int i)
+{
+	auto* _mngr = game().getMngr();
+	Transform* _tr = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+	
+	
+	auto _bullets = _mngr->addEntity(ecs::grp::BULLET);
+	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
+	stats->enemyStats(i);
+	Vector2D vel = Vector2D(_tr->getPos() - _enemyTR->getPos()).normalize()*stats->getSpeed();
+	float rot = -vel.normalize().angle(Vector2D(0, -1));
+	auto* _bulletsTR = _mngr->addComponent<Transform>(_bullets);
+	_bulletsTR->init(Vector2D(_enemyTR->getPos().getX() + _enemyTR->getWidth() / 2, _enemyTR->getPos().getY() + _enemyTR->getHeight() / 2) - Vector2D(stats->getSize() / 2, stats->getSize() / 2), vel, stats->getSize(), stats->getSize(), rot);
+	//la imagen debe de ser distinta para cada enemigo
+	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1);
+	_mngr->addComponent<DestroyOnBorder>(_bullets);
+	if (!stats->getPiercing())
+	{
+		auto tilechecker = _mngr->addComponent<TileCollisionChecker>(_bullets);
+		tilechecker->init(true, _bulletsTR, _dungeonfloor);
+		_bulletsTR->initTileChecker(tilechecker);
+	}
+
+}
+
 void BulletUtils::collided(ecs::entity_t e)
 {
 	auto* mngr = game().getMngr();

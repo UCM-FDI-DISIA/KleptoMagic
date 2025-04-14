@@ -74,18 +74,24 @@ namespace ecs
 		{
 			colision = true;
 		}
+
+		// Cada cierto tiempo ataca en la direcci�n en la que se mueve, generando un ataque 
 		void update() override
 		{
-			attackCooldown = 10;
+			auto* _mngr = _ent->getMngr();
+			auto stat = static_cast<ArmorStatComponent*>(_ent->getMngr()->getComponent<ArmorStatComponent>(_ent));
+			auto vector = static_cast<ArmorVectorComponent*>(_ent->getMngr()->getComponent<ArmorVectorComponent>(_ent));
+			auto armorTransform = _mngr->getComponent<Transform>(_ent);
+			// Verificar si ha pasado el tiempo de recarga
 			auto now = std::chrono::steady_clock::now();
-			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
-			if (elapsedTime >= attackCooldown && colision)
-			{
-				// Hacer da�o al jugador
-				//_player->getMngr()->getComponent<Health>(_player)->takeDamage(damage);
+			auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastAttackTime).count();
+			if (elapsedTime >= attackCooldown) {
+				// Realizar ataque
+				attackCooldown = 1000; // 1 segundo de cooldown
 				lastAttackTime = now;
 				colision = false;
 			}
+			
 		}
 	};
 

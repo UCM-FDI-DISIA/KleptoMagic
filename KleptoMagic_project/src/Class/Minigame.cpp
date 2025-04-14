@@ -6,8 +6,8 @@
 
 Minigame::Minigame(TimerCountdown& timer, SDL_Renderer* mainGameRenderer, int vectorSize, int holeStart, int holeSize, float frequency) :
 					gameTimer(timer), mainRenderer(mainGameRenderer), lockVector(vectorSize, -1 /*Wall*/),
-					holeStart(holeStart), holeSize(holeSize), lockpickPosition(0), frequency(frequency),
-					elapsedTime(0), running(false), quitMinigame(false), lockpickSpeed(0.1f), waitInterval(2.0f) {}
+					holeStart(holeStart), holeSize(holeSize), lockpickPosition(0), frequency(frequency),  //MinigameGenerator 
+					elapsedTime(0), running(false), quitMinigame(false), lockpickProgress(0.0f), lockpickSpeed(0.02f), waitInterval(1.0f) {}
 
 void Minigame::start() {
 	for (int i = 0; i < holeSize; ++i) {
@@ -35,36 +35,14 @@ void Minigame::minigameLogic(float deltaTime) {
 		end();
 	}
 	
-	static float lockpickProgress = 0;										   // Lockpick movement progress (0: bottom, 1: fully extended)
 	static bool movingUp = false;											   // Whether the lockpick is moving up
 	static bool waiting = false;											   // Whether we are waiting between tries
 	static float waitTimeElapsed = 0;										   // Timer for waiting interval
 
-	// Check if we're in a waiting period
-	if (waiting) {
-		waitTimeElapsed += deltaTime;
-		if (waitTimeElapsed >= waitInterval) {
-			waiting = false;
-			waitTimeElapsed = 0;
-		}
-	}
-
-	if (!waiting && !movingUp) {
-		if (NewInputHandler::Instance()->isActionPressed(Action::SHOOT)) {
-			movingUp = true;
-		}
-	}
-
-	if (NewInputHandler::Instance()->isActionPressed(Action::QUIT)) {
-		quitMinigame = true;
-		running = false;													   // End Minigame
-	}	
-
 	elapsedTime += deltaTime;
 
 	while (elapsedTime >= frequency) {
-		//elapsedTime -= frequency;
-		elapsedTime = 0;
+		elapsedTime += -frequency;
 		lockpickPosition = (lockpickPosition + 1) % lockVector.size();         // Advance lockpickPosition and loops it back if needed
 
 		if (movingUp) {
@@ -88,14 +66,34 @@ void Minigame::minigameLogic(float deltaTime) {
 			}
 		}
 
+		// Check if we're in a waiting period
+		if (waiting) {
+			waitTimeElapsed += lockpickSpeed;
+			if (waitTimeElapsed >= waitInterval) {
+				waiting = false;
+				waitTimeElapsed = 0;
+			}
+		}
+	}
+	
+	if (!waiting && !movingUp) {
+		if (NewInputHandler::Instance()->isActionPressed(Action::SHOOT)) {
+			movingUp = true;
+		}
+	}
+
+	if (NewInputHandler::Instance()->isActionPressed(Action::QUIT)) {
+		quitMinigame = true;
+		running = false;													   // End Minigame
+	}
 
 
 #ifdef _DEBUG
-		std::cout << "HoleStart: " << holeStart << std::endl;
-		std::cout << "Lockpick = " << lockpickPosition << std::endl;
+	std::cout << "HoleStart: " << holeStart << std::endl;
+	std::cout << "Lockpick = " << lockpickPosition << std::endl;
 #endif
-		render(mainRenderer, lockpickProgress);
-	}
+	
+	render(mainRenderer, lockpickProgress);
 }
 
 bool Minigame::attemptPick() {

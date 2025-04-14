@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Class\BossCMP.cpp" />
     <ClCompile Include="src\Class\LivingArmorCMP.cpp" />
     <ClCompile Include="src\game\EnemyFacade.cpp" />
     <ClCompile Include="src\game\EnemyUtils.cpp" />
@@ -53,6 +54,7 @@
     <ClCompile Include="src\Class\MinigameGeneratorComponent.cpp" />
     <ClCompile Include="src\Class\TileCollisionChecker.cpp" />
     <ClCompile Include="src\Class\TimerCountdown.cpp" />
+    <ClCompile Include="src\Class\TimerRenderer.cpp" />
     <ClCompile Include="src\Class\Transform.cpp" />
     <ClCompile Include="src\Class\UndeadArcherCMPS.cpp" />
     <ClCompile Include="src\ecs\Manager.cpp" />
@@ -85,6 +87,7 @@
     <ClCompile Include="SRC\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Class\BossCMP.h" />
     <ClInclude Include="src\Class\LivingArmorCMP.h" />
     <ClInclude Include="src\game\EnemyFacade.h" />
     <ClInclude Include="src\game\EnemyUtils.h" />
@@ -119,6 +122,7 @@
     <ClInclude Include="src\Class\MinigameGeneratorComponent.h" />
     <ClInclude Include="src\Class\TileCollisionChecker.h" />
     <ClInclude Include="src\Class\TimerCountdown.h" />
+    <ClInclude Include="src\Class\TimerRenderer.h" />
     <ClInclude Include="src\Class\Transform.h" />
     <ClInclude Include="src\Class\UndeadArcherCMPS.h" />
     <ClInclude Include="src\ecs\Component.h" />
