@@ -28,7 +28,7 @@ public:
 	void render(SDL_Renderer* renderer);
 
 	void render_basic(SDL_Renderer* renderer);
-	void render_advanced();
+	void render_advanced(SDL_Renderer* renderer);
 	void render_tile_with_context(int x, int y, SDL_Rect dstRect);
 
 	void setTile(int x, int y, TileType tiletype);
