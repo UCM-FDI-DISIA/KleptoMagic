@@ -26,6 +26,7 @@ public:
 	void reset();
 	void hit(int index);
 	void pressed();
+	void enemyShoot(Transform* enemyTR,int i);
 	void collided(ecs::entity_t e);
 	void addComponent(int i);
 	void checkComponent(int i, ecs::entity_t e);
