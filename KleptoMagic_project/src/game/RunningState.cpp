@@ -33,6 +33,15 @@ RunningState::RunningState(/*Manager* mgr) :_mngr(mgr*/) : _timer(300), minigame
 RunningState::~RunningState() {
 
 }
+bool RunningState::GMG(bool minigameActive) {
+	ChestQuality chestQuality = ChestQuality::COMMON;
+	MinigameGeneratorComponent _generatorA(&_timer, sdlutils().renderer());
+	minigame = _generatorA.generateMinigame(chestQuality);
+	minigame->start();
+	minigame->minigameLogic(deltaTime);
+	minigameActive = true;
+	return minigameActive;
+}
 
 void RunningState::update() {
 	
@@ -66,12 +75,7 @@ void RunningState::update() {
 
 		if (NewInputHandler::Instance()->isActionPressed(Action::INTERACT)) {
 			if (!minigameActive) {
-				ChestQuality chestQuality = ChestQuality::COMMON;
-				MinigameGeneratorComponent _generatorA(&_timer, sdlutils().renderer());
-				Minigame* minigame = _generatorA.generateMinigame(chestQuality);
-				minigame->start();
-				minigame->minigameLogic(deltaTime);
-				minigameActive = true;
+				minigameActive = GMG(minigameActive);
 			}
 		}
 
@@ -113,6 +117,14 @@ void RunningState::update() {
 
 		// render
 		game().getMngr()->render();
+
+		if (minigameActive) {
+			minigame->minigameLogic(deltaTime);
+			if (!minigame->running) {
+				minigame->minigameLogic(deltaTime);
+				minigameActive = false;
+			}
+		}
 
 		_timerRndr.render(sdlutils().renderer(), _timer.getTimeLeft());
 

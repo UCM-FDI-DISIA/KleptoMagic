@@ -21,6 +21,7 @@ class RunningState : virtual public GameState {
 public:
 	RunningState(/*Manager* mgr*/);
 	~RunningState();
+	bool GMG(bool minigameActive);
 	BulletUtils* getBulletUtils() {return bullet;}
 	void update() override;
 private:
