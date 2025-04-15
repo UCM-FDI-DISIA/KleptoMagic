@@ -13,6 +13,7 @@ public:
 	void initComponent() override;
 	void update();
 	float Created(std::string s);
+	void enemyStats(int i);
 	float getSpeed() { return speed*speedMul; }
 	float getDamage() { return damage*damageMul; }
 	float getDistance() { return distance*distanceMul; }

@@ -2,8 +2,9 @@
 #define TIMERCOUNTDOWN_H
 
 #include <chrono>
+#include "..\ecs\Component.h"
 
-class TimerCountdown {
+class TimerCountdown : public ecs::Component {
 public:
     TimerCountdown(int duration);                                   // Constructor to set initial time
     void start();                                                   // Start the timer

@@ -11,12 +11,14 @@
 #include "../Class/ImageWithFrames.h"
 #include "BulletStats.h"
 #include "HomingComponent.h"
-class Bullet 
+#include "../map/DungeonFloor.h"
+#include "../Class/TileCollisionChecker.h"
+class BulletUtils 
 {
 public:
 	
-	Bullet();
-	~Bullet();
+	BulletUtils();
+	~BulletUtils();
 	
 	
 	void update();
@@ -24,6 +26,7 @@ public:
 	void reset();
 	void hit(int index);
 	void pressed();
+	void enemyShoot(Transform* enemyTR,int i);
 	void collided(ecs::entity_t e);
 	void addComponent(int i);
 	void checkComponent(int i, ecs::entity_t e);
@@ -39,6 +42,8 @@ public:
 	void refreshDuration() { ; }
 	void changeAttSpeedCapFlat(float i) { attSpeedCapFlat += i; }
 	void changeAttSpeedCapMul(float i) { attSpeedCapMul += i; }
+	void setDungeonFloor(DungeonFloor* floor) { _dungeonfloor = floor; }
+	
 private:
 	VirtualTimer* _tim;
 	constexpr static uint8_t _max_bullets = 20;
@@ -49,5 +54,6 @@ private:
 	float attSpeedCapMul = 1;
 	std::string player;
 	BulletStats* bulStat = new BulletStats();
+	DungeonFloor* _dungeonfloor = nullptr;
 };
 

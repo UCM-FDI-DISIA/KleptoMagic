@@ -27,7 +27,7 @@ float BulletStats::Created(std::string s)
 		speed = 10;
 		damage = 15;
 		distance = 20000;
-		size = 25;
+		size = 100;
 		piercing = false;
 		duration = distance / speed;
 		return 250;
@@ -60,6 +60,29 @@ float BulletStats::Created(std::string s)
 		return 700;
 	}
 	
+}
+void BulletStats::enemyStats(int i)
+{
+	if(i==0)
+	{
+		speed = 5;
+		damage = 15;
+		distance = 50;
+		size = 150;
+		piercing = true;
+		duration = distance / speed;
+		
+	}
+	else if(i==1)
+	{
+		speed = 10;
+		damage = 15;
+		distance = 20000;
+		size = 100;
+		piercing = false;
+		duration = distance / speed;
+	}
+	//continuar cuando haya mas enemigos
 }
 void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool pierc)
 {

@@ -4,6 +4,7 @@
 #include <array>
 #include <vector>
 #include <SDL.h>
+#include <stack>
 //#include "checkML.h"
 #include "../sdlutils/Texture.h"
 //#include "GameObject.h"
@@ -43,29 +44,13 @@ class Game : public Singleton<Game>
 {
 	friend Singleton<Game>;
 
-public:
-	// Identificadores de las texturas
-	enum TextureName {
-		ENDMENUBACKGROUND,
-		ENDMENUBUTTON,
-		PLAYER,
-		NUM_TEXTURES
-	};
-	//Texture* getTexture(TextureName name) const;
-
-	enum State {
-		RUNNING, PAUSED, NEWGAME, NEWROUND, GAMEOVER
-	};
-
 protected:
 	// Constante globales
 	static constexpr uint WIN_WIDTH = 544;
 	static constexpr uint WIN_HEIGHT = 480;
 	static constexpr uint FRAME_RATE = 60;
 	static constexpr uint TILE_SIZE = 32;
-public:
-	int getWindowWidth() const { return WIN_WIDTH; }
-	int getWindowHeight() const { return WIN_HEIGHT; }
+
 protected:
 	// Ventana de la SDL (se destruir� en el destructor)
 	SDL_Window* window = nullptr;
@@ -101,29 +86,6 @@ public:
 	//void gameExit();
 
 	inline ecs::Manager* getMngr() { return _mngr; }
-	inline void setState(State s) {
-		_state->leave();
-		switch (s) {
-		case RUNNING:
-			_state = _running_state;
-			break;
-		case PAUSED:
-			_state = _paused_state;
-			break;
-		case NEWGAME:
-			_state = _newgame_state;
-			break;
-		case NEWROUND:
-			_state = _newround_state;
-			break;
-		case GAMEOVER:
-			_state = _gameover_state;
-			break;
-		default:
-			break;
-		}
-		_state->enter();
-	};
 
 	//getter
 	//InputManager* getInputManager() { return _inputManager; }
@@ -143,25 +105,25 @@ public:
 		return selectedCharacter;
 	}
 
+	int getWindowWidth() const { return WIN_WIDTH; }
+	int getWindowHeight() const { return WIN_HEIGHT; }
+
 	inline void exitGame() {
 		exit = true;
 	}
+
+	void popState();
+	void setGameState(GameState* state);
+	void pushState(GameState* state);
 
 private:
 	Game();
 	ecs::Manager* _mngr;
 
-	GameState* _state;
-	GameState* _paused_state;
-	GameState* _running_state;
-	GameState* _newgame_state;
-	GameState* _newround_state;
-	GameState* _gameover_state;
-	// Array con todas las texturas del juego
-	std::array<Texture*, NUM_TEXTURES> textures;
 	// Interruptor para terminar el juego
 	bool exit;
 
+	std::stack<GameState*> _stateStack;
 
 	void createItems();
 	// Para menu de seleccion de personajes

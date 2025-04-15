@@ -9,29 +9,29 @@
 #include "../Class/Game.h"
 #include "../map/RoomStorage.h"
 #include "../map/DungeonFloor.h"
-#include "../Class/Bullet.h"
+#include "../Class/BulletUtils.h"
 
 #include <chrono>
-
 
 using namespace ecs;
 
 class RunningState : virtual public GameState {
 public:
-	RunningState(Manager* mgr);
+	RunningState(/*Manager* mgr*/);
 	~RunningState();
+	BulletUtils* getBulletUtils() {return bullet;}
 	void update() override;
 private:
 	void checkCollisions();
-	Manager* _mngr;
-	Bullet* bullet;
+	//Manager* _mngr;
+	BulletUtils* bullet;
 	VirtualTimer asteroidSpawnTimer;
 	const int asteroidSpawnCDms = 5000;
 
 	RoomStorage* roomstorage;
 	DungeonFloor* dungeonfloor;
 
-	// Heredado v�a GameState
+	// Heredado via GameState
 	void enter() override;
 	void leave() override;
 	bool colission_thisframe;

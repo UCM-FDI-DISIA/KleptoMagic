@@ -113,6 +113,11 @@ public:
 		SDL_RenderCopy(_renderer, _texture, nullptr, &rect);
 	}
 
+	inline void setAlpha(Uint8 alpha) {
+		assert(_texture != nullptr);
+		SDL_SetTextureAlphaMod(_texture, alpha);
+	}
+
 	int getWidth();
 	int getHeight();
 

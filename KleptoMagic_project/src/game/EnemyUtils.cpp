@@ -7,6 +7,7 @@
 #include "../Class/SlimeComponents.h"
 #include "../Class/UndeadArcherCMPS.h"
 #include "../Class//LivingArmorCMP.h"
+#include "../Class/BossCMP.h"
 
 #include "../sdlutils/SDLUtils.h"
 
@@ -37,6 +38,9 @@ void EnemyUtils::spawn_enemy(EnemyNames name, Vector2D pos) {
 		break;
 	case ENEMY_ARMOR:
 		spawn_ARMOR(pos);
+		break;
+	case ENEMY_BOSS:
+		spawn_BOSS(pos);
 		break;
 	}
 }
@@ -84,6 +88,21 @@ void EnemyUtils::spawn_ARMOR(Vector2D pos) {
 	_mngr->addComponent<ArmorAttackComponent>(armor);
 	_mngr->addComponent<ArmorMovementComponent>(armor);
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(armor);
+	tilechecker->init(false, tr, _dungeonfloor);
+	tr->initTileChecker(tilechecker);
+}
+
+void EnemyUtils::spawn_BOSS(Vector2D pos) {
+	auto boss = _mngr->addEntity(ecs::grp::ENEMY);
+	auto s = 50.0f;
+	auto tr = _mngr->addComponent<Transform>(boss);
+	tr->init(pos, Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(boss, &sdlutils().images().at("boss"));
+	_mngr->addComponent<BossVectorComponent>(boss);
+	_mngr->addComponent<BossStatComponent>(boss);
+	_mngr->addComponent<BossAttackComponent>(boss);
+	_mngr->addComponent<BossMovementComponent>(boss);
+	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(boss);
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);
 }
