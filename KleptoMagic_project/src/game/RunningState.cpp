@@ -12,14 +12,15 @@
 #include "../Class/PlayerCtrl.h"
 #include "../game/GhostComponent.h"
 #include "../Class/SlimeComponents.h"
-#include "../Class/TimerCountdown.h"
 #include "../Class/TimerRenderer.h"
 #include "../Class/UndeadArcherCMPS.h"
+#include "../Class/MinigameGeneratorComponent.h"
+
 
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
 
-RunningState::RunningState(/*Manager* mgr) :_mngr(mgr*/) {
+RunningState::RunningState(/*Manager* mgr) :_mngr(mgr*/) : _timer(300), minigame(nullptr) {
 #ifdef _DEBUG
 	std::cout << "Nuevo RunningState creado!" << std::endl;
 #endif
@@ -37,21 +38,25 @@ void RunningState::update() {
 	
 	bool exit = false;
 	NewInputHandler::Instance()->init();
-
-	startTimeDelta = std::chrono::steady_clock::now();
-
-	TimerCountdown _timer(300);
-	_timer.start();
+	
 	TimerRenderer _timerRndr(&_timer, sdlutils().renderer());
 
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
 	//
 	sdlutils().resetTime();
+	Uint32 lastTime = sdlutils().currRealTime(); // Store initial time
+	Uint32 currentTime = 0;
+	deltaTime = 0.0f;
+
+	bool minigameActive = false;
 
 	while (!exit) {
-		Uint32 startTime = sdlutils().currRealTime();
-		_timer.update();
+		currentTime = sdlutils().currRealTime();			// Get the current time
+		deltaTime = (currentTime - lastTime);
+		lastTime = currentTime;								// Update lastTime for the next frame
+
+		_timer.update(deltaTime);
 
 		if (NewInputHandler::Instance()->isActionHeld(Action::ABILITY)) {
 #ifdef _DEBUG
@@ -60,7 +65,14 @@ void RunningState::update() {
 		}
 
 		if (NewInputHandler::Instance()->isActionPressed(Action::INTERACT)) {
-
+			if (!minigameActive) {
+				ChestQuality chestQuality = ChestQuality::COMMON;
+				MinigameGeneratorComponent _generatorA(&_timer, sdlutils().renderer());
+				Minigame* minigame = _generatorA.generateMinigame(chestQuality);
+				minigame->start();
+				minigame->minigameLogic(deltaTime);
+				minigameActive = true;
+			}
 		}
 
 		if (NewInputHandler::Instance()->isActionPressed(Action::PAUSE)) {
@@ -107,7 +119,7 @@ void RunningState::update() {
 		// present new frame
 		sdlutils().presentRenderer();
 
-		Uint32 frameTime = sdlutils().currRealTime() - startTime;
+		Uint32 frameTime = sdlutils().currRealTime() - currentTime;
 
 		if (frameTime < 20)
 			SDL_Delay(20 - frameTime);

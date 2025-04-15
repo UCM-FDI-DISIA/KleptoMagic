@@ -19,7 +19,7 @@
             return;
         }
 
-        std::string timeString = (timeLeft / 60 < 10 ? "0" : "") + std::to_string(timeLeft/60) + ":" +
+        std::string timeString = (timeLeft / 60 < 10 ? "0" : "") + std::to_string(timeLeft / 60) + ":" +
                                  (timeLeft % 60 < 10 ? "0" : "") + std::to_string(timeLeft % 60);
 
         // Create text surface

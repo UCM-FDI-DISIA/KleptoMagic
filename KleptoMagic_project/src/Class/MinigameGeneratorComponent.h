@@ -8,10 +8,6 @@
 enum class ChestQuality { COMMON, RARE, LEGENDARY };
 
 class MinigameGeneratorComponent : public ecs::Component {
-private:
-    TimerCountdown* gameTimer;        // Reference to the main game timer
-    SDL_Renderer* mainRenderer;       // Reference to the SDL renderer
-
 public:
     __CMPID_DECL__(ecs::cmp::MINIGAMEGENERATORCMP);
 
@@ -24,4 +20,6 @@ public:
 private:
     // Sets minigame parameters based on chest quality
     void setMinigameParameters(ChestQuality quality, int& vectorSize, int& holeSize, float& frequency);
+    TimerCountdown* gameTimer;        // Reference to the main game timer
+    SDL_Renderer* mainRenderer;       // Reference to the SDL renderer
 };

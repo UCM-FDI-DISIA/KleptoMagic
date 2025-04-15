@@ -10,6 +10,8 @@
 #include "../map/RoomStorage.h"
 #include "../map/DungeonFloor.h"
 #include "../Class/BulletUtils.h"
+#include "../Class/TimerCountdown.h"
+#include "../Class/Minigame.h"
 
 #include <chrono>
 
@@ -37,6 +39,8 @@ private:
 	bool colission_thisframe;
 	Entity* enemycolisioned;
 
-	std::chrono::time_point<std::chrono::steady_clock> startTimeDelta;
-	float DeltaTime;
+	TimerCountdown _timer;
+	float deltaTime;
+
+	Minigame* minigame;
 };
