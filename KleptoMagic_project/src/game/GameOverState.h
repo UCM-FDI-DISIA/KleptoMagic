@@ -12,8 +12,7 @@ public:
 	void enter() override;
 	void update() override;
 private:
-	Texture* text;
-	float x0, y0;
+	Texture* background;
 
 	// Heredado vía GameState
 	void leave() override;
