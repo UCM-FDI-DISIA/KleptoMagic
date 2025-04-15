@@ -25,4 +25,8 @@ private:
 
 	Button* homeButton;
 	Texture* homeTexture;
+
+	// Provisional
+	Button* endButton;
+	Texture* endTexture;
 };
