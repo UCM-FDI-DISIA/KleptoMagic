@@ -1,5 +1,7 @@
 #include "../ecs/Component.h"
 #include "../sdlutils/SDLUtils.h"
+#include "EntityStat.h"
+#include "../ecs/Manager.h"
 
 class BulletStats: public ecs::Component
 {
@@ -8,6 +10,7 @@ public:
 
 	BulletStats();
 	~BulletStats();
+	void initComponent() override;
 	void update();
 	float Created(std::string s);
 	float getSpeed() { return speed*speedMul; }
@@ -39,5 +42,6 @@ private:
 	float duration;
 	bool piercing;
 	VirtualTimer* _tim= new VirtualTimer();
+	EntityStat* _eStat;
 };
 
