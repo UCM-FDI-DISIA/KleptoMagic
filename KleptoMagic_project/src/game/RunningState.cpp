@@ -16,6 +16,7 @@
 #include "../Class/UndeadArcherCMPS.h"
 #include "../Class/MinigameGeneratorComponent.h"
 
+#include "../Class/EntityStat.h"
 
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
@@ -185,6 +186,7 @@ void RunningState::enter()
 		selectedCharacter = "ALCHEMIST"; // Valor por defecto si no se ha seleccionado nada
 	}
 	game().getMngr()->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
+	game().getMngr()->addComponent<EntityStat>(player, 3, 1, 10, 1, 1);
 	game().getMngr()->addComponent<PlayerCtrl>(player);
 	auto tilechecker = game().getMngr()->addComponent<TileCollisionChecker>(player);
 	tilechecker->init(false, tr, dungeonfloor);

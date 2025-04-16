@@ -1,5 +1,5 @@
 #include "../ecs/Component.h"
-
+#pragma once
 class EntityStat : public ecs::Component//hay que meter getters y setters
 {
 public:
