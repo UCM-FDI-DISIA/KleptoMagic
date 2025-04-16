@@ -6,7 +6,7 @@
 
 #include "../Class/SlimeComponents.h"
 #include "../Class/UndeadArcherCMPS.h"
-#include "../Class//LivingArmorCMP.h"
+#include "../Class/LivingArmorCMP.h"
 #include "../Class/BossCMP.h"
 
 #include "../sdlutils/SDLUtils.h"
@@ -41,6 +41,9 @@ void EnemyUtils::spawn_enemy(EnemyNames name, Vector2D pos) {
 		break;
 	case ENEMY_BOSS:
 		spawn_BOSS(pos);
+		break;
+	case ENEMY_CHEST:
+		spawn_CHEST(pos); 
 		break;
 	}
 }
@@ -103,6 +106,19 @@ void EnemyUtils::spawn_BOSS(Vector2D pos) {
 	_mngr->addComponent<BossAttackComponent>(boss);
 	_mngr->addComponent<BossMovementComponent>(boss);
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(boss);
+	tilechecker->init(false, tr, _dungeonfloor);
+	tr->initTileChecker(tilechecker);
+}
+
+void EnemyUtils::spawn_CHEST(Vector2D pos) {
+	auto chest = _mngr->addEntity(ecs::grp::ENEMY);							// Treat chest like an enemy
+	auto s = 50.0f;
+	auto tr = _mngr->addComponent<Transform>(chest);
+	tr->init(pos, Vector2D(), s, s, 0.0f);
+	//_mngr->addComponent<Image>(chest, &sdlutils().images().at("chest"));	// Add a chest sprite
+	//_mngr->addComponent<RewardsComponent>(chest);							// Handles loot
+	//_mngr->addComponent<MinigameGeneratorComponent>(chest);				// Generates minigame on interaction
+	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(chest);
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);
 }
