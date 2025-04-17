@@ -10,6 +10,7 @@
 void PlayerCtrl::initComponent() { //falta get entity stats speed
 	auto*_mngr = _ent->getMngr();
 	_tr = _mngr->getComponent<Transform>(_ent);
+	_eStat = _mngr->getComponent<EntityStat>(_ent);
 	assert(_tr != nullptr);
 }
 //como comentaba en el handleEvent del player cpp o muevo la speed de aqui a alli o
@@ -19,6 +20,6 @@ void PlayerCtrl::Move(Vector2D movementVector, float speed) {
 }
 
 void PlayerCtrl::update() {
-	float speed = 4; //get entity Stats speed
+	float speed = _eStat->getStat(EntityStat::Stat::MovementSpeed); //get entity Stats speed
 	Move(NewInputHandler::Instance()->getMovementVector(), speed);
 }

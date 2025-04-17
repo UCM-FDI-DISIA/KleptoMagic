@@ -1,5 +1,6 @@
 #include "PausedState.h"
-
+#include "../game/NewGameState.h"
+#include "../game/GameOverState.h"
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/NewInputHandler.h"
 
@@ -30,16 +31,32 @@ void PausedState::enter() {
 
 	// Crear el boton Resume
 	resumeTexture = new Texture(sdlutils().renderer(), "resources/images/resume.png");
+	homeTexture = new Texture(sdlutils().renderer(), "resources/images/home.png");
+	endTexture = new Texture(sdlutils().renderer(), "resources/images/quit.png");
 
 	float btnWidth = resumeTexture->width() / 4;
 	float btnHeight = resumeTexture->height() / 4;
 
 	float playBtnX = (sdlutils().width() - btnWidth) / 2;
-	float playBtnY = (sdlutils().height() - btnHeight) / 2 + 100;
+	float playBtnY = (sdlutils().height() - btnHeight) / 2 + 50;
 
 	resumeButton = new Button([this]() {
-		game().setState(Game::RUNNING);
+		game().popState();
 		}, Vector2D(playBtnX, playBtnY), Vector2D(btnWidth, btnHeight), resumeTexture, "button");
+	homeButton = new Button([this]() {
+		game().setGameState(new NewGameState());
+		}, Vector2D(playBtnX, playBtnY + 100), Vector2D(btnWidth, btnHeight), homeTexture, "button");
+	endButton = new Button([this]() {
+		game().setGameState(new GameOverState());
+		}, Vector2D(playBtnX, playBtnY + 180), Vector2D(btnWidth, btnHeight), endTexture, "button");
+
+#ifdef _DEBUG
+	std::cout << "Resume button: w=" << resumeTexture->width()
+		<< " h=" << resumeTexture->height() << std::endl;
+
+	std::cout << "Home button: w=" << homeTexture->width()
+		<< " h=" << homeTexture->height() << std::endl;
+#endif
 }
 
 void PausedState::leave() {
@@ -47,7 +64,6 @@ void PausedState::leave() {
 }
 
 void PausedState::update() {
-	
 	bool exit = false;
 
 	// reset the time before starting - so we calculate correct
@@ -69,8 +85,10 @@ void PausedState::update() {
 		NewInputHandler::Instance()->update();
 
 		resumeButton->update(); // Detecta si fue presionado
+		homeButton->update();
+		endButton->update();
 
-		if (resumeButton->isPressed()) {
+		if (resumeButton->isPressed() || homeButton->isPressed() || endButton->isPressed()) {
 			exit = true; // Salimos del estado pausado
 		}
 
@@ -83,6 +101,8 @@ void PausedState::update() {
 		SDL_Rect dest = { static_cast<int>(x0), static_cast<int>(y0), static_cast<int>(titleWidth), static_cast<int>(titleHeight) };
 		title->render(dest);
 		resumeButton->render();
+		homeButton->render();
+		endButton->render();
 
 		// present new frame
 		sdlutils().presentRenderer();

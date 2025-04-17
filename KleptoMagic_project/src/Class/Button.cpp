@@ -64,6 +64,19 @@ void Button::handleEvent(const SDL_Event& event) {
 }
 
 bool Button::isInside(int x, int y) const {
-    return x >= _position.getX() && x <= (_position.getX() + _size.getX()) &&
-        y >= _position.getY() && y <= (_position.getY() + _size.getY());
+    //return x >= _position.getX() && x <= (_position.getX() + _size.getX()) &&
+      //  y >= _position.getY() && y <= (_position.getY() + _size.getY());
+    // Reducimos el área al 80% y la centramos
+    float reducedWidth = _size.getX() * 0.7f;
+    float reducedHeight = _size.getY() * 0.7f;
+
+    float offsetX = (_size.getX() - reducedWidth) / 2.0f;
+    float offsetY = (_size.getY() - reducedHeight) / 2.0f;
+
+    float minX = _position.getX() + offsetX;
+    float minY = _position.getY() + offsetY;
+    float maxX = minX + reducedWidth;
+    float maxY = minY + reducedHeight;
+
+    return x >= minX && x <= maxX && y >= minY && y <= maxY;
 }

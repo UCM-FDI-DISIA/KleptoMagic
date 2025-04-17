@@ -1,8 +1,7 @@
 #include "NewRoundState.h"
-
+#include "../game/RunningState.h"
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/NewInputHandler.h"
-
 #include "NewRoundState.h"
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/InputHandler.h"
@@ -88,25 +87,25 @@ void NewRoundState::enter()
 #ifdef _DEBUG
 		std::cout << "getSelectedCharacter: " << game().getSelectedCharacter() << std::endl;
 #endif
-		game().setState(Game::RUNNING);
+		game().setGameState(new RunningState());
 		}, Vector2D(startX, btnY), Vector2D(btnWidth, btnHeight), new Texture(sdlutils().renderer(), "resources/images/select.png"), "rogueButton");
 
 	knightButton = new Button([this]() {
 		selectedCharacter = "KNIGHT";
 		game().setSelectedCharacter(selectedCharacter);
-		game().setState(Game::RUNNING);
+		game().setGameState(new RunningState());
 		}, Vector2D(startX + (btnWidth + spacing), btnY), Vector2D(btnWidth, btnHeight), new Texture(sdlutils().renderer(), "resources/images/select.png"), "knightButton");
 
 	alchemistButton = new Button([this]() {
 		selectedCharacter = "ALCHEMIST";
 		game().setSelectedCharacter(selectedCharacter);
-		game().setState(Game::RUNNING);
+		game().setGameState(new RunningState());
 		}, Vector2D(startX + 2 * (btnWidth + spacing), btnY), Vector2D(btnWidth, btnHeight), new Texture(sdlutils().renderer(), "resources/images/select.png"), "alchemistButton");
 
 	hunterButton = new Button([this]() {
 		selectedCharacter = "HUNTER";
 		game().setSelectedCharacter(selectedCharacter);
-		game().setState(Game::RUNNING);
+		game().setGameState(new RunningState());
 		}, Vector2D(startX + 3 * (btnWidth + spacing), btnY), Vector2D(btnWidth, btnHeight), new Texture(sdlutils().renderer(), "resources/images/select.png"), "hunterButton");
 }
 

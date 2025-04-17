@@ -3,6 +3,7 @@
 #include "../utils/Vector2D.h"
 #include "../ecs/Component.h"
 #include "Transform.h"
+#include "EntityStat.h"
 #include "TileCollisionChecker.h"
 #include "BulletUtils.h"
 #include "../ecs/Entity.h"
@@ -19,4 +20,5 @@ public:
 private:
 	void createStart();
 	Transform* _tr;
+	EntityStat* _eStat;
 };
