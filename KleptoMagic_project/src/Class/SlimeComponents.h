@@ -37,9 +37,16 @@ namespace ecs
 		
 	public:
 		__CMPID_DECL__(ecs::cmp::SLIMESTATCMP);
-		float speed = 0.5;
-		float damage = 10;
-		float attackspeed = 1;
+		float life = 13;
+		void harm(float damage)
+		{
+			life = life - damage;
+			if (life <= 0)
+			{
+
+			}
+		}
+		void Death() {};
 
 		void initComponent() override
 		{
