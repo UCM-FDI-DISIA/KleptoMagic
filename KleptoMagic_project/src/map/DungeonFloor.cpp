@@ -460,6 +460,9 @@ Vector2D DungeonFloor::enterRoom(char exit) {
 
 #ifdef _DEBUG
 	PrintFloorLayout_Detailed();
+	cout << endl;
+	cout << "Entering room '" << floorLayout[currentX][currentY]->getName() << "' of type '" << floorLayout[currentX][currentY]->getType() << "'";
+	cout << endl;
 #endif
 
 	return posAfterEnter;

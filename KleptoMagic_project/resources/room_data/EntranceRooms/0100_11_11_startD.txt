@@ -1,10 +1,10 @@
 WWWWWWWWWWB
-W*W******WW
-W*W*******W
-W*******WWW
-WWW*******W
-W*********W
-WHH*******W
+WHW**HHH*WW
+WHW*******W
+WH******WWW
+WWW*****H*W
+W*******H*W
+WHHH****H*W
 WHHH***W**W
 WW*****W**W
 BWWWW*WWWWW

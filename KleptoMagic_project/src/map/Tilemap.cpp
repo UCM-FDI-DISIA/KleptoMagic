@@ -138,10 +138,6 @@ void Tilemap::render_tile_with_context(int x, int y, SDL_Rect dstRect) {
 	bool Hdown = false;
 	bool Hleft = false;
 	bool Hright = false;
-	bool H_UL = false;
-	bool H_LD = false;
-	bool H_DR = false;
-	bool H_RU = false;
 	int floorCount = 0;
 	int wallCount = 0;
 	int holeCount = 0;
@@ -277,29 +273,54 @@ void Tilemap::render_tile_with_context(int x, int y, SDL_Rect dstRect) {
 			Hright = (targettile == TILE_HOLE);
 		}
 
-		if ((y - 1 >= 0) && (x - 1 >= 0)) { // UL
-			targettile = tilemap[x - 1][y - 1];
-			H_UL = (targettile == TILE_HOLE);
-		}
-		if ((y + 1 <= getTilemapHeight() - 1) && (x - 1 >= 0)) { // LD
-			targettile = tilemap[x - 1][y + 1];
-			H_LD = (targettile == TILE_HOLE);
-		}
-		if ((y + 1 <= getTilemapHeight() - 1) && (x + 1 <= getTilemapWidth() - 1)) { // DR
-			targettile = tilemap[x + 1][y + 1];
-			H_DR = (targettile == TILE_HOLE);
-		}
-		if ((y - 1 >= 0) && (x + 1 <= getTilemapWidth() - 1)) { // RU
-			targettile = tilemap[x + 1][y - 1];
-			H_RU = (targettile == TILE_HOLE);
-		}
-		
-
 		if (Hup) holeCount++;
 		if (Hdown) holeCount++;
 		if (Hleft) holeCount++;
 		if (Hright) holeCount++;
 
+		if (holeCount == 0) { // single lonely hole
+			srcX = 3;
+			srcY = 2;
+		}
+		else if (holeCount == 1) { // one-way hole topper
+			srcX = 2;
+			srcY = 2; 
+			if (Hup); // already oriented
+			else if (Hdown) angle = 180;
+			else if (Hleft) angle = 270; 
+			else if (Hright) angle = 90;
+		}
+		else if (holeCount == 2) { // could be a corner or could be a one-wide hole
+			if (Hup && Hdown) { // vertical one-wide hole
+				srcX = 2;
+				srcY = 3;
+			}
+			else if (Hleft && Hright) { // horizontal one-wide hole
+				srcX = 2;
+				srcY = 3;
+				angle = 90;
+			}
+			else { // corner
+				srcX = 1;
+				srcY = 2;
+				if (Hup && Hleft) angle = 90;
+				else if (Hleft && Hdown); // already oriented
+				else if (Hdown && Hright) angle = 270;
+				else if (Hright && Hup)angle = 180;
+			}
+		}
+		else if (holeCount == 3) { // "wall" hole
+			srcX = 0;
+			srcY = 2;
+			if (!Hup) angle = 90;
+			else if (!Hdown) angle = 270;
+			else if (!Hleft); // already oriented
+			else if (!Hright) angle = 180;
+		}
+		else if (holeCount == 4) { // inner hole
+			srcX = 0;
+			srcY = 0;
+		}
 
 		break;
 	case TILE_EXIT_U:
