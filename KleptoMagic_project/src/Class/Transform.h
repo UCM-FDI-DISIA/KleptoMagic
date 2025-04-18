@@ -5,6 +5,8 @@
 #include "../utils/Vector2D.h"
 #include <cassert>
 
+class TileCollisionChecker;
+
 class Transform: public ecs::Component {
 public:
 
@@ -60,9 +62,9 @@ public:
 		_rot = r;
 	}
 
-	void update() override {
-		_pos = _pos + _vel;
-	}
+	void update() override;
+
+	void initTileChecker(TileCollisionChecker* checker) { _tilechecker = checker; };
 
 private:
 	Vector2D _pos;
@@ -70,5 +72,7 @@ private:
 	float _width;
 	float _height;
 	float _rot;
+
+	TileCollisionChecker* _tilechecker; // Starts as nullptr. Init using initTileChecker() if the entity has to abide by tile collisions.
 };
 

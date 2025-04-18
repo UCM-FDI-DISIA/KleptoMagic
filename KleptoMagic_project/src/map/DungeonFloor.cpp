@@ -3,14 +3,14 @@
 #include "SDL_image.h"
 #include <random>
 #include <vector>
+#include "../game/EnemyUtils.h"
 
 using namespace std;
 
 DungeonFloor::DungeonFloor(int minWidth, int minHeight, int maxWidth, int maxHeight, int numRooms, RoomStorage* storage, SDL_Renderer* rend) : roomstorage(storage), renderer(rend)
 {
 	GenerateFloor(minWidth, minHeight, maxWidth, maxHeight, numRooms); 
-	currentX = startX;
-	currentY = startY;
+	enemyutils().setDungeonFloor(this);
 
 #ifdef _DEBUG
 	PrintFloorLayout_Simple();
@@ -289,6 +289,9 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 	cout << bossPos.x << "|" << bossPos.y << " " << endl;
 #endif
 
+	bossX = bossPos.x;
+	bossY = bossPos.y;
+
 	// Place in the boss room
 	// Find out what exits need to be filled at the location the new room will be on, based on adjacent rooms and what exits they have.
 #ifdef _DEBUG
@@ -370,6 +373,18 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 		LinkExitsAtPosition(pos.x, pos.y, exitsToConnect);
 	}
 
+	// STEP 5: Now that the floor layout is complete, generate the tilemaps for all the rooms 
+	// (since they now have their link booleans set, it can decide what exits to treat as walls as they lead to nowhere)
+
+	for (int i = 0; i < floor_width; i++) {
+		for (int j = 0; j < floor_height; j++) {
+			DungeonRoom* room = floorLayout[i][j];
+			if (room != nullptr) {
+				room->CreateTilemap();
+			}
+		}
+	}
+
 	// TO IMPLEMENT: Turn 1 of the special rooms into a store if there are more than 1 special rooms
 	if (specialsN > 2) {
 		// pick a random one of the special rooms, based on indexesResult. Then, delete that room's index from indexesResult.
@@ -377,20 +392,82 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 
 	// TO IMPLEMENT: Add random content inside of the remainder of the special rooms
 
+	currentX = startX;
+	currentY = startY;
+
 #ifdef _DEBUG
 	system("CLS");
 	cout << "--------------------------------" << endl;
 	cout << "DONE! took " << attempts << " attempts" << endl;
+
+	cout << "Starting room at " << startX << "," << startY << endl;
+	cout << "Boss room at " << bossX << "," << bossY << endl;
+
 	cout << "--------------------------------" << endl;
 #endif
-    
-	currentX = startX;
-	currentY = startY;
-
 }
 
 void DungeonFloor::render() {
 	floorLayout[currentX][currentY]->render(renderer);
+}
+
+int DungeonFloor::checkCollisions(int x, int y) {
+	return floorLayout[currentX][currentY]->getTilemap()->checkCollision(x, y);
+}
+
+char DungeonFloor::checkEnterExit(int x, int y) {
+	return floorLayout[currentX][currentY]->getTilemap()->checkExit(x, y);
+}
+
+Vector2D DungeonFloor::enterRoom(char exit) {
+
+	Vector2D posAfterEnter;
+
+	switch (exit) {
+	case 'U':
+		// moving up
+		currentX = currentX - 1;
+		// load room objects method here
+		posAfterEnter = floorLayout[currentX][currentY]->PositionAfterEntering('D');
+		break;
+	case 'D':
+		// moving down
+		currentX = currentX + 1;
+		// load room objects method here
+		posAfterEnter = floorLayout[currentX][currentY]->PositionAfterEntering('U');
+		break;
+	case 'L':
+		// moving left
+		currentY = currentY - 1;
+		// load room objects method here
+		posAfterEnter = floorLayout[currentX][currentY]->PositionAfterEntering('R');
+		break;
+	case 'R':
+		// moving right
+		currentY = currentY + 1;
+		// load room objects method here
+		posAfterEnter = floorLayout[currentX][currentY]->PositionAfterEntering('L');
+		break;
+	case ' ':
+		// entrance room spawn
+		currentX = startX;
+		currentY = startY;
+		// load room objects method here
+		posAfterEnter = floorLayout[currentX][currentY]->PositionAfterEntering(' ');
+		break;
+	default:
+		break;
+	}
+
+#ifdef _DEBUG
+	PrintFloorLayout_Detailed();
+#endif
+
+	return posAfterEnter;
+}
+
+void DungeonFloor::spawnEnemies() {
+	floorLayout[currentX][currentY]->spawnEnemies();
 }
 
 vector<char> DungeonFloor::CheckSpaceAroundRoom(int x, int y) {
@@ -564,12 +641,12 @@ void DungeonFloor::PrintFloorLayout_Detailed() {
 				else if (floorLayout[i][j]->getType() == roomType::BOSS)	render_matrix[sp_i + 1][sp_j + 1] = 'B';
 
 				// corners of room
-				/*
-				render_matrix[sp_i]		[sp_j]		= '+';
-				render_matrix[sp_i + 2]	[sp_j]		= '+';
-				render_matrix[sp_i]		[sp_j + 2]	= '+';
-				render_matrix[sp_i + 2]	[sp_j + 2]	= '+';
-				*/
+				if (i == currentX && j == currentY) {
+					render_matrix[sp_i][sp_j] = '&';
+					render_matrix[sp_i + 2][sp_j] = '&';
+					render_matrix[sp_i][sp_j + 2] = '&';
+					render_matrix[sp_i + 2][sp_j + 2] = '&';
+				}
 
 				// up exit
 				if (floorLayout[i][j]->hasExitUp()) {

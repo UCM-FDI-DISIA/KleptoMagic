@@ -1,50 +1,32 @@
 #include "RunningState.h"
-
-#include "FighterUtils.h"
-#include "AsteroidsUtils.h"
+#include "../game/PausedState.h"
+#include "EnemyUtils.h"
 #include "../utils/Collisions.h"
 #include "../sdlutils/SDLUtils.h"
-#include "../sdlutils/InputHandler.h"
+#include "../sdlutils/NewInputHandler.h"
 #include "../Class/Transform.h"
+#include "../Class/TileCollisionChecker.h"
+#include "../Class/MoveThroughRooms.h"
 #include "../Class/Image.h"
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
+#include "../game/GhostComponent.h"
 #include "../Class/SlimeComponents.h"
+#include "../Class/TimerCountdown.h"
+#include "../Class/TimerRenderer.h"
+#include "../Class/UndeadArcherCMPS.h"
+#include "../Class/EntityStat.h"
+
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
 
-RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
-	//asteroidSpawnTimer(sdlutils().virtualTimer()),
-	//colission_thisframe(false);
+RunningState::RunningState(/*Manager* mgr) :_mngr(mgr*/) {
+#ifdef _DEBUG
+	std::cout << "Nuevo RunningState creado!" << std::endl;
+#endif
 
-	//asteroidSpawnTimer.resetTime();
-	//fighterutils().create_fighter();
-	auto player = _mngr->addEntity();
-	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
-
-	//Player
-	_mngr->setHandler(ecs::hdlr::PLAYER, player);
-	auto tr = _mngr->addComponent<Transform>(player);
-	auto s = 50.0f;
-	auto x = (sdlutils().width() - s) / 2.0f;
-	auto y = (sdlutils().height() - s) / 2.0f;
-	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
-	_mngr->addComponent<Image>(player, &sdlutils().images().at("player"));
-	_mngr->addComponent<PlayerCtrl>(player);
-	 bullet = new Bullet();
-
-	//Slime,
-	_mngr->setHandler(ecs::hdlr::SLIME, slime);
-	auto slimetr = _mngr->addComponent<Transform>(slime);
-	slimetr->init(Vector2D(x + 100, 5 - 20), Vector2D(), s, s, 0.0f);
-	_mngr->addComponent<Image>(slime, &sdlutils().images().at("pacman"));
-	_mngr->addComponent<SlimeVectorComponent>(slime);
-	_mngr->addComponent<SlimeStatComponent>(slime);
-	_mngr->addComponent<SlimeAttackComponent>(slime);
-	_mngr->addComponent<SlimeMovementComponent>(slime);
-
-	//test pathfinder
-
+	roomstorage = new RoomStorage();
+	dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
 }
 	
 
@@ -55,8 +37,14 @@ RunningState::~RunningState() {
 void RunningState::update() {
 	
 	bool exit = false;
-	auto& ihdlr = ih();
-	std::cout << "ataque!";
+	NewInputHandler::Instance()->init();
+
+	startTimeDelta = std::chrono::steady_clock::now();
+
+	TimerCountdown _timer(300);
+	_timer.start();
+	TimerRenderer _timerRndr(&_timer, sdlutils().renderer());
+
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
 	//
@@ -64,138 +52,135 @@ void RunningState::update() {
 
 	while (!exit) {
 		Uint32 startTime = sdlutils().currRealTime();
+		_timer.update();
+
+		if (NewInputHandler::Instance()->isActionHeld(Action::ABILITY)) {
+#ifdef _DEBUG
+			std::cout << _timer.getTimeLeft() << std::endl;
+#endif
+		}
+
+		if (NewInputHandler::Instance()->isActionPressed(Action::INTERACT)) {
+
+		}
+
+		if (NewInputHandler::Instance()->isActionPressed(Action::PAUSE)) {
+			game().pushState(new PausedState());
+			exit = true;
+		}
+		
+		if (NewInputHandler::Instance()->isActionHeld(Action::SHOOT))
+		{
+			bullet->pressed();
+
+		}
 
 		// update the event handler
-		ih().refresh();
+		NewInputHandler::Instance()->update();
 
-		// if 0 asteroids change to GameOverState
-		//if (asteroidsutils().count_asteroids() <= 0) {
-		//	// here
-		//	game().setState(Game::GAMEOVER);
-		//	exit = true;
-		//}
-		//
-		//// if pressed P enter PauseState
-		//if (ihdlr.isKeyDown(SDL_SCANCODE_P)) {
-		//	// here
-		//	game().setState(Game::PAUSED);
-		//	exit = true;
-		//}
-		if (ihdlr.isKeyDown(SDL_SCANCODE_K)) {
-		
-			bullet->pressed(0);
-		}
-		// update fighter and asteroids here
-		_mngr->update();
-		_mngr->refresh();
+		// update
+		game().getMngr()->update();
+		game().getMngr()->refresh();
+		bullet->update();
 
 		// checking collisions
 		colission_thisframe = false;
 		checkCollisions();
 
-		if (colission_thisframe)
+
+		if (colission_thisframe )
 		{
-			for (auto enemy : _mngr->getEntities(ecs::grp::ENEMY))
-			{
-				if (_mngr->isAlive(enemy))
-				{	
-					if(enemy->getMngr()->hasComponent<SlimeAttackComponent>(enemy)) 
-					{
-						enemy->getMngr()->getComponent<SlimeAttackComponent>(enemy)->Colision();
-					}									
-				}
-
-			}
+		
+		
 		}
-			//if (colission_thisframe) {
-			//	fighterutils().take_life();
-			//	if (fighterutils().get_lives() > 0) {
-			//		game().setState(Game::NEWROUND);
-			//	}
-			//	else {
-			//		game().setState(Game::GAMEOVER);
-			//	}
-			//	exit = true;
-			//}
 
-			// clear screen
-			sdlutils().clearRenderer();
+		// clear screen
+		sdlutils().clearRenderer();
 
-			// render
-			_mngr->render();
+			// render dungeon
+			dungeonfloor->render();
 
-			// present new frame
-			sdlutils().presentRenderer();
+		// render
+		game().getMngr()->render();
 
-			// spawn new asteroid every 5s
-			//if (asteroidSpawnTimer.currRealTime() >= asteroidSpawnCDms) {
-			//	asteroidSpawnTimer.resetTime();
-			//	asteroidsutils().create_asteroids(1); // AJUSTE: Asteroides spawneando cada 5s
-			//}
+		_timerRndr.render(sdlutils().renderer(), _timer.getTimeLeft());
 
-			Uint32 frameTime = sdlutils().currRealTime() - startTime;
+		// present new frame
+		sdlutils().presentRenderer();
 
-			if (frameTime < 20)
-				SDL_Delay(20 - frameTime);
-		}
-	
+		Uint32 frameTime = sdlutils().currRealTime() - startTime;
+
+		if (frameTime < 20)
+			SDL_Delay(20 - frameTime);
+	}
 }
 
 void RunningState::checkCollisions() {
 
-	auto _tr = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+	auto _tr = game().getMngr()->getComponent<Transform>(game().getMngr()->getHandler(ecs::hdlr::PLAYER));
 	////auto f_g = _mngr->getComponent<Gun>(_mngr->getHandler(ecs::hdlr::FIGHTER));
 	//
 	//// Iterate through asteroids
-	for (auto enemy : _mngr->getEntities(ecs::grp::ENEMY))
+
+	for (auto enemy : game().getMngr()->getEntities(ecs::grp::ENEMY))
 	{
-		if(_mngr->isAlive(enemy))
+		if(game().getMngr()->isAlive(enemy))
 		{
-			auto enemy_transform = _mngr->getComponent<Transform>(enemy);
+			auto enemy_transform = game().getMngr()->getComponent<Transform>(enemy);
 			if (Collisions::collides(
 			_tr->getPos(),_tr->getWidth(),_tr->getHeight(),
 		    enemy_transform->getPos(),enemy_transform->getWidth(),enemy_transform->getHeight()) && !colission_thisframe)
 			{
 				colission_thisframe = true;
+				enemycolisioned = enemy;
 
 			}
 		}
 	
 	}
-
-	
-
-	
-	//	if (_mngr->isAlive(a)) {
-	//		auto a_t = _mngr->getComponent<Transform>(a);
-	//
-	//		// With fighter
-	//		if (Collisions::collidesWithRotation(
-	//			f_t->getPos(), f_t->getWidth(), f_t->getHeight(), f_t->getRot(),
-	//			a_t->getPos(), a_t->getWidth(), a_t->getHeight(), a_t->getRot()
-	//			) && !colission_thisframe) {
-	//			colission_thisframe = true;
-	//		}
-	//
-	//		// With bullets
-	//		//for (Gun::Bullet& b : *f_g) {
-	//		//	if (b.used) {
-	//		//		if (Collisions::collidesWithRotation(
-	//		//			a_t->getPos(), a_t->getWidth(), a_t->getHeight(), a_t->getRot(),
-	//		//			b.pos, b.width, b.height, b.rot
-	//		//		)) {
-	//		//			b.used = false;
-	//		//			asteroidsutils().split_asteroid(a);
-	//		//		}
-	//		//	}
-	//		//}
-	//	}
-	//}
-
-
 }
+
 void RunningState::enter()
 {
+#ifdef _DEBUG
+	std::cout << "Entrando en RunningState" << std::endl;
+#endif
+
+	//Player
+	auto player = game().getMngr()->addEntity();
+	game().getMngr()->setHandler(ecs::hdlr::PLAYER, player);
+	auto tr = game().getMngr()->addComponent<Transform>(player);
+	auto s = 50.0f;
+	auto x = (sdlutils().width() - s) / 2.0f;
+	auto y = (sdlutils().height() - s) / 2.0f;
+	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
+	std::string selectedCharacter = game().getSelectedCharacter();
+#ifdef _DEBUG
+	std::cout << "Personaje seleccionado: " << selectedCharacter << std::endl;
+#endif
+	if (selectedCharacter.empty()) {
+		selectedCharacter = "ALCHEMIST"; // Valor por defecto si no se ha seleccionado nada
+	}
+	game().getMngr()->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
+	game().getMngr()->addComponent<EntityStat>(player, 3, 1, 10, 1, 1);
+	game().getMngr()->addComponent<PlayerCtrl>(player);
+	auto tilechecker = game().getMngr()->addComponent<TileCollisionChecker>(player);
+	tilechecker->init(false, tr, dungeonfloor);
+	tr->initTileChecker(tilechecker);
+	auto movethroughrooms = game().getMngr()->addComponent<MoveThroughRooms>(player);
+	bullet = new BulletUtils();
+	//bullet->addComponent(0);
+	bullet->setDungeonFloor(dungeonfloor);
+	movethroughrooms->init(dungeonfloor,bullet);
+	movethroughrooms->enterRoom(' ');
+
+	
+
+	/*
+	enemyutils().spawn_enemy(ENEMY_SLIME, Vector2D{ 100.0f, 100.0f });
+	enemyutils().spawn_enemy(ENEMY_ARCHER, Vector2D{ 200.0f, 200.0f });
+	enemyutils().spawn_enemy(ENEMY_ARMOR, Vector2D{ 300.0f, 300.0f });
+	*/
 }
 
 void RunningState::leave()

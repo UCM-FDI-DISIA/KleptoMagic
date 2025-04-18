@@ -10,7 +10,6 @@ namespace ecs
 	class SlimeVectorComponent : public Component
 	{
 	private:
-		void createStart();
 		
 		Transform* _slimeTransform;
 		Transform* _playerTransform;
@@ -33,12 +32,9 @@ namespace ecs
 		}
 	};
 
-
 	class SlimeStatComponent : public Component
 	{
 		
-		Transform* _ghostTransform;
-		Transform* _playerTransform;
 	public:
 		__CMPID_DECL__(ecs::cmp::SLIMESTATCMP);
 		float speed = 0.5;
@@ -51,8 +47,6 @@ namespace ecs
 		}
 		void update() override {}
 	};
-
-
 
 	class SlimeMovementComponent : public Component
 	{
@@ -85,7 +79,7 @@ namespace ecs
 			
 
 		}
-	};
+	};  
 
 	class SlimeAttackComponent : public Component
 	{
@@ -93,6 +87,8 @@ namespace ecs
 		Transform* _slimeTransform;
 		Transform* _player;
 		bool colision = false;
+		bool atack = false;
+		float height, width;
 	public:
 		__CMPID_DECL__(ecs::cmp::SLIMESTATCMP);
 		float attackCooldown;
@@ -117,10 +113,22 @@ namespace ecs
 			auto now = std::chrono::steady_clock::now();
 			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
 
-			if (elapsedTime >= attackCooldown && colision)
+			if (elapsedTime >= attackCooldown)
 			{
-				std::cout << "ataque!";
+				height = _slimeTransform->getHeight();
+				width = _slimeTransform->getWidth();
+
+				_slimeTransform->setHeight(height * 1.5);
+				_slimeTransform->setWidth(width * 1.5);
+
 				lastAttackTime = now;
+				atack = true;
+			}
+			else if (elapsedTime >= 0.5 && atack)
+			{
+				_slimeTransform->setHeight(height);
+				_slimeTransform->setWidth(width);
+				atack = false;
 			}
 			colision = false;
 

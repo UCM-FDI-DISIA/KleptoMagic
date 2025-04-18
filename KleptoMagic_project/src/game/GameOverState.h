@@ -4,6 +4,7 @@
 #include "GameState.h"
 #include "../sdlutils/Texture.h"
 #include "../Class/Game.h"
+#include "../Class/Button.h"
 
 class GameOverState : virtual public GameState {
 public:
@@ -12,8 +13,10 @@ public:
 	void enter() override;
 	void update() override;
 private:
-	Texture* text;
-	float x0, y0;
+	Texture* background;
+
+	Button* homeButton;
+	Texture* homeTexture;
 
 	// Heredado vía GameState
 	void leave() override;

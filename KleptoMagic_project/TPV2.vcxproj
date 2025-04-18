@@ -19,8 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Class\BossCMP.cpp" />
+    <ClCompile Include="src\Class\LivingArmorCMP.cpp" />
+    <ClCompile Include="src\game\EnemyFacade.cpp" />
+    <ClCompile Include="src\game\EnemyUtils.cpp" />
+    <ClCompile Include="src\Class\MoveThroughRooms.cpp" />
+    <ClCompile Include="src\Class\HomingComponent.cpp" />
     <ClCompile Include="src\Class\DestroyOnBorder.cpp" />
-    <ClCompile Include="src\Class\Bullet.cpp" />
+    <ClCompile Include="src\Class\BulletUtils.cpp" />
     <ClCompile Include="src\Class\BulletStats.cpp" />
     <ClCompile Include="src\Class\Button.cpp" />
     <ClCompile Include="src\Class\DummyState.cpp" />
@@ -44,7 +50,13 @@
     <ClCompile Include="src\Class\Game.cpp" />
     <ClCompile Include="src\Class\MenuState.cpp" />
     <ClCompile Include="src\Class\StatusEffect.cpp" />
+    <ClCompile Include="src\Class\Minigame.cpp" />
+    <ClCompile Include="src\Class\MinigameGeneratorComponent.cpp" />
+    <ClCompile Include="src\Class\TileCollisionChecker.cpp" />
     <ClCompile Include="src\Class\TimerCountdown.cpp" />
+    <ClCompile Include="src\Class\TimerRenderer.cpp" />
+    <ClCompile Include="src\Class\Transform.cpp" />
+    <ClCompile Include="src\Class\UndeadArcherCMPS.cpp" />
     <ClCompile Include="src\ecs\Manager.cpp" />
     <ClCompile Include="src\game\AsteroidsFacade.cpp" />
     <ClCompile Include="src\game\AsteroidsUtils.cpp" />
@@ -61,6 +73,7 @@
     <ClCompile Include="SRC\json\JSONValue.cpp" />
     <ClCompile Include="SRC\json\json_demo.cpp" />
     <ClCompile Include="SRC\main.cpp" />
+    <ClCompile Include="SRC\sdlutils\NewInputHandler.cpp" />
     <ClCompile Include="src\map\DungeonFloor.cpp" />
     <ClCompile Include="src\map\DungeonRoom.cpp" />
     <ClCompile Include="src\map\RoomStorage.cpp" />
@@ -75,8 +88,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\astar\astar.hpp" />
+    <ClInclude Include="src\Class\BossCMP.h" />
+    <ClInclude Include="src\Class\LivingArmorCMP.h" />
+    <ClInclude Include="src\game\EnemyFacade.h" />
+    <ClInclude Include="src\game\EnemyUtils.h" />
+    <ClInclude Include="src\Class\MoveThroughRooms.h" />
+    <ClInclude Include="src\Class\HomingComponent.h" />
     <ClInclude Include="src\Class\DestroyOnBorder.h" />
-    <ClInclude Include="src\Class\Bullet.h" />
+    <ClInclude Include="src\Class\BulletUtils.h" />
     <ClInclude Include="src\Class\BulletStats.h" />
     <ClInclude Include="src\Class\Button.h" />
     <ClInclude Include="src\Class\DummyState.h" />
@@ -100,8 +119,13 @@
     <ClInclude Include="src\Class\SceneObject.h" />
     <ClInclude Include="src\Class\Game.h" />
     <ClInclude Include="src\Class\StatusEffect.h" />
+    <ClInclude Include="src\Class\Minigame.h" />
+    <ClInclude Include="src\Class\MinigameGeneratorComponent.h" />
+    <ClInclude Include="src\Class\TileCollisionChecker.h" />
     <ClInclude Include="src\Class\TimerCountdown.h" />
+    <ClInclude Include="src\Class\TimerRenderer.h" />
     <ClInclude Include="src\Class\Transform.h" />
+    <ClInclude Include="src\Class\UndeadArcherCMPS.h" />
     <ClInclude Include="src\ecs\Component.h" />
     <ClInclude Include="src\ecs\ecs.h" />
     <ClInclude Include="src\ecs\ecs_defs.h" />
@@ -127,7 +151,7 @@
     <ClInclude Include="src\map\RoomStorage.h" />
     <ClInclude Include="src\map\Tilemap.h" />
     <ClInclude Include="src\sdlutils\Font.h" />
-    <ClInclude Include="src\sdlutils\InputHandler.h" />
+    <ClInclude Include="src\sdlutils\NewInputHandler.h" />
     <ClInclude Include="src\sdlutils\macros.h" />
     <ClInclude Include="src\sdlutils\Music.h" />
     <ClInclude Include="src\sdlutils\RandomNumberGenerator.h" />
