@@ -700,22 +700,22 @@ void DungeonFloor::PrintFloorLayout_Detailed() {
 
 AStar::AStar<uint32_t, true> DungeonFloor::createPathRoom(vector<vector<char>> tilematrix) {
 	AStar::AStar<uint32_t, true> pathFinder;
-	// Define the map size (width, height)
-	pathFinder.setWorldSize({ tilematrix.size(), tilematrix[0].size() });
-
-	// Set the heuristic function (manhattan, euclidean, octagonal etc...), it is optional, default is euclidean
-	pathFinder.setHeuristic(AStar::Heuristic::euclidean);
-
-	// if you want to enable diagonal movement, it is optional, default is false
-	pathFinder.setDiagonalMovement(false);
-	for (int i = 0; i < tilematrix.size(); i++) {
-		for (int j = 0; j < tilematrix[0].size(); j++) {
-			if (tilematrix[i][j] != '*') {
-				pathFinder.addObstacle({ i, j });
-			}
-		}
-	}
-
+	//// Define the map size (width, height)
+	//pathFinder.setWorldSize({ tilematrix.size(), tilematrix[0].size() });
+	//
+	//// Set the heuristic function (manhattan, euclidean, octagonal etc...), it is optional, default is euclidean
+	//pathFinder.setHeuristic(AStar::Heuristic::euclidean);
+	//
+	//// if you want to enable diagonal movement, it is optional, default is false
+	//pathFinder.setDiagonalMovement(false);
+	//for (int i = 0; i < tilematrix.size(); i++) {
+	//	for (int j = 0; j < tilematrix[0].size(); j++) {
+	//		if (tilematrix[i][j] != '*') {
+	//			pathFinder.addObstacle({ i, j });
+	//		}
+	//	}
+	//}
+	//
 	return pathFinder;
 
 }
