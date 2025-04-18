@@ -4,6 +4,7 @@
 #include <SDL_image.h>
 #include "DungeonRoom.h"
 #include "RoomStorage.h"
+#include "../astar/astar.hpp"
 
 #include "vector"
 #include "iostream"
@@ -33,6 +34,8 @@ private:
 	int floor_height; 
 	// Room matrix
 	vector<vector<DungeonRoom*>> floorLayout;
+	//pathfind matrix
+	vector<vector< AStar::AStar<uint32_t, true>>> pathfindLayout;
 	// Pointer to room storage
 	RoomStorage* roomstorage;
 	// X coordinate of starting room
@@ -43,6 +46,9 @@ private:
 	int currentX = -1;
 	// Y coordinate of room the player is in
 	int currentY = -1;
+
+	//pathfinder
+	AStar::AStar<uint32_t, true> createPathRoom(vector<vector<char>> tilematrix);
 
 	SDL_Renderer* renderer;
 
@@ -98,5 +104,7 @@ public:
 	// Prints a complex version of the floor layout, showing the exits of each room and whether they are linked or not.
 	void PrintFloorLayout_Detailed();
 #endif
+
+	void findPath(float x, float y);
 
 };

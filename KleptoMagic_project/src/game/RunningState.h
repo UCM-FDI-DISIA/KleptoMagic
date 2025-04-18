@@ -8,7 +8,6 @@
 #include "../../../src/ecs/Manager.h"
 #include "../Class/Game.h"
 #include "../Class/Bullet.h"
-#include "../astar/astar.hpp"
 
 
 using namespace ecs;
@@ -30,7 +29,5 @@ private:
 	void leave() override;
 	bool colission_thisframe;
 
-	//pathfinder
-	void createPathRoom(int h, int w);
-	AStar::AStar<uint32_t, true> pathFinder;
+	
 };

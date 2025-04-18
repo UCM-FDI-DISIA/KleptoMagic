@@ -44,7 +44,6 @@ RunningState::RunningState(Manager* mgr) :_mngr(mgr) {
 	_mngr->addComponent<SlimeMovementComponent>(slime);
 
 	//test pathfinder
-	createPathRoom(10, 10);
 
 }
 	
@@ -195,33 +194,6 @@ void RunningState::checkCollisions() {
 
 
 }
-void RunningState::createPathRoom(int h, int w) {
-	// Define the map size (width, height)
-	pathFinder.setWorldSize({ 10, 10 });
-
-	// Set the heuristic function (manhattan, euclidean, octagonal etc...), it is optional, default is euclidean
-	pathFinder.setHeuristic(AStar::Heuristic::euclidean);
-
-	// if you want to enable diagonal movement, it is optional, default is false
-	pathFinder.setDiagonalMovement(false);
-
-	// Add a obstacle point (5, 5) and (5, 6)
-	pathFinder.addObstacle({ 5, 5 });
-	pathFinder.addObstacle({ 5, 6 });
-	pathFinder.addObstacle({ 1, 0 });
-	pathFinder.addObstacle({ 1, 1 });
-	pathFinder.addObstacle({ 1, 2 });
-
-	// Find the path from (0, 0) to (9, 9)
-	auto path = pathFinder.findPath({ 0, 0 }, { 9, 9 });
-
-	// Print the path
-	for (auto& p : path) {
-		std::cout << p.x << " " << p.y << std::endl;
-	}
-
-}
-
 void RunningState::enter()
 {
 }
