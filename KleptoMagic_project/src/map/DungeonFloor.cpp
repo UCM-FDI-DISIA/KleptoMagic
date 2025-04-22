@@ -157,6 +157,7 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 
 			// Choose a random regular room that meets the defined criteria and place it at the target location
 			floorLayout[TargetRoomX][TargetRoomY] = roomstorage->GetRandomRegularRoom(exitsToConnect, blacklistedExits);
+			pathfindLayout[TargetRoomX][TargetRoomY] = createPathRoom(floorLayout[TargetRoomX][TargetRoomY]->getRoomTiles());
 
 #ifdef _DEBUG
 			cout << "NEW ROOM: "
@@ -700,22 +701,27 @@ void DungeonFloor::PrintFloorLayout_Detailed() {
 
 AStar::AStar<uint32_t, true> DungeonFloor::createPathRoom(vector<vector<char>> tilematrix) {
 	AStar::AStar<uint32_t, true> pathFinder;
-	//// Define the map size (width, height)
-	//pathFinder.setWorldSize({ tilematrix.size(), tilematrix[0].size() });
-	//
-	//// Set the heuristic function (manhattan, euclidean, octagonal etc...), it is optional, default is euclidean
-	//pathFinder.setHeuristic(AStar::Heuristic::euclidean);
-	//
-	//// if you want to enable diagonal movement, it is optional, default is false
-	//pathFinder.setDiagonalMovement(false);
-	//for (int i = 0; i < tilematrix.size(); i++) {
-	//	for (int j = 0; j < tilematrix[0].size(); j++) {
-	//		if (tilematrix[i][j] != '*') {
-	//			pathFinder.addObstacle({ i, j });
-	//		}
-	//	}
-	//}
-	//
+	// Define the map size (width, height)
+	if (!tilematrix.empty() && !tilematrix[0].empty()) {
+		pathFinder.setWorldSize({ static_cast<int32_t>(tilematrix.size()), static_cast<int32_t>(tilematrix[0].size()) });
+	}
+	else {
+		//throw
+	}
+	
+	// Set the heuristic function (manhattan, euclidean, octagonal etc...), it is optional, default is euclidean
+	pathFinder.setHeuristic(AStar::Heuristic::euclidean);
+	
+	// if you want to enable diagonal movement, it is optional, default is false
+	pathFinder.setDiagonalMovement(false);
+	for (int i = 0; i < tilematrix.size(); i++) {
+		for (int j = 0; j < tilematrix[0].size(); j++) {
+			if (tilematrix[i][j] != '*') {
+				pathFinder.addObstacle({ i, j });
+			}
+		}
+	}
+	
 	return pathFinder;
 
 }
