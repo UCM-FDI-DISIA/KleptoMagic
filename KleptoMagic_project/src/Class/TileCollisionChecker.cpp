@@ -18,7 +18,7 @@ void TileCollisionChecker::init(bool flying, Transform* tr, DungeonFloor* floor)
 void TileCollisionChecker::update() {
 	auto pos = _tr->getPos();
 	int centerX = pos.getX() + (_tr->getWidth() / 2);
-	int centerY = pos.getY() + (_tr->getHeight() / 2);
+	int centerY = pos.getY() + (_tr->getHeight() - _tr->getHeight()/16);
 
 	int xPostMove = centerX + _tr->getVel().getX();
 	int yPostMove = centerY + _tr->getVel().getY();
