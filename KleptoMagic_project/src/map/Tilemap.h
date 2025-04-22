@@ -5,6 +5,7 @@
 #include <vector>
 
 class DungeonRoom;
+class Texture;
 
 using namespace std;
 
@@ -26,6 +27,10 @@ public:
 
 	void render(SDL_Renderer* renderer);
 
+	void render_basic(SDL_Renderer* renderer);
+	void render_advanced(SDL_Renderer* renderer);
+	void render_tile_with_context(int x, int y, SDL_Rect dstRect);
+
 	void setTile(int x, int y, TileType tiletype);
 	void setXOffset(int offset) { xOffset = offset; };
 	void setYOffset(int offset) { yOffset = offset; };
@@ -43,11 +48,14 @@ public:
 	void printTilemap();
 
 private:
-	SDL_Texture* tileset;
+	Texture* tileset;
 	vector<vector<TileType>> tilemap;
 	int xOffset = 0;
 	int yOffset = 0;
 	const int TILE_SIZE = 50;
+	int tilesetTileSize;
+	int tilesetWidth;
+	int tilesetHeight;
 
 	DungeonRoom* room;
 };
