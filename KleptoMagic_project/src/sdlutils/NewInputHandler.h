@@ -40,18 +40,20 @@ public:
     bool isActionReleased(Action action) { return _actionReleased[action]; };
     bool isAnyKeyPressed() { return _anyKeyPressed; };
     Vector2D getMovementVector() { return _movementVector.normalize(); };
-    Vector2D getAimVector() { return _aimVector.normalize(); };
+    Vector2D getAimVector(Vector2D playerPos);
+    void triggerRumble(RumbleType type);
     
 private:
     void initializeController();
     void onKeyDown(SDL_Event& event);
     void onKeyUp(SDL_Event& event);
+    void onMouseButtonDown(SDL_Event& event);
+    void onMouseButtonUp(SDL_Event& event);
     void onGameControllerButtonDown(SDL_Event& event);
     void onGameControllerButtonUp(SDL_Event& event);
     void onGameControllerAxisMotion(SDL_Event& event);
     void UpdateMovementVector();
-    void UpdateAimVector(Vector2D playerPosition);
-    void triggerRumble(RumbleType type);
+    void UpdateAimVector();
 
     std::unordered_map<Action, bool> _actionPressed;
     std::unordered_map<Action, bool> _actionHeld;

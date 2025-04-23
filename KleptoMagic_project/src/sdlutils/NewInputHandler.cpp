@@ -52,6 +52,12 @@ void NewInputHandler::update() {
             case SDL_KEYUP:
                 onKeyUp(event);
                 break;
+            case SDL_MOUSEBUTTONDOWN:
+                onMouseButtonDown(event);
+                break;
+            case SDL_MOUSEBUTTONUP:
+                onMouseButtonUp(event);
+                break;
             case SDL_CONTROLLERBUTTONDOWN:
                 onGameControllerButtonDown(event);
                 break;
@@ -64,6 +70,7 @@ void NewInputHandler::update() {
         }
     }
     UpdateMovementVector();
+    UpdateAimVector();
 }
 
 void NewInputHandler::onKeyDown(SDL_Event& event) {
@@ -73,7 +80,6 @@ void NewInputHandler::onKeyDown(SDL_Event& event) {
         case SDL_SCANCODE_D: action = Action::MOVE_RIGHT; break;
         case SDL_SCANCODE_W: action = Action::MOVE_UP; break;
         case SDL_SCANCODE_S: action = Action::MOVE_DOWN; break;
-        case SDL_SCANCODE_SPACE: action = Action::SHOOT; break;
         case SDL_SCANCODE_ESCAPE: action = Action::QUIT; break;
         case SDL_SCANCODE_P: action = Action::PAUSE; break;
         case SDL_SCANCODE_F: action = Action::ABILITY; break;
@@ -90,6 +96,30 @@ void NewInputHandler::onKeyDown(SDL_Event& event) {
     _actionHeld[action] = true; // Held activates every frame while button is held
 }
 
+void NewInputHandler::onMouseButtonDown(SDL_Event& event) {
+    Action action;
+    switch (event.button.button) {
+        case SDL_BUTTON_LEFT: action = Action::SHOOT; break;
+        default: return;
+    }
+
+    if (!_actionHeld[action]) {
+        _actionPressed[action] = true; // Pressed activates only once per press during current frame
+    }
+    _actionHeld[action] = true; // Held activates every frame while button is held
+}
+
+void NewInputHandler::onMouseButtonUp(SDL_Event& event) {
+    Action action;
+    switch (event.button.button) {
+        case SDL_BUTTON_LEFT: action = Action::SHOOT; break;
+        default: return;
+    }
+
+    _actionReleased[action] = true; // Set to released only once per release during current frame
+    _actionHeld[action] = false;    // Set to not held anymore
+}
+
 void NewInputHandler::UpdateMovementVector() {
     if (_actionHeld[Action::MOVE_LEFT])  _movementVector.setX(_movementVector.getX() - 1);
     if (_actionHeld[Action::MOVE_RIGHT]) _movementVector.setX(_movementVector.getX() + 1);
@@ -100,24 +130,29 @@ void NewInputHandler::UpdateMovementVector() {
     }
 }
 
-void NewInputHandler::UpdateAimVector(Vector2D playerPosition) {
+void NewInputHandler::UpdateAimVector() {
     if (_controller) {
         if (_rightStickVector.magnitude() > _stickDeadZone) {
             _aimVector = _rightStickVector;
         } else {
             _aimVector.set(0, 0); 
         }
-    } else {
+    }
+}
+
+Vector2D NewInputHandler::getAimVector(Vector2D playerPos) {
+    if (_aimVector.magnitude() <= _stickDeadZone) {
         int mouseX, mouseY;
         SDL_GetMouseState(&mouseX, &mouseY);
 
         Vector2D mousePos(static_cast<float>(mouseX), static_cast<float>(mouseY));
-        _aimVector = mousePos - playerPosition;
+        _aimVector = mousePos - playerPos;
 
         if (_aimVector.magnitude() < 1.0f) {
             _aimVector.set(0, 0); 
         }
     }
+    return _aimVector.normalize();
 }
 
 void NewInputHandler::onKeyUp(SDL_Event& event) {
