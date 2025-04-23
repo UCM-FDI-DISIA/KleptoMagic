@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Class\BossCMP.cpp" />
+    <ClCompile Include="src\Class\ImageWithFrames.cpp" />
     <ClCompile Include="src\Class\LivingArmorCMP.cpp" />
     <ClCompile Include="src\game\EnemyFacade.cpp" />
     <ClCompile Include="src\game\EnemyUtils.cpp" />
@@ -38,7 +39,6 @@
     <ClCompile Include="src\Class\GameState_OLD.cpp" />
     <ClCompile Include="src\Class\gameStateMachine.cpp" />
     <ClCompile Include="src\Class\Image.cpp" />
-    <ClCompile Include="src\Class\ImageWithFrames.cpp" />
     <ClCompile Include="src\Class\InputManager.cpp" />
     <ClCompile Include="src\Class\MainMenuState.cpp" />
     <ClCompile Include="src\Class\MovementCtrl.cpp" />
@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Class\BossCMP.h" />
+    <ClInclude Include="src\Class\ImageWithFrames.h" />
     <ClInclude Include="src\Class\LivingArmorCMP.h" />
     <ClInclude Include="src\game\EnemyFacade.h" />
     <ClInclude Include="src\game\EnemyUtils.h" />
@@ -106,7 +107,6 @@
     <ClInclude Include="src\Class\GameState_OLD.h" />
     <ClInclude Include="src\Class\gameStateMachine.h" />
     <ClInclude Include="src\Class\Image.h" />
-    <ClInclude Include="src\Class\ImageWithFrames.h" />
     <ClInclude Include="src\Class\InputManager.h" />
     <ClInclude Include="src\Class\MainMenuState.h" />
     <ClInclude Include="src\Class\MenuState.h" />
