@@ -82,6 +82,7 @@ void RunningState::update() {
 		game().getMngr()->update();
 		game().getMngr()->refresh();
 		bullet->update();
+		dungeonfloor->update();
 
 		// checking collisions
 		colission_thisframe = false;

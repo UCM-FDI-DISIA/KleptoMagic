@@ -410,6 +410,10 @@ void DungeonFloor::render() {
 	floorLayout[currentX][currentY]->render(renderer);
 }
 
+void DungeonFloor::update() {
+	floorLayout[currentX][currentY]->getTilemap()->update();
+}
+
 int DungeonFloor::checkCollisions(int x, int y) {
 	return floorLayout[currentX][currentY]->getTilemap()->checkCollision(x, y);
 }

@@ -15,6 +15,16 @@ Tilemap::Tilemap(vector<vector<char>> tilematrix, DungeonRoom* dungeonroom) : ro
 	tilesetWidth = 5;
 	tilesetHeight = 5;
 
+	// Prepare the room decor texture
+	roomdecor = &sdlutils().images().at("room_decor");
+	roomdecorTileSize = 32;
+	roomdecorWidth = 4;
+	roomdecorHeight = 2;
+
+	// Set frames of torch and door animations
+	torchFrame = 0;
+	doorFrame = 0;
+	
 	// Run through the matrix and translate chars to tile types within the tilemap itself
 	for (int i = 0; i < tilematrix.size(); i++) {
 		for (int j = 0; j < tilematrix[0].size(); j++) {
@@ -27,6 +37,9 @@ Tilemap::Tilemap(vector<vector<char>> tilematrix, DungeonRoom* dungeonroom) : ro
 				break;
 			case 'W':
 				setTile(i, j, TILE_WALL);
+				break;
+			case 'T':
+				setTile(i, j, TILE_TORCH);
 				break;
 			case 'H':
 				setTile(i, j, TILE_HOLE);
@@ -72,6 +85,16 @@ void Tilemap::render(SDL_Renderer* renderer) {
 	render_advanced(renderer);
 }
 
+void Tilemap::update() {
+	if ((sdlutils().currRealTime() - lastTorchFrameChange > TorchFrameChangeInterval)) {
+		lastTorchFrameChange = sdlutils().currRealTime();
+		torchFrame++;
+		if (torchFrame >= 4) {
+			torchFrame = 0;
+		}
+	}
+}
+
 void Tilemap::render_basic(SDL_Renderer* renderer) {
 	for (int x = 0; x < getTilemapWidth(); x++) {
 		for (int y = 0; y < getTilemapHeight(); y++) {
@@ -89,6 +112,9 @@ void Tilemap::render_basic(SDL_Renderer* renderer) {
 				SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
 				break;
 			case TILE_WALL:
+				SDL_SetRenderDrawColor(renderer, 0xFF, 0xAA, 0x00, 0xFF);
+				break;
+			case TILE_TORCH:
 				SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
 				break;
 			case TILE_HOLE:
@@ -152,31 +178,35 @@ void Tilemap::render_tile_with_context(int x, int y, SDL_Rect dstRect) {
 		srcX = 0;
 		srcY = 1;
 		break;
-	case TILE_WALL:
+	case TILE_WALL: case TILE_TORCH:
 		// check and count walls and floors
 		if (y - 1 >= 0) {
 			targettile = tilemap[x][y - 1];
 			Fup = (targettile == TILE_FLOOR || targettile == TILE_HOLE);
 			Wup = (targettile == TILE_WALL) ||
-				(targettile == TILE_EXIT_U) || (targettile == TILE_EXIT_D) || (targettile == TILE_EXIT_L) || (targettile == TILE_EXIT_R);
+				(targettile == TILE_EXIT_U) || (targettile == TILE_EXIT_D) || (targettile == TILE_EXIT_L) || (targettile == TILE_EXIT_R) ||
+				(targettile == TILE_TORCH);
 		}
 		if (y + 1 <= getTilemapHeight() - 1) {
 			targettile = tilemap[x][y + 1];
 			Fdown = (targettile == TILE_FLOOR || targettile == TILE_HOLE);
 			Wdown = (targettile == TILE_WALL) ||
-				(targettile == TILE_EXIT_U) || (targettile == TILE_EXIT_D) || (targettile == TILE_EXIT_L) || (targettile == TILE_EXIT_R);
+				(targettile == TILE_EXIT_U) || (targettile == TILE_EXIT_D) || (targettile == TILE_EXIT_L) || (targettile == TILE_EXIT_R) ||
+				(targettile == TILE_TORCH);
 		}
 		if (x - 1 >= 0) {
 			targettile = tilemap[x - 1][y];
 			Fleft = (targettile == TILE_FLOOR || targettile == TILE_HOLE);
 			Wleft = (targettile == TILE_WALL) ||
-				(targettile == TILE_EXIT_U) || (targettile == TILE_EXIT_D) || (targettile == TILE_EXIT_L) || (targettile == TILE_EXIT_R);
+				(targettile == TILE_EXIT_U) || (targettile == TILE_EXIT_D) || (targettile == TILE_EXIT_L) || (targettile == TILE_EXIT_R) ||
+				(targettile == TILE_TORCH);
 		}
 		if (x + 1 <= getTilemapWidth() - 1) {
 			targettile = tilemap[x + 1][y];
 			Fright = (targettile == TILE_FLOOR || targettile == TILE_HOLE);
 			Wright = (targettile == TILE_WALL) ||
-				(targettile == TILE_EXIT_U) || (targettile == TILE_EXIT_D) || (targettile == TILE_EXIT_L) || (targettile == TILE_EXIT_R);
+				(targettile == TILE_EXIT_U) || (targettile == TILE_EXIT_D) || (targettile == TILE_EXIT_L) || (targettile == TILE_EXIT_R) ||
+				(targettile == TILE_TORCH);
 		}
 
 		if (Fup) floorCount++;
@@ -251,6 +281,7 @@ void Tilemap::render_tile_with_context(int x, int y, SDL_Rect dstRect) {
 			if (Wright); // already oriented
 			
 		}
+
 		break;
 	case TILE_HOLE:
 		srcX = 0;
@@ -352,6 +383,16 @@ void Tilemap::render_tile_with_context(int x, int y, SDL_Rect dstRect) {
 	srcRect.y = (srcY * tilesetTileSize);
 	
 	tileset->render(srcRect, dstRect, angle);
+
+	// draw torch if it is a torch wall
+	if (tilemap[x][y] == TILE_TORCH) {
+		SDL_Rect torchRect;
+		torchRect.w = roomdecorTileSize;
+		torchRect.h = roomdecorTileSize;
+		torchRect.x = (torchFrame * roomdecorTileSize);
+		torchRect.y = (roomdecorTileSize);
+		roomdecor->render(torchRect, dstRect, angle + 90);
+	}
 }
 
 int Tilemap::checkCollision(int x, int y) {
