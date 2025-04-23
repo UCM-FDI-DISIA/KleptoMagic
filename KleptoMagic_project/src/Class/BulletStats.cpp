@@ -14,9 +14,12 @@ BulletStats::~BulletStats()
 }
 
 void BulletStats::initComponent() { //falta get entity stats speed
-/*	auto* _mngr = _ent->getMngr();
-	_eStat = _mngr->getComponent<EntityStat>(_ent);
-	assert(_eStat != nullptr);*/
+	auto* _mngr = _ent->getMngr();
+	auto estat = _mngr->getComponent<EntityStat>(_ent);
+	if (estat != nullptr) {
+		_eStat = estat;
+	}
+	
 }
 
 float BulletStats::Created(std::string s)
