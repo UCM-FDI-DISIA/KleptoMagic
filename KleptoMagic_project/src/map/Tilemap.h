@@ -60,9 +60,13 @@ private:
 	int roomdecorWidth;
 	int roomdecorHeight;
 	int torchFrame;
-	int doorFrame;
 	int lastTorchFrameChange;
 	const int TorchFrameChangeInterval = 125;
+	int doorFrame;
+	int lastDoorFrameChange;
+	const int DoorFrameChangeInterval = 100;
+	bool doorsOpening;
+	bool doorsChanging;
 	vector<vector<TileType>> tilemap;
 	int xOffset = 0;
 	int yOffset = 0;

@@ -21,9 +21,11 @@ Tilemap::Tilemap(vector<vector<char>> tilematrix, DungeonRoom* dungeonroom) : ro
 	roomdecorWidth = 4;
 	roomdecorHeight = 2;
 
-	// Set frames of torch and door animations
+	// Set data of torch and door animations
 	torchFrame = 0;
 	doorFrame = 0;
+	doorsOpening = true;
+	doorsChanging = true;
 	
 	// Run through the matrix and translate chars to tile types within the tilemap itself
 	for (int i = 0; i < tilematrix.size(); i++) {
@@ -91,6 +93,21 @@ void Tilemap::update() {
 		torchFrame++;
 		if (torchFrame >= 4) {
 			torchFrame = 0;
+		}
+	}
+	if ((sdlutils().currRealTime() - lastDoorFrameChange > DoorFrameChangeInterval) && doorsChanging) {
+		lastDoorFrameChange = sdlutils().currRealTime();
+		if (doorsOpening) {
+			doorFrame++;
+			if (doorFrame >= 5) {
+				doorsOpening = !doorsOpening;
+			}
+		}
+		else {
+			doorFrame--;
+			if (doorFrame <= 0) {
+				doorsOpening = !doorsOpening;
+			}
 		}
 	}
 }
@@ -392,6 +409,15 @@ void Tilemap::render_tile_with_context(int x, int y, SDL_Rect dstRect) {
 		torchRect.x = (torchFrame * roomdecorTileSize);
 		torchRect.y = (roomdecorTileSize);
 		roomdecor->render(torchRect, dstRect, angle + 90);
+	}
+	// draw door if it is an exit
+	else if (tilemap[x][y] == TILE_EXIT_U || tilemap[x][y] == TILE_EXIT_D || tilemap[x][y] == TILE_EXIT_L || tilemap[x][y] == TILE_EXIT_R) {
+		SDL_Rect doorRect;
+		doorRect.w = roomdecorTileSize;
+		doorRect.h = roomdecorTileSize;
+		doorRect.x = (doorFrame * roomdecorTileSize);
+		doorRect.y = 0;
+		roomdecor->render(doorRect, dstRect, angle + 180);
 	}
 }
 
