@@ -7,7 +7,7 @@
 #include "../Class/SlimeComponents.h"
 #include "../Class/UndeadArcherCMPS.h"
 #include "../Class//LivingArmorCMP.h"
-#include "../game/GhostComponent.h"
+#include "../Class/GhostComponent.h"
 #include "../Class/BossCMP.h"
 
 #include "../sdlutils/SDLUtils.h"

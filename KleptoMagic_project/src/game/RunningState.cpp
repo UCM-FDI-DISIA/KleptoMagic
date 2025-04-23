@@ -10,7 +10,7 @@
 #include "../Class/Image.h"
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
-#include "../game/GhostComponent.h"
+#include "../Class/GhostComponent.h"
 #include "../Class/SlimeComponents.h"
 #include "../Class/TimerCountdown.h"
 #include "../Class/TimerRenderer.h"
