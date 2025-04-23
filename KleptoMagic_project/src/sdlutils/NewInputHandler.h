@@ -40,6 +40,7 @@ private:
     void onGameControllerButtonDown(SDL_Event& event);
     void onGameControllerButtonUp(SDL_Event& event);
     void UpdateMovementVector();
+    void initializeController();
 
     std::unordered_map<Action, bool> _actionPressed;
     std::unordered_map<Action, bool> _actionHeld;
@@ -47,6 +48,7 @@ private:
 
     bool _anyKeyPressed;
     Vector2D _movementVector;
+    SDL_GameController* _controller;
 };
 
 inline NewInputHandler& input() {

@@ -7,7 +7,20 @@ bool NewInputHandler::init() {
         _actionHeld[action] = false;
         _actionReleased[action] = false;
     }
+    initializeController();
     return true;
+}
+
+void NewInputHandler::initializeController() {
+    if (SDL_NumJoysticks() < 1) {
+        _controller = nullptr;
+        return;
+    }
+
+    _controller = SDL_GameControllerOpen(0);
+    if (!_controller) {
+        std::cerr << "Failed to open game controller: " << SDL_GetError() << std::endl;
+    }
 }
 
 void NewInputHandler::update() {
