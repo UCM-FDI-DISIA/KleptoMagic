@@ -1,6 +1,6 @@
 #include "GameOverState.h"
 #include "../game/NewGameState.h"
-#include "AsteroidsUtils.h"
+
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/NewInputHandler.h"
 
