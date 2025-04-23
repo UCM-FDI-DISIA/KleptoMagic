@@ -74,6 +74,10 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 				name = ENEMY_ARMOR;
 				roomEnemies.push_back(spawnData_enemy(Vector2D{ (float)i, (float)row }, name));
 				break;
+			case 'g':
+				name = ENEMY_GHOST;
+				roomEnemies.push_back(spawnData_enemy(Vector2D{ (float)i, (float)row }, name));
+				break;
 			case 'b':
 				// boss
 				name = ENEMY_BOSS;
