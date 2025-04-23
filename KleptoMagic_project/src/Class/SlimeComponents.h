@@ -32,7 +32,7 @@ namespace ecs
 		}
 	};
 
-	class SlimeStatComponent : public Component
+	class StatComponent : public Component
 	{
 		
 	public:
@@ -43,7 +43,7 @@ namespace ecs
 			life = life - damage;
 			if (life <= 0)
 			{
-
+				Death();
 			}
 		}
 		void Death() {};
@@ -75,7 +75,7 @@ namespace ecs
 
 		{			
 				auto vector = static_cast<SlimeVectorComponent*>(_ent->getMngr()->getComponent<SlimeVectorComponent>(_ent));
-				auto stat = static_cast<SlimeStatComponent*>(_ent->getMngr()->getComponent<SlimeStatComponent>(_ent));
+				
 
 				if (vector && stat && _slimeTransform)
 				{
@@ -115,7 +115,7 @@ namespace ecs
 		{
 
 
-			auto stat = static_cast<SlimeStatComponent*>(_ent->getMngr()->getComponent<SlimeStatComponent>(_ent));
+	
 			attackCooldown = 10;
 			auto now = std::chrono::steady_clock::now();
 			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
