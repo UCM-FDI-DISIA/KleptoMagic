@@ -34,6 +34,7 @@ public:
     bool isActionReleased(Action action) { return _actionReleased[action]; };
     bool isAnyKeyPressed() { return _anyKeyPressed; };
     Vector2D getMovementVector() { return _movementVector.normalize(); };
+    Vector2D getAimVector() { return _aimVector.normalize(); };
     
 private:
     void onKeyDown(SDL_Event& event);
@@ -42,6 +43,7 @@ private:
     void onGameControllerButtonUp(SDL_Event& event);
     void onGameControllerAxisMotion(SDL_Event& event);
     void UpdateMovementVector();
+    void UpdateAimVector(Vector2D playerPosition);
     void initializeController();
 
     std::unordered_map<Action, bool> _actionPressed;
@@ -50,10 +52,10 @@ private:
     Vector2D _leftStickVector, _rightStickVector;
     float _leftTriggerValue, _rightTriggerValue;
     float _rawLeftStickX, _rawLeftStickY, _rawRightStickX, _rawRightStickY;
-    float _stickDeadZone = 0.1f; // Dead zone for the joystick
+    float _stickDeadZone = 0.1f; // Dead zone for left and right sticks
 
     bool _anyKeyPressed;
-    Vector2D _movementVector;
+    Vector2D _movementVector, _aimVector;
     SDL_GameController* _controller;
 };
 

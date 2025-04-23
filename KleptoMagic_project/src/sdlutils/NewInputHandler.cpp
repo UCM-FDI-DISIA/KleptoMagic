@@ -96,7 +96,27 @@ void NewInputHandler::UpdateMovementVector() {
     if (_actionHeld[Action::MOVE_UP])    _movementVector.setY(_movementVector.getY() - 1);
     if (_actionHeld[Action::MOVE_DOWN])  _movementVector.setY(_movementVector.getY() + 1);
     if (_movementVector.magnitude() == 0 && _leftStickVector.magnitude() > 0.1f) {
-        _movementVector = _leftStickVector.normalize();
+        _movementVector = _leftStickVector;
+    }
+}
+
+void NewInputHandler::UpdateAimVector(Vector2D playerPosition) {
+    if (_controller) {
+        if (_rightStickVector.magnitude() > _stickDeadZone) {
+            _aimVector = _rightStickVector;
+        } else {
+            _aimVector.set(0, 0); 
+        }
+    } else {
+        int mouseX, mouseY;
+        SDL_GetMouseState(&mouseX, &mouseY);
+
+        Vector2D mousePos(static_cast<float>(mouseX), static_cast<float>(mouseY));
+        _aimVector = mousePos - playerPosition;
+
+        if (_aimVector.magnitude() < 1.0f) {
+            _aimVector.set(0, 0); 
+        }
     }
 }
 
