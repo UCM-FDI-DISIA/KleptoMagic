@@ -49,6 +49,7 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 	startX = (floor_width) / 2;
 	startY = (floor_height) / 2; 
 	floorLayout[startX][startY] = roomstorage->GetRandomEntranceRoom();
+	pathfindLayout[startX][startY] = createPathRoom(floorLayout[startX][startY]->getRoomTiles());
 
 	// Set variables to indicate the current room being looked into for easy reference, as well as the coordinates of the next room being generated
 	int CurrentRoomX = startX;
@@ -157,7 +158,7 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 
 			// Choose a random regular room that meets the defined criteria and place it at the target location
 			floorLayout[TargetRoomX][TargetRoomY] = roomstorage->GetRandomRegularRoom(exitsToConnect, blacklistedExits);
-			pathfindLayout[TargetRoomX][TargetRoomY] = createPathRoom(floorLayout[TargetRoomX][TargetRoomY]->getRoomTiles());
+			
 
 #ifdef _DEBUG
 			cout << "NEW ROOM: "
@@ -185,6 +186,8 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 			// Update the values for the current room location for the next iteration
 			CurrentRoomX = TargetRoomX;
 			CurrentRoomY = TargetRoomY;
+			pathfindLayout[CurrentRoomX][CurrentRoomY] = createPathRoom(floorLayout[CurrentRoomX][CurrentRoomY]->getRoomTiles());
+
 
 #ifdef _DEBUG
 			PrintFloorLayout_Detailed();
@@ -728,12 +731,13 @@ AStar::AStar<uint32_t, true> DungeonFloor::createPathRoom(vector<vector<char>> t
 	return pathFinder;
 
 }
-void DungeonFloor::findPath(float x, float y) {
+void DungeonFloor::findPathToX(float x, float y) {
 	// Find the path from (0, 0) to (9, 9)
-	//auto path = pathFinder.findPath({ 0, 0 }, { 9, 9 });
-	//
-	//// Print the path
-	//for (auto& p : path) {
-	//	std::cout << p.x << " " << p.y << std::endl;
-	//}
+	auto path = pathfindLayout[getCurrentX()][getCurrentY()].findPath({2, 2}, {9, 9});
+	
+	// Print the path
+	for (auto& p : path) {
+		std::cout << p.x << "/" << p.y << " ,  ";
+	}
+	std::cout << std::endl;
 }

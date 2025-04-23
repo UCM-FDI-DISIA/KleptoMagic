@@ -132,6 +132,6 @@ public:
 	void PrintFloorLayout_Detailed();
 #endif
 
-	void findPath(float x, float y);
+	void findPathToX(float x, float y);
 
 };

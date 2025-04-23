@@ -78,10 +78,14 @@ void RunningState::update() {
 		// update the event handler
 		NewInputHandler::Instance()->update();
 
+		
+
 		// update
 		game().getMngr()->update();
 		game().getMngr()->refresh();
 		bullet->update();
+
+		dungeonfloor->findPathToX(0, 0);
 
 		// checking collisions
 		colission_thisframe = false;
