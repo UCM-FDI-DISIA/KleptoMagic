@@ -22,6 +22,12 @@ enum class Action {
     COUNT
 };
 
+enum class RumbleType {
+    TAP,
+    BUZZ,
+    LONG
+};
+
 class NewInputHandler : public Singleton<NewInputHandler> {
     friend class Singleton<NewInputHandler>;
 public:
@@ -37,6 +43,7 @@ public:
     Vector2D getAimVector() { return _aimVector.normalize(); };
     
 private:
+    void initializeController();
     void onKeyDown(SDL_Event& event);
     void onKeyUp(SDL_Event& event);
     void onGameControllerButtonDown(SDL_Event& event);
@@ -44,7 +51,7 @@ private:
     void onGameControllerAxisMotion(SDL_Event& event);
     void UpdateMovementVector();
     void UpdateAimVector(Vector2D playerPosition);
-    void initializeController();
+    void triggerRumble(RumbleType type);
 
     std::unordered_map<Action, bool> _actionPressed;
     std::unordered_map<Action, bool> _actionHeld;

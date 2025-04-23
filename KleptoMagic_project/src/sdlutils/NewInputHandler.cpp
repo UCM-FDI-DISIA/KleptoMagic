@@ -212,3 +212,32 @@ void NewInputHandler::onGameControllerAxisMotion(SDL_Event& event) {
         std::abs(_rawRightStickY) > _stickDeadZone ? _rawRightStickY : 0.0f
     );
 }
+
+void NewInputHandler::triggerRumble(RumbleType type) {
+    if (_controller) {
+        Uint32 rumbleDuration = 0;
+        Uint16 rumbleStrengthHigh = 0;
+        Uint16 rumbleStrengthLow = 0; // For dual rumble
+
+        switch (type) {
+            case RumbleType::TAP:
+                rumbleDuration = 100; // 100 ms
+                rumbleStrengthHigh = 0xFFFF; // Full strength
+                rumbleStrengthLow = 0x7FFF; // Half strength
+                break;
+            case RumbleType::BUZZ:
+                rumbleDuration = 1000; // 500 ms
+                rumbleStrengthHigh = 0x7FFF; // Half strength
+                rumbleStrengthLow = 0x7FFF; // Half strength
+                break;
+            case RumbleType::LONG:
+                rumbleDuration = 2000; // 1 second
+                rumbleStrengthHigh = 0xFFFF; // Full strength
+                rumbleStrengthLow = 0xFFFF; // Full strength
+                
+                break;
+        }
+
+        SDL_GameControllerRumble(_controller, rumbleStrengthLow, rumbleStrengthHigh, rumbleDuration);
+    }
+}
