@@ -324,20 +324,23 @@ void Tilemap::render_tile_with_context(int x, int y, SDL_Rect dstRect) {
 
 		break;
 	case TILE_EXIT_U:
-		srcX = 0;
-		srcY = 1;
+		srcX = 3;
+		srcY = 3;
+		angle = 180;
 		break;
 	case TILE_EXIT_D:
-		srcX = 0;
-		srcY = 1;
+		srcX = 3;
+		srcY = 3;
 		break;
 	case TILE_EXIT_L:
-		srcX = 0;
-		srcY = 1;
+		srcX = 3;
+		srcY = 3; 
+		angle = 90;
 		break;
 	case TILE_EXIT_R:
-		srcX = 0;
-		srcY = 1;
+		srcX = 3;
+		srcY = 3;
+		angle = 270;
 		break;
 	default:
 		break;
