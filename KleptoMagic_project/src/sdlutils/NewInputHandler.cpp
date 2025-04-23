@@ -26,8 +26,14 @@ void NewInputHandler::initializeController() {
 void NewInputHandler::update() {
     for (auto& pair : _actionPressed) pair.second = false;
     for (auto& pair : _actionReleased) pair.second = false;
+
+    // Reset movement vector
     _movementVector.setX(0);
     _movementVector.setY(0);
+
+    // Reset trigger values
+    _leftTriggerValue = 0;
+    _rightTriggerValue = 0;
     _anyKeyPressed = false;
 
     SDL_Event event;
@@ -51,6 +57,9 @@ void NewInputHandler::update() {
                 break;
             case SDL_CONTROLLERBUTTONUP:
                 onGameControllerButtonUp(event);
+                break;
+            case SDL_CONTROLLERAXISMOTION:
+                onGameControllerAxisMotion(event);
                 break;
         }
     }
@@ -86,6 +95,9 @@ void NewInputHandler::UpdateMovementVector() {
     if (_actionHeld[Action::MOVE_RIGHT]) _movementVector.setX(_movementVector.getX() + 1);
     if (_actionHeld[Action::MOVE_UP])    _movementVector.setY(_movementVector.getY() - 1);
     if (_actionHeld[Action::MOVE_DOWN])  _movementVector.setY(_movementVector.getY() + 1);
+    if (_movementVector.magnitude() == 0 && _leftStickVector.magnitude() > 0.1f) {
+        _movementVector = _leftStickVector.normalize();
+    }
 }
 
 void NewInputHandler::onKeyUp(SDL_Event& event) {
@@ -141,7 +153,42 @@ void NewInputHandler::onGameControllerButtonUp(SDL_Event& event) {
         case SDL_CONTROLLER_BUTTON_B: action = Action::INTERACT; break;
         default: return;
     }
-
     _actionReleased[action] = true;
     _actionHeld[action] = false;
+}
+
+void NewInputHandler::onGameControllerAxisMotion(SDL_Event& event) {
+    float normalizedValue = event.caxis.value / 32767.0f;
+
+    switch (event.caxis.axis) {
+        case SDL_CONTROLLER_AXIS_LEFTX:
+            _rawLeftStickX = normalizedValue;
+            break;
+        case SDL_CONTROLLER_AXIS_LEFTY:
+            _rawLeftStickY = normalizedValue;
+            break;
+        case SDL_CONTROLLER_AXIS_RIGHTX:
+            _rawRightStickX = normalizedValue;
+            break;
+        case SDL_CONTROLLER_AXIS_RIGHTY:
+            _rawRightStickY = normalizedValue;
+            break;
+        case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
+            _leftTriggerValue = normalizedValue;
+            return;
+        case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
+            _rightTriggerValue = normalizedValue;
+            return;
+    }
+
+    // Apply dead zone and update the vectors
+    _leftStickVector.set(
+        std::abs(_rawLeftStickX) > _stickDeadZone ? _rawLeftStickX : 0.0f,
+        std::abs(_rawLeftStickY) > _stickDeadZone ? _rawLeftStickY : 0.0f
+    );
+
+    _rightStickVector.set(
+        std::abs(_rawRightStickX) > _stickDeadZone ? _rawRightStickX : 0.0f,
+        std::abs(_rawRightStickY) > _stickDeadZone ? _rawRightStickY : 0.0f
+    );
 }

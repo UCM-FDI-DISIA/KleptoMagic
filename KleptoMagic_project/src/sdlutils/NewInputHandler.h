@@ -27,6 +27,7 @@ class NewInputHandler : public Singleton<NewInputHandler> {
 public:
     bool init();
     void update();
+    bool isControllerConnected() { return _controller != nullptr; };
     
     bool isActionPressed(Action action) { return _actionPressed[action]; };
     bool isActionHeld(Action action) { return _actionHeld[action]; };
@@ -39,12 +40,17 @@ private:
     void onKeyUp(SDL_Event& event);
     void onGameControllerButtonDown(SDL_Event& event);
     void onGameControllerButtonUp(SDL_Event& event);
+    void onGameControllerAxisMotion(SDL_Event& event);
     void UpdateMovementVector();
     void initializeController();
 
     std::unordered_map<Action, bool> _actionPressed;
     std::unordered_map<Action, bool> _actionHeld;
     std::unordered_map<Action, bool> _actionReleased;
+    Vector2D _leftStickVector, _rightStickVector;
+    float _leftTriggerValue, _rightTriggerValue;
+    float _rawLeftStickX, _rawLeftStickY, _rawRightStickX, _rawRightStickY;
+    float _stickDeadZone = 0.1f; // Dead zone for the joystick
 
     bool _anyKeyPressed;
     Vector2D _movementVector;
