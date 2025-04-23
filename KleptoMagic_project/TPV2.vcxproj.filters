@@ -25,7 +25,6 @@
     <ClCompile Include="src\Class\StatusEffect.cpp" />
     <ClCompile Include="src\Class\Button.cpp" />
     <ClCompile Include="src\Class\MainMenuState.cpp" />
-    <ClCompile Include="src\Class\Player.cpp" />
     <ClCompile Include="src\Class\Minigame.cpp" />
     <ClCompile Include="src\Class\MinigameGeneratorComponent.cpp" />
     <ClCompile Include="src\Class\TimerCountdown.cpp" />
@@ -35,10 +34,6 @@
     <ClCompile Include="src\Class\MovementCtrl.cpp" />
     <ClCompile Include="src\ecs\Manager.cpp" />
     <ClCompile Include="src\Class\InputManager.cpp" />
-    <ClCompile Include="src\game\AsteroidsFacade.cpp" />
-    <ClCompile Include="src\game\AsteroidsUtils.cpp" />
-    <ClCompile Include="src\game\FighterFacade.cpp" />
-    <ClCompile Include="src\game\FighterUtils.cpp" />
     <ClCompile Include="src\game\GameOverState.cpp" />
     <ClCompile Include="src\game\GameState.cpp" />
     <ClCompile Include="src\game\NewGameState.cpp" />
@@ -47,7 +42,7 @@
     <ClCompile Include="src\game\RunningState.cpp" />
     <ClCompile Include="src\utils\Collisions.cpp" />
     <ClCompile Include="src\Class\Image.cpp" />
-    <ClCompile Include="src\game\GhostComponent.cpp" />
+    <ClCompile Include="src\Class\GhostComponent.cpp" />
     <ClCompile Include="src\Class\PlayerCtrl.cpp" />
     <ClCompile Include="src\Class\ImageWithFrames.cpp" />
     <ClCompile Include="src\Class\BulletUtils.cpp" />
@@ -91,7 +86,6 @@
     <ClInclude Include="src\Class\MainMenuState.h" />
     <ClInclude Include="src\Class\MenuState.h" />
     <ClInclude Include="src\Class\MovementCtrl.h" />
-    <ClInclude Include="src\Class\Player.h" />
     <ClInclude Include="src\Class\PlayerCtrl.h" />
     <ClInclude Include="src\Class\PlayState.h" />
     <ClInclude Include="src\Class\SceneObject.h" />
@@ -108,13 +102,9 @@
     <ClInclude Include="src\ecs\ecs_defs_example.h" />
     <ClInclude Include="src\ecs\Entity.h" />
     <ClInclude Include="src\ecs\Manager.h" />
-    <ClInclude Include="src\game\AsteroidsFacade.h" />
-    <ClInclude Include="src\game\AsteroidsUtils.h" />
-    <ClInclude Include="src\game\FighterFacade.h" />
-    <ClInclude Include="src\game\FighterUtils.h" />
     <ClInclude Include="src\game\GameOverState.h" />
     <ClInclude Include="src\game\GameState.h" />
-    <ClInclude Include="src\game\GhostComponent.h" />
+    <ClInclude Include="src\Class\GhostComponent.h" />
     <ClInclude Include="src\game\NewGameState.h" />
     <ClInclude Include="src\game\NewRoundState.h" />
     <ClInclude Include="src\game\PausedState.h" />
