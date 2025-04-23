@@ -22,6 +22,7 @@
     <ClCompile Include="src\Class\BossCMP.cpp" />
     <ClCompile Include="src\Class\LivingArmorCMP.cpp" />
     <ClCompile Include="src\Class\NecromancerComponent.cpp" />
+    <ClCompile Include="src\Class\PickableCMP.cpp" />
     <ClCompile Include="src\game\EnemyFacade.cpp" />
     <ClCompile Include="src\game\EnemyUtils.cpp" />
     <ClCompile Include="src\Class\MoveThroughRooms.cpp" />
@@ -91,6 +92,7 @@
     <ClInclude Include="src\Class\BossCMP.h" />
     <ClInclude Include="src\Class\LivingArmorCMP.h" />
     <ClInclude Include="src\Class\NecromancerComponent.h" />
+    <ClInclude Include="src\Class\PickableCMP.h" />
     <ClInclude Include="src\game\EnemyFacade.h" />
     <ClInclude Include="src\game\EnemyUtils.h" />
     <ClInclude Include="src\Class\MoveThroughRooms.h" />

@@ -7,6 +7,7 @@
 #include "../Class/SlimeComponents.h"
 #include "../Class/UndeadArcherCMPS.h"
 #include "../Class//LivingArmorCMP.h"
+#include "../game/GhostComponent.h"
 #include "../Class/BossCMP.h"
 #include "../Class/NecromancerComponent.h"
 
@@ -40,6 +41,8 @@ void EnemyUtils::spawn_enemy(EnemyNames name, Vector2D pos) {
 	case ENEMY_ARMOR:
 		spawn_ARMOR(pos);
 		break;
+	case ENEMY_GHOST:
+		spawn_GHOST(pos);
 	case ENEMY_BOSS:
 		spawn_BOSS(pos);
 		break;
@@ -91,6 +94,15 @@ void EnemyUtils::spawn_ARMOR(Vector2D pos) {
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(armor);
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);
+}
+
+void EnemyUtils::spawn_GHOST(Vector2D pos) {
+	auto ghost = _mngr->addEntity(ecs::grp::ENEMY);
+	auto s = 50.0f;
+	auto tr = _mngr->addComponent<Transform>(ghost);
+	tr->init(pos, Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(ghost, &sdlutils().images().at("bifrutas"));
+	_mngr->addComponent<GhostComponent>(ghost);
 }
 
 void EnemyUtils::spawn_BOSS(Vector2D pos) {

@@ -95,7 +95,7 @@ void RunningState::update() {
 		}
 
 		// clear screen
-		sdlutils().clearRenderer();
+		sdlutils().clearRenderer(build_sdlcolor(0x000000FF));
 
 			// render dungeon
 			dungeonfloor->render();
@@ -145,7 +145,6 @@ void RunningState::enter()
 #ifdef _DEBUG
 	std::cout << "Entrando en RunningState" << std::endl;
 #endif
-
 	//Player
 	auto player = game().getMngr()->addEntity();
 	game().getMngr()->setHandler(ecs::hdlr::PLAYER, player);
