@@ -161,7 +161,13 @@ void RunningState::enter()
 	if (selectedCharacter.empty()) {
 		selectedCharacter = "ALCHEMIST"; // Valor por defecto si no se ha seleccionado nada
 	}
-	game().getMngr()->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
+	//game().getMngr()->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
+	int charStartFrame;
+	if (selectedCharacter == "KNIGHT") charStartFrame = 0;
+	else if (selectedCharacter == "HUNTER") charStartFrame = 6;
+	else if (selectedCharacter == "ROGUE") charStartFrame = 12;
+	else if (selectedCharacter == "ALCHEMIST") charStartFrame = 18;
+	game().getMngr()->addComponent<ImageWithFrames>(player, &sdlutils().images().at("player_sprites"), (float)500, 6, 4);
 	game().getMngr()->addComponent<EntityStat>(player, 3, 1, 10, 1, 1);
 	game().getMngr()->addComponent<PlayerCtrl>(player);
 	auto tilechecker = game().getMngr()->addComponent<TileCollisionChecker>(player);
