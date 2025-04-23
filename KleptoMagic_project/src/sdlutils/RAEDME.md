@@ -5,7 +5,7 @@ This directory includes a set of classes to facilitate working with SDL.
 
 TBD
   
-# InputHandler
+# NewInputHandler
 
 TBD
 

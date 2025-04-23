@@ -49,4 +49,8 @@ private:
     Vector2D _movementVector;
 };
 
+inline NewInputHandler& input() {
+    return *NewInputHandler::Instance();
+}
+
 #endif // H_NEWINPUTHANDLER_H
