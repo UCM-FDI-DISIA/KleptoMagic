@@ -70,7 +70,6 @@ void NewInputHandler::update() {
         }
     }
     UpdateMovementVector();
-    UpdateAimVector();
 }
 
 void NewInputHandler::onKeyDown(SDL_Event& event) {
@@ -129,28 +128,16 @@ void NewInputHandler::UpdateMovementVector() {
         _movementVector = _leftStickVector;
     }
 }
-
-void NewInputHandler::UpdateAimVector() {
-    if (_controller) {
-        if (_rightStickVector.magnitude() > _stickDeadZone) {
-            _aimVector = _rightStickVector;
-        } else {
-            _aimVector.set(0, 0); 
-        }
-    }
-}
-
 Vector2D NewInputHandler::getAimVector(Vector2D playerPos) {
-    if (_aimVector.magnitude() <= _stickDeadZone) {
+    if (!_controller) {
         int mouseX, mouseY;
         SDL_GetMouseState(&mouseX, &mouseY);
 
         Vector2D mousePos(static_cast<float>(mouseX), static_cast<float>(mouseY));
         _aimVector = mousePos - playerPos;
-
-        if (_aimVector.magnitude() < 1.0f) {
-            _aimVector.set(0, 0); 
-        }
+    }
+    else {
+        _aimVector = _rightStickVector;
     }
     return _aimVector.normalize();
 }

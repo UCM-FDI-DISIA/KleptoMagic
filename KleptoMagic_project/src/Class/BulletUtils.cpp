@@ -27,7 +27,7 @@ void BulletUtils::update()
 		if (!bullStat->getPiercing() && _dungeonfloor != nullptr)
 		{
 			auto tilecollision = mngr->getComponent<TileCollisionChecker>(bull);
-			if (!tilecollision->getCanMove()) { mngr->setAlive(bull,false); }
+			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY()) { mngr->setAlive(bull,false); }
 		}
 	}
 }
@@ -127,6 +127,7 @@ void BulletUtils::shoot()
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
 	stats->refreshStats(bulStat->getSpeed(),bulStat->getDamage(),bulStat->getDistance(),bulStat->getSize(),bulStat->getPiercing());
 	Vector2D vel = input().getAimVector(_tr->getPos()) * stats->getSpeed();
+	std::cout << "AimVector: " << vel.getX() << " " << vel.getY() << '\n';
 	float rot = -vel.normalize().angle(Vector2D(0, -1));
 	std::cout << rot<<'\n';
 	auto _bulletsTR = _mngr->addComponent<Transform>(_bullets);

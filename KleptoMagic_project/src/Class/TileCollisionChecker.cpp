@@ -20,27 +20,50 @@ void TileCollisionChecker::update() {
 	int centerX = pos.getX() + (_tr->getWidth() / 2);
 	int centerY = pos.getY() + (_tr->getHeight() / 2);
 
-	int xPostMove = centerX + _tr->getVel().getX();
-	int yPostMove = centerY + _tr->getVel().getY();
+	Vector2D vel = _tr->getVel();
 
-	int result = dungeonfloor->checkCollisions(xPostMove, yPostMove);
-	switch (result) {
+	// Check X-axis movement
+	int xPostMove = centerX + vel.getX();
+	int yFixed = centerY;
+	int resultX = dungeonfloor->checkCollisions(xPostMove, yFixed);
+
+	switch (resultX) {
 	case 0:
+		canMoveX = true;
 		currentCollision = COL_FLOOR;
-		canMove = true;
-		break;
-	case 1:
-		currentCollision = COL_WALL;
-		canMove = false;
 		break;
 	case 2:
+		canMoveX = canFly;
 		currentCollision = COL_HOLE;
-		if (canFly) canMove = true;
-		else canMove = false;
 		break;
 	default:
-		currentCollision = COL_FLOOR;
-		canMove = true;
+		canMoveX = false;
+		currentCollision = COL_WALL;
 		break;
 	}
+
+	// Check Y axis movement
+	int xFixed = centerX;
+	int yPostMove = centerY + vel.getY();
+	int resultY = dungeonfloor->checkCollisions(xFixed, yPostMove);
+
+	switch (resultY) {
+	case 0:
+		canMoveY = true;
+		currentCollision = COL_FLOOR;
+		break;
+	case 2:
+		canMoveY = canFly;
+		currentCollision = COL_HOLE;
+		break;
+	default:
+		canMoveY = false;
+		currentCollision = COL_WALL;
+		break;
+	}
+
+	// Check if the entity can move at least in one direction
+	canMove = canMoveX || canMoveY;
+
+	std::cout << "Current collision: " << currentCollision << std::endl;
 }
