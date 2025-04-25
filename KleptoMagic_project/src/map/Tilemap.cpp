@@ -436,7 +436,7 @@ int Tilemap::checkCollision(int x, int y) {
 		case TILE_BLANK:
 			return 1;
 			break;
-		case TILE_WALL:
+		case TILE_WALL : case TILE_TORCH:
 			return 1;
 			break;
 		case TILE_HOLE:
