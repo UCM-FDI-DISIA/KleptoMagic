@@ -65,5 +65,5 @@ void TileCollisionChecker::update() {
 	// Check if the entity can move at least in one direction
 	canMove = canMoveX || canMoveY;
 
-	std::cout << "Current collision: " << currentCollision << std::endl;
+	//std::cout << "Current collision: " << currentCollision << std::endl;
 }
