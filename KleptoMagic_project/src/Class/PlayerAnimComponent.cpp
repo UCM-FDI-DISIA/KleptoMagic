@@ -22,7 +22,7 @@ void PlayerAnimComponent::update() {
 	bool isCurrentlyWalking = (velX != 0 || velY != 0);
 	bool isCurrentlyMovingSideways = (velX != 0);
 	bool isCurrentlyMovingRight = (velX < 0);
-	cout << velX << "|" << velY << "   " << isCurrentlyWalking << "|" << isWalking << "   " << isCurrentlyMovingRight << "|" <<isFacingRight << endl;
+	//cout << velX << "|" << velY << "   " << isCurrentlyWalking << "|" << isWalking << "   " << isCurrentlyMovingRight << "|" <<isFacingRight << endl;
 
 	if (!isWalking && isCurrentlyWalking) {
 		toggleWalkingAnim();
@@ -61,4 +61,10 @@ void PlayerAnimComponent::toggleFlip() {
 		_plrImg->setFlip(false);
 	}
 	isFacingRight = !isFacingRight;
+}
+
+void PlayerAnimComponent::playDeath() {
+	_plrImg->setStartingFrame(deathFrame);
+	_plrImg->setFrame(deathFrame);
+	_plrImg->setNumFrames(1);
 }

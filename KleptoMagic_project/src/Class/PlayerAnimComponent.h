@@ -16,6 +16,7 @@ public:
 	void update();
 	void toggleWalkingAnim();
 	void toggleFlip();
+	void playDeath();
 
 private:
 	Transform* _tr;
