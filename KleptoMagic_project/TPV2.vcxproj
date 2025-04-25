@@ -23,6 +23,7 @@
     <ClCompile Include="src\Class\BossCMP.cpp" />
     <ClCompile Include="src\Class\ImageWithFrames.cpp" />
     <ClCompile Include="src\Class\LivingArmorCMP.cpp" />
+    <ClCompile Include="src\Class\NecromancerComponent.cpp" />
     <ClCompile Include="src\Class\PickableCMP.cpp" />
     <ClCompile Include="src\game\EnemyFacade.cpp" />
     <ClCompile Include="src\game\EnemyUtils.cpp" />
@@ -45,7 +46,6 @@
     <ClCompile Include="src\Class\MainMenuState.cpp" />
     <ClCompile Include="src\Class\MovementCtrl.cpp" />
     <ClCompile Include="src\Class\ObjectInfo.cpp" />
-    <ClCompile Include="src\Class\Player.cpp" />
     <ClCompile Include="src\Class\PlayerCtrl.cpp" />
     <ClCompile Include="src\Class\PlayState.cpp" />
     <ClCompile Include="src\Class\SceneObject.cpp" />
@@ -60,13 +60,9 @@
     <ClCompile Include="src\Class\Transform.cpp" />
     <ClCompile Include="src\Class\UndeadArcherCMPS.cpp" />
     <ClCompile Include="src\ecs\Manager.cpp" />
-    <ClCompile Include="src\game\AsteroidsFacade.cpp" />
-    <ClCompile Include="src\game\AsteroidsUtils.cpp" />
-    <ClCompile Include="src\game\FighterFacade.cpp" />
-    <ClCompile Include="src\game\FighterUtils.cpp" />
     <ClCompile Include="src\game\GameOverState.cpp" />
     <ClCompile Include="src\game\GameState.cpp" />
-    <ClCompile Include="src\game\GhostComponent.cpp" />
+    <ClCompile Include="src\Class\GhostComponent.cpp" />
     <ClCompile Include="src\game\NewGameState.cpp" />
     <ClCompile Include="src\game\NewRoundState.cpp" />
     <ClCompile Include="src\game\PausedState.cpp" />
@@ -93,6 +89,7 @@
     <ClInclude Include="src\Class\BossCMP.h" />
     <ClInclude Include="src\Class\ImageWithFrames.h" />
     <ClInclude Include="src\Class\LivingArmorCMP.h" />
+    <ClInclude Include="src\Class\NecromancerComponent.h" />
     <ClInclude Include="src\Class\PickableCMP.h" />
     <ClInclude Include="src\game\EnemyFacade.h" />
     <ClInclude Include="src\game\EnemyUtils.h" />
@@ -116,7 +113,6 @@
     <ClInclude Include="src\Class\MenuState.h" />
     <ClInclude Include="src\Class\MovementCtrl.h" />
     <ClInclude Include="src\Class\ObjectInfo.h" />
-    <ClInclude Include="src\Class\Player.h" />
     <ClInclude Include="src\Class\PlayerCtrl.h" />
     <ClInclude Include="src\Class\PlayState.h" />
     <ClInclude Include="src\Class\SceneObject.h" />
@@ -135,13 +131,9 @@
     <ClInclude Include="src\ecs\ecs_defs_example.h" />
     <ClInclude Include="src\ecs\Entity.h" />
     <ClInclude Include="src\ecs\Manager.h" />
-    <ClInclude Include="src\game\AsteroidsFacade.h" />
-    <ClInclude Include="src\game\AsteroidsUtils.h" />
-    <ClInclude Include="src\game\FighterFacade.h" />
-    <ClInclude Include="src\game\FighterUtils.h" />
     <ClInclude Include="src\game\GameOverState.h" />
     <ClInclude Include="src\game\GameState.h" />
-    <ClInclude Include="src\game\GhostComponent.h" />
+    <ClInclude Include="src\Class\GhostComponent.h" />
     <ClInclude Include="src\game\NewGameState.h" />
     <ClInclude Include="src\game\NewRoundState.h" />
     <ClInclude Include="src\game\PausedState.h" />

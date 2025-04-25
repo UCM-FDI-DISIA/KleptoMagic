@@ -11,7 +11,7 @@
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
 #include "../Class/PlayerAnimComponent.h"
-#include "../game/GhostComponent.h"
+#include "../Class/GhostComponent.h"
 #include "../Class/SlimeComponents.h"
 #include "../Class/TimerCountdown.h"
 #include "../Class/TimerRenderer.h"
