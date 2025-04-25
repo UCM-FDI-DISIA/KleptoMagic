@@ -43,7 +43,7 @@ ImageWithFrames::ImageWithFrames(Texture* tex, int interval, int cols, int rows,
 }
 
 void ImageWithFrames::update() {
-	if (sdlutils().currRealTime() - tLastFrame > tBetweenFrames && startframe != -1) {
+	if (sdlutils().currRealTime() - tLastFrame > tBetweenFrames && startframe > 1) {
 		if (frame + 1 > startframe + numframes - 1) {
 			frame = startframe;
 		}
@@ -64,8 +64,8 @@ void ImageWithFrames::render() {
 
 SDL_Rect ImageWithFrames::getRect() {
 	float frameX = ((frame % cols)) * frameWidth;
-	float frameY = ((frame / rows)) * frameHeight;
-	cout << cols << "|" << rows << "   " << frame << "   " << frame % rows << "|" << frame / cols << "   " << frameX << "|" << frameY << "   " << endl;
+	float frameY = ((frame / cols)) * frameHeight;
+	//cout << frame << "|" << numframes << "   " << cols << "|" << rows << "   " << frame % rows << "|" << frame / cols << "   " << frameX << "|" << frameY << "   " << endl;
 	Vector2D framePos = Vector2D{ frameX, frameY };
 	SDL_Rect rect = build_sdlrect(framePos, frameWidth, frameHeight);
 	return rect;

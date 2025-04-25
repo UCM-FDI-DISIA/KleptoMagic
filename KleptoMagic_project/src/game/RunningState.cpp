@@ -10,6 +10,7 @@
 #include "../Class/Image.h"
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
+#include "../Class/PlayerAnimComponent.h"
 #include "../game/GhostComponent.h"
 #include "../Class/SlimeComponents.h"
 #include "../Class/TimerCountdown.h"
@@ -167,7 +168,7 @@ void RunningState::enter()
 	else if (selectedCharacter == "HUNTER") charStartFrame = 6;
 	else if (selectedCharacter == "ROGUE") charStartFrame = 12;
 	else if (selectedCharacter == "ALCHEMIST") charStartFrame = 18;
-	game().getMngr()->addComponent<ImageWithFrames>(player, &sdlutils().images().at("player_sprites"), (float)500, 6, 4);
+	game().getMngr()->addComponent<ImageWithFrames>(player, &sdlutils().images().at("player_sprites"), (float)500, 6, 4, charStartFrame, 1);
 	game().getMngr()->addComponent<EntityStat>(player, 3, 1, 10, 1, 1);
 	game().getMngr()->addComponent<PlayerCtrl>(player);
 	auto tilechecker = game().getMngr()->addComponent<TileCollisionChecker>(player);
