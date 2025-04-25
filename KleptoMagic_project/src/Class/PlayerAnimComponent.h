@@ -10,14 +10,19 @@ class PlayerAnimComponent : public ecs::Component {
 public:
 	__CMPID_DECL__(ecs::cmp::PLAYERANIMCOMPONENT);
 
+	PlayerAnimComponent(int startF);
+
 	void initComponent() override;
 	void update();
-	void toggleWalking() { walking = !walking; };
+	void toggleWalkingAnim();
+	void toggleFlip();
 
 private:
 	Transform* _tr;
 	ImageWithFrames* _plrImg;
-	bool walking;
-	int walkingFrame;
+	int startFrame;
+	int deathFrame;
+	bool isWalking;
+	bool isFacingRight;
 	void createStart();
 };

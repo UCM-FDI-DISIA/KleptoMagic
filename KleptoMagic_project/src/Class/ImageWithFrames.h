@@ -25,6 +25,12 @@ public:
 
 	SDL_Rect getRect();
 
+	void setFrame(int f) { frame = f; };
+	void setStartingFrame(int f) { startframe = f; tLastFrame = sdlutils().currRealTime(); };
+	void setInterval(int i) { tBetweenFrames = i; tLastFrame = sdlutils().currRealTime(); };
+	void setNumFrames(int n) { numframes = n; tLastFrame = sdlutils().currRealTime();};
+	void setFlip(bool f) { flip = f; };
+
 private:
 	Texture* _tex;
 	Transform* _tr;
@@ -37,4 +43,5 @@ private:
 	int frameHeight;
 	int startframe;
 	int numframes;
+	bool flip;
 };

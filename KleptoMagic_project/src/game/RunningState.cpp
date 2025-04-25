@@ -168,13 +168,14 @@ void RunningState::enter()
 	else if (selectedCharacter == "HUNTER") charStartFrame = 6;
 	else if (selectedCharacter == "ROGUE") charStartFrame = 12;
 	else if (selectedCharacter == "ALCHEMIST") charStartFrame = 18;
-	game().getMngr()->addComponent<ImageWithFrames>(player, &sdlutils().images().at("player_sprites"), (float)500, 6, 4, charStartFrame, 1);
+	game().getMngr()->addComponent<ImageWithFrames>(player, &sdlutils().images().at("player_sprites"), (float)75, 6, 4, charStartFrame, 1);
 	game().getMngr()->addComponent<EntityStat>(player, 3, 1, 10, 1, 1);
 	game().getMngr()->addComponent<PlayerCtrl>(player);
 	auto tilechecker = game().getMngr()->addComponent<TileCollisionChecker>(player);
 	tilechecker->init(false, tr, dungeonfloor);
 	tr->initTileChecker(tilechecker);
 	auto movethroughrooms = game().getMngr()->addComponent<MoveThroughRooms>(player);
+	game().getMngr()->addComponent<PlayerAnimComponent>(player, charStartFrame);
 	bullet = new BulletUtils();
 	//bullet->addComponent(0);
 	bullet->setDungeonFloor(dungeonfloor);
