@@ -65,9 +65,13 @@ Game::~Game() {
 	if (SDLUtils::HasInstance())
 		SDLUtils::Release();
 
-	// release AsteroidsUtils if the instance was created correctly.
+	// release EnemyUtils if the instance was created correctly.
 	if (EnemyUtils::HasInstance())
 		EnemyUtils::Release();
+
+	// release PlayerUtils if the instance was created correctly.
+	if (PlayerUtils::HasInstance())
+		PlayerUtils::Release();
 }
 
 void Game::start() {

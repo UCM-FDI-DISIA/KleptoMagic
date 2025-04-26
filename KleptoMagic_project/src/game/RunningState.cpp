@@ -99,8 +99,8 @@ void RunningState::update() {
 		// clear screen
 		sdlutils().clearRenderer(build_sdlcolor(0x000000FF));
 
-			// render dungeon
-			dungeonfloor->render();
+		// render dungeon
+		dungeonfloor->render();
 
 		// render
 		game().getMngr()->render();
@@ -152,7 +152,10 @@ void RunningState::enter()
 	auto x = (sdlutils().width() - s) / 2.0f;
 	auto y = (sdlutils().height() - s) / 2.0f;
 	auto pos = Vector2D(x, y);
-	playerutils().createPlayer(pos, s);
+	bullet = new BulletUtils();
+	bullet->addComponent(0);
+	bullet->setDungeonFloor(dungeonfloor);
+	playerutils().createPlayer(pos, s, bullet);
 	//Player
 	/*
 	auto player = game().getMngr()->addEntity();
@@ -184,7 +187,7 @@ void RunningState::enter()
 	auto movethroughrooms = game().getMngr()->addComponent<MoveThroughRooms>(player);
 	game().getMngr()->addComponent<PlayerAnimComponent>(player, charStartFrame);
 	bullet = new BulletUtils();
-	//bullet->addComponent(0);
+	bullet->addComponent(0);
 	bullet->setDungeonFloor(dungeonfloor);
 	movethroughrooms->init(dungeonfloor,bullet);
 	movethroughrooms->enterRoom(' ');

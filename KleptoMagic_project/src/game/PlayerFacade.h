@@ -6,6 +6,7 @@
 #include "../../../src/ecs/Manager.h"
 
 class DungeonFloor;
+class BulletUtils;
 
 enum Characters {
 	CHAR_KNIGHT = 0,
@@ -20,7 +21,8 @@ class PlayerFacade {
 public:
 	PlayerFacade() {}
 	virtual ~PlayerFacade() {}
+	virtual void setDungeonFloor(DungeonFloor* floor) = 0;
 	virtual void selectCharacter(Characters c) = 0;
-	virtual void createPlayer(Vector2D pos, float size) = 0;
+	virtual void createPlayer(Vector2D pos, float size, BulletUtils* bullet) = 0;
 	virtual void destroyPlayer() = 0;
 };

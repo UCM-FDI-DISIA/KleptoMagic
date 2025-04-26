@@ -1,9 +1,10 @@
 #pragma once
 
 #include "PlayerFacade.h"
-#include "../../src/utils/Singleton.h"
+#include "../utils/Singleton.h"
 #include "../utils/Vector2D.h"
 
+class BulletUtils;
 
 using namespace ecs;
 
@@ -18,8 +19,9 @@ private:
 	Characters _character;
 
 public:
+	void setDungeonFloor(DungeonFloor* floor) { _dungeonfloor = floor; };
 	void selectCharacter(Characters c) { _character = c; };
-	void createPlayer(Vector2D pos, float size);
+	void createPlayer(Vector2D pos, float size, BulletUtils* bullet);
 	void destroyPlayer();
 };
 
