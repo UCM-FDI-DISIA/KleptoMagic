@@ -147,7 +147,14 @@ void RunningState::enter()
 #ifdef _DEBUG
 	std::cout << "Entrando en RunningState" << std::endl;
 #endif
+
+	auto s = 50.0f;
+	auto x = (sdlutils().width() - s) / 2.0f;
+	auto y = (sdlutils().height() - s) / 2.0f;
+	auto pos = Vector2D(x, y);
+	playerutils().createPlayer(pos, s);
 	//Player
+	/*
 	auto player = game().getMngr()->addEntity();
 	game().getMngr()->setHandler(ecs::hdlr::PLAYER, player);
 	auto tr = game().getMngr()->addComponent<Transform>(player);
@@ -181,6 +188,7 @@ void RunningState::enter()
 	bullet->setDungeonFloor(dungeonfloor);
 	movethroughrooms->init(dungeonfloor,bullet);
 	movethroughrooms->enterRoom(' ');
+	*/
 
 	
 

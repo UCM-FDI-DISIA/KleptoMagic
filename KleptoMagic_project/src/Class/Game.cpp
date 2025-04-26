@@ -44,6 +44,10 @@ bool Game::initGame() {
 		std::cerr << "Error initializing EnemyUtils" << std::endl;
 		return false;
 	}
+	if (!PlayerUtils::Init(_mngr)) {
+		std::cerr << "Error initializing PlayerUtils" << std::endl;
+		return false;
+	}
 
 	setGameState(new NewGameState());
 

@@ -9,7 +9,7 @@ using namespace ecs;
 
 class EnemyUtils : virtual public EnemyFacade, public Singleton<EnemyUtils> {
 	friend Singleton<EnemyUtils>;
-private:
+protected:
 	EnemyUtils();
 	bool init(Manager* mngr);
 	virtual ~EnemyUtils();
