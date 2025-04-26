@@ -27,7 +27,7 @@ void BulletUtils::update()
 		if (!bullStat->getPiercing() && _dungeonfloor != nullptr)
 		{
 			auto tilecollision = mngr->getComponent<TileCollisionChecker>(bull);
-			if (!tilecollision->getCanMove()) { mngr->setAlive(bull,false); }
+			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY()) { mngr->setAlive(bull,false); }
 		}
 	}
 }
@@ -71,7 +71,7 @@ void BulletUtils::enemyShoot(Transform* _enemyTR, int i)
 	auto* _bulletsTR = _mngr->addComponent<Transform>(_bullets);
 	_bulletsTR->init(Vector2D(_enemyTR->getPos().getX() + _enemyTR->getWidth() / 2, _enemyTR->getPos().getY() + _enemyTR->getHeight() / 2) - Vector2D(stats->getSize() / 2, stats->getSize() / 2), vel, stats->getSize(), stats->getSize(), rot);
 	//la imagen debe de ser distinta para cada enemigo
-	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1);
+	//_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1);
 	_mngr->addComponent<DestroyOnBorder>(_bullets);
 	if (!stats->getPiercing())
 	{
@@ -118,16 +118,21 @@ void BulletUtils::shoot()
 	float xf = static_cast<float>(x);
 	float yf = static_cast<float>(y);
 	Vector2D PosRat = { xf,yf };
+
+	if (input().isControllerConnected()) {
+		input().triggerRumble(RumbleType::TAP);
+	}
 	
 	auto _bullets = _mngr->addEntity(ecs::grp::BULLET);
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
 	stats->refreshStats(bulStat->getSpeed(),bulStat->getDamage(),bulStat->getDistance(),bulStat->getSize(),bulStat->getPiercing());
-	Vector2D vel = (PosRat - Vector2D(_tr->getPos().getX()+(_tr->getWidth()/2), _tr->getPos().getY()+(_tr->getHeight()/2))).normalize() * stats->getSpeed();
+	Vector2D vel = input().getAimVector(_tr->getPos()) * stats->getSpeed();
+	std::cout << "AimVector: " << vel.getX() << " " << vel.getY() << '\n';
 	float rot = -vel.normalize().angle(Vector2D(0, -1));
 	std::cout << rot<<'\n';
 	auto _bulletsTR = _mngr->addComponent<Transform>(_bullets);
 	_bulletsTR->init(Vector2D(_tr->getPos().getX() + _tr->getWidth() / 2, _tr->getPos().getY() + _tr->getHeight() / 2)-Vector2D(stats->getSize()/2,stats->getSize()/2), vel, stats->getSize(), stats->getSize(), rot);
-	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1);
+	//_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1);
 	_mngr->addComponent<DestroyOnBorder>(_bullets);
 	for(int i=0;i<componentes.size();i++)
 	{

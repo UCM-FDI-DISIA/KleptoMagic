@@ -40,24 +40,7 @@ namespace ecs
 	};
 
 
-	class UndeadStatComponent : public Component
-	{
-		Transform* _UndeadTransform;
-		Transform* _player;
-	public:
-		__CMPID_DECL__(ecs::cmp::UNDEADSTATCMP);
-		float speed = 50;
-		float damage = 10;
-		float attackspeed = 1;
-		float range = 5;
-		void initComponent() override
-		{
-			auto* _mngr = _ent->getMngr();
-			_UndeadTransform = _mngr->getComponent<Transform>(_ent);
-			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
-		}
-		void update() override {}
-	};
+	
 
 	class UndeadMovementComponent : public Component
 	{
@@ -78,7 +61,7 @@ namespace ecs
 
 		{
 			auto vector = static_cast<UndeadVectorComponent*>(_ent->getMngr()->getComponent<UndeadVectorComponent>(_ent));
-			auto stat = static_cast<UndeadStatComponent*>(_ent->getMngr()->getComponent<UndeadStatComponent>(_ent));
+			
 
 			if (vector && stat && _UndeadTransform)
 			{
@@ -96,8 +79,6 @@ namespace ecs
 	public:
 		Transform* _UndeadTransform;
 		Transform* _player;
-		Entity* player = nullptr;
-		float attackCooldown;
 		std::chrono::steady_clock::time_point lastAttackTime = std::chrono::steady_clock::now();
 		double attackRange;
 		__CMPID_DECL__(ecs::cmp::UNDEADATKCMP);
@@ -111,9 +92,9 @@ namespace ecs
 		{
 			
 				auto vector = static_cast<UndeadVectorComponent*>(_ent->getMngr()->getComponent<UndeadVectorComponent>(_ent));
-				auto stat = static_cast<UndeadStatComponent*>(_ent->getMngr()->getComponent<UndeadStatComponent>(_ent));
+			
 				auto movement = static_cast<UndeadMovementComponent*>(_ent->getMngr()->getComponent<UndeadMovementComponent>(_ent));
-				attackCooldown = 10 ;
+		
 				auto now = std::chrono::steady_clock::now();
 				float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
 

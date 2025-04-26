@@ -1,39 +1,47 @@
 #pragma once
 #include "../ecs/Component.h"
+#include "../sdlutils/SDLUtils.h"
+#include "Transform.h"
 
 class Transform;
 class Texture;
 
 class ImageWithFrames : public ecs::Component {
-private:
-	Transform* _tr;
-	Texture* _tex;
-public:
 
+public:
 	__CMPID_DECL__(ecs::cmp::IMAGEWITHFRAMES)
 
-	// Parámetros de animación
-	int totalFrames_;      // Total de frames en la spritesheet
-	int frameWidth_;       // Ancho de cada frame
-	int frameHeight_;      // Alto de cada frame
-	int currentFrame_;     // Frame actual (0 a totalFrames-1)
-	float frameTime_;      // Tiempo entre frames (en ms)
-	float currentTime_;    // Tiempo acumulado
-	int cols_;
-	int rows_;
-
+	void initComponent() override;
 
 	ImageWithFrames();
-	ImageWithFrames(Texture* tex, int cols, int rows);
-	virtual ~ImageWithFrames();
+	ImageWithFrames(Texture* tex, int cols, int rows, int frame);
+	ImageWithFrames(Texture* tex, float interval, int cols, int rows);
+	ImageWithFrames(Texture* tex, int interval, int cols, int rows, int frameS, int frameN);
 
-	void setTexture(Texture* tex) {
-		_tex = tex;
-	}
+	virtual ~ImageWithFrames() {};
 
-	void initComponent() override;
-	void render() override;
-	void update() override;
+	void update();
+	void render();
 
+	SDL_Rect getRect();
 
+	void setFrame(int f) { frame = f; };
+	void setStartingFrame(int f) { startframe = f; tLastFrame = sdlutils().currRealTime(); };
+	void setInterval(int i) { tBetweenFrames = i; tLastFrame = sdlutils().currRealTime(); };
+	void setNumFrames(int n) { numframes = n; tLastFrame = sdlutils().currRealTime();};
+	void setFlip(bool f) { flip = f; };
+
+private:
+	Texture* _tex;
+	Transform* _tr;
+	int tBetweenFrames;
+	int tLastFrame;
+	int frame;
+	int cols;
+	int rows;
+	int frameWidth;
+	int frameHeight;
+	int startframe;
+	int numframes;
+	bool flip;
 };

@@ -68,7 +68,6 @@ Game::~Game() {
 
 void Game::start() {
 	exit = false;
-	//auto& ihdlr = ih();
 	auto& vt = sdlutils().virtualTimer();
 
 	vt.resetTime();

@@ -54,7 +54,6 @@ NewGameState::~NewGameState() {
 
 void NewGameState::update() {
     bool exit = false;
-    //auto& ihdlr = ih();
 
 
     sdlutils().resetTime();
@@ -64,7 +63,6 @@ void NewGameState::update() {
         Uint32 startTime = sdlutils().currRealTime();
 
         // Actualizar eventos
-        //ih().refresh();
         NewInputHandler::Instance()->update();
 
         // Actualizar boton (manejo de clic)

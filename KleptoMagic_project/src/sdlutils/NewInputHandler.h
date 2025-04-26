@@ -22,31 +22,54 @@ enum class Action {
     COUNT
 };
 
+enum class RumbleType {
+    TAP,
+    BUZZ,
+    LONG
+};
+
 class NewInputHandler : public Singleton<NewInputHandler> {
     friend class Singleton<NewInputHandler>;
 public:
     bool init();
     void update();
+    bool isControllerConnected() { return _controller != nullptr; };
     
     bool isActionPressed(Action action) { return _actionPressed[action]; };
     bool isActionHeld(Action action) { return _actionHeld[action]; };
     bool isActionReleased(Action action) { return _actionReleased[action]; };
     bool isAnyKeyPressed() { return _anyKeyPressed; };
     Vector2D getMovementVector() { return _movementVector.normalize(); };
+    Vector2D getAimVector(Vector2D playerPos);
+    void triggerRumble(RumbleType type);
     
 private:
+    void initializeController();
     void onKeyDown(SDL_Event& event);
     void onKeyUp(SDL_Event& event);
+    void onMouseButtonDown(SDL_Event& event);
+    void onMouseButtonUp(SDL_Event& event);
     void onGameControllerButtonDown(SDL_Event& event);
     void onGameControllerButtonUp(SDL_Event& event);
+    void onGameControllerAxisMotion(SDL_Event& event);
     void UpdateMovementVector();
+    void UpdateAimVector();
 
     std::unordered_map<Action, bool> _actionPressed;
     std::unordered_map<Action, bool> _actionHeld;
     std::unordered_map<Action, bool> _actionReleased;
+    Vector2D _leftStickVector, _rightStickVector;
+    float _leftTriggerValue, _rightTriggerValue;
+    float _rawLeftStickX, _rawLeftStickY, _rawRightStickX, _rawRightStickY;
+    float _stickDeadZone = 0.1f; // Dead zone for left and right sticks
 
     bool _anyKeyPressed;
-    Vector2D _movementVector;
+    Vector2D _movementVector, _aimVector;
+    SDL_GameController* _controller;
 };
+
+inline NewInputHandler& input() {
+    return *NewInputHandler::Instance();
+}
 
 #endif // H_NEWINPUTHANDLER_H
