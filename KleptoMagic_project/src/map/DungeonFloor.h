@@ -132,6 +132,9 @@ public:
 	void PrintFloorLayout_Detailed();
 #endif
 
-	void findPathToX(float x, float y);
+	void GeneratePathfindLayout();
+
+	void findPathToX(float x, float y, float dX, float dY);
+	//std::vector(aStar::vec2(int)) rep();
 
 };

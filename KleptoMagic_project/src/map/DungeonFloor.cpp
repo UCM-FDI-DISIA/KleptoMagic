@@ -12,6 +12,8 @@ DungeonFloor::DungeonFloor(int minWidth, int minHeight, int maxWidth, int maxHei
 	GenerateFloor(minWidth, minHeight, maxWidth, maxHeight, numRooms); 
 	enemyutils().setDungeonFloor(this);
 
+	GeneratePathfindLayout();
+
 #ifdef _DEBUG
 	PrintFloorLayout_Simple();
 	PrintFloorLayout_Detailed();
@@ -186,7 +188,7 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 			// Update the values for the current room location for the next iteration
 			CurrentRoomX = TargetRoomX;
 			CurrentRoomY = TargetRoomY;
-			pathfindLayout[CurrentRoomX][CurrentRoomY] = createPathRoom(floorLayout[CurrentRoomX][CurrentRoomY]->getRoomTiles());
+			//pathfindLayout[CurrentRoomX][CurrentRoomY] = createPathRoom(floorLayout[CurrentRoomX][CurrentRoomY]->getRoomTiles());
 
 
 #ifdef _DEBUG
@@ -626,6 +628,17 @@ void DungeonFloor::PrintFloorLayout_Simple() {
 	}
 }
 
+void DungeonFloor::GeneratePathfindLayout() {
+	for (int i = 0; i < floorLayout.size(); i++) {
+		for (int j = 0; j < floorLayout[0].size(); j++) {
+			if(floorLayout[i][j] != nullptr)
+			{
+				pathfindLayout[i][j] = createPathRoom(floorLayout[i][j]->getRoomTiles());
+			}
+		}
+	}
+}
+
 void DungeonFloor::PrintFloorLayout_Detailed() {
 
 	int render_width = floor_width * 3;
@@ -702,6 +715,7 @@ void DungeonFloor::PrintFloorLayout_Detailed() {
 		}
 		cout << endl;
 	}
+
 }
 #endif
 
@@ -731,9 +745,16 @@ AStar::AStar<uint32_t, true> DungeonFloor::createPathRoom(vector<vector<char>> t
 	return pathFinder;
 
 }
-void DungeonFloor::findPathToX(float x, float y) {
-	// Find the path from (0, 0) to (9, 9)
-	auto path = pathfindLayout[getCurrentX()][getCurrentY()].findPath({2, 2}, {9, 9});
+void DungeonFloor::findPathToX(float x, float y, float dX, float dY) {
+
+	// Redondear y convertir a int
+	int xi = static_cast<int>(std::round(x));
+	int yi = static_cast<int>(std::round(y));
+	int dXi = static_cast<int>(std::round(dX));
+	int dYi = static_cast<int>(std::round(dY));
+
+	// Find the path
+	auto path = pathfindLayout[getCurrentX()][getCurrentY()].findPath({ dXi, dYi }, { xi, yi });
 	
 	// Print the path
 	for (auto& p : path) {

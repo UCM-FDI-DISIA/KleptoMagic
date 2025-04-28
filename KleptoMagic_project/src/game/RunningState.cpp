@@ -85,7 +85,7 @@ void RunningState::update() {
 		game().getMngr()->refresh();
 		bullet->update();
 
-		dungeonfloor->findPathToX(0, 0);
+		dungeonfloor->findPathToX(9, 9, 2, 2);
 
 		// checking collisions
 		colission_thisframe = false;
