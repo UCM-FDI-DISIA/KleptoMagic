@@ -21,7 +21,7 @@
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
 
-RunningState::RunningState(/*Manager* mgr) :_mngr(mgr*/) {
+RunningState::RunningState() {
 #ifdef _DEBUG
 	std::cout << "Nuevo RunningState creado!" << std::endl;
 #endif
@@ -148,14 +148,18 @@ void RunningState::enter()
 	std::cout << "Entrando en RunningState" << std::endl;
 #endif
 
-	auto s = 50.0f;
-	auto x = (sdlutils().width() - s) / 2.0f;
-	auto y = (sdlutils().height() - s) / 2.0f;
-	auto pos = Vector2D(x, y);
-	bullet = new BulletUtils();
-	bullet->addComponent(0);
-	bullet->setDungeonFloor(dungeonfloor);
-	playerutils().createPlayer(pos, s, bullet);
+	auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
+
+	if (player == nullptr || !game().getMngr()->isAlive(player)) {
+		auto s = 50.0f;
+		auto x = (sdlutils().width() - s) / 2.0f;
+		auto y = (sdlutils().height() - s) / 2.0f;
+		auto pos = Vector2D(x, y);
+		bullet = new BulletUtils();
+		bullet->addComponent(0);
+		bullet->setDungeonFloor(dungeonfloor);
+		playerutils().createPlayer(pos, s, bullet);
+	}
 	//Player
 	/*
 	auto player = game().getMngr()->addEntity();
