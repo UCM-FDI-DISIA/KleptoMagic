@@ -23,6 +23,7 @@ public:
 	void Reset();
 	void ChangeFlat(float add, Stat stat);
 	void ChangeMulti(float mult , Stat stat);
+
 	float getStat(Stat stat) const {
 		switch (stat) {
 		case Stat::HealthTotal: return healthTotal;
@@ -34,6 +35,7 @@ public:
 		default: return 0.0f;
 		}
 	}
+
 private:
 	void createStart();
 	//stats iniciales por si hace flata recalcular en caso de valor imposible o excepcion

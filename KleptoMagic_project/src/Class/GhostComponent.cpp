@@ -15,7 +15,6 @@ GhostComponent::GhostComponent(int rad, int timer)
 GhostComponent::~GhostComponent() {
 }
 
-
 void GhostComponent::update() {
 	auto now = std::chrono::steady_clock::now();
 	float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
@@ -26,7 +25,6 @@ void GhostComponent::update() {
 		lastAttackTime = now;
 		teleportRndPosition();
 	}
-
 }
 
 void GhostComponent::initComponent() { // Gets it's transform and target's, and the timer

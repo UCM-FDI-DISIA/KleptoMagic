@@ -76,4 +76,3 @@ void EntityStat::ChangeMulti(float mult, Stat stat)
         break;
     }
 }
-
