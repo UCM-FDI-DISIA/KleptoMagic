@@ -25,9 +25,6 @@ RunningState::RunningState() {
 #ifdef _DEBUG
 	std::cout << "Nuevo RunningState creado!" << std::endl;
 #endif
-
-	roomstorage = new RoomStorage();
-	dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
 }
 	
 
@@ -151,6 +148,8 @@ void RunningState::enter()
 	auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
 
 	if (player == nullptr || !game().getMngr()->isAlive(player)) {
+		roomstorage = new RoomStorage();
+		dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
 		auto s = 50.0f;
 		auto x = (sdlutils().width() - s) / 2.0f;
 		auto y = (sdlutils().height() - s) / 2.0f;
@@ -160,50 +159,6 @@ void RunningState::enter()
 		bullet->setDungeonFloor(dungeonfloor);
 		playerutils().createPlayer(pos, s, bullet);
 	}
-	//Player
-	/*
-	auto player = game().getMngr()->addEntity();
-	game().getMngr()->setHandler(ecs::hdlr::PLAYER, player);
-	auto tr = game().getMngr()->addComponent<Transform>(player);
-	auto s = 50.0f;
-	auto x = (sdlutils().width() - s) / 2.0f;
-	auto y = (sdlutils().height() - s) / 2.0f;
-	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
-	std::string selectedCharacter = game().getSelectedCharacter();
-#ifdef _DEBUG
-	std::cout << "Personaje seleccionado: " << selectedCharacter << std::endl;
-#endif
-	if (selectedCharacter.empty()) {
-		selectedCharacter = "ALCHEMIST"; // Valor por defecto si no se ha seleccionado nada
-	}
-	//game().getMngr()->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
-	int charStartFrame;
-	if (selectedCharacter == "KNIGHT") charStartFrame = 0;
-	else if (selectedCharacter == "HUNTER") charStartFrame = 6;
-	else if (selectedCharacter == "ROGUE") charStartFrame = 12;
-	else if (selectedCharacter == "ALCHEMIST") charStartFrame = 18;
-	game().getMngr()->addComponent<ImageWithFrames>(player, &sdlutils().images().at("player_sprites"), (float)75, 6, 4, charStartFrame, 1);
-	game().getMngr()->addComponent<EntityStat>(player, 3, 1, 10, 1, 1);
-	game().getMngr()->addComponent<PlayerCtrl>(player);
-	auto tilechecker = game().getMngr()->addComponent<TileCollisionChecker>(player);
-	tilechecker->init(false, tr, dungeonfloor);
-	tr->initTileChecker(tilechecker);
-	auto movethroughrooms = game().getMngr()->addComponent<MoveThroughRooms>(player);
-	game().getMngr()->addComponent<PlayerAnimComponent>(player, charStartFrame);
-	bullet = new BulletUtils();
-	bullet->addComponent(0);
-	bullet->setDungeonFloor(dungeonfloor);
-	movethroughrooms->init(dungeonfloor,bullet);
-	movethroughrooms->enterRoom(' ');
-	*/
-
-	
-
-	/*
-	enemyutils().spawn_enemy(ENEMY_SLIME, Vector2D{ 100.0f, 100.0f });
-	enemyutils().spawn_enemy(ENEMY_ARCHER, Vector2D{ 200.0f, 200.0f });
-	enemyutils().spawn_enemy(ENEMY_ARMOR, Vector2D{ 300.0f, 300.0f });
-	*/
 }
 
 void RunningState::leave()

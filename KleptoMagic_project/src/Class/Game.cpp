@@ -139,7 +139,6 @@ void Game::popState() {
 	}
 }
 
-
 void Game::createItems() {
 
 
