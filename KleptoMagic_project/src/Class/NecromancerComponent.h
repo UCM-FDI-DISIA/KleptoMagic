@@ -6,6 +6,7 @@
 #include "Transform.h"
 #include "../sdlutils/Texture.h"
 #include "../game/EnemyUtils.h"
+
 #include <chrono>
 namespace ecs 
 {
@@ -39,29 +40,28 @@ namespace ecs
 			}
 		}
 	};
-	class NecroStatComponent : public Component
+	class NecroStatComponent : public StatComponent
 	{
 		Transform* _NecroTransform;
 		Transform* _player;
 	public:
 		__CMPID_DECL__(ecs::cmp::NECROSTATCMP);
-		float life = 10;
+		
 		float shield = 0.60;
 		void initComponent() override
 		{
 			auto* _mngr = _ent->getMngr();
-			_NecroTransform = _mngr->getComponent<Transform>(_ent);
-			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+			life = 11;
+			speed = 1.3;
 		}
-		void harm(float damage) 
+		void harm(float damage) override
 		{
 			life = life - (damage * shield);
 			 if (life <= 0)
 			 {
-
+				 Death();
 			 }
-		}
-		void Death() {};
+		};
 		void ReduceShield() 
 		{
 			if (shield >= 1) 
@@ -79,7 +79,6 @@ namespace ecs
 	{
 		Transform* _NecroTransform;
 		Transform* _player;
-	
 		float spawned = 0;
 		
 		
@@ -92,6 +91,7 @@ namespace ecs
 			auto* _mngr = _ent->getMngr();
 			_NecroTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+			
 		}
 		void Spawn()
 		{
@@ -143,6 +143,7 @@ namespace ecs
 	{
 		Transform* _NecroTransform;
 		Transform* _player;
+		float speed;
 		
 
 	public:
@@ -152,6 +153,8 @@ namespace ecs
 			auto* _mngr = _ent->getMngr();
 			_NecroTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+			auto stat = static_cast<NecroStatComponent*>(_ent->getMngr()->getComponent<NecroStatComponent>(_ent));
+			speed = stat->speed;
 		}
 
 		void update() override
@@ -164,7 +167,7 @@ namespace ecs
 				vector->CreateVector(_NecroTransform->getPos(), _player->getPos());
 				if (vector->magnitude < 10)
 				{
-					Vector2D velocity(vector->direcionX * 0.5, vector->direcionY * 0.5);
+					Vector2D velocity(vector->direcionX * speed, vector->direcionY * speed);
 					_NecroTransform->getVel() = velocity;
 				}
 				
