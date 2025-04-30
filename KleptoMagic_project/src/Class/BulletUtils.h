@@ -44,7 +44,7 @@ public:
 	void changeAttSpeedCapFlat(float i) { attSpeedCapFlat += i; }
 	void changeAttSpeedCapMul(float i) { attSpeedCapMul += i; }
 	void setDungeonFloor(DungeonFloor* floor) { _dungeonfloor = floor; }
-	
+	void addBullets(int i) { bulStat->changeBullets(i); }
 private:
 	VirtualTimer* _tim;
 	constexpr static uint8_t _max_bullets = 20;

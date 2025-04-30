@@ -125,7 +125,7 @@ void BulletUtils::shoot()
 	
 	auto _bullets = _mngr->addEntity(ecs::grp::BULLET);
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
-	stats->refreshStats(bulStat->getSpeed(),bulStat->getDamage(),bulStat->getDistance(),bulStat->getSize(),bulStat->getPiercing());
+	stats->refreshStats(bulStat->getSpeed(),bulStat->getDamage(),bulStat->getDistance(),bulStat->getSize(),bulStat->getPiercing(),bulStat->getBull());
 	Vector2D vel = input().getAimVector(_tr->getPos()) * stats->getSpeed();
 	std::cout << "AimVector: " << vel.getX() << " " << vel.getY() << '\n';
 	float rot = -vel.normalize().angle(Vector2D(0, -1));
