@@ -71,7 +71,7 @@ void BulletUtils::enemyShoot(Transform* _enemyTR, int i)
 	auto* _bulletsTR = _mngr->addComponent<Transform>(_bullets);
 	_bulletsTR->init(Vector2D(_enemyTR->getPos().getX() + _enemyTR->getWidth() / 2, _enemyTR->getPos().getY() + _enemyTR->getHeight() / 2) - Vector2D(stats->getSize() / 2, stats->getSize() / 2), vel, stats->getSize(), stats->getSize(), rot);
 	//la imagen debe de ser distinta para cada enemigo
-	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1,1);
+	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1,0);
 	_mngr->addComponent<DestroyOnBorder>(_bullets);
 	if (!stats->getPiercing())
 	{
