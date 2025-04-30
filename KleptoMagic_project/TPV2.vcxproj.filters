@@ -63,6 +63,10 @@
     <ClCompile Include="src\Class\LivingArmorCMP.cpp" />
     <ClCompile Include="src\Class\BossCMP.cpp" />
     <ClCompile Include="src\Class\PickableCMP.cpp" />
+    <ClCompile Include="src\Class\PlayerAnimComponent.cpp" />
+    <ClCompile Include="src\Class\NecromancerComponent.cpp" />
+    <ClCompile Include="src\game\PlayerFacade.cpp" />
+    <ClCompile Include="src\game\PlayerUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
@@ -145,6 +149,10 @@
     <ClInclude Include="src\Class\LivingArmorCMP.h" />
     <ClInclude Include="src\Class\BossCMP.h" />
     <ClInclude Include="src\Class\PickableCMP.h" />
+    <ClInclude Include="src\Class\PlayerAnimComponent.h" />
+    <ClInclude Include="src\Class\NecromancerComponent.h" />
+    <ClInclude Include="src\game\PlayerFacade.h" />
+    <ClInclude Include="src\game\PlayerUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />

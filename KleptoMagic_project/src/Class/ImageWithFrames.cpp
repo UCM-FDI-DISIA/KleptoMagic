@@ -1,64 +1,77 @@
 #include "ImageWithFrames.h"
 
-#include <cassert>
-
 #include "../ecs/Manager.h"
 #include "../sdlutils/macros.h"
-#include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/Texture.h"
 #include "Transform.h"
 
-ImageWithFrames::ImageWithFrames() :
-	_tr(), _tex() {
-}
-
-ImageWithFrames::ImageWithFrames(Texture* tex, int cols, int rows) :
-	_tr(), _tex(tex),
-	cols_(cols), rows_(rows),  // Inicializar cols_ y rows_
-	totalFrames_(cols* rows),
-	frameWidth_(_tex->width() / cols),  // Usar cols, no frameWidth_
-	frameHeight_(_tex->height() / rows),
-	currentFrame_(0),
-	currentTime_(0) {
-	frameTime_ = 50.0f;
-}
-
-ImageWithFrames::~ImageWithFrames() {
-}
+#include <iostream>
+using namespace std;
 
 void ImageWithFrames::initComponent() {
-	auto mngr = _ent->getMngr();
+	auto* mngr = _ent->getMngr();
 	_tr = mngr->getComponent<Transform>(_ent);
 	assert(_tr != nullptr);
 }
 
-void ImageWithFrames::render() {
-	// Calcular posición del frame en la spritesheet
-	int row = currentFrame_ / (cols_);
-	int col = currentFrame_ % (cols_);
+ImageWithFrames::ImageWithFrames() :
+	_tex(nullptr), tBetweenFrames(0), startframe(0), frame(0), cols(1), rows(1), numframes(cols* rows), frameWidth(0), frameHeight(0), tLastFrame(sdlutils().currRealTime()), flip(false) {
+}
 
-	SDL_Rect srcRect = {
-		col * frameWidth_,
-		row * frameHeight_,
-		frameWidth_,
-		frameHeight_
-	};
+ImageWithFrames::ImageWithFrames(Texture* tex, int cols, int rows, int frame) :
+	_tex(tex), tBetweenFrames(-1), startframe(-1), frame(frame), cols(cols), rows(rows), numframes(cols* rows), tLastFrame(sdlutils().currRealTime()), flip(false) {
+	if (_tex) {
+		frameWidth = _tex->width() / cols;
+		frameHeight = _tex->height() / rows;
+	}
+}
 
-	SDL_Rect destRect = build_sdlrect(_tr->getPos(), _tr->getWidth(), _tr->getHeight());
+ImageWithFrames::ImageWithFrames(Texture* tex, float interval, int cols, int rows) :
+	_tex(tex), tBetweenFrames(interval), startframe(0), frame(0), cols(cols), rows(rows), numframes(cols* rows), tLastFrame(sdlutils().currRealTime()), flip(false) {
+	if (_tex) {
+		frameWidth = _tex->width() / cols;
+		frameHeight = _tex->height() / rows;
+	}
+}
 
-	// Renderizar el frame específico
-	_tex->render(srcRect, destRect, _tr->getRot());
+ImageWithFrames::ImageWithFrames(Texture* tex, int interval, int cols, int rows, int frameS, int frameN) :
+	_tex(tex), tBetweenFrames(interval), startframe(frameS), frame(frameS), cols(cols), rows(rows), numframes(frameN), tLastFrame(sdlutils().currRealTime()), flip(false) {
+	if (_tex) {
+		frameWidth = _tex->width() / cols;
+		frameHeight = _tex->height() / rows;
+	}
 }
 
 void ImageWithFrames::update() {
-	// Actualizar el tiempo utilizando virtualTimer
-	currentTime_ += sdlutils().virtualTimer().currRealTime();
-
-
-	// Cambiar frame si se supera el tiempo
-	if (currentTime_ >= frameTime_) {
-		currentFrame_ = (currentFrame_ + 1) % totalFrames_;
-		sdlutils().virtualTimer().resetTime();
-		currentTime_ = 0;
+	if (sdlutils().currRealTime() - tLastFrame > tBetweenFrames && numframes > 1) {
+		if (frame + 1 > startframe + numframes - 1) {
+			frame = startframe;
+		}
+		else {
+			frame++;
+		}
+		tLastFrame = sdlutils().currRealTime();
 	}
+}
+
+void ImageWithFrames::render() {
+	SDL_Rect dest = build_sdlrect(_tr->getPos(), _tr->getWidth(),
+		_tr->getHeight());
+
+	assert(_tex != nullptr);
+	if (flip) {
+		_tex->render(getRect(), dest, _tr->getRot(), nullptr, SDL_FLIP_HORIZONTAL);
+	}
+	else {
+		_tex->render(getRect(), dest, _tr->getRot(), nullptr, SDL_FLIP_NONE);
+	}
+}
+
+SDL_Rect ImageWithFrames::getRect() {
+	float frameX = ((frame % cols)) * frameWidth;
+	float frameY = ((frame / cols)) * frameHeight;
+	//cout << frame << "|" << numframes << "   " << cols << "|" << rows << "   " << frame % rows << "|" << frame / cols << "   " << frameX << "|" << frameY << "   " << endl;
+	Vector2D framePos = Vector2D{ frameX, frameY };
+	SDL_Rect rect = build_sdlrect(framePos, frameWidth, frameHeight);
+	return rect;
 }
