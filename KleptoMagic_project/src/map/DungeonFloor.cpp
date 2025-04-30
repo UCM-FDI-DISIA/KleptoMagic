@@ -4,6 +4,7 @@
 #include <random>
 #include <vector>
 #include "../game/EnemyUtils.h"
+#include "../game/PlayerUtils.h"
 
 using namespace std;
 
@@ -11,6 +12,7 @@ DungeonFloor::DungeonFloor(int minWidth, int minHeight, int maxWidth, int maxHei
 {
 	GenerateFloor(minWidth, minHeight, maxWidth, maxHeight, numRooms); 
 	enemyutils().setDungeonFloor(this);
+	playerutils().setDungeonFloor(this);
 
 	GeneratePathfindLayout();
 
@@ -415,6 +417,10 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 
 void DungeonFloor::render() {
 	floorLayout[currentX][currentY]->render(renderer);
+}
+
+void DungeonFloor::update() {
+	floorLayout[currentX][currentY]->getTilemap()->update();
 }
 
 int DungeonFloor::checkCollisions(int x, int y) {

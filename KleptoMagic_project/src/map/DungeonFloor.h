@@ -92,6 +92,8 @@ public:
 
 	// Renders the dungeon floor: i.e. renders the current room
 	void render();
+	// Updates the current room. Primarily for updating the frames of decorations like torches and doors
+	void update();
 
 	// Feed it X and Y coordinates from an in-world position of an object. 
 	// Returns based on what type of tile (from the tilemap of the current room) that object is currently inside of:"

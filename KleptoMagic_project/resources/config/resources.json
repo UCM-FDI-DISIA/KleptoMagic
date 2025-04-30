@@ -32,6 +32,10 @@
             "file": "resources/images/tileset.png"
         },
         {
+            "id": "room_decor",
+            "file": "resources/images/room_decor.png"
+        },
+        {
             "id": "ROGUE",
             "file": "resources/images/rogue.png"
         },
@@ -46,6 +50,10 @@
         {
             "id": "ALCHEMIST",
             "file": "resources/images/alchemist.png"
+        },
+        {
+            "id": "player_sprites",
+            "file": "resources/images/player_sprites.png"
         },
         {
             "id": "heart",

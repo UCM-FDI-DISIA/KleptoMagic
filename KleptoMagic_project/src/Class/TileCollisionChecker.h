@@ -23,6 +23,8 @@ public:
 	void update();
 	TileCollision getCurrCollisionType() { return currentCollision; };
 	bool getCanMove() { return canMove; };
+	bool getCanMoveX() { return canMoveX; };
+	bool getCanMoveY() { return canMoveY; };
 
 private:
 	void createStart();
@@ -34,5 +36,5 @@ private:
 	// Dictates if the entity considers holes to be collidable or not
 	bool canFly;
 	// Shows whether or not the entity can move according to the position it'll be in next frame
-	bool canMove;
+	bool canMove, canMoveX, canMoveY;
 };

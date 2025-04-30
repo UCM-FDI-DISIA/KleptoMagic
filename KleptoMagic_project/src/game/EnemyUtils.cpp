@@ -7,7 +7,9 @@
 #include "../Class/SlimeComponents.h"
 #include "../Class/UndeadArcherCMPS.h"
 #include "../Class//LivingArmorCMP.h"
+#include "../Class/GhostComponent.h"
 #include "../Class/BossCMP.h"
+#include "../Class/NecromancerComponent.h"
 
 #include "../sdlutils/SDLUtils.h"
 
@@ -39,9 +41,14 @@ void EnemyUtils::spawn_enemy(EnemyNames name, Vector2D pos) {
 	case ENEMY_ARMOR:
 		spawn_ARMOR(pos);
 		break;
+	case ENEMY_GHOST:
+		spawn_GHOST(pos);
 	case ENEMY_BOSS:
 		spawn_BOSS(pos);
 		break;
+	//case ENEMY_SPAWN:
+		//spawn_SPAWN(pos);
+		//break;
 	}
 }
 
@@ -92,6 +99,15 @@ void EnemyUtils::spawn_ARMOR(Vector2D pos) {
 	tr->initTileChecker(tilechecker);
 }
 
+void EnemyUtils::spawn_GHOST(Vector2D pos) {
+	auto ghost = _mngr->addEntity(ecs::grp::ENEMY);
+	auto s = 50.0f;
+	auto tr = _mngr->addComponent<Transform>(ghost);
+	tr->init(pos, Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(ghost, &sdlutils().images().at("bifrutas"));
+	_mngr->addComponent<GhostComponent>(ghost);
+}
+
 void EnemyUtils::spawn_BOSS(Vector2D pos) {
 	auto boss = _mngr->addEntity(ecs::grp::ENEMY);
 	auto s = 50.0f;
@@ -106,6 +122,38 @@ void EnemyUtils::spawn_BOSS(Vector2D pos) {
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);
 }
+void EnemyUtils::spawn_NECRO(Vector2D pos) 
+{
+	auto necro = _mngr->addEntity(ecs::grp::ENEMY);
+	auto s = 50.0f;
+	auto tr = _mngr->addComponent<Transform>(necro);
+	tr->init(pos, Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(necro, &sdlutils().images().at("bifrutas"));
+	_mngr->addComponent<NecroVectorComponent>(necro);
+	_mngr->addComponent<NecroStatComponent>(necro);
+	_mngr->addComponent<NecroMovementComponent>(necro);
+	_mngr->addComponent<NecroSpawnerComponent>(necro);
+	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(necro);
+	tilechecker->init(false, tr, _dungeonfloor);
+	tr->initTileChecker(tilechecker);
+
+
+}
+/*void EnemyUtils::spawn_SPAWN(Vector2D pos)
+{
+	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
+	auto s = 50.0f;
+	auto tr = _mngr->addComponent<Transform>(slime);
+	tr->init(pos, Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(slime, &sdlutils().images().at("pacman"));
+	_mngr->addComponent<SlimeVectorComponent>(slime);
+	_mngr->addComponent<SlimesStatComponent>(slime);
+	_mngr->addComponent<SlimeMovementComponent>(slime);
+	_mngr->addComponent<SpawnComponent>(slime);
+    auto tilechecker = _mngr->addComponent<TileCollisionChecker>(slime);
+	tilechecker->init(false, tr, _dungeonfloor);
+	tr->initTileChecker(tilechecker);
+}*/
 
 void EnemyUtils::remove_all_enemies() {
 	for (auto e : _mngr->getEntities(ecs::grp::ENEMY)) {
