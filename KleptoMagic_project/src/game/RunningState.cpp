@@ -10,6 +10,7 @@
 #include "../Class/Image.h"
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
+#include "../Class/PlayerAnimComponent.h"
 #include "../Class/GhostComponent.h"
 #include "../Class/SlimeComponents.h"
 #include "../Class/TimerCountdown.h"
@@ -20,13 +21,10 @@
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
 
-RunningState::RunningState(/*Manager* mgr) :_mngr(mgr*/) {
+RunningState::RunningState() {
 #ifdef _DEBUG
 	std::cout << "Nuevo RunningState creado!" << std::endl;
 #endif
-
-	roomstorage = new RoomStorage();
-	dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
 }
 	
 
@@ -82,6 +80,7 @@ void RunningState::update() {
 		game().getMngr()->update();
 		game().getMngr()->refresh();
 		bullet->update();
+		dungeonfloor->update();
 
 		// checking collisions
 		colission_thisframe = false;
@@ -97,8 +96,8 @@ void RunningState::update() {
 		// clear screen
 		sdlutils().clearRenderer(build_sdlcolor(0x000000FF));
 
-			// render dungeon
-			dungeonfloor->render();
+		// render dungeon
+		dungeonfloor->render();
 
 		// render
 		game().getMngr()->render();
@@ -145,41 +144,21 @@ void RunningState::enter()
 #ifdef _DEBUG
 	std::cout << "Entrando en RunningState" << std::endl;
 #endif
-	//Player
-	auto player = game().getMngr()->addEntity();
-	game().getMngr()->setHandler(ecs::hdlr::PLAYER, player);
-	auto tr = game().getMngr()->addComponent<Transform>(player);
-	auto s = 50.0f;
-	auto x = (sdlutils().width() - s) / 2.0f;
-	auto y = (sdlutils().height() - s) / 2.0f;
-	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
-	std::string selectedCharacter = game().getSelectedCharacter();
-#ifdef _DEBUG
-	std::cout << "Personaje seleccionado: " << selectedCharacter << std::endl;
-#endif
-	if (selectedCharacter.empty()) {
-		selectedCharacter = "ALCHEMIST"; // Valor por defecto si no se ha seleccionado nada
+
+	auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
+
+	if (player == nullptr || !game().getMngr()->isAlive(player)) {
+		roomstorage = new RoomStorage();
+		dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
+		auto s = 50.0f;
+		auto x = (sdlutils().width() - s) / 2.0f;
+		auto y = (sdlutils().height() - s) / 2.0f;
+		auto pos = Vector2D(x, y);
+		bullet = new BulletUtils();
+		bullet->addComponent(0);
+		bullet->setDungeonFloor(dungeonfloor);
+		playerutils().createPlayer(pos, s, bullet);
 	}
-	game().getMngr()->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
-	game().getMngr()->addComponent<EntityStat>(player, 3, 1, 10, 1, 1);
-	game().getMngr()->addComponent<PlayerCtrl>(player);
-	auto tilechecker = game().getMngr()->addComponent<TileCollisionChecker>(player);
-	tilechecker->init(false, tr, dungeonfloor);
-	tr->initTileChecker(tilechecker);
-	auto movethroughrooms = game().getMngr()->addComponent<MoveThroughRooms>(player);
-	bullet = new BulletUtils();
-	//bullet->addComponent(0);
-	bullet->setDungeonFloor(dungeonfloor);
-	movethroughrooms->init(dungeonfloor,bullet);
-	movethroughrooms->enterRoom(' ');
-
-	
-
-	/*
-	enemyutils().spawn_enemy(ENEMY_SLIME, Vector2D{ 100.0f, 100.0f });
-	enemyutils().spawn_enemy(ENEMY_ARCHER, Vector2D{ 200.0f, 200.0f });
-	enemyutils().spawn_enemy(ENEMY_ARMOR, Vector2D{ 300.0f, 300.0f });
-	*/
 }
 
 void RunningState::leave()

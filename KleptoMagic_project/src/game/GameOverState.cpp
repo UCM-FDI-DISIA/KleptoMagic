@@ -1,6 +1,5 @@
 #include "GameOverState.h"
 #include "../game/NewGameState.h"
-
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/NewInputHandler.h"
 

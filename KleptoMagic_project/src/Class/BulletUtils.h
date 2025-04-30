@@ -8,6 +8,7 @@
 #include "../Class/DestroyOnBorder.h"
 #include "Game.h"
 #include "../sdlutils/SDLUtils.h"
+#include "../sdlutils/NewInputHandler.h"
 #include "../Class/ImageWithFrames.h"
 #include "BulletStats.h"
 #include "HomingComponent.h"

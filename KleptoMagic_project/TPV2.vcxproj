@@ -19,7 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Class\PlayerAnimComponent.cpp" />
     <ClCompile Include="src\Class\BossCMP.cpp" />
+    <ClCompile Include="src\Class\ImageWithFrames.cpp" />
     <ClCompile Include="src\Class\LivingArmorCMP.cpp" />
     <ClCompile Include="src\Class\NecromancerComponent.cpp" />
     <ClCompile Include="src\Class\PickableCMP.cpp" />
@@ -40,7 +42,6 @@
     <ClCompile Include="src\Class\GameState_OLD.cpp" />
     <ClCompile Include="src\Class\gameStateMachine.cpp" />
     <ClCompile Include="src\Class\Image.cpp" />
-    <ClCompile Include="src\Class\ImageWithFrames.cpp" />
     <ClCompile Include="src\Class\InputManager.cpp" />
     <ClCompile Include="src\Class\MainMenuState.cpp" />
     <ClCompile Include="src\Class\MovementCtrl.cpp" />
@@ -65,6 +66,8 @@
     <ClCompile Include="src\game\NewGameState.cpp" />
     <ClCompile Include="src\game\NewRoundState.cpp" />
     <ClCompile Include="src\game\PausedState.cpp" />
+    <ClCompile Include="src\game\PlayerFacade.cpp" />
+    <ClCompile Include="src\game\PlayerUtils.cpp" />
     <ClCompile Include="src\game\RunningState.cpp" />
     <ClCompile Include="SRC\json\JSON.cpp" />
     <ClCompile Include="SRC\json\JSONValue.cpp" />
@@ -84,7 +87,9 @@
     <ClCompile Include="SRC\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Class\PlayerAnimComponent.h" />
     <ClInclude Include="src\Class\BossCMP.h" />
+    <ClInclude Include="src\Class\ImageWithFrames.h" />
     <ClInclude Include="src\Class\LivingArmorCMP.h" />
     <ClInclude Include="src\Class\NecromancerComponent.h" />
     <ClInclude Include="src\Class\PickableCMP.h" />
@@ -105,7 +110,6 @@
     <ClInclude Include="src\Class\GameState_OLD.h" />
     <ClInclude Include="src\Class\gameStateMachine.h" />
     <ClInclude Include="src\Class\Image.h" />
-    <ClInclude Include="src\Class\ImageWithFrames.h" />
     <ClInclude Include="src\Class\InputManager.h" />
     <ClInclude Include="src\Class\MainMenuState.h" />
     <ClInclude Include="src\Class\MenuState.h" />
@@ -135,6 +139,8 @@
     <ClInclude Include="src\game\NewGameState.h" />
     <ClInclude Include="src\game\NewRoundState.h" />
     <ClInclude Include="src\game\PausedState.h" />
+    <ClInclude Include="src\game\PlayerFacade.h" />
+    <ClInclude Include="src\game\PlayerUtils.h" />
     <ClInclude Include="src\game\RunningState.h" />
     <ClInclude Include="src\json\JSON.h" />
     <ClInclude Include="src\json\JSONValue.h" />
