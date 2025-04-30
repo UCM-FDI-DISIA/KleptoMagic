@@ -81,9 +81,6 @@ void NewRoundState::enter()
 #endif
 		selectedCharacter = "ROGUE";
 		game().setSelectedCharacter(selectedCharacter);
-#ifdef _DEBUG
-		std::cout << "getSelectedCharacter: " << game().getSelectedCharacter() << std::endl;
-#endif
 		game().setGameState(new RunningState());
 		}, Vector2D(startX, btnY), Vector2D(btnWidth, btnHeight), new Texture(sdlutils().renderer(), "resources/images/select.png"), "rogueButton");
 

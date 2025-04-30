@@ -44,6 +44,10 @@ bool Game::initGame() {
 		std::cerr << "Error initializing EnemyUtils" << std::endl;
 		return false;
 	}
+	if (!PlayerUtils::Init(_mngr)) {
+		std::cerr << "Error initializing PlayerUtils" << std::endl;
+		return false;
+	}
 
 	setGameState(new NewGameState());
 
@@ -61,9 +65,13 @@ Game::~Game() {
 	if (SDLUtils::HasInstance())
 		SDLUtils::Release();
 
-	// release AsteroidsUtils if the instance was created correctly.
+	// release EnemyUtils if the instance was created correctly.
 	if (EnemyUtils::HasInstance())
 		EnemyUtils::Release();
+
+	// release PlayerUtils if the instance was created correctly.
+	if (PlayerUtils::HasInstance())
+		PlayerUtils::Release();
 }
 
 void Game::start() {
@@ -130,7 +138,6 @@ void Game::popState() {
 		_stateStack.top()->enter();
 	}
 }
-
 
 void Game::createItems() {
 
