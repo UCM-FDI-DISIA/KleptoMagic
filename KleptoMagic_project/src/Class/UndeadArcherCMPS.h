@@ -6,8 +6,27 @@
 #include "Transform.h"
 #include "../sdlutils/Texture.h"
 #include <chrono>
+
 namespace ecs
 {
+
+	class UndeadStatComponent : public StatComponent
+	{
+	public:
+		__CMPID_DECL__(ecs::cmp::UNDEADSTATCMP);
+		void initComponent() override
+		{
+			auto* _mngr = _ent->getMngr();
+			life = 8;
+			speed = 1;
+			attackspeed = 10;
+			damage = 4;
+			attackrange = 10;
+
+		}
+
+	};
+
 	class UndeadVectorComponent : public Component
 	{
 	public:
@@ -47,6 +66,7 @@ namespace ecs
 
 		Transform* _UndeadTransform;
 		Transform* _player;
+		float speed;
 	public:
 		__CMPID_DECL__(ecs::cmp::UNDEADMOVCMP);
 
@@ -55,6 +75,8 @@ namespace ecs
 			auto* _mngr = _ent->getMngr();
 			_UndeadTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+			auto stat = static_cast<UndeadStatComponent*>(_ent->getMngr()->getComponent<UndeadStatComponent>(_ent));
+			speed = stat->speed;
 		}
 
 		void Move()
@@ -66,7 +88,7 @@ namespace ecs
 			if (vector && stat && _UndeadTransform)
 			{
 				vector->CreateVector(_player->getPos(), _UndeadTransform->getPos());
-				Vector2D velocity(vector->direcionX * 0.5, vector->direcionY * 0.5);
+				Vector2D velocity(vector->direcionX * speed, vector->direcionY * speed);
 				_UndeadTransform->getVel() = velocity;
 			}
 
@@ -80,13 +102,18 @@ namespace ecs
 		Transform* _UndeadTransform;
 		Transform* _player;
 		std::chrono::steady_clock::time_point lastAttackTime = std::chrono::steady_clock::now();
-		double attackRange;
+		float attackRange;
+		float attackspeed;
+		float range;
 		__CMPID_DECL__(ecs::cmp::UNDEADATKCMP);
 		void initComponent() override
 		{
 			auto* _mngr = _ent->getMngr();
 			_UndeadTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+			auto stat = static_cast<UndeadStatComponent*>(_ent->getMngr()->getComponent<UndeadStatComponent>(_ent));
+			range = stat->attackrange;
+			attackspeed = stat->attackspeed;
 		}
 		void update() override
 		{
@@ -99,17 +126,17 @@ namespace ecs
 				float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
 
 				vector->CreateVector(_player->getPos(), _UndeadTransform->getPos());
-				Vector2D attackdirection(vector->direcionX * 1, vector->direcionY *1);
+				Vector2D attackdirection(vector->direcionX , vector->direcionY);
 				attackRange = vector->magnitude;
 
-				if (elapsedTime >= 10 && attackRange <= 200)
+				if (elapsedTime >= attackspeed && attackRange <= range)
 				{
 					//create bullet
 					
 					lastAttackTime = now;
 					_UndeadTransform->getVel() =  _UndeadTransform->getVel() * 0;
 				}
-				if (attackRange > 200) 
+				if (attackRange > range) 
 				{
 					movement->Move();
 				}			 
