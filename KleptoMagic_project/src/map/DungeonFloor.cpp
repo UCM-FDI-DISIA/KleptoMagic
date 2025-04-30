@@ -745,7 +745,7 @@ AStar::AStar<uint32_t, true> DungeonFloor::createPathRoom(vector<vector<char>> t
 	return pathFinder;
 
 }
-void DungeonFloor::findPathToX(float x, float y, float dX, float dY) {
+std::vector<AStar::Vec2<int>> DungeonFloor::findPathToX(float x, float y, float dX, float dY) {
 
 	// Redondear y convertir a int
 	int xi = static_cast<int>(std::round(x));
@@ -756,9 +756,11 @@ void DungeonFloor::findPathToX(float x, float y, float dX, float dY) {
 	// Find the path
 	auto path = pathfindLayout[getCurrentX()][getCurrentY()].findPath({ dXi, dYi }, { xi, yi });
 	
-	// Print the path
-	for (auto& p : path) {
-		std::cout << p.x << "/" << p.y << " ,  ";
-	}
-	std::cout << std::endl;
+	//// Print the path
+	//for (auto& p : path) {
+	//	std::cout << p.x << "/" << p.y << " ,  ";
+	//}
+	//std::cout << std::endl;
+
+	return path;
 }

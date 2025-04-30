@@ -6,6 +6,7 @@
 #include "Transform.h"
 #include "../sdlutils/Texture.h"
 #include <chrono>
+#include "../game/RunningState.h"
 namespace ecs
 {
 	class UndeadVectorComponent : public Component
@@ -16,6 +17,7 @@ namespace ecs
 		double magnitude;
 		Transform* _UndeadTransform;
 		Transform* _player;
+		RunningState* state;
 
 		void initComponent() override
 		{
@@ -82,6 +84,7 @@ namespace ecs
 
 			if (vector && stat && _UndeadTransform)
 			{
+				
 				vector->CreateVector(_player->getPos(), _UndeadTransform->getPos());
 				Vector2D velocity(vector->direcionX * 0.5, vector->direcionY * 0.5);
 				_UndeadTransform->getVel() = velocity;

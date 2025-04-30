@@ -20,6 +20,7 @@ public:
 	RunningState(/*Manager* mgr*/);
 	~RunningState();
 	BulletUtils* getBulletUtils() {return bullet;}
+	std::vector<AStar::Vec2<int>> FindPath(float x, float y, float dX, float dY);
 	void update() override;
 private:
 	void checkCollisions();

@@ -134,7 +134,7 @@ public:
 
 	void GeneratePathfindLayout();
 
-	void findPathToX(float x, float y, float dX, float dY);
-	//std::vector(aStar::vec2(int)) rep();
+	std::vector<AStar::Vec2<int>> findPathToX(float x, float y, float dX, float dY);
+	
 
 };

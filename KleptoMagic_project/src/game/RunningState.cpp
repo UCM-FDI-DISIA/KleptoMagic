@@ -85,7 +85,7 @@ void RunningState::update() {
 		game().getMngr()->refresh();
 		bullet->update();
 
-		dungeonfloor->findPathToX(9, 9, 2, 2);
+		
 
 		// checking collisions
 		colission_thisframe = false;
@@ -184,6 +184,10 @@ void RunningState::enter()
 	enemyutils().spawn_enemy(ENEMY_ARCHER, Vector2D{ 200.0f, 200.0f });
 	enemyutils().spawn_enemy(ENEMY_ARMOR, Vector2D{ 300.0f, 300.0f });
 	*/
+}
+
+std::vector<AStar::Vec2<int>> RunningState::FindPath(float x, float y, float dX, float dY) {
+	return dungeonfloor->findPathToX(x, y, dX, dY);
 }
 
 void RunningState::leave()
