@@ -44,6 +44,10 @@ void PausedState::enter() {
 		game().popState();
 		}, Vector2D(playBtnX, playBtnY), Vector2D(btnWidth, btnHeight), resumeTexture, "button");
 	homeButton = new Button([this]() {
+		auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
+		if (game().getMngr()->isAlive(player)) {
+			game().getMngr()->setAlive(player, false);
+		}
 		game().setGameState(new NewGameState());
 		}, Vector2D(playBtnX, playBtnY + 100), Vector2D(btnWidth, btnHeight), homeTexture, "button");
 	endButton = new Button([this]() {

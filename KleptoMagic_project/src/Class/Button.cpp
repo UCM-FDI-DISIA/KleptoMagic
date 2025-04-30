@@ -1,5 +1,6 @@
 #include "Button.h"
 #include "../sdlutils/SDLUtils.h"
+#include "../sdlutils/NewInputHandler.h"
 
 Button::Button(std::function<void()> onClick, Vector2D position, Vector2D size, Texture* texture, const std::string& soundId)
     : _onClick(onClick), _position(position), _size(size), _texture(texture), _soundId(soundId) {}
@@ -19,7 +20,7 @@ void Button::update() {
 
         _texture->setAlpha(128); // Bajar la opcidad 
 
-        if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) { // Verifica si el boton izquierdo esta presionado
+        if (mouseState && input().isActionPressed(Action::SHOOT)) { // Verifica si el boton izquierdo esta presionado
 #ifdef _DEBUG
             std::cout << "Boton clickeado" << std::endl;
 #endif

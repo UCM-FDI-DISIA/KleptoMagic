@@ -48,7 +48,8 @@
     NECROMOVCMP,\
     NECROCRTCMP,\
     NECROSTATCMP,\
-    SPAWNCMP
+    SPAWNCMP,\
+    STATCMP
  
 
 
