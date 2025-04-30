@@ -56,6 +56,14 @@
             "file": "resources/images/player_sprites.png"
         },
         {
+            "id": "slime_sprites",
+            "file": "resources/images/slime_sprites.png"
+        },
+        {
+            "id": "armor_sprites",
+            "file": "resources/images/armor_sprites.png"
+        },
+        {
             "id": "heart",
             "file": "resources/images/heart.png"
         },
