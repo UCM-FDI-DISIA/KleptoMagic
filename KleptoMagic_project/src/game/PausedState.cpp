@@ -46,7 +46,7 @@ void PausedState::enter() {
 	homeButton = new Button([this]() {
 		auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
 		if (game().getMngr()->isAlive(player)) {
-			game().getMngr()->setAlive(player, false); // O usar removeEntity si tu sistema lo requiere
+			game().getMngr()->setAlive(player, false);
 		}
 		game().setGameState(new NewGameState());
 		}, Vector2D(playBtnX, playBtnY + 100), Vector2D(btnWidth, btnHeight), homeTexture, "button");
