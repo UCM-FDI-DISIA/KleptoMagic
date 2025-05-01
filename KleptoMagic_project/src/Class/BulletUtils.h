@@ -44,12 +44,14 @@ public:
 	void changeAttSpeedCapFlat(float i) { attSpeedCapFlat += i; }
 	void changeAttSpeedCapMul(float i) { attSpeedCapMul += i; }
 	void setDungeonFloor(DungeonFloor* floor) { _dungeonfloor = floor; }
-	
+	void addBullets(int i) { bulStat->changeBullets(i); }
 private:
 	VirtualTimer* _tim;
 	constexpr static uint8_t _max_bullets = 20;
 	Texture* tex = &sdlutils().images().at("star");
 	void shoot();
+	void MultiShotP(Vector2D v);
+	void IndividualShotP(Vector2D v);
 	std::array<bool, 20> componentes;
 	float attSpeedCapFlat=250;
 	float attSpeedCapMul = 1;

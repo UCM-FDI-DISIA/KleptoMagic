@@ -184,7 +184,7 @@ void RunningState::enter()
 		auto y = (sdlutils().height() - s) / 2.0f;
 		auto pos = Vector2D(x, y);
 		bullet = new BulletUtils();
-		bullet->addComponent(0);
+		//bullet->addComponent(0);
 		bullet->setDungeonFloor(dungeonfloor);
 		playerutils().createPlayer(pos, s, bullet);
 	}
