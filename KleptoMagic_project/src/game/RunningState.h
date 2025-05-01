@@ -38,4 +38,7 @@ private:
 
 	std::chrono::time_point<std::chrono::steady_clock> startTimeDelta;
 	float DeltaTime;
+
+	// Tutorial
+	Texture* controlsTexture;
 };

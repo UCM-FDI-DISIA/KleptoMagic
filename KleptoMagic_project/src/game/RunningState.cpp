@@ -104,6 +104,20 @@ void RunningState::update() {
 
 		_timerRndr.render(sdlutils().renderer(), _timer.getTimeLeft());
 
+		// Cargar imagen controles
+		int texW = controlsTexture->width();
+		int texH = controlsTexture->height();
+
+		float scale = 0.2f; 
+
+		int scaledW = static_cast<int>(texW * scale);
+		int scaledH = static_cast<int>(texH * scale);
+		int x = (sdlutils().width() - scaledW) / 2;
+		int y = (sdlutils().height() - scaledH) / 2;
+
+		SDL_Rect dest = { x, y, scaledW, scaledH };
+		controlsTexture->render(dest);
+
 		// present new frame
 		sdlutils().presentRenderer();
 
@@ -144,10 +158,10 @@ void RunningState::enter()
 #ifdef _DEBUG
 	std::cout << "Entrando en RunningState" << std::endl;
 #endif
-
 	auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
 
 	if (player == nullptr || !game().getMngr()->isAlive(player)) {
+		controlsTexture = new Texture(sdlutils().renderer(), "resources/images/controles.png");
 		roomstorage = new RoomStorage();
 		dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
 		auto s = 50.0f;
