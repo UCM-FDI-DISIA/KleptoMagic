@@ -61,6 +61,8 @@ void RunningState::update() {
 
 	SDL_Rect dest = { x, y, scaledW, scaledH };
 
+	auto controlsTextureStartTime = std::chrono::steady_clock::now();
+
 	while (!exit) {
 		Uint32 startTime = sdlutils().currRealTime();
 		_timer.update();
@@ -115,9 +117,15 @@ void RunningState::update() {
 		// render
 		game().getMngr()->render();
 
-		// Cargar imagen controles
-		controlsTexture->setAlpha(128);
-		controlsTexture->render(dest);
+		// Comprobamos si han pasado 10 segundos desde que se cargó la imagen
+		auto currentTime = std::chrono::steady_clock::now();
+		std::chrono::duration<float> elapsed = currentTime - controlsTextureStartTime;
+
+		// Si han pasado más de 10 segundos, ocultamos la imagen de controles
+		if (elapsed.count() < 5.0f) {
+			controlsTexture->setAlpha(128);  
+			controlsTexture->render(dest);
+		}
 
 		_timerRndr.render(sdlutils().renderer(), _timer.getTimeLeft());
 
