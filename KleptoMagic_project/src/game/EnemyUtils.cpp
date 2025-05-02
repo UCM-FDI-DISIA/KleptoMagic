@@ -117,7 +117,7 @@ void EnemyUtils::spawn_BOSS(Vector2D pos) {
 	auto s = 50.0f;
 	auto tr = _mngr->addComponent<Transform>(boss);
 	tr->init(pos, Vector2D(), s, s, 0.0f);
-	_mngr->addComponent<Image>(boss, &sdlutils().images().at("boss"));
+	_mngr->addComponent<Image>(boss, &sdlutils().images().at("ALCHEMIST"));
 	_mngr->addComponent<BossVectorComponent>(boss);
 	_mngr->addComponent<BossStatComponent>(boss);
 	_mngr->addComponent<BossAttackComponent>(boss);

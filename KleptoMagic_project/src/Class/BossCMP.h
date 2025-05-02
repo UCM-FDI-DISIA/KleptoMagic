@@ -3,6 +3,8 @@
 #include "../ecs/Entity.h"
 #include "../ecs/Manager.h"
 #include "../ecs/ecs_defs_example.h"
+#include "../Class/HomingComponent.h"
+#include "../Class/BulletStats.h"
 #include "Transform.h"
 #include "../sdlutils/Texture.h"
 #include <chrono>
@@ -66,6 +68,7 @@ namespace ecs
 
 		Transform* _BossTransform;
 		Transform* _player;
+
 	public:
 		__CMPID_DECL__(ecs::cmp::BOSSMOVCMP);
 
@@ -74,15 +77,37 @@ namespace ecs
 			auto* _mngr = _ent->getMngr();
 			_BossTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+			//auto sala = _mngr->getHandler(ecs::hdlr::GAMEINFO);
+
+
 		}
 
 		
 		void Teleport() 
 		{
 			if (_BossTransform) {
-				// Generar una nueva posición alejada de la actual
-				float newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100); // Alejarse entre -100 y 100 unidades en X
-				float newY = _BossTransform->getPos().getY() + (std::rand() % 200 - 100); // Alejarse entre -100 y 100 unidades en Y
+				// Generar una nueva posición alejada de la actual, teniendo en cuenta que esté dentro de la sala
+				float newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100);
+				float newY = _BossTransform->getPos().getY() + (std::rand() % 200 - 100);
+				// Asegurarse de que la nueva posición esté dentro de los límites de la sala
+				// 
+				//
+				// Aquí puedes definir los límites de la sala, por ejemplo:
+				float roomWidth = 800; // Ancho de la sala
+				float roomHeight = 600; // Alto de la sala
+				if (newX < 0) newX = 0;
+				if (newX > roomWidth) newX = roomWidth;
+				if (newY < 0) newY = 0;
+				if (newY > roomHeight) newY = roomHeight;
+
+				// Asegurarse de que la nueva posición esté suficientemente alejada del jugador
+				while (std::sqrt((newX - _player->getPos().getX()) * (newX - _player->getPos().getX()) +
+					(newY - _player->getPos().getY()) * (newY - _player->getPos().getY())) < 100) {
+					newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100);
+					newY = _BossTransform->getPos().getY() + (std::rand() % 200 - 100);
+				}
+
+				
 
 				// Asegurarse de que la nueva posición esté suficientemente alejada
 				while (std::sqrt((newX - _BossTransform->getPos().getX()) * (newX - _BossTransform->getPos().getX()) +
@@ -131,7 +156,19 @@ namespace ecs
 
 			if (elapsedTime >= 10 && attackRange <= 200)
 			{
-				//elige un ataque de los diferentes ataques que tiene, puede ser por porcentaje o por random ya veremos
+				//chooses one attack from all possible attack patterns
+
+				//int attackPattern = rand() % 2; // Randomly choose an attack pattern (0 or 1)
+				int attackPattern = 0; // For testing purposes, always use attack pattern 0
+				switch (attackPattern)
+				{
+				case 0:
+					Attack1();
+					break;
+				case 1:
+					// Attack2();
+					break;
+				}
 
 				lastAttackTime = now;
 				_BossTransform->getVel() = _BossTransform->getVel() * 0;
@@ -143,7 +180,20 @@ namespace ecs
 
 		}
 
-		// Diferentes ataques con patrones diferentes
+		// Different attack patterns 
+
+		// Attack 1, shoots 2 homing bullets
+		void Attack1()
+		{
+			auto bullet = _ent->getMngr()->addEntity(ecs::grp::ENEMY);
+			auto s = 50.0f;
+			auto tr = _ent->getMngr()->addComponent<Transform>(bullet);
+			tr->init(_BossTransform->getPos(), Vector2D(), s, s, 0.0f);
+			_ent->getMngr()->addComponent<Image>(bullet, &sdlutils().images().at("tennis_ball"));
+			_ent->getMngr()->addComponent<HomingComponent>(bullet);
+			_ent->getMngr()->addComponent<BulletStats>(bullet);
+			//_ent->getMngr()->addComponent<BulletMovement>(bullet);
+		}
 
 	};
 }

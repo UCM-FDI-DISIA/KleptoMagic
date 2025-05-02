@@ -13,7 +13,7 @@ BBBBWDWBBBB
 WWWWWWWWWWB
 WHW**HHH*WW
 WHW*******W
-WH***n**WWW
+WH***b**WWW
 WWW*****H*W
 W*******H*W
 WHHH****H*W
