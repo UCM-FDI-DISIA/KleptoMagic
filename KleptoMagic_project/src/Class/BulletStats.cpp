@@ -13,6 +13,15 @@ BulletStats::~BulletStats()
 {
 }
 
+void BulletStats::initComponent() { //falta get entity stats speed
+	auto* _mngr = _ent->getMngr();
+	auto estat = _mngr->getComponent<EntityStat>(_ent);
+	if (estat != nullptr) {
+		_eStat = estat;
+	}
+	
+}
+
 float BulletStats::Created(std::string s)
 {
 	
@@ -21,9 +30,10 @@ float BulletStats::Created(std::string s)
 		speed = 10;
 		damage = 15;
 		distance = 20000;
-		size = 100;
+		size = 10;
 		piercing = false;
 		duration = distance / speed;
+		bullets = 3;
 		return 250;
 	}
 	else if(s=="KNIGHT"){
@@ -55,7 +65,31 @@ float BulletStats::Created(std::string s)
 	}
 	
 }
-void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool pierc)
+void BulletStats::enemyStats(int i)
+{
+	if(i==0)
+	{
+		speed = 5;
+		damage = 15;
+		distance = 50;
+		size = 150;
+		piercing = true;
+		duration = distance / speed;
+		
+	}
+	else if(i==1)
+	{
+		speed = 10;
+		damage = 15;
+		distance = 20000;
+		size = 100;
+		piercing = false;
+		duration = distance / speed;
+	}
+	//continuar cuando haya mas enemigos
+}
+
+void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool pierc, int bull)
 {
 #ifdef _DEBUG
 	std::cout << _tim->currRealTime();
@@ -65,6 +99,7 @@ void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool
 	distance = dist;
 	size = siz;
 	piercing = pierc;
+	bullets = bull;
 	refreshDuration();
 }
 void BulletStats::update()

@@ -8,6 +8,7 @@
 #include "../Class/DestroyOnBorder.h"
 #include "Game.h"
 #include "../sdlutils/SDLUtils.h"
+#include "../sdlutils/NewInputHandler.h"
 #include "../Class/ImageWithFrames.h"
 #include "BulletStats.h"
 #include "HomingComponent.h"
@@ -26,6 +27,7 @@ public:
 	void reset();
 	void hit(int index);
 	void pressed();
+	void enemyShoot(Transform* enemyTR,int i);
 	void collided(ecs::entity_t e);
 	void addComponent(int i);
 	void checkComponent(int i, ecs::entity_t e);
@@ -42,12 +44,14 @@ public:
 	void changeAttSpeedCapFlat(float i) { attSpeedCapFlat += i; }
 	void changeAttSpeedCapMul(float i) { attSpeedCapMul += i; }
 	void setDungeonFloor(DungeonFloor* floor) { _dungeonfloor = floor; }
-	
+	void addBullets(int i) { bulStat->changeBullets(i); }
 private:
 	VirtualTimer* _tim;
 	constexpr static uint8_t _max_bullets = 20;
 	Texture* tex = &sdlutils().images().at("star");
 	void shoot();
+	void MultiShotP(Vector2D v);
+	void IndividualShotP(Vector2D v);
 	std::array<bool, 20> componentes;
 	float attSpeedCapFlat=250;
 	float attSpeedCapMul = 1;

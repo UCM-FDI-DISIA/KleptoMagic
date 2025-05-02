@@ -1,5 +1,6 @@
 #include "Button.h"
 #include "../sdlutils/SDLUtils.h"
+#include "../sdlutils/NewInputHandler.h"
 
 Button::Button(std::function<void()> onClick, Vector2D position, Vector2D size, Texture* texture, const std::string& soundId)
     : _onClick(onClick), _position(position), _size(size), _texture(texture), _soundId(soundId) {}
@@ -19,7 +20,7 @@ void Button::update() {
 
         _texture->setAlpha(128); // Bajar la opcidad 
 
-        if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) { // Verifica si el boton izquierdo esta presionado
+        if (mouseState && input().isActionPressed(Action::SHOOT)) { // Verifica si el boton izquierdo esta presionado
 #ifdef _DEBUG
             std::cout << "Boton clickeado" << std::endl;
 #endif
@@ -64,6 +65,19 @@ void Button::handleEvent(const SDL_Event& event) {
 }
 
 bool Button::isInside(int x, int y) const {
-    return x >= _position.getX() && x <= (_position.getX() + _size.getX()) &&
-        y >= _position.getY() && y <= (_position.getY() + _size.getY());
+    //return x >= _position.getX() && x <= (_position.getX() + _size.getX()) &&
+      //  y >= _position.getY() && y <= (_position.getY() + _size.getY());
+    // Reducimos el área al 80% y la centramos
+    float reducedWidth = _size.getX() * 0.7f;
+    float reducedHeight = _size.getY() * 0.7f;
+
+    float offsetX = (_size.getX() - reducedWidth) / 2.0f;
+    float offsetY = (_size.getY() - reducedHeight) / 2.0f;
+
+    float minX = _position.getX() + offsetX;
+    float minY = _position.getY() + offsetY;
+    float maxX = minX + reducedWidth;
+    float maxY = minY + reducedHeight;
+
+    return x >= minX && x <= maxX && y >= minY && y <= maxY;
 }

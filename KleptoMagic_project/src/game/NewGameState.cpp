@@ -2,6 +2,7 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/NewInputHandler.h"
 #include "../utils/Vector2D.h"
+#include "../game/NewRoundState.h"
 
 using ecs::Manager;
 using namespace std;
@@ -53,7 +54,6 @@ NewGameState::~NewGameState() {
 
 void NewGameState::update() {
     bool exit = false;
-    //auto& ihdlr = ih();
 
 
     sdlutils().resetTime();
@@ -63,7 +63,6 @@ void NewGameState::update() {
         Uint32 startTime = sdlutils().currRealTime();
 
         // Actualizar eventos
-        //ih().refresh();
         NewInputHandler::Instance()->update();
 
         // Actualizar boton (manejo de clic)
@@ -72,7 +71,7 @@ void NewGameState::update() {
 
         // Si han pasado 100ms y el usuario solto el clic, cambiamos de estado
         if (releaseTime > 0 && SDL_GetTicks() > releaseTime && !(SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT))) {
-            game().setState(Game::NEWROUND);
+            game().setGameState(new NewRoundState());
             exit = true;
         }
 

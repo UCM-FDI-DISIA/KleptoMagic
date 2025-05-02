@@ -28,6 +28,14 @@
             "file": "resources/images/pacman_sprites.png"
         },
         {
+            "id": "tileset",
+            "file": "resources/images/tileset.png"
+        },
+        {
+            "id": "room_decor",
+            "file": "resources/images/room_decor.png"
+        },
+        {
             "id": "ROGUE",
             "file": "resources/images/rogue.png"
         },
@@ -42,6 +50,10 @@
         {
             "id": "ALCHEMIST",
             "file": "resources/images/alchemist.png"
+        },
+        {
+            "id": "player_sprites",
+            "file": "resources/images/player_sprites.png"
         },
         {
             "id": "heart",
@@ -74,6 +86,14 @@
         {
             "id": "RESUME",
             "file": "resources/images/resume.png"
+        },
+        {
+            "id": "HOME",
+            "file": "resources/images/home.png"
+        },
+        {
+            "id": "TUTORIAL",
+            "file": "resources/images/controles.png"
         },
         {
             "id": "bifrutas",

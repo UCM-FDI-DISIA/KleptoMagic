@@ -1,6 +1,5 @@
 #include "GameOverState.h"
-
-#include "AsteroidsUtils.h"
+#include "../game/NewGameState.h"
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/NewInputHandler.h"
 
@@ -12,23 +11,25 @@ GameOverState::~GameOverState() {
 }
 
 void GameOverState::enter() {
-	//if (asteroidsutils().count_asteroids() <= 0) {
-		text = new Texture(sdlutils().renderer(),
-			"Game Over Champion! Press ENTER to continue.",
-			sdlutils().fonts().at("ARIAL24"),
-			build_sdlcolor(0x112233ff),
-			build_sdlcolor(0xffffffff));
-	//}
-	//else {
-	//	text = new Texture(sdlutils().renderer(),
-	//		"Game Over Loser! Press ENTER to continue.",
-	//		sdlutils().fonts().at("ARIAL24"),
-	//		build_sdlcolor(0x112233ff),
-	//		build_sdlcolor(0xffffffff));
-	////}
-	//
-	//x0 = (sdlutils().width() - text->width()) / 2;
-	//y0 = (sdlutils().height() - text->height()) / 2;
+
+	// Cargar el fondo
+	background = new Texture(sdlutils().renderer(), "resources/images/endMenu.png");
+
+	homeTexture = new Texture(sdlutils().renderer(), "resources/images/home.png");
+
+	float btnWidth = homeTexture->width() / 4;
+	float btnHeight = homeTexture->height() / 4;
+
+	float playBtnX = (sdlutils().width() - btnWidth) / 2;
+	float playBtnY = (sdlutils().height() - btnHeight) / 2 + 50;
+
+	homeButton = new Button([this]() {
+		auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
+		if (game().getMngr()->isAlive(player)) {
+			game().getMngr()->setAlive(player, false); 
+		}
+		game().setGameState(new NewGameState());
+		}, Vector2D(playBtnX, playBtnY + 100), Vector2D(btnWidth, btnHeight), homeTexture, "button");
 }
 
 void GameOverState::update() {
@@ -46,18 +47,18 @@ void GameOverState::update() {
 		// update the event handler
 		NewInputHandler::Instance()->update();
 
-		// enter NewGameState when any key is down
-		if (NewInputHandler::Instance()->isAnyKeyPressed()) {
-			//here
-			game().setState(Game::NEWGAME);
-			exit = true;
+		homeButton->update();
+
+		if (homeButton->isPressed()) {
+			exit = true; 
 		}
 
 		// clear screen
 		sdlutils().clearRenderer();
 
-		// render text
-		text->render(x0, y0);
+		// Render background picture
+		background->render({ 0, 0, sdlutils().width(), sdlutils().height() });
+		homeButton->render();
 
 		// present new frame
 		sdlutils().presentRenderer();

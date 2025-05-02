@@ -13,18 +13,16 @@
 
 #include <chrono>
 
-
 using namespace ecs;
 
 class RunningState : virtual public GameState {
 public:
-	RunningState(Manager* mgr);
+	RunningState();
 	~RunningState();
 	BulletUtils* getBulletUtils() {return bullet;}
 	void update() override;
 private:
 	void checkCollisions();
-	Manager* _mngr;
 	BulletUtils* bullet;
 	VirtualTimer asteroidSpawnTimer;
 	const int asteroidSpawnCDms = 5000;
@@ -32,7 +30,7 @@ private:
 	RoomStorage* roomstorage;
 	DungeonFloor* dungeonfloor;
 
-	// Heredado v�a GameState
+	// Heredado via GameState
 	void enter() override;
 	void leave() override;
 	bool colission_thisframe;
@@ -40,4 +38,8 @@ private:
 
 	std::chrono::time_point<std::chrono::steady_clock> startTimeDelta;
 	float DeltaTime;
+
+	// Tutorial
+	Texture* controlsTexture;
+	std::chrono::time_point<std::chrono::steady_clock> controlsTextureStartTime;
 };

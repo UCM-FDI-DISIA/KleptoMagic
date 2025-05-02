@@ -4,6 +4,7 @@
 #include <random>
 #include <vector>
 #include "../game/EnemyUtils.h"
+#include "../game/PlayerUtils.h"
 
 using namespace std;
 
@@ -11,6 +12,7 @@ DungeonFloor::DungeonFloor(int minWidth, int minHeight, int maxWidth, int maxHei
 {
 	GenerateFloor(minWidth, minHeight, maxWidth, maxHeight, numRooms); 
 	enemyutils().setDungeonFloor(this);
+	playerutils().setDungeonFloor(this);
 
 #ifdef _DEBUG
 	PrintFloorLayout_Simple();
@@ -410,6 +412,10 @@ void DungeonFloor::render() {
 	floorLayout[currentX][currentY]->render(renderer);
 }
 
+void DungeonFloor::update() {
+	floorLayout[currentX][currentY]->getTilemap()->update();
+}
+
 int DungeonFloor::checkCollisions(int x, int y) {
 	return floorLayout[currentX][currentY]->getTilemap()->checkCollision(x, y);
 }
@@ -460,6 +466,9 @@ Vector2D DungeonFloor::enterRoom(char exit) {
 
 #ifdef _DEBUG
 	PrintFloorLayout_Detailed();
+	cout << endl;
+	cout << "Entering room '" << floorLayout[currentX][currentY]->getName() << "' of type '" << floorLayout[currentX][currentY]->getType() << "'";
+	cout << endl;
 #endif
 
 	return posAfterEnter;
