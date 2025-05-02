@@ -192,6 +192,8 @@ namespace ecs
 			_ent->getMngr()->addComponent<Image>(bullet, &sdlutils().images().at("tennis_ball"));
 			_ent->getMngr()->addComponent<HomingComponent>(bullet);
 			_ent->getMngr()->addComponent<BulletStats>(bullet);
+			auto stats = _ent->getMngr()->getComponent<BulletStats>(bullet);
+			stats->enemyStats(1);
 			//_ent->getMngr()->addComponent<BulletMovement>(bullet);
 		}
 
