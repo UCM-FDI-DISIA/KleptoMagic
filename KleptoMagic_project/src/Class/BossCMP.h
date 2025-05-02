@@ -3,7 +3,7 @@
 #include "../ecs/Entity.h"
 #include "../ecs/Manager.h"
 #include "../ecs/ecs_defs_example.h"
-#include "../Class/HomingComponent.h"
+#include "../Class/enemyHoming.h"
 #include "../Class/BulletStats.h"
 #include "Transform.h"
 #include "../sdlutils/Texture.h"
@@ -146,7 +146,6 @@ namespace ecs
 			auto vector = static_cast<BossVectorComponent*>(_ent->getMngr()->getComponent<BossVectorComponent>(_ent));
 			auto stat = static_cast<BossStatComponent*>(_ent->getMngr()->getComponent<BossStatComponent>(_ent));
 			auto movement = static_cast<BossMovementComponent*>(_ent->getMngr()->getComponent<BossMovementComponent>(_ent));
-			attackCooldown = 10;
 			auto now = std::chrono::steady_clock::now();
 			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
 
@@ -154,7 +153,7 @@ namespace ecs
 			Vector2D attackdirection(vector->direcionX * 1, vector->direcionY * 1);
 			attackRange = distance;
 
-			if (elapsedTime >= 10 && attackRange <= 200)
+			if (elapsedTime >= 5 && attackRange <= 300)
 			{
 				//chooses one attack from all possible attack patterns
 
@@ -173,7 +172,7 @@ namespace ecs
 				lastAttackTime = now;
 				_BossTransform->getVel() = _BossTransform->getVel() * 0;
 			}
-			if (attackRange < 100)
+			if (attackRange < 75)
 			{
 				movement->Teleport();
 			}
@@ -190,7 +189,7 @@ namespace ecs
 			auto tr = _ent->getMngr()->addComponent<Transform>(bullet);
 			tr->init(_BossTransform->getPos(), Vector2D(), s, s, 0.0f);
 			_ent->getMngr()->addComponent<Image>(bullet, &sdlutils().images().at("tennis_ball"));
-			_ent->getMngr()->addComponent<HomingComponent>(bullet);
+			_ent->getMngr()->addComponent<enemyHoming>(bullet);
 			_ent->getMngr()->addComponent<BulletStats>(bullet);
 			auto stats = _ent->getMngr()->getComponent<BulletStats>(bullet);
 			stats->enemyStats(1);
