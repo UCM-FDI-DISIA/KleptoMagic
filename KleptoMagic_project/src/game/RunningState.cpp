@@ -202,7 +202,7 @@ void RunningState::enter()
 	}
 
 	if (hearthTexture == nullptr) {
-		hearthTexture = new Texture(sdlutils().renderer(), "resources/images/heart.png");
+		hearthTexture = new Texture(sdlutils().renderer(), "resources/images/live.png");
 	}
 
 	auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);

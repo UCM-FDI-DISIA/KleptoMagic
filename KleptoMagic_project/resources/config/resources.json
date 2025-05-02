@@ -96,6 +96,10 @@
             "file": "resources/images/controles.png"
         },
         {
+            "id": "LIVE",
+            "file": "resources/images/live.png"
+        },
+        {
             "id": "bifrutas",
             "file": "resources/images/bifrutas.jpg"
         }
