@@ -127,6 +127,33 @@ void RunningState::update() {
 			controlsTexture->render(dest);
 		}
 
+		// Mostrar corazones según la vida del jugador
+		auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
+		if (player != nullptr && game().getMngr()->isAlive(player)) {
+			auto stats = game().getMngr()->getComponent<EntityStat>(player);
+			float hp = stats->getStat(EntityStat::Stat::HealthCurrent);
+
+#ifdef _DEBUG
+			std::cout << "HealthCurrent: " << hp << std::endl;
+#endif
+
+			int heartCount = static_cast<int>(hp); 
+			int heartSize = 64;
+			int spacing = 10;
+
+			int startX = sdlutils().width() - (heartCount * heartSize + (heartCount - 1) * spacing) - 10; // Calculamos la posición X desde la derecha
+			int startY = 10;  // Un pequeño margen desde el borde superior
+
+			SDL_Rect heartDest = { startX, startY, heartSize, heartSize };
+
+			for (int i = 0; i < heartCount; ++i) {
+				if (hearthTexture != nullptr) {
+					hearthTexture->render(heartDest);
+					heartDest.x += heartSize + spacing; 
+				}
+			}
+		}
+
 		_timerRndr.render(sdlutils().renderer(), _timer.getTimeLeft());
 
 		// present new frame
@@ -172,6 +199,10 @@ void RunningState::enter()
 
 	if (controlsTexture == nullptr) {
 		controlsTexture = new Texture(sdlutils().renderer(), "resources/images/controles.png");
+	}
+
+	if (hearthTexture == nullptr) {
+		hearthTexture = new Texture(sdlutils().renderer(), "resources/images/live.png");
 	}
 
 	auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
