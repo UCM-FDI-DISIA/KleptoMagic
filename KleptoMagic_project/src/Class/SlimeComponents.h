@@ -131,16 +131,27 @@ namespace ecs
 
 				if (vector && stat && _slimeTransform)
 				{
-					auto path = floor->findPathToX(_slimeTransform->getPos().getX() / 50, _slimeTransform->getPos().getY() / 50, _player->getPos().getX() / 50, _player->getPos().getY() / 50);
-					//std::cout << Vector2D(path[1].x * 50, path[1].y * 50) << endl;
-
-					if (path.size() > 0)
+					float dist = std::hypot(_slimeTransform->getPos().getX() - _player->getPos().getX(),
+						_slimeTransform->getPos().getY() - _player->getPos().getY());
+					if (dist > 50)
 					{
-						vector->CreateVector(_slimeTransform->getPos(), Vector2D(path[1].x * 50, path[1].y * 50));
+						auto path = floor->findPathToX(_slimeTransform->getPos().getX() / 50, _slimeTransform->getPos().getY() / 50, _player->getPos().getX() / 50, _player->getPos().getY() / 50);
+						//std::cout << Vector2D(path[1].x * 50, path[1].y * 50) << endl;
+
+						if (path.size() > 0)
+						{
+							vector->CreateVector(_slimeTransform->getPos(), Vector2D(path[1].x * 50, path[1].y * 50));
+							Vector2D velocity(vector->direcionX * speed, vector->direcionY * speed);
+							_slimeTransform->getVel() = velocity;
+						}
+					}
+					else
+					{
+						vector->CreateVector(_slimeTransform->getPos(), _player->getPos());
+
 						Vector2D velocity(vector->direcionX * speed, vector->direcionY * speed);
 						_slimeTransform->getVel() = velocity;
 					}
-					
 				}
 			
 
