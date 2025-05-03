@@ -762,7 +762,7 @@ std::vector<AStar::Vec2<int>> DungeonFloor::findPathToX(float x, float y, float 
 	// Find the path
 	auto path = pathfindLayout[getCurrentX()][getCurrentY()].findPath({ dXi, dYi }, { xi, yi });
 	
-	//// Print the path
+	// Print the path
 	//for (auto& p : path) {
 	//	std::cout << p.x << "/" << p.y << " ,  ";
 	//}

@@ -67,8 +67,14 @@ namespace ecs
 		Transform* _UndeadTransform;
 		Transform* _player;
 		float speed;
+		DungeonFloor* floor;
+
 	public:
 		__CMPID_DECL__(ecs::cmp::UNDEADMOVCMP);
+
+		void init(DungeonFloor* dFloor) {
+			floor = dFloor;
+		}
 
 		void initComponent() override
 		{
@@ -87,9 +93,15 @@ namespace ecs
 
 			if (vector && stat && _UndeadTransform)
 			{
-				vector->CreateVector(_player->getPos(), _UndeadTransform->getPos());
-				Vector2D velocity(vector->direcionX * speed, vector->direcionY * speed);
-				_UndeadTransform->getVel() = velocity;
+				auto path = floor->findPathToX(_UndeadTransform->getPos().getX() / 50, _UndeadTransform->getPos().getY() / 50, _player->getPos().getX() / 50, _player->getPos().getY() / 50);
+				//std::cout << Vector2D(path[1].x * 50, path[1].y * 50) << endl;
+
+				if(path.size() > 0)
+				{
+					vector->CreateVector(Vector2D(path[1].x * 50, path[1].y * 50), _UndeadTransform->getPos());
+					Vector2D velocity(vector->direcionX * speed, vector->direcionY * speed);
+					_UndeadTransform->getVel() = velocity;
+				}
 			}
 
 

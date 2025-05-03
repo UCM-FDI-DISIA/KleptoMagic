@@ -165,10 +165,6 @@ void RunningState::enter()
 	}
 }
 
-std::vector<AStar::Vec2<int>> RunningState::FindPath(float x, float y, float dX, float dY) {
-	return dungeonfloor->findPathToX(x, y, dX, dY);
-}
-
 void RunningState::leave()
 {
 }
