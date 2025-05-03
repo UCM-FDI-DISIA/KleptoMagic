@@ -27,7 +27,7 @@
             "id": "sprites",
             "file": "resources/images/pacman_sprites.png"
         },
-		{
+        {
             "id": "tileset",
             "file": "resources/images/tileset.png"
         },
@@ -90,6 +90,14 @@
         {
             "id": "HOME",
             "file": "resources/images/home.png"
+        },
+        {
+            "id": "TUTORIAL",
+            "file": "resources/images/controles.png"
+        },
+        {
+            "id": "LIVE",
+            "file": "resources/images/live.png"
         },
         {
             "id": "bifrutas",

@@ -43,6 +43,10 @@ void EnemyUtils::spawn_enemy(EnemyNames name, Vector2D pos) {
 		break;
 	case ENEMY_GHOST:
 		spawn_GHOST(pos);
+		break;
+	case ENEMY_NECRO:
+		spawn_NECRO(pos);
+		break;
 	case ENEMY_BOSS:
 		spawn_BOSS(pos);
 		break;
@@ -134,13 +138,40 @@ void EnemyUtils::spawn_NECRO(Vector2D pos)
 	_mngr->addComponent<Image>(necro, &sdlutils().images().at("bifrutas"));
 	_mngr->addComponent<NecroVectorComponent>(necro);
 	_mngr->addComponent<NecroStatComponent>(necro);
-	_mngr->addComponent<NecroMovementComponent>(necro);
 	_mngr->addComponent<NecroSpawnerComponent>(necro);
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(necro);
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);
 
 
+}
+void EnemyUtils::necro_spawn(Entity* necro, int x, int y) 
+{
+	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
+	auto s = 50.0f;
+	auto tr = _mngr->addComponent<Transform>(slime);
+	Vector2D pos;
+	auto _necrotr = _mngr->getComponent<Transform>(necro);
+	int resultX = _dungeonfloor->checkCollisions(_necrotr->getPos().getX() + x , _necrotr->getPos().getY() + y);
+	if (resultX == 0 ) 
+	{
+		pos = { _necrotr->getPos().getX() + x , _necrotr->getPos().getY() + y };
+	}
+	else 
+	{
+		pos = { _necrotr->getPos().getX() , _necrotr->getPos().getY()};
+	}
+	
+	tr->init(pos, Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(slime, &sdlutils().images().at("pacman"));
+	_mngr->addComponent<SlimeVectorComponent>(slime);
+	_mngr->addComponent<SpawnedStatComponent>(slime);
+	_mngr->addComponent<SpawnMovementComponent>(slime);
+	auto spawned = _mngr->addComponent<SpawnComponent>(slime);
+	spawned->setParent(necro);
+	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(slime);
+	tilechecker->init(false, tr, _dungeonfloor);
+	tr->initTileChecker(tilechecker);
 }
 /*void EnemyUtils::spawn_SPAWN(Vector2D pos)
 {

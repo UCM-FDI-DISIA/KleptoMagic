@@ -26,7 +26,7 @@ namespace ecs
 				Death();
 			}
 		}
-		void Death() 
+		virtual void Death() 
 		{
 			delete _ent;
 		};

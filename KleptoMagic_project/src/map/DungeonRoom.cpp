@@ -83,6 +83,11 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 				name = ENEMY_BOSS;
 				roomEnemies.push_back(spawnData_enemy(Vector2D{ (float)i, (float)row }, name));
 				break;
+
+			case 'n':
+				name = ENEMY_NECRO;
+				roomEnemies.push_back(spawnData_enemy(Vector2D{ (float)i, (float)row }, name));
+				break;
 			}
 		}
 		row++;

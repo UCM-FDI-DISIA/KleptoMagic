@@ -30,9 +30,10 @@ float BulletStats::Created(std::string s)
 		speed = 10;
 		damage = 15;
 		distance = 20000;
-		size = 100;
+		size = 10;
 		piercing = false;
 		duration = distance / speed;
+		bullets = 5;
 		return 250;
 	}
 	else if(s=="KNIGHT"){
@@ -84,10 +85,20 @@ void BulletStats::enemyStats(int i)
 		size = 100;
 		piercing = false;
 		duration = distance / speed;
+	}else if(i==2)
+	{
+		speed = 10;
+		damage = 15;
+		distance = 20000;
+		size = 100;
+		bullets = 7;
+		piercing = false;
+		duration = distance / speed;
 	}
 	//continuar cuando haya mas enemigos
 }
-void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool pierc)
+
+void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool pierc, int bull)
 {
 #ifdef _DEBUG
 	std::cout << _tim->currRealTime();
@@ -97,6 +108,7 @@ void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool
 	distance = dist;
 	size = siz;
 	piercing = pierc;
+	bullets = bull;
 	refreshDuration();
 }
 void BulletStats::update()
