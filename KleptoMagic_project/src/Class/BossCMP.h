@@ -204,13 +204,32 @@ namespace ecs
 			auto bullet = _ent->getMngr()->addEntity(ecs::grp::ENEMY);
 			auto s = 50.0f;
 			auto tr = _ent->getMngr()->addComponent<Transform>(bullet);
-			tr->init(_BossTransform->getPos(), Vector2D(), s, s, 0.0f);
+			// Set the position of the bullet to the boss's position with a small offset
+			Vector2D bulletPos = _BossTransform->getPos();
+			bulletPos.setX(bulletPos.getX() + 20); // Adjust the offset as needed
+			bulletPos.setY(bulletPos.getY() - 20); // Adjust the offset as needed
+
+			tr->init(bulletPos, Vector2D(), s, s, 0.0f);
 			_ent->getMngr()->addComponent<Image>(bullet, &sdlutils().images().at("tennis_ball"));
 			_ent->getMngr()->addComponent<enemyHoming>(bullet);
 			_ent->getMngr()->addComponent<BulletStats>(bullet);
 			auto stats = _ent->getMngr()->getComponent<BulletStats>(bullet);
 			stats->enemyStats(3);
-			//_ent->getMngr()->addComponent<BulletMovement>(bullet);
+
+			auto bullet2 = _ent->getMngr()->addEntity(ecs::grp::ENEMY);
+			auto tr2 = _ent->getMngr()->addComponent<Transform>(bullet2);
+			// Set the position of the bullet to the boss's position with a small offset
+			Vector2D bulletPos2 = _BossTransform->getPos();
+			bulletPos2.setX(bulletPos2.getX() - 20); // Adjust the offset as needed
+			bulletPos2.setY(bulletPos2.getY() - 20); // Adjust the offset as needed
+
+			tr2->init(bulletPos2, Vector2D(), s, s, 0.0f);
+			_ent->getMngr()->addComponent<Image>(bullet2, &sdlutils().images().at("tennis_ball"));
+			_ent->getMngr()->addComponent<enemyHoming>(bullet2);
+			_ent->getMngr()->addComponent<BulletStats>(bullet2);
+			auto stats2 = _ent->getMngr()->getComponent<BulletStats>(bullet2);	
+			stats2->enemyStats(4);
+
 		}
 
 	};
