@@ -91,11 +91,15 @@ void RunningState::update() {
 		// update the event handler
 		NewInputHandler::Instance()->update();
 
+		
+
 		// update
 		game().getMngr()->update();
 		game().getMngr()->refresh();
 		bullet->update();
 		dungeonfloor->update();
+
+		
 
 		// checking collisions
 		colission_thisframe = false;
@@ -133,9 +137,9 @@ void RunningState::update() {
 			auto stats = game().getMngr()->getComponent<EntityStat>(player);
 			float hp = stats->getStat(EntityStat::Stat::HealthCurrent);
 
-#ifdef _DEBUG
+/*#ifdef _DEBUG
 			std::cout << "HealthCurrent: " << hp << std::endl;
-#endif
+#endif*/
 
 			int heartCount = static_cast<int>(hp); 
 			int heartSize = 64;

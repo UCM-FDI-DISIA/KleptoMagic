@@ -44,6 +44,7 @@ NewGameState::NewGameState() {
         game().exitGame(); // Sale del juego directamente
         }, Vector2D(exitBtnX, exitBtnY), Vector2D(exitBtnWidth, exitBtnHeight), exitButtonTexture, "mainMenuButton");
 
+    registerButtons();
 }
 
 NewGameState::~NewGameState() {
@@ -119,4 +120,16 @@ void NewGameState::leave() {
 #ifdef _DEBUG
     std::cout << "Saliendo en NewGameState" << std::endl;
 #endif
+}
+
+void NewGameState::registerButtons() {
+    buttons.push_back(startButton);
+    buttons.push_back(exitButton);
+    selectedButtonIndex = 0;
+}
+
+void NewGameState::selectNextButton() {
+    if (buttons.empty()) return;
+
+    selectedButtonIndex = (selectedButtonIndex + 1) % buttons.size();
 }

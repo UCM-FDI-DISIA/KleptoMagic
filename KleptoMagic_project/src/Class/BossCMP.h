@@ -26,7 +26,7 @@ namespace ecs
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 		}
 		float CreateVector(Vector2D playerPos, Vector2D enemyPos) {
-			// Calculamos el vector dirección
+			// Calculamos el vector direcciï¿½n
 			direcionX = playerPos.getX() - enemyPos.getX();
 			direcionY = playerPos.getY() - enemyPos.getY();
 
@@ -69,30 +69,41 @@ namespace ecs
 		Transform* _BossTransform;
 		Transform* _player;
 
+
+
+		DungeonFloor* floor;
+		float speed;
+
 	public:
 		__CMPID_DECL__(ecs::cmp::BOSSMOVCMP);
+
+		void init(DungeonFloor* dFloor) {
+			floor = dFloor;
+		}
 
 		void initComponent() override
 		{
 			auto* _mngr = _ent->getMngr();
 			_BossTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+
 			//auto sala = _mngr->getHandler(ecs::hdlr::GAMEINFO);
 
-
+			auto stat = static_cast<BossStatComponent*>(_ent->getMngr()->getComponent<BossStatComponent>(_ent));
+			speed = stat->speed;
 		}
 
 		
 		void Teleport() 
 		{
 			if (_BossTransform) {
-				// Generar una nueva posición alejada de la actual, teniendo en cuenta que esté dentro de la sala
+				// Generar una nueva posiciï¿½n alejada de la actual, teniendo en cuenta que estï¿½ dentro de la sala
 				float newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100);
 				float newY = _BossTransform->getPos().getY() + (std::rand() % 200 - 100);
-				// Asegurarse de que la nueva posición esté dentro de los límites de la sala
+				// Asegurarse de que la nueva posiciï¿½n estï¿½ dentro de los lï¿½mites de la sala
 				// 
 				//
-				// Aquí puedes definir los límites de la sala, por ejemplo:
+				// Aquï¿½ puedes definir los lï¿½mites de la sala, por ejemplo:
 				float roomWidth = 800; // Ancho de la sala
 				float roomHeight = 600; // Alto de la sala
 				if (newX < 0) newX = 0;
@@ -100,7 +111,7 @@ namespace ecs
 				if (newY < 0) newY = 0;
 				if (newY > roomHeight) newY = roomHeight;
 
-				// Asegurarse de que la nueva posición esté suficientemente alejada del jugador
+				// Asegurarse de que la nueva posiciï¿½n estï¿½ suficientemente alejada del jugador
 				while (std::sqrt((newX - _player->getPos().getX()) * (newX - _player->getPos().getX()) +
 					(newY - _player->getPos().getY()) * (newY - _player->getPos().getY())) < 100) {
 					newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100);
@@ -109,15 +120,35 @@ namespace ecs
 
 				
 
-				// Asegurarse de que la nueva posición esté suficientemente alejada
+				// Asegurarse de que la nueva posiciï¿½n estï¿½ suficientemente alejada
 				while (std::sqrt((newX - _BossTransform->getPos().getX()) * (newX - _BossTransform->getPos().getX()) +
 					(newY - _BossTransform->getPos().getY()) * (newY - _BossTransform->getPos().getY())) < 100) {
 					newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100);
 					newY = _BossTransform->getPos().getY() + (std::rand() % 200 - 100);
 				}
 
-				// Asignar la nueva posición al Transform del enemigo
+				// Asignar la nueva posiciï¿½n al Transform del enemigo
 				_BossTransform->getPos().set(newX, newY);
+			if (vector && stat && _BossTransform)
+			{
+				float dist = std::hypot(_BossTransform->getPos().getX() - _player->getPos().getX(),
+					_BossTransform->getPos().getY() - _player->getPos().getY());
+				if (dist > 50)
+				{
+					auto path = floor->findPathToX(_BossTransform->getPos().getX() / 50, _BossTransform->getPos().getY() / 50, _player->getPos().getX() / 50, _player->getPos().getY() / 50);
+					//std::cout << Vector2D(path[1].x * 50, path[1].y * 50) << endl;
+
+					if (path.size() > 0)
+					{
+						vector->CreateVector(Vector2D(path[1].x * 50, path[1].y * 50), _BossTransform->getPos());
+						Vector2D velocity(vector->direcionX * speed, vector->direcionY * speed);
+						_BossTransform->getVel() = velocity;
+					}
+				}
+				else
+				vector->CreateVector(_player->getPos(), _BossTransform->getPos());
+				Vector2D velocity(vector->direcionX * 0.5, vector->direcionY * 0.5);
+				_BossTransform->getVel() = velocity;
 			}
 		}
 
