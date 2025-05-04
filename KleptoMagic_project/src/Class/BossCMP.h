@@ -68,17 +68,21 @@ namespace ecs
 
 		Transform* _BossTransform;
 		Transform* _player;
+		DungeonFloor* floor;
 
 	public:
 		__CMPID_DECL__(ecs::cmp::BOSSMOVCMP);
+
+
+		void init(DungeonFloor* dFloor) {
+			floor = dFloor;
+		}
 
 		void initComponent() override
 		{
 			auto* _mngr = _ent->getMngr();
 			_BossTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
-			//auto sala = _mngr->getHandler(ecs::hdlr::GAMEINFO);
-
 
 		}
 
