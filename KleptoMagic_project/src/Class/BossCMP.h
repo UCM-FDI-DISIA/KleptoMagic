@@ -1,4 +1,4 @@
-#include "../ecs/Component.h"
+ï»¿#include "../ecs/Component.h"
 #include "../ecs/ecs.h"
 #include "../ecs/Entity.h"
 #include "../ecs/Manager.h"
@@ -26,7 +26,7 @@ namespace ecs
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 		}
 		float CreateVector(Vector2D playerPos, Vector2D enemyPos) {
-			// Calculamos el vector dirección
+			// Calculamos el vector direcciÃ³n
 			direcionX = playerPos.getX() - enemyPos.getX();
 			direcionY = playerPos.getY() - enemyPos.getY();
 
@@ -89,40 +89,50 @@ namespace ecs
 		
 		void Teleport() 
 		{
-			if (_BossTransform) {
-				// Generar una nueva posición alejada de la actual, teniendo en cuenta que esté dentro de la sala
-				float newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100);
-				float newY = _BossTransform->getPos().getY() + (std::rand() % 200 - 100);
-				// Asegurarse de que la nueva posición esté dentro de los límites de la sala
-				// 
-				//
-				// Aquí puedes definir los límites de la sala, por ejemplo:
-				float roomWidth = 800; // Ancho de la sala
-				float roomHeight = 600; // Alto de la sala
-				if (newX < 0) newX = 0;
-				if (newX > roomWidth) newX = roomWidth;
-				if (newY < 0) newY = 0;
-				if (newY > roomHeight) newY = roomHeight;
+			int resultX = 1;
+			float newX = _BossTransform->getPos().getX();
+			float newY = _BossTransform->getPos().getY();
+			float prevX = _BossTransform->getPos().getX();
+			float prevY = _BossTransform->getPos().getY();
 
-				// Asegurarse de que la nueva posición esté suficientemente alejada del jugador
-				while (std::sqrt((newX - _player->getPos().getX()) * (newX - _player->getPos().getX()) +
-					(newY - _player->getPos().getY()) * (newY - _player->getPos().getY())) < 100) {
-					newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100);
-					newY = _BossTransform->getPos().getY() + (std::rand() % 200 - 100);
+			while (resultX != 0) {
+
+
+				if (_BossTransform) {
+					// Generar una nueva posiciÃ³n alejada de la actual, teniendo en cuenta que estÃ© dentro de la sala
+					newX += (std::rand() % 200 - 100);
+					newY += (std::rand() % 200 - 100);
+
+					/*
+					// Asegurarse de que la nueva posiciï¿½n estï¿½ suficientemente alejada del jugador
+					while (std::sqrt((newX - _player->getPos().getX()) * (newX - _player->getPos().getX()) +
+						(newY - _player->getPos().getY()) * (newY - _player->getPos().getY())) < 100) {
+						newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100);
+						newY = _BossTransform->getPos().getY() + (std::rand() % 200 - 100);
+					}
+					// Asegurarse de que la nueva posiciï¿½n estï¿½ suficientemente alejada
+					while (std::sqrt((newX - _BossTransform->getPos().getX()) * (newX - _BossTransform->getPos().getX()) +
+						(newY - _BossTransform->getPos().getY()) * (newY - _BossTransform->getPos().getY())) < 100) {
+						newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100);
+						newY = _BossTransform->getPos().getY() + (std::rand() % 200 - 100);
+					}
+					*/
+
+					// Verificar si la nueva posiciÃ³n estÃ¡ dentro de los lÃ­mites de la sala
+					resultX = floor->checkCollisions(newX, newY);
+
+					if (resultX != 0)
+					{
+						// Si la nueva posiciÃ³n estÃ¡ fuera de los lÃ­mites, volver a la posiciÃ³n anterior
+						newX = prevX;
+						newY = prevY;
+					}
+
+					// si resultX es 0, significa que la nueva posiciÃ³n estÃ¡ libre, si no vuelve a intentar
 				}
-
-				
-
-				// Asegurarse de que la nueva posición esté suficientemente alejada
-				while (std::sqrt((newX - _BossTransform->getPos().getX()) * (newX - _BossTransform->getPos().getX()) +
-					(newY - _BossTransform->getPos().getY()) * (newY - _BossTransform->getPos().getY())) < 100) {
-					newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100);
-					newY = _BossTransform->getPos().getY() + (std::rand() % 200 - 100);
-				}
-
-				// Asignar la nueva posición al Transform del enemigo
-				_BossTransform->getPos().set(newX, newY);
 			}
+			// Actualizar la posiciÃ³n del Boss
+			_BossTransform->getPos().set(newX, newY);
 		}
 
 	};
@@ -135,6 +145,7 @@ namespace ecs
 		Entity* player = nullptr;
 		float attackCooldown;
 		std::chrono::steady_clock::time_point lastAttackTime = std::chrono::steady_clock::now();
+		std::chrono::steady_clock::time_point lastTeleportTime = std::chrono::steady_clock::now();
 		double attackRange;
 		float teleportCooldown = 5.0f;
 		__CMPID_DECL__(ecs::cmp::BOSSATKCMP);
@@ -152,6 +163,7 @@ namespace ecs
 			auto movement = static_cast<BossMovementComponent*>(_ent->getMngr()->getComponent<BossMovementComponent>(_ent));
 			auto now = std::chrono::steady_clock::now();
 			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
+			teleportCooldown = std::chrono::duration<float>(now - lastTeleportTime).count();
 
 			float distance = vector->CreateVector(_player->getPos(), _BossTransform->getPos());
 			Vector2D attackdirection(vector->direcionX * 1, vector->direcionY * 1);
@@ -176,9 +188,10 @@ namespace ecs
 				lastAttackTime = now;
 				_BossTransform->getVel() = _BossTransform->getVel() * 0;
 			}
-			if (attackRange < 75)
+			if (teleportCooldown >= 5 && attackRange < 75)
 			{
 				movement->Teleport();
+				lastTeleportTime = now;
 			}
 
 		}
