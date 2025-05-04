@@ -26,17 +26,17 @@ namespace ecs
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 		}
 		float CreateVector(Vector2D playerPos, Vector2D enemyPos) {
-			// Calculamos el vector dirección
+			// Calculate the direction vector from the enemy to the player
 			direcionX = playerPos.getX() - enemyPos.getX();
 			direcionY = playerPos.getY() - enemyPos.getY();
 
-			// Calculamos la magnitud del vector ANTES de normalizarlo
+			// Calculate the magnitude of the vector
 			magnitude = std::sqrt(direcionX * direcionX + direcionY * direcionY);
 
 			// Evitamos divisiones por 0
 			if (magnitude > 0.0001) {
-				direcionX /= magnitude;  // Normalizamos X
-				direcionY /= magnitude;  // Normalizamos Y
+				direcionX /= magnitude;  // Normalize X
+				direcionY /= magnitude;  // Normalize Y
 			}
 
 			return magnitude;
@@ -97,28 +97,26 @@ namespace ecs
 
 			while (resultX != 0) {
 
-
 				if (_BossTransform) {
-					// Generar una nueva posición alejada de la actual, teniendo en cuenta que esté dentro de la sala
+					// Generate a random position within a certain range of the current position
 					newX += (std::rand() % 200 - 100);
 					newY += (std::rand() % 200 - 100);
 
 					
-					// Asegurarse de que la nueva posici�n est� suficientemente alejada del jugador
+					// Make sure the new position is not too close to the player
 					while (std::sqrt((newX - _player->getPos().getX()) * (newX - _player->getPos().getX()) +
 						(newY - _player->getPos().getY()) * (newY - _player->getPos().getY())) < 100) {
 						newX += (std::rand() % 200 - 100);
 						newY += (std::rand() % 200 - 100);
 					}
 					/*
-					// Asegurarse de que la nueva posici�n est� suficientemente alejada
+					
 					while (std::sqrt((newX - _BossTransform->getPos().getX()) * (newX - _BossTransform->getPos().getX()) +
 						(newY - _BossTransform->getPos().getY()) * (newY - _BossTransform->getPos().getY())) < 100) {
 						newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100);
 						newY = _BossTransform->getPos().getY() + (std::rand() % 200 - 100);
 					}
 					*/
-
 
 					// Verificar si la nueva posición está dentro de los límites de la sala
 					resultX = floor->checkCollisions(newX, newY);
@@ -130,10 +128,10 @@ namespace ecs
 						newY = prevY;
 					}
 
-					// si resultX es 0, significa que la nueva posición está libre, si no vuelve a intentar
+					// if resultX is 0, the new position is valid
 				}
 			}
-			// Actualizar la posición del Boss
+			// Update the boss's position
 			_BossTransform->getPos().set(newX, newY);
 		}
 
@@ -171,19 +169,19 @@ namespace ecs
 			Vector2D attackdirection(vector->direcionX * 1, vector->direcionY * 1);
 			attackRange = distance;
 
-			if (elapsedTime >= 5 && attackRange <= 300)
+			if (elapsedTime >= 1 && attackRange <= 300)
 			{
 				//chooses one attack from all possible attack patterns
 
 				//int attackPattern = rand() % 2; // Randomly choose an attack pattern (0 or 1)
-				int attackPattern = 0; // For testing purposes, always use attack pattern 0
+				int attackPattern = 1; // For testing purposes, always use attack pattern 0
 				switch (attackPattern)
 				{
 				case 0:
 					Attack1();
 					break;
 				case 1:
-					// Attack2();
+					Attack2();
 					break;
 				}
 
@@ -232,6 +230,23 @@ namespace ecs
 			auto stats2 = _ent->getMngr()->getComponent<BulletStats>(bullet2);	
 			stats2->enemyStats(4);
 
+		}
+
+		// Attack 2, shoots multiple bullets in a spread pattern
+		void Attack2()
+		{
+			auto bullet = _ent->getMngr()->addEntity(ecs::grp::ENEMY);
+			auto s = 50.0f;
+			auto tr = _ent->getMngr()->addComponent<Transform>(bullet);
+			// Set the position of the bullet to the boss's position with a small offset
+			Vector2D bulletPos = _BossTransform->getPos();
+			bulletPos.setX(bulletPos.getX() + 20); // Adjust the offset as needed
+			bulletPos.setY(bulletPos.getY() - 20); // Adjust the offset as needed
+			tr->init(bulletPos, Vector2D(), s, s, 0.0f);
+			_ent->getMngr()->addComponent<Image>(bullet, &sdlutils().images().at("tennis_ball"));
+			_ent->getMngr()->addComponent<BulletStats>(bullet);
+			auto stats = _ent->getMngr()->getComponent<BulletStats>(bullet);
+			stats->enemyStats(2);
 		}
 
 	};
