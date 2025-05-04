@@ -64,14 +64,22 @@ namespace ecs
 
 		Transform* _BossTransform;
 		Transform* _player;
+		DungeonFloor* floor;
+		float speed;
 	public:
 		__CMPID_DECL__(ecs::cmp::BOSSMOVCMP);
+
+		void init(DungeonFloor* dFloor) {
+			floor = dFloor;
+		}
 
 		void initComponent() override
 		{
 			auto* _mngr = _ent->getMngr();
 			_BossTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+			auto stat = static_cast<BossStatComponent*>(_ent->getMngr()->getComponent<BossStatComponent>(_ent));
+			speed = stat->speed;
 		}
 
 		void Move()
@@ -82,6 +90,21 @@ namespace ecs
 
 			if (vector && stat && _BossTransform)
 			{
+				float dist = std::hypot(_BossTransform->getPos().getX() - _player->getPos().getX(),
+					_BossTransform->getPos().getY() - _player->getPos().getY());
+				if (dist > 50)
+				{
+					auto path = floor->findPathToX(_BossTransform->getPos().getX() / 50, _BossTransform->getPos().getY() / 50, _player->getPos().getX() / 50, _player->getPos().getY() / 50);
+					//std::cout << Vector2D(path[1].x * 50, path[1].y * 50) << endl;
+
+					if (path.size() > 0)
+					{
+						vector->CreateVector(Vector2D(path[1].x * 50, path[1].y * 50), _BossTransform->getPos());
+						Vector2D velocity(vector->direcionX * speed, vector->direcionY * speed);
+						_BossTransform->getVel() = velocity;
+					}
+				}
+				else
 				vector->CreateVector(_player->getPos(), _BossTransform->getPos());
 				Vector2D velocity(vector->direcionX * 0.5, vector->direcionY * 0.5);
 				_BossTransform->getVel() = velocity;
