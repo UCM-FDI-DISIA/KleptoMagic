@@ -13,7 +13,7 @@ enum EnemyNames {
 	ENEMY_ARMOR = 2, 
 	ENEMY_GHOST = 3,
 	ENEMY_BOSS = 4,
-	ENEMY_SPAWN = 5
+	ENEMY_NECRO = 5,
 };
 
 using namespace ecs;
@@ -24,5 +24,6 @@ public:
 	virtual ~EnemyFacade() {}
 	virtual void setDungeonFloor(DungeonFloor* floor) = 0;
 	virtual void spawn_enemy(EnemyNames name, Vector2D pos) = 0;
+	virtual void necro_spawn(Entity* necro,int x, int y) = 0;
 	virtual void remove_all_enemies() = 0;
 };

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Class\enemyHoming.cpp" />
     <ClCompile Include="src\Class\PlayerAnimComponent.cpp" />
     <ClCompile Include="src\Class\BossCMP.cpp" />
     <ClCompile Include="src\Class\ImageWithFrames.cpp" />
@@ -86,6 +87,8 @@
     <ClCompile Include="SRC\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Class\enemyHoming.h" />
+    <ClInclude Include="src\astar\astar.hpp" />
     <ClInclude Include="src\Class\PlayerAnimComponent.h" />
     <ClInclude Include="src\Class\BossCMP.h" />
     <ClInclude Include="src\Class\ImageWithFrames.h" />
