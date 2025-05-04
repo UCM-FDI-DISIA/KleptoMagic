@@ -188,7 +188,7 @@ namespace ecs
 				lastAttackTime = now;
 				_BossTransform->getVel() = _BossTransform->getVel() * 0;
 			}
-			if (teleportCooldown >= 5 && attackRange < 75)
+			if (teleportCooldown >= 4 && attackRange < 80)
 			{
 				movement->Teleport();
 				lastTeleportTime = now;
