@@ -192,7 +192,7 @@ namespace ecs
 			_ent->getMngr()->addComponent<enemyHoming>(bullet);
 			_ent->getMngr()->addComponent<BulletStats>(bullet);
 			auto stats = _ent->getMngr()->getComponent<BulletStats>(bullet);
-			stats->enemyStats(1);
+			stats->enemyStats(3);
 			//_ent->getMngr()->addComponent<BulletMovement>(bullet);
 		}
 
