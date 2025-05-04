@@ -10,6 +10,41 @@
 #include <chrono>
 namespace ecs 
 {
+	class NecroStatComponent : public StatComponent
+	{
+		Transform* _NecroTransform;
+		Transform* _player;
+	public:
+		__CMPID_DECL__(ecs::cmp::NECROSTATCMP);
+
+		float shield = 0.60;
+		void initComponent() override
+		{
+			auto* _mngr = _ent->getMngr();
+			life = 11;
+			speed = 1.3;
+		}
+		void harm(float damage) override
+		{
+			life = life - (damage * shield);
+			if (life <= 0)
+			{
+				Death();
+			}
+		};
+		void ReduceShield()
+		{
+			if (shield >= 1)
+			{
+				shield = 1;
+			}
+			else
+			{
+				shield += 0.1;
+			}
+		}
+		void update() override {}
+	};
 	class NecroVectorComponent : public Component
 	{
 	public:
@@ -40,41 +75,7 @@ namespace ecs
 			}
 		}
 	};
-	class NecroStatComponent : public StatComponent
-	{
-		Transform* _NecroTransform;
-		Transform* _player;
-	public:
-		__CMPID_DECL__(ecs::cmp::NECROSTATCMP);
-		
-		float shield = 0.60;
-		void initComponent() override
-		{
-			auto* _mngr = _ent->getMngr();
-			life = 11;
-			speed = 1.3;
-		}
-		void harm(float damage) override
-		{
-			life = life - (damage * shield);
-			 if (life <= 0)
-			 {
-				 Death();
-			 }
-		};
-		void ReduceShield() 
-		{
-			if (shield >= 1) 
-			{
-				shield = 1;
-			}
-			else 
-			{
-				shield += 0.1;
-			}
-		}
-		void update() override {}
-	};
+	
 	class NecroSpawnerComponent: public Component 
 	{
 		Transform* _NecroTransform;
@@ -95,14 +96,14 @@ namespace ecs
 		}
 		void Spawn()
 		{
-			enemyutils().spawn_enemy(ENEMY_SLIME, Vector2D (_NecroTransform->getPos().getX() + 10, _NecroTransform->getPos().getY()));
-			enemyutils().spawn_enemy(ENEMY_SLIME, Vector2D(_NecroTransform->getPos().getX() - 10, _NecroTransform->getPos().getY()));
-			enemyutils().spawn_enemy(ENEMY_SLIME, Vector2D(_NecroTransform->getPos().getX(), _NecroTransform->getPos().getY() + 10));
+			enemyutils().necro_spawn(_ent, 10, 0);
+			enemyutils().necro_spawn(_ent, -10, 0);
+			enemyutils().necro_spawn(_ent, 0, 10);
 		}
 		void update () 
 		{
 			
-			if (spawned = 0 )
+			if (spawned == 0 )
 			{
 				Spawn();
 				spawned = 3;
@@ -133,12 +134,72 @@ namespace ecs
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 			
 		}
+		void setParent(Entity* father) { NecroMancer = father; }
 
-		void Death()
+		void Dead()
 		{
+			
 			NecroMancer->getMngr()->getComponent<NecroSpawnerComponent>(NecroMancer)->spawnKilled();
 		}
 	};
+	class SpawnedStatComponent: public StatComponent 
+	{
+	public:
+		__CMPID_DECL__(ecs::cmp::SPAWNSTATCMP);
+		void initComponent() override
+		{
+			auto* _mngr = _ent->getMngr();
+			life = 10;
+			speed = 0.5;
+			attackspeed = 2;
+			damage = 3;
+
+		}
+		void Death() override
+		{
+			auto dead = static_cast<SpawnComponent*>(_ent->getMngr()->getComponent<SpawnComponent>(_ent));
+			dead->Dead();
+			delete _ent;
+		}
+
+	};
+	class SpawnMovementComponent: public Component 
+	{
+
+		Transform* _slimeTransform;
+		Transform* _player;
+		SpawnedStatComponent* stat;
+		float speed;
+	public:
+		__CMPID_DECL__(ecs::cmp::SPAWNMOVCMP);
+
+		void initComponent() override
+		{
+			auto* _mngr = _ent->getMngr();
+			_slimeTransform = _mngr->getComponent<Transform>(_ent);
+			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+			stat = static_cast<SpawnedStatComponent*>(_ent->getMngr()->getComponent<SpawnedStatComponent>(_ent));
+			speed = stat->speed;
+		}
+
+		void update() override
+
+		{
+			auto vector = static_cast<SlimeVectorComponent*>(_ent->getMngr()->getComponent<SlimeVectorComponent>(_ent));
+
+
+			if (vector && stat && _slimeTransform)
+			{
+				vector->CreateVector(_slimeTransform->getPos(), _player->getPos());
+
+				Vector2D velocity(vector->direcionX * speed, vector->direcionY * speed);
+				_slimeTransform->getVel() = velocity;
+			}
+
+
+		}
+	};
+
 	class NecroMovementComponent: public Component 
 	{
 		Transform* _NecroTransform;

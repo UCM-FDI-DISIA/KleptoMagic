@@ -28,6 +28,7 @@ public:
 	void hit(int index);
 	void pressed();
 	void enemyShoot(Transform* enemyTR,int i);
+	void BossManyDirectinons(Transform* bossTR, Vector2D v);
 	void collided(ecs::entity_t e);
 	void addComponent(int i);
 	void checkComponent(int i, ecs::entity_t e);
@@ -44,12 +45,15 @@ public:
 	void changeAttSpeedCapFlat(float i) { attSpeedCapFlat += i; }
 	void changeAttSpeedCapMul(float i) { attSpeedCapMul += i; }
 	void setDungeonFloor(DungeonFloor* floor) { _dungeonfloor = floor; }
-	
+	void addBullets(int i) { bulStat->changeBullets(i); }
 private:
 	VirtualTimer* _tim;
 	constexpr static uint8_t _max_bullets = 20;
 	Texture* tex = &sdlutils().images().at("star");
 	void shoot();
+	void MultiShot(Vector2D v, BulletStats* stat, bool fromPlayer,Transform* tr = nullptr);
+	void IndividualShotP(Vector2D v);
+	void IndividualShotH(Vector2D v, Transform* tr);
 	std::array<bool, 20> componentes;
 	float attSpeedCapFlat=250;
 	float attSpeedCapMul = 1;

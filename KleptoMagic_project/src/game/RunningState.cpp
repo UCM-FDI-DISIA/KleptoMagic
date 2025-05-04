@@ -48,6 +48,21 @@ void RunningState::update() {
 	//
 	sdlutils().resetTime();
 
+	// Posiones imagen
+	int texW = controlsTexture->width();
+	int texH = controlsTexture->height();
+
+	float scale = 0.3f;
+
+	int scaledW = static_cast<int>(texW * scale);
+	int scaledH = static_cast<int>(texH * scale);
+	int x = (sdlutils().width() - scaledW) / 2;
+	int y = (sdlutils().height() - scaledH) / 2;
+
+	SDL_Rect dest = { x, y, scaledW, scaledH };
+
+	auto controlsTextureStartTime = std::chrono::steady_clock::now();
+
 	while (!exit) {
 		Uint32 startTime = sdlutils().currRealTime();
 		_timer.update();
@@ -76,11 +91,15 @@ void RunningState::update() {
 		// update the event handler
 		NewInputHandler::Instance()->update();
 
+		
+
 		// update
 		game().getMngr()->update();
 		game().getMngr()->refresh();
 		bullet->update();
 		dungeonfloor->update();
+
+		
 
 		// checking collisions
 		colission_thisframe = false;
@@ -101,6 +120,43 @@ void RunningState::update() {
 
 		// render
 		game().getMngr()->render();
+
+		// Comprobamos si han pasado 10 segundos desde que se cargó la imagen
+		auto currentTime = std::chrono::steady_clock::now();
+		std::chrono::duration<float> elapsed = currentTime - controlsTextureStartTime;
+
+		// Si han pasado más de 10 segundos, ocultamos la imagen de controles
+		if (elapsed.count() < 5.0f) {
+			controlsTexture->setAlpha(128);  
+			controlsTexture->render(dest);
+		}
+
+		// Mostrar corazones según la vida del jugador
+		auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
+		if (player != nullptr && game().getMngr()->isAlive(player)) {
+			auto stats = game().getMngr()->getComponent<EntityStat>(player);
+			float hp = stats->getStat(EntityStat::Stat::HealthCurrent);
+
+#ifdef _DEBUG
+			std::cout << "HealthCurrent: " << hp << std::endl;
+#endif
+
+			int heartCount = static_cast<int>(hp); 
+			int heartSize = 64;
+			int spacing = 10;
+
+			int startX = sdlutils().width() - (heartCount * heartSize + (heartCount - 1) * spacing) - 10; // Calculamos la posición X desde la derecha
+			int startY = 10;  // Un pequeño margen desde el borde superior
+
+			SDL_Rect heartDest = { startX, startY, heartSize, heartSize };
+
+			for (int i = 0; i < heartCount; ++i) {
+				if (hearthTexture != nullptr) {
+					hearthTexture->render(heartDest);
+					heartDest.x += heartSize + spacing; 
+				}
+			}
+		}
 
 		_timerRndr.render(sdlutils().renderer(), _timer.getTimeLeft());
 
@@ -145,6 +201,14 @@ void RunningState::enter()
 	std::cout << "Entrando en RunningState" << std::endl;
 #endif
 
+	if (controlsTexture == nullptr) {
+		controlsTexture = new Texture(sdlutils().renderer(), "resources/images/controles.png");
+	}
+
+	if (hearthTexture == nullptr) {
+		hearthTexture = new Texture(sdlutils().renderer(), "resources/images/live.png");
+	}
+
 	auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
 
 	if (player == nullptr || !game().getMngr()->isAlive(player)) {
@@ -155,7 +219,7 @@ void RunningState::enter()
 		auto y = (sdlutils().height() - s) / 2.0f;
 		auto pos = Vector2D(x, y);
 		bullet = new BulletUtils();
-		bullet->addComponent(0);
+		//bullet->addComponent(0);
 		bullet->setDungeonFloor(dungeonfloor);
 		playerutils().createPlayer(pos, s, bullet);
 	}
