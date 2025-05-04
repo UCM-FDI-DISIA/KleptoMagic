@@ -183,6 +183,19 @@ void RunningState::checkCollisions() {
 				colission_thisframe = true;
 				enemycolisioned = enemy;
 			}
+
+			for (auto bullet : game().getMngr()->getEntities(ecs::grp::BULLET)) {
+				auto bullet_tr = game().getMngr()->getComponent<Transform>(bullet);
+
+				if(Collisions::collides(
+					enemy_transform->getPos(), enemy_transform->getWidth(), enemy_transform->getHeight(),
+					bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe) 
+				{
+					game().getMngr()->setAlive(enemy, false);
+					//delete enemy;
+				}
+
+			}
 		}
 	}
 }
