@@ -21,7 +21,6 @@
     <ClCompile Include="SRC\utils\Vector2D.cpp" />
     <ClCompile Include="src\Class\PlayState.cpp" />
     <ClCompile Include="src\Class\DummyState.cpp" />
-    <ClCompile Include="src\Class\EntityCmp.cpp" />
     <ClCompile Include="src\Class\StatusEffect.cpp" />
     <ClCompile Include="src\Class\Button.cpp" />
     <ClCompile Include="src\Class\MainMenuState.cpp" />
@@ -78,7 +77,6 @@
     <ClInclude Include="src\Class\Button.h" />
     <ClInclude Include="src\Class\DummyState.h" />
     <ClInclude Include="src\Class\Enemy.h" />
-    <ClInclude Include="src\Class\EntityCmp.h" />
     <ClInclude Include="src\Class\EntityStat.h" />
     <ClInclude Include="src\Class\EventHandler.h" />
     <ClInclude Include="src\Class\GameObject.h" />

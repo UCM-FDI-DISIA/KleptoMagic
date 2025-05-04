@@ -126,10 +126,8 @@ void RunningState::checkCollisions() {
 			{
 				colission_thisframe = true;
 				enemycolisioned = enemy;
-
 			}
 		}
-	
 	}
 }
 

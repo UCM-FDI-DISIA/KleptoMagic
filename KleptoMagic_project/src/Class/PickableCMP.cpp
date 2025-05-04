@@ -19,7 +19,15 @@ void PickableCMP::playerColision() {
 	}
 	else {
 		_playerstats->changeflat(_value, _upgradetype);
+	}
+		_playerStats->ChangeFlat(_value, _upgradeType);
 	}*/
+}
+
+void PickableCMP::collideWithPlayer(){
+	//upgradePlayer();
+	// destruirse y el resto
+
 
 	delete _ent;
 }
