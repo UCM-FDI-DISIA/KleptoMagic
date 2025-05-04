@@ -21,7 +21,7 @@ public:
 	EntityStat(float health, float shld, float speed, float dmg, float aspd);
 	~EntityStat();
 	void Reset();
-	void ChangeFlat(float add, Stat stat);
+	void ChangeStat(float add, Stat stat);
 	void ChangeMulti(float mult , Stat stat);
 
 	float getStat(Stat stat) const {

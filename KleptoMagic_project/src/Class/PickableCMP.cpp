@@ -13,18 +13,13 @@ void PickableCMP::initComponent() {
 	_playerStats = _mngr->getComponent<EntityStat>(_mngr->getHandler(ecs::hdlr::PLAYER));
 }
 
-void PickableCMP::upgradePlayer() {
-	if(_isMult){
-		_playerStats->ChangeMulti(_value, _upgradeType);
+void PickableCMP::playerColision() {
+	/*if(_ismult){
+		_playerstats->changemulti(_value, _upgradetype);
 	}
 	else {
-		_playerStats->ChangeFlat(_value, _upgradeType);
-	}
-}
+		_playerstats->changeflat(_value, _upgradetype);
+	}*/
 
-void PickableCMP::collideWithPlayer(){
-	upgradePlayer();
-	// destruirse y el restos
-
-
+	delete _ent;
 }

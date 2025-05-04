@@ -24,7 +24,7 @@ void EntityStat::Reset()
 	//endStat = (iniStat * multi) + addi;
 }
 
-void EntityStat::ChangeFlat(float add, Stat stat)
+void EntityStat::ChangeStat(float add, Stat stat)
 {
 	//se suma al addi el dd y se resetea
     switch (stat) {
@@ -47,6 +47,24 @@ void EntityStat::ChangeFlat(float add, Stat stat)
         break;
     case Stat::Shield:
         shield += add;
+        break;
+    }
+
+    switch (stat)
+    {
+    case EntityStat::Stat::HealthTotal:
+        break;
+    case EntityStat::Stat::HealthCurrent:
+        break;
+    case EntityStat::Stat::MovementSpeed:
+        break;
+    case EntityStat::Stat::Damage:
+        break;
+    case EntityStat::Stat::AttackSpeed:
+        break;
+    case EntityStat::Stat::Shield:
+        break;
+    default:
         break;
     }
 }
