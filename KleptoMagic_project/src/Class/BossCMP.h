@@ -103,13 +103,14 @@ namespace ecs
 					newX += (std::rand() % 200 - 100);
 					newY += (std::rand() % 200 - 100);
 
-					/*
+					
 					// Asegurarse de que la nueva posici�n est� suficientemente alejada del jugador
 					while (std::sqrt((newX - _player->getPos().getX()) * (newX - _player->getPos().getX()) +
 						(newY - _player->getPos().getY()) * (newY - _player->getPos().getY())) < 100) {
-						newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100);
-						newY = _BossTransform->getPos().getY() + (std::rand() % 200 - 100);
+						newX += (std::rand() % 200 - 100);
+						newY += (std::rand() % 200 - 100);
 					}
+					/*
 					// Asegurarse de que la nueva posici�n est� suficientemente alejada
 					while (std::sqrt((newX - _BossTransform->getPos().getX()) * (newX - _BossTransform->getPos().getX()) +
 						(newY - _BossTransform->getPos().getY()) * (newY - _BossTransform->getPos().getY())) < 100) {
@@ -117,6 +118,7 @@ namespace ecs
 						newY = _BossTransform->getPos().getY() + (std::rand() % 200 - 100);
 					}
 					*/
+
 
 					// Verificar si la nueva posición está dentro de los límites de la sala
 					resultX = floor->checkCollisions(newX, newY);
