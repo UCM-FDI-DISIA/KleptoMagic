@@ -14,6 +14,8 @@ DungeonFloor::DungeonFloor(int minWidth, int minHeight, int maxWidth, int maxHei
 	enemyutils().setDungeonFloor(this);
 	playerutils().setDungeonFloor(this);
 
+	GeneratePathfindLayout();
+
 #ifdef _DEBUG
 	PrintFloorLayout_Simple();
 	PrintFloorLayout_Detailed();
@@ -44,12 +46,14 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 
 	// Instantiate the room matrix
 	floorLayout = vector<vector<DungeonRoom*>>(floor_width, vector<DungeonRoom*>(floor_height, 0));
-
+	//lo mismo pero pathfinder
+	pathfindLayout = vector<vector<AStar::AStar<uint32_t, true>>>(floor_width, vector<AStar::AStar<uint32_t, true>>(floor_height));
 	// Choose one random starting room out of storage, then place it in the center of the room matrix 
 	// (or close to the center if on even numbers for size)
 	startX = (floor_width) / 2;
 	startY = (floor_height) / 2; 
 	floorLayout[startX][startY] = roomstorage->GetRandomEntranceRoom();
+	pathfindLayout[startX][startY] = createPathRoom(floorLayout[startX][startY]->getRoomTiles());
 
 	// Set variables to indicate the current room being looked into for easy reference, as well as the coordinates of the next room being generated
 	int CurrentRoomX = startX;
@@ -158,6 +162,7 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 
 			// Choose a random regular room that meets the defined criteria and place it at the target location
 			floorLayout[TargetRoomX][TargetRoomY] = roomstorage->GetRandomRegularRoom(exitsToConnect, blacklistedExits);
+			
 
 #ifdef _DEBUG
 			cout << "NEW ROOM: "
@@ -185,6 +190,8 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 			// Update the values for the current room location for the next iteration
 			CurrentRoomX = TargetRoomX;
 			CurrentRoomY = TargetRoomY;
+			//pathfindLayout[CurrentRoomX][CurrentRoomY] = createPathRoom(floorLayout[CurrentRoomX][CurrentRoomY]->getRoomTiles());
+
 
 #ifdef _DEBUG
 			PrintFloorLayout_Detailed();
@@ -627,6 +634,17 @@ void DungeonFloor::PrintFloorLayout_Simple() {
 	}
 }
 
+void DungeonFloor::GeneratePathfindLayout() {
+	for (int i = 0; i < floorLayout.size(); i++) {
+		for (int j = 0; j < floorLayout[0].size(); j++) {
+			if(floorLayout[i][j] != nullptr)
+			{
+				pathfindLayout[i][j] = createPathRoom(floorLayout[i][j]->getRoomTiles());
+			}
+		}
+	}
+}
+
 void DungeonFloor::PrintFloorLayout_Detailed() {
 
 	int render_width = floor_width * 3;
@@ -703,5 +721,52 @@ void DungeonFloor::PrintFloorLayout_Detailed() {
 		}
 		cout << endl;
 	}
+
 }
 #endif
+
+AStar::AStar<uint32_t, true> DungeonFloor::createPathRoom(vector<vector<char>> tilematrix) {
+	AStar::AStar<uint32_t, true> pathFinder;
+	// Define the map size (width, height)
+	if (!tilematrix.empty() && !tilematrix[0].empty()) {
+		pathFinder.setWorldSize({ static_cast<int32_t>(tilematrix.size()), static_cast<int32_t>(tilematrix[0].size()) });
+	}
+	else {
+		//throw
+	}
+	
+	// Set the heuristic function (manhattan, euclidean, octagonal etc...), it is optional, default is euclidean
+	pathFinder.setHeuristic(AStar::Heuristic::euclidean);
+	
+	// if you want to enable diagonal movement, it is optional, default is false
+	pathFinder.setDiagonalMovement(false);
+	for (int i = 0; i < tilematrix.size(); i++) {
+		for (int j = 0; j < tilematrix[0].size(); j++) {
+			if (tilematrix[i][j] != '*') {
+				pathFinder.addObstacle({ i, j });
+			}
+		}
+	}
+	
+	return pathFinder;
+
+}
+std::vector<AStar::Vec2<int>> DungeonFloor::findPathToX(float x, float y, float dX, float dY) {
+
+	// Redondear y convertir a int
+	int xi = static_cast<int>(std::round(x));
+	int yi = static_cast<int>(std::round(y));
+	int dXi = static_cast<int>(std::round(dX));
+	int dYi = static_cast<int>(std::round(dY));
+
+	// Find the path
+	auto path = pathfindLayout[getCurrentX()][getCurrentY()].findPath({ dXi, dYi }, { xi, yi });
+	
+	// Print the path
+	//for (auto& p : path) {
+	//	std::cout << p.x << "/" << p.y << " ,  ";
+	//}
+	//std::cout << std::endl;
+
+	return path;
+}

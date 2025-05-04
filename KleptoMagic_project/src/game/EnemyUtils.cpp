@@ -65,7 +65,8 @@ void EnemyUtils::spawn_SLIME(Vector2D pos) {
 	_mngr->addComponent<SlimeVectorComponent>(slime);
 	_mngr->addComponent<SlimeStatComponent>(slime);
 	_mngr->addComponent<SlimeAttackComponent>(slime);
-	_mngr->addComponent<SlimeMovementComponent>(slime);
+	auto mSlime = _mngr->addComponent<SlimeMovementComponent>(slime);
+	mSlime->init(_dungeonfloor);
 
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(slime);
 	tilechecker->init(false, tr, _dungeonfloor);
@@ -80,7 +81,8 @@ void EnemyUtils::spawn_ARCHER(Vector2D pos) {
 	_mngr->addComponent<Image>(archer, &sdlutils().images().at("star"));
 	_mngr->addComponent<UndeadStatComponent>(archer);
 	_mngr->addComponent<UndeadVectorComponent>(archer);
-	_mngr->addComponent<UndeadMovementComponent>(archer);
+	auto mArcher = _mngr->addComponent<UndeadMovementComponent>(archer);
+	mArcher->init(_dungeonfloor);
 	_mngr->addComponent<UndeadAttackComponent>(archer);
 
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(archer);
@@ -121,7 +123,8 @@ void EnemyUtils::spawn_BOSS(Vector2D pos) {
 	_mngr->addComponent<BossVectorComponent>(boss);
 	_mngr->addComponent<BossStatComponent>(boss);
 	_mngr->addComponent<BossAttackComponent>(boss);
-	_mngr->addComponent<BossMovementComponent>(boss);
+	auto bMove = _mngr->addComponent<BossMovementComponent>(boss);
+	bMove->init(_dungeonfloor);
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(boss);
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);

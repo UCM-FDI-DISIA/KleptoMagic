@@ -42,4 +42,7 @@ private:
 	// Tutorial
 	Texture* controlsTexture;
 	std::chrono::time_point<std::chrono::steady_clock> controlsTextureStartTime;
+
+	// Corazones
+	Texture* hearthTexture;
 };
