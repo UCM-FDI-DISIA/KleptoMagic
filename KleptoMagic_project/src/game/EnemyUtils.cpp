@@ -123,8 +123,7 @@ void EnemyUtils::spawn_BOSS(Vector2D pos) {
 	_mngr->addComponent<BossVectorComponent>(boss);
 	_mngr->addComponent<BossStatComponent>(boss);
 	_mngr->addComponent<BossAttackComponent>(boss);
-	auto bMove = _mngr->addComponent<BossMovementComponent>(boss);
-	bMove->init(_dungeonfloor);
+	_mngr->addComponent<BossMovementComponent>(boss);
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(boss);
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);
