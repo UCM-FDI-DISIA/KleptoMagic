@@ -22,4 +22,11 @@ private:
 	// Heredado vía GameState
 	void enter() override;
 	void leave() override;
+
+	// GamePad
+	std::vector<Button*> buttons;        
+	int selectedButtonIndex = -1;
+
+	void registerButtons();
+	void selectNextButton();
 };
