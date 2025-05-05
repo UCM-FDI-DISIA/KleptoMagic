@@ -5,11 +5,7 @@
 #include "../ecs/ecs_defs_example.h"
 #include "Transform.h"
 #include "../sdlutils/Texture.h"
-#include "../map/DungeonFloor.h"
-#include "BulletUtils.h"
 #include <chrono>
-#include <thread>   
-#include <random>
 
 namespace ecs
 {
@@ -47,7 +43,7 @@ namespace ecs
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 		}
 		void CreateVector(Vector2D playerPos, Vector2D enemyPos) {
-			// Calculamos el vector direcciï¿½n
+			// Calculamos el vector dirección
 			direcionX = playerPos.getX() - enemyPos.getX();
 			direcionY = playerPos.getY() - enemyPos.getY();
 
@@ -71,11 +67,7 @@ namespace ecs
 		Transform* _UndeadTransform;
 		Transform* _player;
 		float speed;
-		int random;
-		bool canMove = false;
-		Vector2D direction;
-		UndeadBehaviourComponent* behaviour;
-		DungeonFloor* _dungeonfloor;
+		DungeonFloor* floor;
 
 	public:
 		__CMPID_DECL__(ecs::cmp::UNDEADMOVCMP);
@@ -91,54 +83,41 @@ namespace ecs
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 			auto stat = static_cast<UndeadStatComponent*>(_ent->getMngr()->getComponent<UndeadStatComponent>(_ent));
 			speed = stat->speed;
-			behaviour = static_cast<UndeadBehaviourComponent*>(_ent->getMngr()->getComponent<UndeadBehaviourComponent>(_ent));
-		}
-		void init(DungeonFloor* floor)
-		{
-			_dungeonfloor = floor;
-		}
-		void ChooseRandom()
-		{
-			std::random_device rd;  // Semilla aleatoria
-			std::mt19937 gen(rd()); // Motor Mersenne Twister
-			std::uniform_int_distribution<> distrib(0, 3); // Rango [0, 3]
-
-			random = distrib(gen);
 		}
 
 		void Move()
 
 		{
+			auto vector = static_cast<UndeadVectorComponent*>(_ent->getMngr()->getComponent<UndeadVectorComponent>(_ent));
 			
-			if (random == 0) 
+
+			if (vector && stat && _UndeadTransform)
 			{
-				direction = { 1,0 };
-			}
-			else if (random == 1)
-			{
-				direction = { -1,0 };
-			}
-			else if (random == 2)
-			{
-				direction = { 0,1 };
-			}
-			else if (random == 3) 
-			{
-				direction = { 0,-1 };
-			}
-				
-		Vector2D velocity(direction.getX() * speed, direction.getY() * speed);
-		int resultX = _dungeonfloor->checkCollisions(_UndeadTransform->getPos().getX() + velocity.getX(), _UndeadTransform->getPos().getY() + velocity.getY());
-		 if (resultX == 0)
-		 {
+				float dist = std::hypot(_UndeadTransform->getPos().getX() - _player->getPos().getX(),
+					_UndeadTransform->getPos().getY() - _player->getPos().getY());
+				if (dist > 50)
+
+				{
+					auto path = floor->findPathToX(_UndeadTransform->getPos().getX() / 50, _UndeadTransform->getPos().getY() / 50, _player->getPos().getX() / 50, _player->getPos().getY() / 50);
+					//std::cout << Vector2D(path[1].x * 50, path[1].y * 50) << endl;
+
+					if (path.size() > 0)
+					{
+						vector->CreateVector(Vector2D(path[1].x * 50, path[1].y * 50), _UndeadTransform->getPos());
+						Vector2D velocity(vector->direcionX * speed, vector->direcionY * speed);
+						_UndeadTransform->getVel() = velocity;
+					}
+				}
+				else
+				{
+					vector->CreateVector(_player->getPos(), _UndeadTransform->getPos());
+					Vector2D velocity(vector->direcionX * speed, vector->direcionY * speed);
 					_UndeadTransform->getVel() = velocity;
-		 }
-		 else
-		 {
-					_UndeadTransform->getVel() = {0,0};
-		 }							
+				}
+			}
+
+
 		}
-	
 	};
 
 	class UndeadAttackComponent : public Component
@@ -146,126 +125,47 @@ namespace ecs
 	public:
 		Transform* _UndeadTransform;
 		Transform* _player;
-		Vector2D aim;
 		std::chrono::steady_clock::time_point lastAttackTime = std::chrono::steady_clock::now();
-		DungeonFloor* _dungeonfloor;
-		BulletUtils* bullet;
+		float attackRange;
+		float attackspeed;
+		float range;
 		__CMPID_DECL__(ecs::cmp::UNDEADATKCMP);
 		void initComponent() override
 		{
 			auto* _mngr = _ent->getMngr();
 			_UndeadTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+			auto stat = static_cast<UndeadStatComponent*>(_ent->getMngr()->getComponent<UndeadStatComponent>(_ent));
+			range = stat->attackrange;
+			attackspeed = stat->attackspeed;
 		}
-		void init(DungeonFloor* floor, BulletUtils* bull)
-		{
-			_dungeonfloor = floor;
-			bullet = bull;
-		}
-		void Shoot()
+		void update() override
 		{
 			
-			bullet->enemyShoot(_UndeadTransform, 1);
-		}
-		void GetVector(Vector2D aim)
-		{
-			this->aim = aim;
-		}
-	};
-	class UndeadBehaviourComponent : public Component {
-		Transform* _UndeadTransform = nullptr;
-		Transform* _player = nullptr;
-		UndeadVectorComponent* vector = nullptr;
-		UndeadMovementComponent* movement = nullptr;
-		DungeonFloor* _dungeonfloor;
-		float attackspeed = 1.0f; // segundos entre ataques
-		bool isMoving = true;
-		float speed;
-		int resultX = 0;
-		std::chrono::steady_clock::time_point lastActionTime = std::chrono::steady_clock::now();
-
-	public:
-		__CMPID_DECL__(ecs::cmp::UNDEADBEHACMP);
-
-		void initComponent() override {
-			auto* _mngr = _ent->getMngr();
-			_UndeadTransform = _mngr->getComponent<Transform>(_ent);
-			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
-			vector = _mngr->getComponent<UndeadVectorComponent>(_ent);
-			movement = _mngr->getComponent<UndeadMovementComponent>(_ent);
+				auto vector = static_cast<UndeadVectorComponent*>(_ent->getMngr()->getComponent<UndeadVectorComponent>(_ent));
 			
-			auto stat = _mngr->getComponent<UndeadStatComponent>(_ent);
-			if (stat) {
-				attackspeed = stat->attackspeed;
-				speed = stat->speed;
-			}
+				auto movement = static_cast<UndeadMovementComponent*>(_ent->getMngr()->getComponent<UndeadMovementComponent>(_ent));
+		
+				auto now = std::chrono::steady_clock::now();
+				float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
 
-			if (movement) movement->ChooseRandom();
-		}
-		void init(DungeonFloor* floor)
-		{
-			_dungeonfloor = floor;
-		}
+				vector->CreateVector(_player->getPos(), _UndeadTransform->getPos());
+				Vector2D attackdirection(vector->direcionX , vector->direcionY);
+				attackRange = vector->magnitude;
 
-		void update() override {
-			if (!_UndeadTransform || !_player || !vector || !movement) return;
-			bool chocan = false;
-			auto now = std::chrono::steady_clock::now();
-			float elapsed = std::chrono::duration<float>(now - lastActionTime).count();
-			int i = 0;
-			vector->CreateVector(_player->getPos(), _UndeadTransform->getPos());
-			Vector2D attackDirection(vector->direcionX, vector->direcionY);
-			do
-			{
-				if (0 != _dungeonfloor->checkCollisions(_UndeadTransform->getPos().getX() + vector->direcionX + i, _UndeadTransform->getPos().getY() + vector->direcionY + i))
+				if (elapsedTime >= attackspeed && attackRange <= range)
 				{
-					float dist = std::hypot(_UndeadTransform->getPos().getX() - _player->getPos().getX(),
-						_UndeadTransform->getPos().getY() - _player->getPos().getY());
-					if (dist > 50)
-
-					{
-						auto path = floor->findPathToX(_UndeadTransform->getPos().getX() / 50, _UndeadTransform->getPos().getY() / 50, _player->getPos().getX() / 50, _player->getPos().getY() / 50);
-						//std::cout << Vector2D(path[1].x * 50, path[1].y * 50) << endl;
-
-						if (path.size() > 0)
-						{
-							vector->CreateVector(Vector2D(path[1].x * 50, path[1].y * 50), _UndeadTransform->getPos());
-							Vector2D velocity(vector->direcionX * speed, vector->direcionY * speed);
-							_UndeadTransform->getVel() = velocity;
-						}
-					}
-					else
-					{
-						vector->CreateVector(_player->getPos(), _UndeadTransform->getPos());
-						Vector2D velocity(vector->direcionX * speed, vector->direcionY * speed);
-						_UndeadTransform->getVel() = velocity;
-					}
+					//create bullet
+					
+					lastAttackTime = now;
+					_UndeadTransform->getVel() =  _UndeadTransform->getVel() * 0;
 				}
-				else (i++);
-			} while (chocan);
-
-			if (elapsed >= attackspeed) {
-				lastActionTime = now;
-
-				// Ataque sin importar distancia
-				_UndeadTransform->getVel() = Vector2D(0, 0); // detenerse
-
-				auto* atk = _ent->getMngr()->getComponent<UndeadAttackComponent>(_ent);
-				if (atk) {
-					atk->GetVector(attackDirection);
-					atk->Shoot(); 
-				}
-
-				isMoving = !isMoving;
-				if (isMoving) {
-					movement->ChooseRandom();
-				}
-			}
-			else if (isMoving) {
-				movement->Move();
-			}
+				if (attackRange > range) 
+				{
+					movement->Move();
+				}			 
+			
 		}
+
 	};
 }
-
-

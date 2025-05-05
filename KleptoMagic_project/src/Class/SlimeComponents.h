@@ -158,5 +158,63 @@ namespace ecs
 		}
 	};  
 
+	class SlimeAttackComponent : public Component
+	{
+		
+		Transform* _slimeTransform;
+		Transform* _player;
+		SlimeStatComponent* stat;
+		bool atack = false;
+		float height, width;
+		float attackspeed = 10 ;
 
+	public:
+		__CMPID_DECL__(ecs::cmp::SLIMEATKCMP);
+	
+		std::chrono::steady_clock::time_point lastAttackTime = std::chrono::steady_clock::now();
+
+		void initComponent() override
+		{
+			auto* _mngr = _ent->getMngr();
+			_slimeTransform = _mngr->getComponent<Transform>(_ent);
+			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+			 //stat = static_cast<SlimeStatComponent*>(_ent->getMngr()->getComponent<SlimeStatComponent>(_ent));
+			stat = _mngr->getComponent<SlimeStatComponent>(_ent);
+			attackspeed -= stat->attackspeed;
+		}
+
+		void update() override
+		{
+
+
+	
+			
+			auto now = std::chrono::steady_clock::now();
+			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
+
+			if (elapsedTime >= attackspeed)
+			{
+				height = _slimeTransform->getHeight();
+				width = _slimeTransform->getWidth();
+
+				_slimeTransform->setHeight(height * 1.5);
+				_slimeTransform->setWidth(width * 1.5);
+
+				lastAttackTime = now;
+				atack = true;
+			}
+			else if (elapsedTime >= 0.5 && atack)
+			{
+				_slimeTransform->setHeight(height);
+				_slimeTransform->setWidth(width);
+				atack = false;
+			}
+			
+
+		}
+
+
+
+
+	};
 }
