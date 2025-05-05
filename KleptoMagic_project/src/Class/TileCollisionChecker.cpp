@@ -36,6 +36,16 @@ void TileCollisionChecker::update() {
 		canMoveX = canFly;
 		currentCollision = COL_HOLE;
 		break;
+	case 3:
+		if (dungeonfloor->isRoomCleared()) {
+			canMoveX = true;
+			currentCollision = COL_FLOOR;
+		}
+		else {
+			canMoveX = false;
+			currentCollision = COL_WALL;
+		}
+		break;
 	default:
 		canMoveX = false;
 		currentCollision = COL_WALL;
@@ -56,6 +66,15 @@ void TileCollisionChecker::update() {
 		canMoveY = canFly;
 		currentCollision = COL_HOLE;
 		break;
+	case 3:
+		if (dungeonfloor->isRoomCleared()) {
+			canMoveY = true;
+			currentCollision = COL_FLOOR;
+		}
+		else {
+			canMoveY = false;
+			currentCollision = COL_WALL;
+		}
 	default:
 		canMoveY = false;
 		currentCollision = COL_WALL;
