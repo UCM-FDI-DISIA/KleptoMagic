@@ -72,8 +72,6 @@ void RunningState::update() {
 
 	SDL_Rect dest = { x, y, scaledW, scaledH };
 
-	auto controlsTextureStartTime = std::chrono::steady_clock::now();
-
 	while (!exit) {
 		currentTime = sdlutils().currRealTime();			// Get the current time
 		deltaTime = (currentTime - lastTime);
@@ -142,12 +140,11 @@ void RunningState::update() {
 			if (!minigame->running) {
 				minigame->minigameLogic(deltaTime);
 				minigameActive = false;
-		// Comprobamos si han pasado 10 segundos desde que se carg� la imagen
-		auto currentTime = std::chrono::steady_clock::now();
-		std::chrono::duration<float> elapsed = currentTime - controlsTextureStartTime;
+			}
+		}
 
 		// Si han pasado m�s de 10 segundos, ocultamos la imagen de controles
-		if (elapsed.count() < 5.0f) {
+		if (_timer.getTimeLeft() >= 290) {
 			controlsTexture->setAlpha(128);  
 			controlsTexture->render(dest);
 		}
@@ -158,9 +155,9 @@ void RunningState::update() {
 			auto stats = game().getMngr()->getComponent<EntityStat>(player);
 			float hp = stats->getStat(EntityStat::Stat::HealthCurrent);
 
-/*#ifdef _DEBUG
-			std::cout << "HealthCurrent: " << hp << std::endl;
-#endif*/
+			/*#ifdef _DEBUG
+						std::cout << "HealthCurrent: " << hp << std::endl;
+			#endif*/
 
 			int heartCount = static_cast<int>(hp); 
 			int heartSize = 64;
