@@ -15,7 +15,7 @@ public:
 	void initComponent();
 
 	virtual void toggleFlip();
-	virtual void playDeath() = 0;
+	virtual void playDeath();
 
 	void setStartFrame(int f) { startFrame = f; };
 	void setDeathFrame(int f) { deathFrame = f; };

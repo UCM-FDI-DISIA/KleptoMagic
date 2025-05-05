@@ -101,15 +101,21 @@ void EnemyUtils::spawn_ARCHER(Vector2D pos) {
 
 void EnemyUtils::spawn_ARMOR(Vector2D pos) {
 	auto armor = _mngr->addEntity(ecs::grp::ENEMY);
-	auto s = 50.0f;
+	auto s = 75.0f;
 	auto tr = _mngr->addComponent<Transform>(armor);
 	tr->init(pos, Vector2D(), s, s, 0.0f);
 	//_mngr->addComponent<Image>(armor, &sdlutils().images().at("bifrutas"));
-	_mngr->addComponent<ImageWithFrames>(armor, &sdlutils().images().at("armor_sprites"), 4, 5, 1);
+	//_mngr->addComponent<ImageWithFrames>(armor, &sdlutils().images().at("armor_sprites"), 4, 5, 1);
+	_mngr->addComponent<ImageWithFrames>(armor, &sdlutils().images().at("armor_sprites"), 250, 4, 5, 0, 4);
 	_mngr->addComponent<ArmorVectorComponent>(armor);
 	_mngr->addComponent<ArmorStatComponent>(armor);
 	_mngr->addComponent<ArmorAttackComponent>(armor);
 	_mngr->addComponent<ArmorMovementComponent>(armor);
+
+	auto animator = game().getMngr()->addComponent<ArmorAnimComponent>(armor);
+	animator->setStartFrame(0);
+	animator->setDeathFrame(16);
+
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(armor);
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);

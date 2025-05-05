@@ -19,3 +19,9 @@ void AnimatorComponent::toggleFlip() {
 	}
 	isFacingRight = !isFacingRight;
 }
+
+void AnimatorComponent::playDeath() {
+	_img->setStartingFrame(deathFrame);
+	_img->setFrame(deathFrame);
+	_img->setNumFrames(60);
+}

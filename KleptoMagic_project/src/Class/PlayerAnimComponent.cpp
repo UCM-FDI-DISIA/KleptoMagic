@@ -9,8 +9,8 @@ PlayerAnimComponent::PlayerAnimComponent() {
 
 void PlayerAnimComponent::update() {
 	// check speed to see if it's walking or not
-	int velX = _tr->getVel().getX();
-	int velY = _tr->getVel().getY();
+	float velX = _tr->getVel().getX();
+	float velY = _tr->getVel().getY();
 	bool isCurrentlyWalking = (velX != 0 || velY != 0);
 	bool isCurrentlyMovingSideways = (velX != 0);
 	bool isCurrentlyMovingRight = (velX < 0);
@@ -26,7 +26,7 @@ void PlayerAnimComponent::update() {
 	if (isFacingRight && !isCurrentlyMovingRight && isCurrentlyMovingSideways) {
 		toggleFlip();
 	}
-	if (!isFacingRight && isCurrentlyMovingRight && isCurrentlyMovingSideways) {
+	else if (!isFacingRight && isCurrentlyMovingRight && isCurrentlyMovingSideways) {
 		toggleFlip();
 	}
 }
