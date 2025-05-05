@@ -1,4 +1,5 @@
 #include "BulletUtils.h"
+#include <cmath>
 
 
 
@@ -27,7 +28,7 @@ void BulletUtils::update()
 		if (!bullStat->getPiercing() && _dungeonfloor != nullptr)
 		{
 			auto tilecollision = mngr->getComponent<TileCollisionChecker>(bull);
-			if (!tilecollision->getCanMove()) { mngr->setAlive(bull,false); }
+			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY()) { mngr->setAlive(bull,false); }
 		}
 	}
 }
@@ -71,7 +72,7 @@ void BulletUtils::enemyShoot(Transform* _enemyTR, int i)
 	auto* _bulletsTR = _mngr->addComponent<Transform>(_bullets);
 	_bulletsTR->init(Vector2D(_enemyTR->getPos().getX() + _enemyTR->getWidth() / 2, _enemyTR->getPos().getY() + _enemyTR->getHeight() / 2) - Vector2D(stats->getSize() / 2, stats->getSize() / 2), vel, stats->getSize(), stats->getSize(), rot);
 	//la imagen debe de ser distinta para cada enemigo
-	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1);
+	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1,0);
 	_mngr->addComponent<DestroyOnBorder>(_bullets);
 	if (!stats->getPiercing())
 	{
@@ -80,6 +81,13 @@ void BulletUtils::enemyShoot(Transform* _enemyTR, int i)
 		_bulletsTR->initTileChecker(tilechecker);
 	}
 
+}
+
+void BulletUtils::BossManyDirectinons(Transform* bossTR, Vector2D v)
+{
+	BulletStats* stat = new BulletStats();
+	stat->enemyStats(2);
+	MultiShot(v, stat, false,bossTR);
 }
 
 void BulletUtils::collided(ecs::entity_t e)
@@ -111,6 +119,46 @@ void BulletUtils::checkComponent(int i, ecs::entity_t bullet)
 void BulletUtils::shoot()
 {
 	auto* _mngr = game().getMngr();
+	Transform* _tr = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+	Vector2D playerCenter = {_tr->getPos().getX() + _tr->getWidth() / 2,_tr->getPos().getY() + _tr->getHeight() / 2	};
+	Vector2D aim = input().getAimVector(playerCenter);
+	if (bulStat->getBull() > 1) {
+		MultiShot(aim,bulStat,true);
+	}
+	else {
+		IndividualShotP(aim);
+	}
+ 	_tim->resetTime();
+
+}
+
+void BulletUtils::MultiShot(Vector2D v, BulletStats* stat, bool fromPlayer,Transform* tr)
+{
+	float fullAngle = 15 + 5 * (stat->getBull() - 2);
+	float moveAngle = fullAngle / (stat->getBull()-1);
+	float initialAngle = atan2(-v.getY(), v.getX()) * 180 / M_PI;
+	initialAngle =initialAngle- (fullAngle / 2);
+	float dirInRad;
+	for (int i = 0; i < stat->getBull(); i++) {
+		
+		dirInRad = (initialAngle+moveAngle*i) * (M_PI / 180);
+		Vector2D dir = { cos(dirInRad),- sin(dirInRad) };
+		if (dir.getX() == v.getX() && dir.getY() == v.getY()) 
+		{ std::cout << "iguales" << '\n'; }
+		if (fromPlayer) {
+			IndividualShotP(dir.normalize());
+		}
+		else
+		{
+			IndividualShotH(dir.normalize(), tr);
+		}
+		
+	}
+}
+
+void BulletUtils::IndividualShotP(Vector2D v)
+{
+	auto* _mngr = game().getMngr();
 
 	Transform* _tr = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 	int x, y;
@@ -118,27 +166,55 @@ void BulletUtils::shoot()
 	float xf = static_cast<float>(x);
 	float yf = static_cast<float>(y);
 	Vector2D PosRat = { xf,yf };
-	
+
+	if (input().isControllerConnected()) {
+		input().triggerRumble(RumbleType::TAP);
+	}
+
 	auto _bullets = _mngr->addEntity(ecs::grp::BULLET);
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
-	stats->refreshStats(bulStat->getSpeed(),bulStat->getDamage(),bulStat->getDistance(),bulStat->getSize(),bulStat->getPiercing());
-	Vector2D vel = (PosRat - Vector2D(_tr->getPos().getX()+(_tr->getWidth()/2), _tr->getPos().getY()+(_tr->getHeight()/2))).normalize() * stats->getSpeed();
-	float rot = -vel.normalize().angle(Vector2D(0, -1));
-	std::cout << rot<<'\n';
+	stats->refreshStats(bulStat->getSpeed(), bulStat->getDamage(), bulStat->getDistance(), bulStat->getSize(), bulStat->getPiercing(), bulStat->getBull());
+	Vector2D vel = v * stats->getSpeed();
+	std::cout << "AimVector: " << vel.getX() << " " << vel.getY() << '\n';
+	float rot = atan2(vel.getY(), vel.getX()) * 180.0f / M_PI ;
+	std::cout << rot << '\n';
 	auto _bulletsTR = _mngr->addComponent<Transform>(_bullets);
-	_bulletsTR->init(Vector2D(_tr->getPos().getX() + _tr->getWidth() / 2, _tr->getPos().getY() + _tr->getHeight() / 2)-Vector2D(stats->getSize()/2,stats->getSize()/2), vel, stats->getSize(), stats->getSize(), rot);
-	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1);
+	_bulletsTR->init(Vector2D(_tr->getPos().getX() + _tr->getWidth() / 2, _tr->getPos().getY() + _tr->getHeight() / 2) - Vector2D(stats->getSize() / 2, stats->getSize() / 2), vel, stats->getSize(), stats->getSize(), rot);
+	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1, 0);
 	_mngr->addComponent<DestroyOnBorder>(_bullets);
-	for(int i=0;i<componentes.size();i++)
+	for (int i = 0; i < componentes.size(); i++)
 	{
-		if (componentes[i]) { checkComponent(i,_bullets); }
+		if (componentes[i]) { checkComponent(i, _bullets); }
 	}
-	if(!bulStat->getPiercing())
+	if (!bulStat->getPiercing())
 	{
 		auto tilechecker = _mngr->addComponent<TileCollisionChecker>(_bullets);
 		tilechecker->init(true, _bulletsTR, _dungeonfloor);
 		_bulletsTR->initTileChecker(tilechecker);
 	}
-	_tim->resetTime();
+}
 
+void BulletUtils::IndividualShotH(Vector2D v, Transform* tr)
+{
+	auto* _mngr = game().getMngr();
+	Transform* _tr = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+
+
+	auto _bullets = _mngr->addEntity(ecs::grp::BULLET);
+	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
+	stats->enemyStats(2);
+	Vector2D vel = Vector2D(_tr->getPos() - tr->getPos()).normalize() * stats->getSpeed();
+	float rot = -vel.normalize().angle(Vector2D(0, -1));
+	auto* _bulletsTR = _mngr->addComponent<Transform>(_bullets);
+	_bulletsTR->init(Vector2D(tr->getPos().getX() + tr->getWidth() / 2, tr->getPos().getY() + tr->getHeight() / 2) - Vector2D(stats->getSize() / 2, stats->getSize() / 2), vel, stats->getSize(), stats->getSize(), rot);
+	//la imagen debe de ser distinta para cada enemigo
+	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1, 0);
+	_mngr->addComponent<DestroyOnBorder>(_bullets);
+	_mngr->addComponent<HomingComponent>(_bullets);
+	if (!stats->getPiercing())
+	{
+		auto tilechecker = _mngr->addComponent<TileCollisionChecker>(_bullets);
+		tilechecker->init(true, _bulletsTR, _dungeonfloor);
+		_bulletsTR->initTileChecker(tilechecker);
+	}
 }

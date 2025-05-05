@@ -4,7 +4,6 @@
 #include "../sdlutils/NewInputHandler.h"
 #include "NewRoundState.h"
 #include "../sdlutils/SDLUtils.h"
-#include "../sdlutils/InputHandler.h"
 
 NewRoundState::NewRoundState() : selectedCharacter("") {
 #ifdef _DEBUG
@@ -14,7 +13,6 @@ NewRoundState::NewRoundState() : selectedCharacter("") {
 
 void NewRoundState::update() {
 	bool exit = false;
-	//auto& ihdlr = ih();
 	float startX = (sdlutils().width() - (btnWidth * 4 + spacing * 3)) / 2 + 12;
 	float imgY = (sdlutils().height() / 2) - btnHeight - 20 + 30; 
 	int imgOffsetX = 25;
@@ -28,7 +26,6 @@ void NewRoundState::update() {
 
 	while (!exit) {
 		Uint32 startTime = sdlutils().currRealTime();
-		//ih().refresh();
     NewInputHandler::Instance()->update();
 
 		rogueButton->update();
@@ -84,9 +81,6 @@ void NewRoundState::enter()
 #endif
 		selectedCharacter = "ROGUE";
 		game().setSelectedCharacter(selectedCharacter);
-#ifdef _DEBUG
-		std::cout << "getSelectedCharacter: " << game().getSelectedCharacter() << std::endl;
-#endif
 		game().setGameState(new RunningState());
 		}, Vector2D(startX, btnY), Vector2D(btnWidth, btnHeight), new Texture(sdlutils().renderer(), "resources/images/select.png"), "rogueButton");
 

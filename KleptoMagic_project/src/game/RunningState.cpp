@@ -10,7 +10,8 @@
 #include "../Class/Image.h"
 #include "../Class/MovementCtrl.h"
 #include "../Class/PlayerCtrl.h"
-#include "../game/GhostComponent.h"
+#include "../Class/PlayerAnimComponent.h"
+#include "../Class/GhostComponent.h"
 #include "../Class/SlimeComponents.h"
 #include "../Class/TimerRenderer.h"
 #include "../Class/UndeadArcherCMPS.h"
@@ -21,13 +22,10 @@
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
 
-RunningState::RunningState(/*Manager* mgr) :_mngr(mgr*/) : _timer(300), minigame(nullptr) {
+RunningState::RunningState() : _timer(300), minigame(nullptr) {
 #ifdef _DEBUG
 	std::cout << "Nuevo RunningState creado!" << std::endl;
 #endif
-
-	roomstorage = new RoomStorage();
-	dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
 }
 	
 
@@ -60,6 +58,21 @@ void RunningState::update() {
 	deltaTime = 0.0f;
 
 	bool minigameActive = false;
+
+	// Posiones imagen
+	int texW = controlsTexture->width();
+	int texH = controlsTexture->height();
+
+	float scale = 0.3f;
+
+	int scaledW = static_cast<int>(texW * scale);
+	int scaledH = static_cast<int>(texH * scale);
+	int x = (sdlutils().width() - scaledW) / 2;
+	int y = (sdlutils().height() - scaledH) / 2;
+
+	SDL_Rect dest = { x, y, scaledW, scaledH };
+
+	auto controlsTextureStartTime = std::chrono::steady_clock::now();
 
 	while (!exit) {
 		currentTime = sdlutils().currRealTime();			// Get the current time
@@ -94,10 +107,15 @@ void RunningState::update() {
 		// update the event handler
 		NewInputHandler::Instance()->update();
 
+		
+
 		// update
 		game().getMngr()->update();
 		game().getMngr()->refresh();
 		bullet->update();
+		dungeonfloor->update();
+
+		
 
 		// checking collisions
 		colission_thisframe = false;
@@ -111,10 +129,10 @@ void RunningState::update() {
 		}
 
 		// clear screen
-		sdlutils().clearRenderer();
+		sdlutils().clearRenderer(build_sdlcolor(0x000000FF));
 
-			// render dungeon
-			dungeonfloor->render();
+		// render dungeon
+		dungeonfloor->render();
 
 		// render
 		game().getMngr()->render();
@@ -124,6 +142,40 @@ void RunningState::update() {
 			if (!minigame->running) {
 				minigame->minigameLogic(deltaTime);
 				minigameActive = false;
+		// Comprobamos si han pasado 10 segundos desde que se carg� la imagen
+		auto currentTime = std::chrono::steady_clock::now();
+		std::chrono::duration<float> elapsed = currentTime - controlsTextureStartTime;
+
+		// Si han pasado m�s de 10 segundos, ocultamos la imagen de controles
+		if (elapsed.count() < 5.0f) {
+			controlsTexture->setAlpha(128);  
+			controlsTexture->render(dest);
+		}
+
+		// Mostrar corazones seg�n la vida del jugador
+		auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
+		if (player != nullptr && game().getMngr()->isAlive(player)) {
+			auto stats = game().getMngr()->getComponent<EntityStat>(player);
+			float hp = stats->getStat(EntityStat::Stat::HealthCurrent);
+
+/*#ifdef _DEBUG
+			std::cout << "HealthCurrent: " << hp << std::endl;
+#endif*/
+
+			int heartCount = static_cast<int>(hp); 
+			int heartSize = 64;
+			int spacing = 10;
+
+			int startX = sdlutils().width() - (heartCount * heartSize + (heartCount - 1) * spacing) - 10; // Calculamos la posici�n X desde la derecha
+			int startY = 10;  // Un peque�o margen desde el borde superior
+
+			SDL_Rect heartDest = { startX, startY, heartSize, heartSize };
+
+			for (int i = 0; i < heartCount; ++i) {
+				if (hearthTexture != nullptr) {
+					hearthTexture->render(heartDest);
+					heartDest.x += heartSize + spacing; 
+				}
 			}
 		}
 
@@ -142,9 +194,6 @@ void RunningState::update() {
 void RunningState::checkCollisions() {
 
 	auto _tr = game().getMngr()->getComponent<Transform>(game().getMngr()->getHandler(ecs::hdlr::PLAYER));
-	////auto f_g = _mngr->getComponent<Gun>(_mngr->getHandler(ecs::hdlr::FIGHTER));
-	//
-	//// Iterate through asteroids
 
 	for (auto enemy : game().getMngr()->getEntities(ecs::grp::ENEMY))
 	{
@@ -157,10 +206,21 @@ void RunningState::checkCollisions() {
 			{
 				colission_thisframe = true;
 				enemycolisioned = enemy;
+			}
+
+			for (auto bullet : game().getMngr()->getEntities(ecs::grp::BULLET)) {
+				auto bullet_tr = game().getMngr()->getComponent<Transform>(bullet);
+
+				if(Collisions::collides(
+					enemy_transform->getPos(), enemy_transform->getWidth(), enemy_transform->getHeight(),
+					bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe) 
+				{
+					game().getMngr()->setAlive(enemy, false);
+					//delete enemy;
+				}
 
 			}
 		}
-	
 	}
 }
 
@@ -170,41 +230,28 @@ void RunningState::enter()
 	std::cout << "Entrando en RunningState" << std::endl;
 #endif
 
-	//Player
-	auto player = game().getMngr()->addEntity();
-	game().getMngr()->setHandler(ecs::hdlr::PLAYER, player);
-	auto tr = game().getMngr()->addComponent<Transform>(player);
-	auto s = 50.0f;
-	auto x = (sdlutils().width() - s) / 2.0f;
-	auto y = (sdlutils().height() - s) / 2.0f;
-	tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
-	std::string selectedCharacter = game().getSelectedCharacter();
-#ifdef _DEBUG
-	std::cout << "Personaje seleccionado: " << selectedCharacter << std::endl;
-#endif
-	if (selectedCharacter.empty()) {
-		selectedCharacter = "ALCHEMIST"; // Valor por defecto si no se ha seleccionado nada
+	if (controlsTexture == nullptr) {
+		controlsTexture = new Texture(sdlutils().renderer(), "resources/images/controles.png");
 	}
-	game().getMngr()->addComponent<Image>(player, &sdlutils().images().at(selectedCharacter));
-	game().getMngr()->addComponent<EntityStat>(player, 3, 1, 10, 1, 1);
-	game().getMngr()->addComponent<PlayerCtrl>(player);
-	auto tilechecker = game().getMngr()->addComponent<TileCollisionChecker>(player);
-	tilechecker->init(false, tr, dungeonfloor);
-	tr->initTileChecker(tilechecker);
-	auto movethroughrooms = game().getMngr()->addComponent<MoveThroughRooms>(player);
-	bullet = new BulletUtils();
-	//bullet->addComponent(0);
-	bullet->setDungeonFloor(dungeonfloor);
-	movethroughrooms->init(dungeonfloor,bullet);
-	movethroughrooms->enterRoom(' ');
 
-	
+	if (hearthTexture == nullptr) {
+		hearthTexture = new Texture(sdlutils().renderer(), "resources/images/live.png");
+	}
 
-	/*
-	enemyutils().spawn_enemy(ENEMY_SLIME, Vector2D{ 100.0f, 100.0f });
-	enemyutils().spawn_enemy(ENEMY_ARCHER, Vector2D{ 200.0f, 200.0f });
-	enemyutils().spawn_enemy(ENEMY_ARMOR, Vector2D{ 300.0f, 300.0f });
-	*/
+	auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
+
+	if (player == nullptr || !game().getMngr()->isAlive(player)) {
+		roomstorage = new RoomStorage();
+		dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
+		auto s = 50.0f;
+		auto x = (sdlutils().width() - s) / 2.0f;
+		auto y = (sdlutils().height() - s) / 2.0f;
+		auto pos = Vector2D(x, y);
+		bullet = new BulletUtils();
+		//bullet->addComponent(0);
+		bullet->setDungeonFloor(dungeonfloor);
+		playerutils().createPlayer(pos, s, bullet);
+	}
 }
 
 void RunningState::leave()

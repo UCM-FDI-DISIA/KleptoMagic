@@ -19,14 +19,13 @@ using namespace ecs;
 
 class RunningState : virtual public GameState {
 public:
-	RunningState(/*Manager* mgr*/);
+	RunningState();
 	~RunningState();
 	bool GMG(bool minigameActive);
 	BulletUtils* getBulletUtils() {return bullet;}
 	void update() override;
 private:
 	void checkCollisions();
-	//Manager* _mngr;
 	BulletUtils* bullet;
 	VirtualTimer asteroidSpawnTimer;
 	const int asteroidSpawnCDms = 5000;
@@ -44,4 +43,13 @@ private:
 	float deltaTime;
 
 	Minigame* minigame;
+	std::chrono::time_point<std::chrono::steady_clock> startTimeDelta;
+	float DeltaTime;
+
+	// Tutorial
+	Texture* controlsTexture;
+	std::chrono::time_point<std::chrono::steady_clock> controlsTextureStartTime;
+
+	// Corazones
+	Texture* hearthTexture;
 };

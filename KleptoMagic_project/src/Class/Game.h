@@ -28,6 +28,7 @@
 #include "../game/GameState.h"
 
 #include "../game/EnemyUtils.h"
+#include "../game/PlayerUtils.h"
 
 
 #pragma once
@@ -92,16 +93,19 @@ public:
 	SDL_Renderer* getRenderer() const { return renderer; }
 
 	void setSelectedCharacter(std::string character) {
-#ifdef _DEBUG
-		std::cout << "Guardando personaje: " << character << std::endl;
-#endif
 		selectedCharacter = character;
+		Characters c = CHAR_KNIGHT; // default
+		if (character == "KNIGHT") c = CHAR_KNIGHT;
+		else if (character == "HUNTER") c = CHAR_HUNTER;
+		else if (character == "ROGUE") c = CHAR_ROGUE;
+		else if (character == "ALCHEMIST") c = CHAR_ALCHEMIST;
+		playerutils().selectCharacter(c);
 	}
 
 	std::string getSelectedCharacter() {
-#ifdef _DEBUG
+		#ifdef _DEBUG
 		std::cout << "Recuperando personaje: " << selectedCharacter << std::endl;
-#endif
+		#endif
 		return selectedCharacter;
 	}
 
