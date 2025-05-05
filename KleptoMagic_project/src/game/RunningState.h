@@ -45,4 +45,5 @@ private:
 
 	// Corazones
 	Texture* hearthTexture;
+	Texture* hearthTotalTexture;
 };

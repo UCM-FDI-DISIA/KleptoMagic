@@ -136,25 +136,33 @@ void RunningState::update() {
 		if (player != nullptr && game().getMngr()->isAlive(player)) {
 			auto stats = game().getMngr()->getComponent<EntityStat>(player);
 			float hp = stats->getStat(EntityStat::Stat::HealthCurrent);
+			float hpTotal = stats->getStat(EntityStat::Stat::HealthTotal);
 
-/*#ifdef _DEBUG
-			std::cout << "HealthCurrent: " << hp << std::endl;
-#endif*/
+			int maxHearts = static_cast<int>(hpTotal);
+			int currentHearts = static_cast<int>(hp);
 
-			int heartCount = static_cast<int>(hp); 
 			int heartSize = 64;
 			int spacing = 10;
 
-			int startX = sdlutils().width() - (heartCount * heartSize + (heartCount - 1) * spacing) - 10; // Calculamos la posición X desde la derecha
-			int startY = 10;  // Un pequeño margen desde el borde superior
+			// Calculamos la posición X desde la derecha
+			int totalWidth = maxHearts * heartSize + (maxHearts - 1) * spacing;
+			int startX = sdlutils().width() - totalWidth - 10;
+			int startY = 10;
 
 			SDL_Rect heartDest = { startX, startY, heartSize, heartSize };
 
-			for (int i = 0; i < heartCount; ++i) {
-				if (hearthTexture != nullptr) {
-					hearthTexture->render(heartDest);
-					heartDest.x += heartSize + spacing; 
+			for (int i = 0; i < maxHearts; ++i) {
+				if (i < currentHearts) {
+					// Corazón lleno
+					if (hearthTexture != nullptr)
+						hearthTexture->render(heartDest);
 				}
+				else {
+					// Corazón vacío
+					if (hearthTotalTexture != nullptr)
+						hearthTotalTexture->render(heartDest);
+				}
+				heartDest.x += heartSize + spacing;
 			}
 		}
 
@@ -207,6 +215,10 @@ void RunningState::enter()
 
 	if (hearthTexture == nullptr) {
 		hearthTexture = new Texture(sdlutils().renderer(), "resources/images/live.png");
+	}
+
+	if (hearthTotalTexture == nullptr) {
+		hearthTotalTexture = new Texture(sdlutils().renderer(), "resources/images/liveEmpty.png");
 	}
 
 	auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
