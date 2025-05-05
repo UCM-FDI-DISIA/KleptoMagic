@@ -36,7 +36,7 @@ void PlayerUtils::createPlayer(Vector2D pos, float size, BulletUtils* bullet) {
 	_mngr->addComponent<ImageWithFrames>(player, &sdlutils().images().at("player_sprites"), (float)75, 6, 4, charStartFrame, 1);
 	_mngr->addComponent<EntityStat>(player, 3, 1, 10, 1, 1);
 	_mngr->addComponent<PlayerCtrl>(player);
-	_mngr->addComponent<WeaponImage>(player, &sdlutils().images().at("weapon_sprites"), 40.0f);
+	_mngr->addComponent<WeaponImage>(player, &sdlutils().images().at("weapon_sprites"), 32.0f, int(_character));
 	auto tilechecker = game().getMngr()->addComponent<TileCollisionChecker>(player);
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);

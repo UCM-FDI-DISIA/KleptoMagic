@@ -10,7 +10,7 @@ class WeaponImage : public ecs::Component {
         __CMPID_DECL__(ecs::cmp::WEAPONIMAGE)
     
         WeaponImage();
-        WeaponImage(Texture* tex, float radius);
+        WeaponImage(Texture* tex, float radius, int textRow);
     
         virtual ~WeaponImage() {}
     
@@ -28,6 +28,7 @@ class WeaponImage : public ecs::Component {
         float _radius;
         float _angleDeg;
         bool _flip;
+        int _texRow;
         Vector2D _weaponPos;
     };
     

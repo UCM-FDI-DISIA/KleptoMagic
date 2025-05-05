@@ -1,10 +1,10 @@
 #include "WeaponImage.h"
 
 WeaponImage::WeaponImage() :
-    _tex(nullptr), _tr(nullptr), _radius(40.0f), _angleDeg(0), _flip(false) {}
+    _tex(nullptr), _tr(nullptr), _radius(40.0f), _angleDeg(0), _flip(false), _texRow(0) {}
 
-WeaponImage::WeaponImage(Texture* tex, float radius) :
-    _tex(tex), _tr(nullptr), _radius(radius), _angleDeg(0), _flip(false) {}
+WeaponImage::WeaponImage(Texture* tex, float radius, int texRow) :
+    _tex(tex), _tr(nullptr), _radius(radius), _angleDeg(0), _flip(false), _texRow(texRow) {}
 
 void WeaponImage::initComponent() {
     _mngr = _ent->getMngr();
@@ -27,24 +27,18 @@ void WeaponImage::update() {
         _flip = (aim.getX() < 0); 
 
         _angleDeg = aim.angle(Vector2D(1, 0));
-        if (_flip) {
-            _angleDeg += 45.0f; 
-        }
-        else {
-            _angleDeg -= 45.0f; 
-        }
     }
 }
 
 void WeaponImage::render() {
     assert(_tex != nullptr);
 
-    float w = static_cast<float>(_tex->width());
-    float h = static_cast<float>(_tex->height());
+    float w = 32.0f; // Assuming the width of the weapon image is 32 pixels
+    float h = 32.0f; // Assuming the height of the weapon image is 32 pixels
     Vector2D pos = _weaponPos - Vector2D(w / 2, h / 2);
 
     SDL_Rect dest = build_sdlrect(pos, w, h);
 
     
-    _tex->render({0, 0, _tex->getWidth(), _tex->getHeight()},dest, -_angleDeg, nullptr, _flip ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
+    _tex->render({0, _texRow * 32, 32, 32},dest, -_angleDeg, nullptr, _flip ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
 }
