@@ -103,7 +103,7 @@ public:
 	void checkRoomClear();
 
 	// Plays door opening animation, and leaves the doors visually open.
-	void doorsAnim_close();
+	void doorsAnim_open();
 	// Plays door closing animation, and leaves the doors visually closed.
 	void doorsAnim_close();
 

@@ -40,7 +40,10 @@ private:
 	// Entity spawns vector for the room (chests, decor, etc.)
 	vector<spawnData_entity> roomEntities;
 	// Determines whether the room has been cleared of enemies yet or not
+	// When cleared, enemies will not be spawned
 	bool cleared;
+	// Whether the doors are opened or not
+	bool opened;
 
 	// Tilemap object
 	Tilemap* tilemap;
@@ -86,6 +89,14 @@ public:
 
 	// Marks the room as cleared
 	void clear() { cleared = true; };
+	// Whether the room is cleared or not
+	bool isCleared() { return cleared; };
+	// Opens the doors
+	void openDoors() { opened = true; };
+	// Closes the doors
+	void closeDoors() { opened = false; };
+	// Whether the doors are open or not
+	bool isOpen() { return opened; };
 
 	// Returns room width in terms of tiles
 	int getWidth() { return room_width; }; 
