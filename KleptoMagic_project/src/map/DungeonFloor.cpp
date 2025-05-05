@@ -642,6 +642,17 @@ void DungeonFloor::addPos(roomPos pos, vector<roomPos>& locations) {
 	else locations.push_back(pos);
 }
 
+void DungeonFloor::GeneratePathfindLayout() {
+	for (int i = 0; i < floorLayout.size(); i++) {
+		for (int j = 0; j < floorLayout[0].size(); j++) {
+			if (floorLayout[i][j] != nullptr)
+			{
+				pathfindLayout[i][j] = createPathRoom(floorLayout[i][j]->getRoomTiles());
+			}
+		}
+	}
+}
+
 #ifdef _DEBUG
 void DungeonFloor::PrintFloorLayout_Simple() {
 	for (int i = 0; i < floor_width; i++) {
@@ -658,16 +669,7 @@ void DungeonFloor::PrintFloorLayout_Simple() {
 	}
 }
 
-void DungeonFloor::GeneratePathfindLayout() {
-	for (int i = 0; i < floorLayout.size(); i++) {
-		for (int j = 0; j < floorLayout[0].size(); j++) {
-			if(floorLayout[i][j] != nullptr)
-			{
-				pathfindLayout[i][j] = createPathRoom(floorLayout[i][j]->getRoomTiles());
-			}
-		}
-	}
-}
+
 
 void DungeonFloor::PrintFloorLayout_Detailed() {
 
