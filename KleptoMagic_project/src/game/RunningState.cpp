@@ -18,9 +18,6 @@
 #include "../Class/UndeadArcherCMPS.h"
 #include "../Class/EntityStat.h"
 
-//#include "../components/Health.h"
-//#include "../components/Gun.h"
-
 RunningState::RunningState() {
 #ifdef _DEBUG
 	std::cout << "Nuevo RunningState creado!" << std::endl;
@@ -173,9 +170,6 @@ void RunningState::update() {
 void RunningState::checkCollisions() {
 
 	auto _tr = game().getMngr()->getComponent<Transform>(game().getMngr()->getHandler(ecs::hdlr::PLAYER));
-	////auto f_g = _mngr->getComponent<Gun>(_mngr->getHandler(ecs::hdlr::FIGHTER));
-	//
-	//// Iterate through asteroids
 
 	for (auto enemy : game().getMngr()->getEntities(ecs::grp::ENEMY))
 	{
@@ -188,10 +182,21 @@ void RunningState::checkCollisions() {
 			{
 				colission_thisframe = true;
 				enemycolisioned = enemy;
+			}
+
+			for (auto bullet : game().getMngr()->getEntities(ecs::grp::BULLET)) {
+				auto bullet_tr = game().getMngr()->getComponent<Transform>(bullet);
+
+				if(Collisions::collides(
+					enemy_transform->getPos(), enemy_transform->getWidth(), enemy_transform->getHeight(),
+					bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe) 
+				{
+					game().getMngr()->setAlive(enemy, false);
+					//delete enemy;
+				}
 
 			}
 		}
-	
 	}
 }
 
