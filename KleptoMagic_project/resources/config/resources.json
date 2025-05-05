@@ -110,6 +110,10 @@
         {
             "id": "bifrutas",
             "file": "resources/images/bifrutas.jpg"
+        },
+        {
+            "id": "weapon_sprites",
+            "file": "resources/images/sword.png"
         }
     ],
   

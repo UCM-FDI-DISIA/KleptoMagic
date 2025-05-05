@@ -2,6 +2,7 @@
 #include "../ecs/Component.h"
 #include "../sdlutils/SDLUtils.h"
 #include "Transform.h"
+#include "../sdlutils/NewInputHandler.h"
 
 class Transform;
 class Texture;
