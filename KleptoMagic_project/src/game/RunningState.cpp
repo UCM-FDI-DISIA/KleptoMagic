@@ -192,7 +192,6 @@ void RunningState::checkCollisions() {
 					bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe) 
 				{
 					game().getMngr()->setAlive(enemy, false);
-					//delete enemy;
 				}
 
 			}
