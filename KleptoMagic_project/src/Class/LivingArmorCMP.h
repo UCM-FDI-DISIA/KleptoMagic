@@ -142,8 +142,6 @@ namespace ecs
 
 			_armorTransform->getVel() = dir;
 
-			cout << _armorTransform->getVel() << endl;
-
 			// Mover la entidad
 			/*
 			Vector2D newPos = _armorTransform->getPos() + (_armorTransform->getVel() * stat->speed * sdlutils().virtualTimer().currRealTime());
