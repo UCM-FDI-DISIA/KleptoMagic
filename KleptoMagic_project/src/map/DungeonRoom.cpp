@@ -7,8 +7,9 @@
 #include <random>
 
 #include "./../utils/StringUtils.h"
+using namespace std;
 
-DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
+DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type), cleared(false), opened(false)
 {
 #ifdef _DEBUG
 	cout << endl;

@@ -442,6 +442,9 @@ int Tilemap::checkCollision(int x, int y) {
 		case TILE_HOLE:
 			return 2;
 			break;
+		case TILE_EXIT_U: case TILE_EXIT_D: case TILE_EXIT_L: case TILE_EXIT_R:
+			return 3;
+			break;
 		default:
 			return 0;
 			break;

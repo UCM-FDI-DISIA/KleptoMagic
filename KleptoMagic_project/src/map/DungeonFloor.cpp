@@ -421,6 +421,11 @@ void DungeonFloor::render() {
 
 void DungeonFloor::update() {
 	floorLayout[currentX][currentY]->getTilemap()->update();
+	checkRoomClear();
+}
+
+void DungeonFloor::checkRoomClear() {
+
 }
 
 int DungeonFloor::checkCollisions(int x, int y) {

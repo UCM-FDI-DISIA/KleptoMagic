@@ -30,9 +30,9 @@ class DungeonFloor
 {
 private:
 	// In terms of the room matrix
-	int floor_width; 
+	int floor_width;
 	// In terms of the room matrix
-	int floor_height; 
+	int floor_height;
 	// Room matrix
 	vector<vector<DungeonRoom*>> floorLayout;
 	//pathfind matrix
@@ -101,6 +101,10 @@ public:
 	// Checks for how many enemies are currently alive, if the room has not been cleared yet.
 	// If not cleared and there are no enemies, then clear the room.
 	void checkRoomClear();
+	// Whether the current room is cleared or not
+	bool isRoomCleared() { return floorLayout[currentX][currentY]->isCleared(); };
+	// Whether the current room is opened (doors) or not
+	bool isRoomOpen() { return floorLayout[currentX][currentY]->isOpen(); };
 
 	// Plays door opening animation, and leaves the doors visually open.
 	void doorsAnim_open();

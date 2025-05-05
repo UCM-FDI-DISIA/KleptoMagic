@@ -33,7 +33,9 @@ void MoveThroughRooms::update() {
 
 	char result = _dungeonfloor->checkEnterExit(xPostMove, yPostMove);
 
-	if (result == 'U' || result == 'D' || result == 'L' || result == 'R') {
+	if ((result == 'U' || result == 'D' || result == 'L' || result == 'R')
+		&& _dungeonfloor->isRoomCleared()) {
+		cout << _dungeonfloor->isRoomCleared() << endl;
 		enterRoom(result);
 	}
 }
