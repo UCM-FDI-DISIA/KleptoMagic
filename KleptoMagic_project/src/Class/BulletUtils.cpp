@@ -175,7 +175,6 @@ void BulletUtils::IndividualShotP(Vector2D v)
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
 	stats->refreshStats(bulStat->getSpeed(), bulStat->getDamage(), bulStat->getDistance(), bulStat->getSize(), bulStat->getPiercing(), bulStat->getBull());
 	Vector2D vel = v * stats->getSpeed();
-	std::cout << "AimVector: " << vel.getX() << " " << vel.getY() << '\n';
 	float rot = atan2(vel.getY(), vel.getX()) * 180.0f / M_PI ;
 	std::cout << rot << '\n';
 	auto _bulletsTR = _mngr->addComponent<Transform>(_bullets);
