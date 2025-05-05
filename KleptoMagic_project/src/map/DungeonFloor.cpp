@@ -5,6 +5,7 @@
 #include <vector>
 #include "../game/EnemyUtils.h"
 #include "../game/PlayerUtils.h"
+#include "../class/Game.h"
 
 using namespace std;
 
@@ -416,19 +417,37 @@ void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int 
 }
 
 void DungeonFloor::render() {
-	floorLayout[currentX][currentY]->render(renderer);
+	getCurrentRoom()->render(renderer);
 }
 
 void DungeonFloor::update() {
-	floorLayout[currentX][currentY]->getTilemap()->update();
+	getCurrentRoom()->getTilemap()->update();
+	if (!getCurrentRoom()->isCleared()) { // if not cleared yet
+		checkRoomClear();
+	}
+}
+
+void DungeonFloor::checkRoomClear() {
+	if (game().getMngr()->getEntities(ecs::grp::ENEMY).size() <= 0) { // no enemies left alive
+		getCurrentRoom()->clear();
+		getCurrentRoom()->openDoors();
+		doorsAnim_open();
+	}
+}
+
+void DungeonFloor::doorsAnim_open() {
+	getCurrentRoom()->getTilemap()->anim_doorsOpen();
+}
+void DungeonFloor::doorsAnim_close() {
+	getCurrentRoom()->getTilemap()->anim_doorsClose();
 }
 
 int DungeonFloor::checkCollisions(int x, int y) {
-	return floorLayout[currentX][currentY]->getTilemap()->checkCollision(x, y);
+	return getCurrentRoom()->getTilemap()->checkCollision(x, y);
 }
 
 char DungeonFloor::checkEnterExit(int x, int y) {
-	return floorLayout[currentX][currentY]->getTilemap()->checkExit(x, y);
+	return getCurrentRoom()->getTilemap()->checkExit(x, y);
 }
 
 Vector2D DungeonFloor::enterRoom(char exit) {
@@ -440,32 +459,32 @@ Vector2D DungeonFloor::enterRoom(char exit) {
 		// moving up
 		currentX = currentX - 1;
 		// load room objects method here
-		posAfterEnter = floorLayout[currentX][currentY]->PositionAfterEntering('D');
+		posAfterEnter = getCurrentRoom()->PositionAfterEntering('D');
 		break;
 	case 'D':
 		// moving down
 		currentX = currentX + 1;
 		// load room objects method here
-		posAfterEnter = floorLayout[currentX][currentY]->PositionAfterEntering('U');
+		posAfterEnter = getCurrentRoom()->PositionAfterEntering('U');
 		break;
 	case 'L':
 		// moving left
 		currentY = currentY - 1;
 		// load room objects method here
-		posAfterEnter = floorLayout[currentX][currentY]->PositionAfterEntering('R');
+		posAfterEnter = getCurrentRoom()->PositionAfterEntering('R');
 		break;
 	case 'R':
 		// moving right
 		currentY = currentY + 1;
 		// load room objects method here
-		posAfterEnter = floorLayout[currentX][currentY]->PositionAfterEntering('L');
+		posAfterEnter = getCurrentRoom()->PositionAfterEntering('L');
 		break;
 	case ' ':
 		// entrance room spawn
 		currentX = startX;
 		currentY = startY;
 		// load room objects method here
-		posAfterEnter = floorLayout[currentX][currentY]->PositionAfterEntering(' ');
+		posAfterEnter = getCurrentRoom()->PositionAfterEntering(' ');
 		break;
 	default:
 		break;
@@ -474,15 +493,20 @@ Vector2D DungeonFloor::enterRoom(char exit) {
 #ifdef _DEBUG
 	PrintFloorLayout_Detailed();
 	cout << endl;
-	cout << "Entering room '" << floorLayout[currentX][currentY]->getName() << "' of type '" << floorLayout[currentX][currentY]->getType() << "'";
+	cout << "Entering room '" << getCurrentRoom()->getName() << "' of type '" << getCurrentRoom()->getType() << "'";
 	cout << endl;
 #endif
+
+	if (!getCurrentRoom()->isCleared()) {
+		doorsAnim_close();
+	}
+	else getCurrentRoom()->getTilemap()->setDoorOpen();
 
 	return posAfterEnter;
 }
 
 void DungeonFloor::spawnEnemies() {
-	floorLayout[currentX][currentY]->spawnEnemies();
+	getCurrentRoom()->spawnEnemies();
 }
 
 vector<char> DungeonFloor::CheckSpaceAroundRoom(int x, int y) {
