@@ -169,12 +169,12 @@ namespace ecs
 			Vector2D attackdirection(vector->direcionX * 1, vector->direcionY * 1);
 			attackRange = distance;
 
-			if (elapsedTime >= 1 && attackRange <= 300)
+			if (elapsedTime >= 4 && attackRange <= 300)
 			{
 				//chooses one attack from all possible attack patterns
 
 				//int attackPattern = rand() % 2; // Randomly choose an attack pattern (0 or 1)
-				int attackPattern = 1; // For testing purposes, always use attack pattern 0
+				int attackPattern = 0; // For testing purposes, always use attack pattern 0
 				switch (attackPattern)
 				{
 				case 0:
@@ -243,7 +243,7 @@ namespace ecs
 			bulletPos.setX(bulletPos.getX() + 20); // Adjust the offset as needed
 			bulletPos.setY(bulletPos.getY() - 20); // Adjust the offset as needed
 			tr->init(bulletPos, Vector2D(), s, s, 0.0f);
-			_ent->getMngr()->addComponent<Image>(bullet, &sdlutils().images().at("tennis_ball"));
+			_ent->getMngr()->addComponent<Image>(bullet, &sdlutils().images().at("enemy_bullet"));
 			_ent->getMngr()->addComponent<BulletStats>(bullet);
 			auto stats = _ent->getMngr()->getComponent<BulletStats>(bullet);
 			stats->enemyStats(2);
