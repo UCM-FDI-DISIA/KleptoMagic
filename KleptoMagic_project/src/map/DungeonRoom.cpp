@@ -51,7 +51,7 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type), open
 		row++;
 	}
 
-	getline(roomFile, line); // Ignoring the blank line between both matrices in the file
+	//getline(roomFile, line); // Ignoring the blank line between both matrices in the file
 	row = 0;
 
 	//Reading the second matrix in the file, AKA the spawn layout
@@ -162,7 +162,7 @@ void DungeonRoom::render(SDL_Renderer* rend) const {
 void DungeonRoom::spawnEnemies() {
 	for (auto i : roomEnemies) {
 		float realX = i.pos.getX() * tilesize;
-		float realY = i.pos.getX() * tilesize;
+		float realY = i.pos.getY() * tilesize;
 		Vector2D realPos = { (float)realX, (float)realY };
 		enemyutils().spawn_enemy(i.name, realPos);
 	}

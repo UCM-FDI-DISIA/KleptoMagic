@@ -2,17 +2,9 @@
 #include <iostream>
 using namespace std;
 
-PlayerAnimComponent::PlayerAnimComponent(int startF) : startFrame(startF), deathFrame(startF + 4) {
+PlayerAnimComponent::PlayerAnimComponent() {
 	isWalking = false;
 	isFacingRight = false;
-}
-
-void PlayerAnimComponent::initComponent() {
-	auto* _mngr = _ent->getMngr();
-	_tr = _mngr->getComponent<Transform>(_ent);
-	assert(_tr != nullptr);
-	_plrImg = _mngr->getComponent<ImageWithFrames>(_ent);
-	assert(_plrImg != nullptr);
 }
 
 void PlayerAnimComponent::update() {
@@ -51,16 +43,6 @@ void PlayerAnimComponent::toggleWalkingAnim() {
 		_plrImg->setNumFrames(1);
 	}
 	isWalking = !isWalking;
-}
-
-void PlayerAnimComponent::toggleFlip() {
-	if (!isFacingRight) {
-		_plrImg->setFlip(true);
-	}
-	else {
-		_plrImg->setFlip(false);
-	}
-	isFacingRight = !isFacingRight;
 }
 
 void PlayerAnimComponent::playDeath() {

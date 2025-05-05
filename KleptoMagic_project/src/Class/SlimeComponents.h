@@ -66,7 +66,7 @@ namespace ecs
 		{
 			auto* _mngr = _ent->getMngr();
 			life = 10;
-			speed = 0.5;
+			speed = 2;
 			attackspeed = 2;
 			damage = 3;
 
@@ -217,4 +217,26 @@ namespace ecs
 
 
 	};
+
+	//class SlimeAnimComponent : public ecs::Component {
+	//public:
+	//	__CMPID_DECL__(ecs::cmp::SLIMEANIMCMP);
+	//
+	//	SlimeAnimComponent(int startF);
+	//
+	//	void initComponent() override;
+	//	void update();
+	//	void toggleWalkingAnim();
+	//	void toggleFlip();
+	//	void playDeath();
+	//
+	//private:
+	//	Transform* _tr;
+	//	ImageWithFrames* _plrImg;
+	//	int startFrame;
+	//	int deathFrame;
+	//	bool isWalking;
+	//	bool isFacingRight;
+	//	void createStart();
+	//};
 }
