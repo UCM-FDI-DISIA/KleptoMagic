@@ -39,6 +39,8 @@ private:
 	vector<spawnData_enemy> roomEnemies; 
 	// Entity spawns vector for the room (chests, decor, etc.)
 	vector<spawnData_entity> roomEntities;
+	// Determines whether the room has been cleared of enemies yet or not
+	bool cleared;
 
 	// Tilemap object
 	Tilemap* tilemap;
@@ -81,6 +83,9 @@ public:
 
 	// Spawns all the enemies stored in roomEnemies using EnemyUtils
 	void spawnEnemies();
+
+	// Marks the room as cleared
+	void clear() { cleared = true; };
 
 	// Returns room width in terms of tiles
 	int getWidth() { return room_width; }; 

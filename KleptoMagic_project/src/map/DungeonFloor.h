@@ -92,8 +92,20 @@ public:
 
 	// Renders the dungeon floor: i.e. renders the current room
 	void render();
-	// Updates the current room. Primarily for updating the frames of decorations like torches and doors
+
+	// Updates the current room.
+	// This updates the frame of the room's decorations (torch/doors), and also checks for how many enemies
+	// are alive for room clearing.
 	void update();
+
+	// Checks for how many enemies are currently alive, if the room has not been cleared yet.
+	// If not cleared and there are no enemies, then clear the room.
+	void checkRoomClear();
+
+	// Plays door opening animation, and leaves the doors visually open.
+	void doorsAnim_close();
+	// Plays door closing animation, and leaves the doors visually closed.
+	void doorsAnim_close();
 
 	// Feed it X and Y coordinates from an in-world position of an object. 
 	// Returns based on what type of tile (from the tilemap of the current room) that object is currently inside of:"
