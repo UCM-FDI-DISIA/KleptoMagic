@@ -70,9 +70,7 @@ void EnemyUtils::spawn_SLIME(Vector2D pos) {
 	_mngr->addComponent<ImageWithFrames>(slime, &sdlutils().images().at("slime_sprites"), 4, 2, 1);
 	_mngr->addComponent<SlimeVectorComponent>(slime);
 	_mngr->addComponent<SlimeStatComponent>(slime);
-	_mngr->addComponent<SlimeAttackComponent>(slime);
-	auto mSlime = _mngr->addComponent<SlimeMovementComponent>(slime);
-	mSlime->init(_dungeonfloor);
+	_mngr->addComponent<SlimeMovementComponent>(slime);
 
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(slime);
 	tilechecker->init(false, tr, _dungeonfloor);
