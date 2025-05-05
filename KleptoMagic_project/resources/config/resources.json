@@ -16,6 +16,10 @@
             "file": "resources/images/Enemy_bullet.png"
         },
         {
+            "id": "player_bullet",
+            "file": "resources/images/Player_bullet.png"
+        },
+        {
             "id": "star",
             "file": "resources/images/star.png"
         },
