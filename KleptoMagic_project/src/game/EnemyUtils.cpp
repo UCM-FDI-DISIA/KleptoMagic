@@ -60,7 +60,6 @@ void EnemyUtils::spawn_SLIME(Vector2D pos) {
 	_mngr->addComponent<Image>(slime, &sdlutils().images().at("pacman"));
 	_mngr->addComponent<SlimeVectorComponent>(slime);
 	_mngr->addComponent<SlimeStatComponent>(slime);
-	_mngr->addComponent<SlimeAttackComponent>(slime);
 	_mngr->addComponent<SlimeMovementComponent>(slime);
 
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(slime);
@@ -76,8 +75,12 @@ void EnemyUtils::spawn_ARCHER(Vector2D pos) {
 	_mngr->addComponent<Image>(archer, &sdlutils().images().at("star"));
 	_mngr->addComponent<UndeadStatComponent>(archer);
 	_mngr->addComponent<UndeadVectorComponent>(archer);
-	_mngr->addComponent<UndeadMovementComponent>(archer);
-	_mngr->addComponent<UndeadAttackComponent>(archer);
+	auto mArcher = _mngr->addComponent<UndeadMovementComponent>(archer);
+	mArcher->init(_dungeonfloor);
+	auto aArcher = _mngr->addComponent<UndeadAttackComponent>(archer);
+	aArcher->init(_dungeonfloor);
+	auto bArcher = _mngr->addComponent<UndeadBehaviourComponent>(archer);
+	bArcher->init(_dungeonfloor);
 
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(archer);
 	tilechecker->init(false, tr, _dungeonfloor);
