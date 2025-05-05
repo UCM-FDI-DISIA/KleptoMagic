@@ -12,8 +12,8 @@
             "file": "resources/images/SDL_logo.png"
         },
         {
-            "id": "tennis_ball",
-            "file": "resources/images/tennis_ball.png"
+            "id": "enemy_bullet",
+            "file": "resources/images/Enemy_bullet.png"
         },
         {
             "id": "star",
