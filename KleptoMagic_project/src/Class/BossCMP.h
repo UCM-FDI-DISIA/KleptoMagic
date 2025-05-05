@@ -233,6 +233,7 @@ namespace ecs
 		}
 
 		// Attack 2, shoots multiple bullets in a spread pattern
+		// still incomplete
 		void Attack2()
 		{
 			auto bullet = _ent->getMngr()->addEntity(ecs::grp::ENEMY);
