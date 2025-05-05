@@ -20,7 +20,9 @@ void MoveThroughRooms::enterRoom(char exit) {
 	_tr->getPos() = Vector2D{position_realX, position_realY};
 	enemyutils().remove_all_enemies();
 	bullet->reset();
-	_dungeonfloor->spawnEnemies();
+	if (!_dungeonfloor->getCurrentRoom()->isCleared()) {
+		_dungeonfloor->spawnEnemies();
+	}
 }
 
 void MoveThroughRooms::update() {

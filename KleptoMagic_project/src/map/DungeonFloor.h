@@ -4,6 +4,7 @@
 #include <SDL_image.h>
 #include "DungeonRoom.h"
 #include "RoomStorage.h"
+#include "../ecs/Manager.h"
 #include "../astar/astar.hpp"
 #include "../utils/Vector2D.h"
 
@@ -39,6 +40,8 @@ private:
 	vector<vector< AStar::AStar<uint32_t, true>>> pathfindLayout;
 	// Pointer to room storage
 	RoomStorage* roomstorage;
+	// Pointer to manager
+	Manager* _mngr;
 	// X coordinate of starting room
 	int startX = -1;
 	// Y coordinate of starting room
@@ -77,6 +80,8 @@ public:
 	// reach the desired amount of rooms), it shouldn't take very long.
 	void GenerateFloor(int minWidth, int minHeight, int maxWidth, int maxHeight, int numRooms);
 
+	DungeonRoom* getCurrentRoom() { return floorLayout[currentX][currentY]; };
+
 	// Returns the X coordinate for the floor's starting room
 	int getStartX() { return startX; };
 	// Returns the Y coordinate for the floor's starting room
@@ -101,6 +106,7 @@ public:
 	// Checks for how many enemies are currently alive, if the room has not been cleared yet.
 	// If not cleared and there are no enemies, then clear the room.
 	void checkRoomClear();
+
 	// Whether the current room is cleared or not
 	bool isRoomCleared() { return floorLayout[currentX][currentY]->isCleared(); };
 	// Whether the current room is opened (doors) or not

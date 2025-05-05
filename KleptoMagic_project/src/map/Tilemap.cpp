@@ -24,8 +24,8 @@ Tilemap::Tilemap(vector<vector<char>> tilematrix, DungeonRoom* dungeonroom) : ro
 	// Set data of torch and door animations
 	torchFrame = 0;
 	doorFrame = 0;
-	doorsOpening = true;
-	doorsChanging = true;
+	doorsOpen = false;
+	setDoorClosed();
 	
 	// Run through the matrix and translate chars to tile types within the tilemap itself
 	for (int i = 0; i < tilematrix.size(); i++) {
@@ -95,21 +95,42 @@ void Tilemap::update() {
 			torchFrame = 0;
 		}
 	}
+
 	if ((sdlutils().currRealTime() - lastDoorFrameChange > DoorFrameChangeInterval) && doorsChanging) {
 		lastDoorFrameChange = sdlutils().currRealTime();
 		if (doorsOpening) {
 			doorFrame++;
 			if (doorFrame >= 5) {
-				doorsOpening = !doorsOpening;
+				setDoorOpen();
 			}
 		}
 		else {
 			doorFrame--;
 			if (doorFrame <= 0) {
-				doorsOpening = !doorsOpening;
+				setDoorClosed();
 			}
 		}
 	}
+}
+
+void Tilemap::anim_doorsOpen() {
+	setDoorClosed();
+	doorsOpening = true;
+	doorsChanging = true;
+}
+void Tilemap::anim_doorsClose() {
+	setDoorOpen();
+	doorsOpening = false;
+	doorsChanging = true;
+}
+void Tilemap::setDoorClosed() {
+	doorFrame = 0;
+	doorsChanging = false;
+}
+void Tilemap::setDoorOpen() {
+	doorFrame = 5;
+	doorsChanging = false;
+
 }
 
 void Tilemap::render_basic(SDL_Renderer* renderer) {
