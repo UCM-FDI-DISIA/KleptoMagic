@@ -21,6 +21,7 @@ protected:
 	void spawn_ARMOR(Vector2D pos);
 	void spawn_GHOST(Vector2D pos);
 	void spawn_BOSS(Vector2D pos);
+	void spawn_CHEST(Vector2D pos);
 	void spawn_NECRO(Vector2D pos);
 	void spawn_SPAWN(Vector2D pos,Entity* );
 

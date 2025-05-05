@@ -68,6 +68,7 @@
     <ClCompile Include="src\game\PlayerFacade.cpp" />
     <ClCompile Include="src\game\PlayerUtils.cpp" />
     <ClCompile Include="src\Class\enemyHoming.cpp" />
+    <ClCompile Include="src\Class\WeaponImage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
@@ -143,7 +144,6 @@
     <ClInclude Include="src\Class\Button.h" />
     <ClInclude Include="src\Class\MainMenuState.h" />
     <ClInclude Include="src\Class\MenuState.h" />
-    <ClInclude Include="src\Class\Player.h" />
     <ClInclude Include="src\Class\TimerCountdown.h" />
     <ClInclude Include="src\Class\Enemy.h" />
     <ClInclude Include="src\Class\EventHandler.h" />
@@ -156,11 +156,6 @@
     <ClInclude Include="src\ecs\Entity.h" />
     <ClInclude Include="src\ecs\Manager.h" />
     <ClInclude Include="src\Class\InputManager.h" />
-    <ClInclude Include="src\Class\EntityCmp.h" />
-    <ClInclude Include="src\game\AsteroidsFacade.h" />
-    <ClInclude Include="src\game\AsteroidsUtils.h" />
-    <ClInclude Include="src\game\FighterFacade.h" />
-    <ClInclude Include="src\game\FighterUtils.h" />
     <ClInclude Include="src\game\GameOverState.h" />
     <ClInclude Include="src\game\GameState.h" />
     <ClInclude Include="src\game\NewGameState.h" />
@@ -169,11 +164,9 @@
     <ClInclude Include="src\game\RunningState.h" />
     <ClInclude Include="src\utils\Collisions.h" />
     <ClInclude Include="src\Class\Image.h" />
-    <ClInclude Include="src\game\GhostComponent.h" />
     <ClInclude Include="src\Class\PlayerCtrl.h" />
     <ClInclude Include="src\Class\ObjectInfo.h" />
     <ClInclude Include="src\Class\ImageWithFrames.h" />
-    <ClInclude Include="src\Class\Bullet.h" />
     <ClInclude Include="src\Class\BulletStats.h" />
     <ClInclude Include="src\Class\DestroyOnBorder.h" />
     <ClInclude Include="src\utils\StringUtils.h" />
@@ -196,6 +189,7 @@
     <ClInclude Include="src\game\PlayerFacade.h" />
     <ClInclude Include="src\game\PlayerUtils.h" />
     <ClInclude Include="src\Class\enemyHoming.h" />
+    <ClInclude Include="src\Class\WeaponImage.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />

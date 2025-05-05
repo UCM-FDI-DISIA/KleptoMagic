@@ -19,7 +19,7 @@
             return;
         }
 
-        std::string timeString = (timeLeft / 60 < 10 ? "0" : "") + std::to_string(timeLeft/60) + ":" +
+        std::string timeString = (timeLeft / 60 < 10 ? "0" : "") + std::to_string(timeLeft / 60) + ":" +
                                  (timeLeft % 60 < 10 ? "0" : "") + std::to_string(timeLeft % 60);
 
         // Create text surface
@@ -42,7 +42,7 @@
         }
 
         // Define position for rendering
-        SDL_Rect textRect = { 50, 50, 24*5, 24 };
+        SDL_Rect textRect = { 650, 100, 24*5, 24 };  //Change according to UI position
 
         // Render the text
         SDL_RenderCopy(mainGameRenderer, textTexture, nullptr, &textRect);

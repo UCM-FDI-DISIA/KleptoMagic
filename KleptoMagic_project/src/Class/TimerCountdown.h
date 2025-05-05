@@ -2,28 +2,25 @@
 #define TIMERCOUNTDOWN_H
 
 #include <chrono>
-#include "..\ecs\Component.h"
+#include "../sdlutils/SDLUtils.h"
+#include "../ecs/Component.h"
 
 class TimerCountdown : public ecs::Component {
 public:
     TimerCountdown(int duration);                                   // Constructor to set initial time
-    void start();                                                   // Start the timer
-    void update();                                                  // Call this in the game loop to track time
-    void addTime(int seconds);                                      // Add or subtract time (Negative numbers to substract)
+    //void start();                                                 // Start the timer
+    void update(float deltaTime);                                   // Call this in the game loop to track time
+    void addTime(int milliseconds);                                 // Add or subtract time in milliseconds (Negative numbers to substract)
     void setSpeedMultiplier(float multiplier);                      // Control timer acceleration
     bool isFinished() const;                                        // Check if the countdown is over
     int getTimeLeft() const;                                        // Get remaining time (For visual purpose)
-    int getElapsedTime() const;                                     // Used to update timer whenever setSpeedMultiplier is used
-    void pause(); 
-    void resume();
+    //void pause(); 
+    //void resume();
+    bool paused;
 
 private:
-    std::chrono::time_point<std::chrono::steady_clock> startTime;
-    std::chrono::duration<float> totalDuration;
-    std::chrono::time_point<std::chrono::steady_clock> pauseTime;
+    float totalDuration;
     float timeMultiplier;
-    bool paused;
-    int elapsed;                                                    // Time already passed
 };
 
 #endif // TIMERCOUNTDOWN_H

@@ -101,7 +101,7 @@ bool Minigame::attemptPick() {
 
 	if (lockVector[lockpickPosition] == 1) {
 		int penalty = calculatePenalty(lockpickPosition);
-		gameTimer.addTime(-penalty);										   // Add the penalty to the main game timer
+		gameTimer.addTime(-penalty * 1000);									   // Add the penalty to the main game timer
 #ifdef _DEBUG
 		std::cout << "Minigame -" << penalty << std::endl;
 #endif
@@ -109,7 +109,8 @@ bool Minigame::attemptPick() {
 		return true;													       // Successful pick
 	}
 	else {
-		gameTimer.addTime(-10);												   // Hit the wall; subtract 10 seconds and continue
+		int penalty = 10000;
+		gameTimer.addTime(-penalty);										   // Hit the wall; subtract 10 seconds and continue
 #ifdef _DEBUG
 		std::cout << "Minigame -10" << std::endl;
 #endif

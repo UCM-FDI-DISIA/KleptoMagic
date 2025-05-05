@@ -13,12 +13,16 @@
 #include "../Class/PlayerAnimComponent.h"
 #include "../Class/GhostComponent.h"
 #include "../Class/SlimeComponents.h"
-#include "../Class/TimerCountdown.h"
 #include "../Class/TimerRenderer.h"
 #include "../Class/UndeadArcherCMPS.h"
+#include "../Class/MinigameGeneratorComponent.h"
+
 #include "../Class/EntityStat.h"
 
-RunningState::RunningState() {
+//#include "../components/Health.h"
+//#include "../components/Gun.h"
+
+RunningState::RunningState() : _timer(300), minigame(nullptr) {
 #ifdef _DEBUG
 	std::cout << "Nuevo RunningState creado!" << std::endl;
 #endif
@@ -28,22 +32,32 @@ RunningState::RunningState() {
 RunningState::~RunningState() {
 
 }
+bool RunningState::GMG(bool minigameActive) {
+	ChestQuality chestQuality = ChestQuality::COMMON;
+	MinigameGeneratorComponent _generatorA(&_timer, sdlutils().renderer());
+	minigame = _generatorA.generateMinigame(chestQuality);
+	minigame->start();
+	minigame->minigameLogic(deltaTime);
+	minigameActive = true;
+	return minigameActive;
+}
 
 void RunningState::update() {
 	
 	bool exit = false;
 	NewInputHandler::Instance()->init();
-
-	startTimeDelta = std::chrono::steady_clock::now();
-
-	TimerCountdown _timer(300);
-	_timer.start();
+	
 	TimerRenderer _timerRndr(&_timer, sdlutils().renderer());
 
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
 	//
 	sdlutils().resetTime();
+	Uint32 lastTime = sdlutils().currRealTime(); // Store initial time
+	Uint32 currentTime = 0;
+	deltaTime = 0.0f;
+
+	bool minigameActive = false;
 
 	// Posiones imagen
 	int texW = controlsTexture->width();
@@ -58,11 +72,12 @@ void RunningState::update() {
 
 	SDL_Rect dest = { x, y, scaledW, scaledH };
 
-	auto controlsTextureStartTime = std::chrono::steady_clock::now();
-
 	while (!exit) {
-		Uint32 startTime = sdlutils().currRealTime();
-		_timer.update();
+		currentTime = sdlutils().currRealTime();			// Get the current time
+		deltaTime = (currentTime - lastTime);
+		lastTime = currentTime;								// Update lastTime for the next frame
+
+		_timer.update(deltaTime);
 
 		if (NewInputHandler::Instance()->isActionHeld(Action::ABILITY)) {
 #ifdef _DEBUG
@@ -71,7 +86,9 @@ void RunningState::update() {
 		}
 
 		if (NewInputHandler::Instance()->isActionPressed(Action::INTERACT)) {
-
+			if (!minigameActive) {
+				minigameActive = GMG(minigameActive);
+			}
 		}
 
 		if (NewInputHandler::Instance()->isActionPressed(Action::PAUSE)) {
@@ -118,32 +135,36 @@ void RunningState::update() {
 		// render
 		game().getMngr()->render();
 
-		// Comprobamos si han pasado 10 segundos desde que se cargó la imagen
-		auto currentTime = std::chrono::steady_clock::now();
-		std::chrono::duration<float> elapsed = currentTime - controlsTextureStartTime;
+		if (minigameActive) {
+			minigame->minigameLogic(deltaTime);
+			if (!minigame->running) {
+				minigame->minigameLogic(deltaTime);
+				minigameActive = false;
+			}
+		}
 
-		// Si han pasado más de 10 segundos, ocultamos la imagen de controles
-		if (elapsed.count() < 5.0f) {
+		// Si han pasado mï¿½s de 10 segundos, ocultamos la imagen de controles
+		if (_timer.getTimeLeft() >= 290) {
 			controlsTexture->setAlpha(128);  
 			controlsTexture->render(dest);
 		}
 
-		// Mostrar corazones según la vida del jugador
+		// Mostrar corazones segï¿½n la vida del jugador
 		auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
 		if (player != nullptr && game().getMngr()->isAlive(player)) {
 			auto stats = game().getMngr()->getComponent<EntityStat>(player);
 			float hp = stats->getStat(EntityStat::Stat::HealthCurrent);
 
-/*#ifdef _DEBUG
-			std::cout << "HealthCurrent: " << hp << std::endl;
-#endif*/
+			/*#ifdef _DEBUG
+						std::cout << "HealthCurrent: " << hp << std::endl;
+			#endif*/
 
 			int heartCount = static_cast<int>(hp); 
 			int heartSize = 64;
 			int spacing = 10;
 
-			int startX = sdlutils().width() - (heartCount * heartSize + (heartCount - 1) * spacing) - 10; // Calculamos la posición X desde la derecha
-			int startY = 10;  // Un pequeño margen desde el borde superior
+			int startX = sdlutils().width() - (heartCount * heartSize + (heartCount - 1) * spacing) - 10; // Calculamos la posiciï¿½n X desde la derecha
+			int startY = 10;  // Un pequeï¿½o margen desde el borde superior
 
 			SDL_Rect heartDest = { startX, startY, heartSize, heartSize };
 
@@ -160,7 +181,7 @@ void RunningState::update() {
 		// present new frame
 		sdlutils().presentRenderer();
 
-		Uint32 frameTime = sdlutils().currRealTime() - startTime;
+		Uint32 frameTime = sdlutils().currRealTime() - currentTime;
 
 		if (frameTime < 20)
 			SDL_Delay(20 - frameTime);

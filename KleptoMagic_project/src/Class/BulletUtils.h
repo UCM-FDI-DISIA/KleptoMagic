@@ -49,7 +49,7 @@ public:
 private:
 	VirtualTimer* _tim;
 	constexpr static uint8_t _max_bullets = 20;
-	Texture* tex = &sdlutils().images().at("star");
+	Texture* tex = &sdlutils().images().at("player_bullet");
 	void shoot();
 	void MultiShot(Vector2D v, BulletStats* stat, bool fromPlayer,Transform* tr = nullptr);
 	void IndividualShotP(Vector2D v);

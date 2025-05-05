@@ -14,6 +14,7 @@ enum EnemyNames {
 	ENEMY_GHOST = 3,
 	ENEMY_BOSS = 4,
 	ENEMY_NECRO = 5,
+	ENEMY_CHEST = 6,
 };
 
 using namespace ecs;
