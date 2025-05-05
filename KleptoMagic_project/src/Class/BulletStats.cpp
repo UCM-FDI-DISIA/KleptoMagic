@@ -95,6 +95,23 @@ void BulletStats::enemyStats(int i)
 		piercing = false;
 		duration = distance / speed;
 	}
+	else if (i == 3) {
+		speed = 3;
+		damage = 15;
+		distance = 9000;
+		size = 100;
+		piercing = false;
+		duration = distance / speed;
+	}
+	else if (i == 4) {
+		speed = 2;
+		damage = 15;
+		distance = 6000;
+		size = 100;
+		piercing = false;
+		duration = distance / speed;
+	}
+	
 	//continuar cuando haya mas enemigos
 }
 

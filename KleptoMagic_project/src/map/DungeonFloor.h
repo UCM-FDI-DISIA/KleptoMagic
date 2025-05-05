@@ -4,6 +4,7 @@
 #include <SDL_image.h>
 #include "DungeonRoom.h"
 #include "RoomStorage.h"
+#include "../ecs/Manager.h"
 #include "../astar/astar.hpp"
 #include "../utils/Vector2D.h"
 
@@ -30,15 +31,17 @@ class DungeonFloor
 {
 private:
 	// In terms of the room matrix
-	int floor_width; 
+	int floor_width;
 	// In terms of the room matrix
-	int floor_height; 
+	int floor_height;
 	// Room matrix
 	vector<vector<DungeonRoom*>> floorLayout;
 	//pathfind matrix
 	vector<vector< AStar::AStar<uint32_t, true>>> pathfindLayout;
 	// Pointer to room storage
 	RoomStorage* roomstorage;
+	// Pointer to manager
+	Manager* _mngr;
 	// X coordinate of starting room
 	int startX = -1;
 	// Y coordinate of starting room
@@ -77,6 +80,8 @@ public:
 	// reach the desired amount of rooms), it shouldn't take very long.
 	void GenerateFloor(int minWidth, int minHeight, int maxWidth, int maxHeight, int numRooms);
 
+	DungeonRoom* getCurrentRoom() { return floorLayout[currentX][currentY]; };
+
 	// Returns the X coordinate for the floor's starting room
 	int getStartX() { return startX; };
 	// Returns the Y coordinate for the floor's starting room
@@ -92,8 +97,25 @@ public:
 
 	// Renders the dungeon floor: i.e. renders the current room
 	void render();
-	// Updates the current room. Primarily for updating the frames of decorations like torches and doors
+
+	// Updates the current room.
+	// This updates the frame of the room's decorations (torch/doors), and also checks for how many enemies
+	// are alive for room clearing.
 	void update();
+
+	// Checks for how many enemies are currently alive, if the room has not been cleared yet.
+	// If not cleared and there are no enemies, then clear the room.
+	void checkRoomClear();
+
+	// Whether the current room is cleared or not
+	bool isRoomCleared() { return floorLayout[currentX][currentY]->isCleared(); };
+	// Whether the current room is opened (doors) or not
+	bool isRoomOpen() { return floorLayout[currentX][currentY]->isOpen(); };
+
+	// Plays door opening animation, and leaves the doors visually open.
+	void doorsAnim_open();
+	// Plays door closing animation, and leaves the doors visually closed.
+	void doorsAnim_close();
 
 	// Feed it X and Y coordinates from an in-world position of an object. 
 	// Returns based on what type of tile (from the tilemap of the current room) that object is currently inside of:"

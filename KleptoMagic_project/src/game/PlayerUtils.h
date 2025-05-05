@@ -22,6 +22,7 @@ public:
 	void setDungeonFloor(DungeonFloor* floor) { _dungeonfloor = floor; };
 	void selectCharacter(Characters c) { _character = c; };
 	void createPlayer(Vector2D pos, float size, BulletUtils* bullet);
+	Characters getCharacter() { return _character; };
 	void destroyPlayer();
 };
 

@@ -13,15 +13,16 @@
 #include "../Class/PlayerAnimComponent.h"
 #include "../Class/GhostComponent.h"
 #include "../Class/SlimeComponents.h"
-#include "../Class/TimerCountdown.h"
 #include "../Class/TimerRenderer.h"
 #include "../Class/UndeadArcherCMPS.h"
+#include "../Class/MinigameGeneratorComponent.h"
+
 #include "../Class/EntityStat.h"
 
 //#include "../components/Health.h"
 //#include "../components/Gun.h"
 
-RunningState::RunningState() {
+RunningState::RunningState() : _timer(300), minigame(nullptr) {
 #ifdef _DEBUG
 	std::cout << "Nuevo RunningState creado!" << std::endl;
 #endif
@@ -31,22 +32,32 @@ RunningState::RunningState() {
 RunningState::~RunningState() {
 
 }
+bool RunningState::GMG(bool minigameActive) {
+	ChestQuality chestQuality = ChestQuality::COMMON;
+	MinigameGeneratorComponent _generatorA(&_timer, sdlutils().renderer());
+	minigame = _generatorA.generateMinigame(chestQuality);
+	minigame->start();
+	minigame->minigameLogic(deltaTime);
+	minigameActive = true;
+	return minigameActive;
+}
 
 void RunningState::update() {
 	
 	bool exit = false;
 	NewInputHandler::Instance()->init();
-
-	startTimeDelta = std::chrono::steady_clock::now();
-
-	TimerCountdown _timer(300);
-	_timer.start();
+	
 	TimerRenderer _timerRndr(&_timer, sdlutils().renderer());
 
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
 	//
 	sdlutils().resetTime();
+	Uint32 lastTime = sdlutils().currRealTime(); // Store initial time
+	Uint32 currentTime = 0;
+	deltaTime = 0.0f;
+
+	bool minigameActive = false;
 
 	// Posiones imagen
 	int texW = controlsTexture->width();
@@ -61,11 +72,12 @@ void RunningState::update() {
 
 	SDL_Rect dest = { x, y, scaledW, scaledH };
 
-	auto controlsTextureStartTime = std::chrono::steady_clock::now();
-
 	while (!exit) {
-		Uint32 startTime = sdlutils().currRealTime();
-		_timer.update();
+		currentTime = sdlutils().currRealTime();			// Get the current time
+		deltaTime = (currentTime - lastTime);
+		lastTime = currentTime;								// Update lastTime for the next frame
+
+		_timer.update(deltaTime);
 
 		if (NewInputHandler::Instance()->isActionHeld(Action::ABILITY)) {
 #ifdef _DEBUG
@@ -74,7 +86,9 @@ void RunningState::update() {
 		}
 
 		if (NewInputHandler::Instance()->isActionPressed(Action::INTERACT)) {
-
+			if (!minigameActive) {
+				minigameActive = GMG(minigameActive);
+			}
 		}
 
 		if (NewInputHandler::Instance()->isActionPressed(Action::PAUSE)) {
@@ -121,17 +135,21 @@ void RunningState::update() {
 		// render
 		game().getMngr()->render();
 
-		// Comprobamos si han pasado 10 segundos desde que se cargó la imagen
-		auto currentTime = std::chrono::steady_clock::now();
-		std::chrono::duration<float> elapsed = currentTime - controlsTextureStartTime;
+		if (minigameActive) {
+			minigame->minigameLogic(deltaTime);
+			if (!minigame->running) {
+				minigame->minigameLogic(deltaTime);
+				minigameActive = false;
+			}
+		}
 
-		// Si han pasado más de 10 segundos, ocultamos la imagen de controles
-		if (elapsed.count() < 5.0f) {
+		// Si han pasado mï¿½s de 10 segundos, ocultamos la imagen de controles
+		if (_timer.getTimeLeft() >= 290) {
 			controlsTexture->setAlpha(128);  
 			controlsTexture->render(dest);
 		}
 
-		// Mostrar corazones según la vida del jugador
+		// Mostrar corazones segï¿½n la vida del jugador
 		auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
 		if (player != nullptr && game().getMngr()->isAlive(player)) {
 			auto stats = game().getMngr()->getComponent<EntityStat>(player);
@@ -141,10 +159,14 @@ void RunningState::update() {
 			int maxHearts = static_cast<int>(hpTotal);
 			int currentHearts = static_cast<int>(hp);
 
+			/*#ifdef _DEBUG
+						std::cout << "HealthCurrent: " << hp << std::endl;
+			#endif*/
+
 			int heartSize = 64;
 			int spacing = 10;
 
-			// Calculamos la posición X desde la derecha
+			// Calculamos la posiciï¿½n X desde la derecha
 			int totalWidth = maxHearts * heartSize + (maxHearts - 1) * spacing;
 			int startX = sdlutils().width() - totalWidth - 10;
 			int startY = 10;
@@ -153,12 +175,12 @@ void RunningState::update() {
 
 			for (int i = 0; i < maxHearts; ++i) {
 				if (i < currentHearts) {
-					// Corazón lleno
+					// Corazï¿½n lleno
 					if (hearthTexture != nullptr)
 						hearthTexture->render(heartDest);
 				}
 				else {
-					// Corazón vacío
+					// Corazï¿½n vacï¿½o
 					if (hearthTotalTexture != nullptr)
 						hearthTotalTexture->render(heartDest);
 				}
@@ -171,7 +193,7 @@ void RunningState::update() {
 		// present new frame
 		sdlutils().presentRenderer();
 
-		Uint32 frameTime = sdlutils().currRealTime() - startTime;
+		Uint32 frameTime = sdlutils().currRealTime() - currentTime;
 
 		if (frameTime < 20)
 			SDL_Delay(20 - frameTime);
@@ -181,9 +203,6 @@ void RunningState::update() {
 void RunningState::checkCollisions() {
 
 	auto _tr = game().getMngr()->getComponent<Transform>(game().getMngr()->getHandler(ecs::hdlr::PLAYER));
-	////auto f_g = _mngr->getComponent<Gun>(_mngr->getHandler(ecs::hdlr::FIGHTER));
-	//
-	//// Iterate through asteroids
 
 	for (auto enemy : game().getMngr()->getEntities(ecs::grp::ENEMY))
 	{
@@ -196,10 +215,20 @@ void RunningState::checkCollisions() {
 			{
 				colission_thisframe = true;
 				enemycolisioned = enemy;
+			}
+
+			for (auto bullet : game().getMngr()->getEntities(ecs::grp::BULLET)) {
+				auto bullet_tr = game().getMngr()->getComponent<Transform>(bullet);
+
+				if(Collisions::collides(
+					enemy_transform->getPos(), enemy_transform->getWidth(), enemy_transform->getHeight(),
+					bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe) 
+				{
+					game().getMngr()->setAlive(enemy, false);
+				}
 
 			}
 		}
-	
 	}
 }
 

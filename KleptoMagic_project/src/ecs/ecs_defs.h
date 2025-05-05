@@ -10,6 +10,7 @@
 	IMAGE, \
 	DESTROYONBORDER,\
 	IMAGEWITHFRAMES,\
+	WEAPONIMAGE,\
 	MOVEMENTCTRL, \
 	ENTITYCMP, \
 	ENTITYSTAT, \
@@ -49,9 +50,11 @@
     NECROCRTCMP,\
     NECROSTATCMP,\
     SPAWNCMP,\
+	PICKABLECMP,\
     STATCMP,\
     SPAWNSTATCMP,\
-    SPAWNMOVCMP
+    SPAWNMOVCMP, \
+    ENEMYHOMING
  
 
 
@@ -61,7 +64,7 @@
 //
 #define _GRPS_LIST_ \
 	BULLET,  \
-	ASTEROIDS,\
+	ENEMYBULLETS,\
     ENEMY
 // Handlers list - must have at least one element
 //

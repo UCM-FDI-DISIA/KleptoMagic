@@ -7,8 +7,9 @@
 #include <random>
 
 #include "./../utils/StringUtils.h"
+using namespace std;
 
-DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
+DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type), opened(false)
 {
 #ifdef _DEBUG
 	cout << endl;
@@ -92,6 +93,10 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type)
 		}
 		row++;
 	}
+
+	// If the room has no enemies, it is cleared by default and does not need to be opened
+	if (roomEnemies.size() <= 0) cleared = true;
+	else cleared = false;
 
 	// Find and store the center and exit locations
 	CenterX = room_width / 2;

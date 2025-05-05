@@ -3,20 +3,33 @@
 
 #include "../ecs/Component.h"
 #include "../Class/Transform.h"
-
+#include "../Class/EntityStat.h"
+#include <vector>
 
 #pragma once
 class PickableCMP : public ecs::Component
 {
 private:
-	//auto* _ghostTransform;
+	enum UpgradeType
+	{
 
+	};
 
-	bool visible = true;
+	EntityStat* _playerStats;	//puntero a los stats del player
+
+	EntityStat::Stat _upgradeType;	// indica que stat es afectado
+	bool _isMult = false,	// indica la adicion es para el multiplicador o el sumador
+		_expirable = false;			// indica si el upgrade desaparece pasado un tiempo
+	float _value;
+	
+	void playerColision();
 
 public:
-	void initComponent() override;
+	__CMPID_DECL__(ecs::cmp::PICKABLECMP);
 
+	PickableCMP(EntityStat::Stat upgradeType, float value, bool isMult);
+	void initComponent() override;
+	void collideWithPlayer();
 
 };
 

@@ -12,8 +12,12 @@
             "file": "resources/images/SDL_logo.png"
         },
         {
-            "id": "tennis_ball",
-            "file": "resources/images/tennis_ball.png"
+            "id": "enemy_bullet",
+            "file": "resources/images/Enemy_bullet.png"
+        },
+        {
+            "id": "player_bullet",
+            "file": "resources/images/Player_bullet.png"
         },
         {
             "id": "star",
@@ -110,6 +114,10 @@
         {
             "id": "bifrutas",
             "file": "resources/images/bifrutas.jpg"
+        },
+        {
+            "id": "weapon_sprites",
+            "file": "resources/images/weapon_sprites.png"
         }
     ],
   

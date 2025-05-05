@@ -10,6 +10,8 @@
 #include "../map/RoomStorage.h"
 #include "../map/DungeonFloor.h"
 #include "../Class/BulletUtils.h"
+#include "../Class/TimerCountdown.h"
+#include "../Class/Minigame.h"
 
 #include <chrono>
 
@@ -19,6 +21,7 @@ class RunningState : virtual public GameState {
 public:
 	RunningState();
 	~RunningState();
+	bool GMG(bool minigameActive);
 	BulletUtils* getBulletUtils() {return bullet;}
 	void update() override;
 private:
@@ -36,6 +39,10 @@ private:
 	bool colission_thisframe;
 	Entity* enemycolisioned;
 
+	TimerCountdown _timer;
+	float deltaTime;
+
+	Minigame* minigame;
 	std::chrono::time_point<std::chrono::steady_clock> startTimeDelta;
 	float DeltaTime;
 
