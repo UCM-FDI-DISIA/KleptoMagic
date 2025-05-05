@@ -123,16 +123,14 @@ namespace ecs
 		std::chrono::steady_clock::time_point lastAttackTime = std::chrono::steady_clock::now();
 		float attackRange;
 		float attackspeed;
-		float range;
+		DungeonFloor* _dungeonfloor;
+		Vector2D aim;
 		__CMPID_DECL__(ecs::cmp::UNDEADATKCMP);
 		void initComponent() override
 		{
 			auto* _mngr = _ent->getMngr();
 			_UndeadTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
-			auto stat = static_cast<UndeadStatComponent*>(_ent->getMngr()->getComponent<UndeadStatComponent>(_ent));
-			range = stat->attackrange;
-			attackspeed = stat->attackspeed;
 		}
 		void init(DungeonFloor* floor)
 		{
