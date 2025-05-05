@@ -68,7 +68,11 @@ void EnemyUtils::spawn_SLIME(Vector2D pos) {
 	_mngr->addComponent<SlimeStatComponent>(slime);
 	_mngr->addComponent<SlimeAttackComponent>(slime);
 	auto mSlime = _mngr->addComponent<SlimeMovementComponent>(slime);
-	mSlime->init(_dungeonfloor);
+	mSlime->init(_dungeonfloor); 
+
+	auto animator = game().getMngr()->addComponent<SlimeAnimComponent>(slime);
+	animator->setStartFrame(0);
+	animator->setDeathFrame(2);
 
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(slime);
 	tilechecker->init(false, tr, _dungeonfloor);

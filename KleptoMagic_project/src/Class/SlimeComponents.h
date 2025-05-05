@@ -6,6 +6,8 @@
 #include "Transform.h"
 #include <chrono>
 #include "../map/DungeonFloor.h"
+#include "AnimatorComponent.h"
+
 namespace ecs
 {
 	class StatComponent : public Component
@@ -218,25 +220,63 @@ namespace ecs
 
 	};
 
-	//class SlimeAnimComponent : public ecs::Component {
-	//public:
-	//	__CMPID_DECL__(ecs::cmp::SLIMEANIMCMP);
-	//
-	//	SlimeAnimComponent(int startF);
-	//
-	//	void initComponent() override;
-	//	void update();
-	//	void toggleWalkingAnim();
-	//	void toggleFlip();
-	//	void playDeath();
-	//
-	//private:
-	//	Transform* _tr;
-	//	ImageWithFrames* _plrImg;
-	//	int startFrame;
-	//	int deathFrame;
-	//	bool isWalking;
-	//	bool isFacingRight;
-	//	void createStart();
-	//};
+
+
+	class SlimeAnimComponent : public AnimatorComponent {
+		friend AnimatorComponent;
+	public:
+		__CMPID_DECL__(ecs::cmp::SLIMEANIMCMP);
+
+		SlimeAnimComponent() {
+			isWalking = false;
+			isFacingRight = false;
+		}
+
+		void update() override {
+			// check speed to see if it's walking or not
+			int velX = _tr->getVel().getX();
+			int velY = _tr->getVel().getY();
+			bool isCurrentlyWalking = (velX != 0 || velY != 0);
+			bool isCurrentlyMovingSideways = (velX != 0);
+			bool isCurrentlyMovingRight = (velX < 0);
+			//cout << velX << "|" << velY << "   " << isCurrentlyWalking << "|" << isWalking << "   " << isCurrentlyMovingRight << "|" <<isFacingRight << endl;
+
+			if (!isWalking && isCurrentlyWalking) {
+				toggleWalkingAnim();
+			}
+			else if (isWalking && !isCurrentlyWalking) {
+				toggleWalkingAnim();
+			}
+
+			if (!isFacingRight && !isCurrentlyMovingRight && isCurrentlyMovingSideways) {
+				toggleFlip();
+			}
+			if (isFacingRight && isCurrentlyMovingRight && isCurrentlyMovingSideways) {
+				toggleFlip();
+			}
+		}
+
+		void toggleWalkingAnim() {
+			if (!isWalking) {
+				_img->setStartingFrame(startFrame);
+				_img->setFrame(startFrame + 1);
+				_img->setNumFrames(2);
+			}
+			else {
+				_img->setStartingFrame(startFrame);
+				_img->setFrame(startFrame);
+				_img->setNumFrames(1);
+			}
+			isWalking = !isWalking;
+		}
+
+		void playDeath() override {
+			_img->setStartingFrame(deathFrame);
+			_img->setFrame(deathFrame);
+			_img->setNumFrames(50);
+		}
+
+	private:
+		void createStart();
+	};
 }
