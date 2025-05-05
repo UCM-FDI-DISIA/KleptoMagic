@@ -23,6 +23,6 @@ void PlayerCtrl::update() {
 	Move(NewInputHandler::Instance()->getMovementVector(), speed);
 
     if (NewInputHandler::Instance()->isActionPressed(Action::ABILITY)) {
-        _eStat->ChangeFlat(-1.0f, EntityStat::Stat::HealthCurrent);
+        _eStat->ChangeStat(-1.0f, EntityStat::Stat::HealthCurrent);
     }
 }
