@@ -18,7 +18,7 @@ void TileCollisionChecker::init(bool flying, Transform* tr, DungeonFloor* floor)
 void TileCollisionChecker::update() {
 	auto pos = _tr->getPos();
 	int centerX = pos.getX() + (_tr->getWidth() / 2);
-	int centerY = pos.getY() + (_tr->getHeight() / 2);
+	int centerY = pos.getY() + (_tr->getHeight() - _tr->getHeight()/16);
 
 	Vector2D vel = _tr->getVel();
 
@@ -35,6 +35,16 @@ void TileCollisionChecker::update() {
 	case 2:
 		canMoveX = canFly;
 		currentCollision = COL_HOLE;
+		break;
+	case 3:
+		if (dungeonfloor->isRoomCleared()) {
+			canMoveX = true;
+			currentCollision = COL_FLOOR;
+		}
+		else {
+			canMoveX = false;
+			currentCollision = COL_WALL;
+		}
 		break;
 	default:
 		canMoveX = false;
@@ -56,6 +66,15 @@ void TileCollisionChecker::update() {
 		canMoveY = canFly;
 		currentCollision = COL_HOLE;
 		break;
+	case 3:
+		if (dungeonfloor->isRoomCleared()) {
+			canMoveY = true;
+			currentCollision = COL_FLOOR;
+		}
+		else {
+			canMoveY = false;
+			currentCollision = COL_WALL;
+		}
 	default:
 		canMoveY = false;
 		currentCollision = COL_WALL;

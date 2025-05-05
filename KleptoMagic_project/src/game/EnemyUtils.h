@@ -21,12 +21,13 @@ protected:
 	void spawn_ARMOR(Vector2D pos);
 	void spawn_GHOST(Vector2D pos);
 	void spawn_BOSS(Vector2D pos);
+	void spawn_CHEST(Vector2D pos);
 	void spawn_NECRO(Vector2D pos);
-	//void spawn_SPAWN(Vector2D pos);
+	void spawn_SPAWN(Vector2D pos,Entity* );
 
 public:
 	void setDungeonFloor(DungeonFloor* floor) { _dungeonfloor = floor; }
-
+	void necro_spawn(Entity* necro, int x,int y);
 	void spawn_enemy(EnemyNames name, Vector2D pos);
 	void remove_all_enemies();
 };

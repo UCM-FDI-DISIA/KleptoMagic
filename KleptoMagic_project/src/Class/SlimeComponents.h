@@ -5,6 +5,7 @@
 #include "../ecs/ecs_defs.h"
 #include "Transform.h"
 #include <chrono>
+#include "../map/DungeonFloor.h"
 namespace ecs
 {
 	class StatComponent : public Component
@@ -25,7 +26,7 @@ namespace ecs
 				Death();
 			}
 		}
-		void Death() 
+		virtual void Death() 
 		{
 			delete _ent;
 		};
@@ -81,7 +82,7 @@ namespace ecs
 	public:
 		__CMPID_DECL__(ecs::cmp::SLIMEVECCMP);
 		float direcionX, direcionY;
-	
+		
 		void initComponent() override
 		{
 			auto* _mngr = _ent->getMngr();
@@ -105,9 +106,13 @@ namespace ecs
 		Transform* _slimeTransform;
 		Transform* _player;
 		SlimeStatComponent* stat;
+		DungeonFloor* floor;
 		float speed;
 	public : 
 		__CMPID_DECL__(ecs::cmp::SLIMEMOVCMP);
+		void init(DungeonFloor* dFloor) {
+			floor = dFloor;
+		}
 
 		void initComponent() override
 		{
@@ -126,73 +131,32 @@ namespace ecs
 
 				if (vector && stat && _slimeTransform)
 				{
-					vector->CreateVector(_slimeTransform->getPos(), _player->getPos());
-					
-					Vector2D velocity (vector->direcionX * speed, vector->direcionY * speed);
-					_slimeTransform->getVel() = velocity;
+					float dist = std::hypot(_slimeTransform->getPos().getX() - _player->getPos().getX(),
+						_slimeTransform->getPos().getY() - _player->getPos().getY());
+					if (dist > 50)
+					{
+						auto path = floor->findPathToX(_slimeTransform->getPos().getX() / 50, _slimeTransform->getPos().getY() / 50, _player->getPos().getX() / 50, _player->getPos().getY() / 50);
+						//std::cout << Vector2D(path[1].x * 50, path[1].y * 50) << endl;
+
+						if (path.size() > 0)
+						{
+							vector->CreateVector(_slimeTransform->getPos(), Vector2D(path[1].x * 50, path[1].y * 50));
+							Vector2D velocity(vector->direcionX * speed, vector->direcionY * speed);
+							_slimeTransform->getVel() = velocity;
+						}
+					}
+					else
+					{
+						vector->CreateVector(_slimeTransform->getPos(), _player->getPos());
+
+						Vector2D velocity(vector->direcionX * speed, vector->direcionY * speed);
+						_slimeTransform->getVel() = velocity;
+					}
 				}
 			
 
 		}
 	};  
 
-	class SlimeAttackComponent : public Component
-	{
-		
-		Transform* _slimeTransform;
-		Transform* _player;
-		SlimeStatComponent* stat;
-		bool atack = false;
-		float height, width;
-		float attackspeed = 10 ;
 
-	public:
-		__CMPID_DECL__(ecs::cmp::SLIMEATKCMP);
-	
-		std::chrono::steady_clock::time_point lastAttackTime = std::chrono::steady_clock::now();
-
-		void initComponent() override
-		{
-			auto* _mngr = _ent->getMngr();
-			_slimeTransform = _mngr->getComponent<Transform>(_ent);
-			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
-			 //stat = static_cast<SlimeStatComponent*>(_ent->getMngr()->getComponent<SlimeStatComponent>(_ent));
-			stat = _mngr->getComponent<SlimeStatComponent>(_ent);
-			attackspeed -= stat->attackspeed;
-		}
-
-		void update() override
-		{
-
-
-	
-			
-			auto now = std::chrono::steady_clock::now();
-			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
-
-			if (elapsedTime >= attackspeed)
-			{
-				height = _slimeTransform->getHeight();
-				width = _slimeTransform->getWidth();
-
-				_slimeTransform->setHeight(height * 1.5);
-				_slimeTransform->setWidth(width * 1.5);
-
-				lastAttackTime = now;
-				atack = true;
-			}
-			else if (elapsedTime >= 0.5 && atack)
-			{
-				_slimeTransform->setHeight(height);
-				_slimeTransform->setWidth(width);
-				atack = false;
-			}
-			
-
-		}
-
-
-
-
-	};
 }

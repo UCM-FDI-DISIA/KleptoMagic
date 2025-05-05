@@ -27,7 +27,12 @@ public:
 	~Tilemap() = default;
 
 	void render(SDL_Renderer* renderer);
-	void update();
+	void update(); 
+	
+	void anim_doorsOpen();
+	void anim_doorsClose();
+	void setDoorClosed();
+	void setDoorOpen();
 
 	void render_basic(SDL_Renderer* renderer);
 	void render_advanced(SDL_Renderer* renderer);
@@ -67,6 +72,7 @@ private:
 	const int DoorFrameChangeInterval = 100;
 	bool doorsOpening;
 	bool doorsChanging;
+	bool doorsOpen;
 	vector<vector<TileType>> tilemap;
 	int xOffset = 0;
 	int yOffset = 0;
