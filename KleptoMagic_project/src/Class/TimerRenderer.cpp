@@ -42,7 +42,7 @@
         }
 
         // Define position for rendering
-        SDL_Rect textRect = { 50, 50, 24*5, 24 };
+        SDL_Rect textRect = { 650, 100, 24*5, 24 };  //Change according to UI position
 
         // Render the text
         SDL_RenderCopy(mainGameRenderer, textTexture, nullptr, &textRect);
