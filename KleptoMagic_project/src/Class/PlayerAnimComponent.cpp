@@ -33,20 +33,20 @@ void PlayerAnimComponent::update() {
 
 void PlayerAnimComponent::toggleWalkingAnim() {
 	if (!isWalking) {
-		_plrImg->setStartingFrame(startFrame);
-		_plrImg->setFrame(startFrame + 1);
-		_plrImg->setNumFrames(4);
+		_img->setStartingFrame(startFrame);
+		_img->setFrame(startFrame + 1);
+		_img->setNumFrames(4);
 	}
 	else {
-		_plrImg->setStartingFrame(startFrame);
-		_plrImg->setFrame(startFrame);
-		_plrImg->setNumFrames(1);
+		_img->setStartingFrame(startFrame);
+		_img->setFrame(startFrame);
+		_img->setNumFrames(1);
 	}
 	isWalking = !isWalking;
 }
 
 void PlayerAnimComponent::playDeath() {
-	_plrImg->setStartingFrame(deathFrame);
-	_plrImg->setFrame(deathFrame);
-	_plrImg->setNumFrames(1);
+	_img->setStartingFrame(deathFrame);
+	_img->setFrame(deathFrame);
+	_img->setNumFrames(1);
 }

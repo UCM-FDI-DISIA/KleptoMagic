@@ -6,16 +6,16 @@ void AnimatorComponent::initComponent() {
 	auto* _mngr = _ent->getMngr();
 	_tr = _mngr->getComponent<Transform>(_ent);
 	assert(_tr != nullptr);
-	_plrImg = _mngr->getComponent<ImageWithFrames>(_ent);
-	assert(_plrImg != nullptr);
+	_img = _mngr->getComponent<ImageWithFrames>(_ent);
+	assert(_img != nullptr);
 }
 
 void AnimatorComponent::toggleFlip() {
 	if (!isFacingRight) {
-		_plrImg->setFlip(true);
+		_img->setFlip(true);
 	}
 	else {
-		_plrImg->setFlip(false);
+		_img->setFlip(false);
 	}
 	isFacingRight = !isFacingRight;
 }

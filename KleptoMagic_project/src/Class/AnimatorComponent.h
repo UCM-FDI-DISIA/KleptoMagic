@@ -22,7 +22,7 @@ public:
 
 protected:
 	Transform* _tr;
-	ImageWithFrames* _plrImg;
+	ImageWithFrames* _img;
 	int startFrame;
 	int deathFrame;
 	bool isWalking;

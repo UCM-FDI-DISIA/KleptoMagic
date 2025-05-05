@@ -2,6 +2,7 @@
 
 #include "../Class/Transform.h"
 #include "../Class/Image.h"
+#include "../Class/ImageWithFrames.h"
 #include "../Class/TileCollisionChecker.h"
 
 #include "../Class/SlimeComponents.h"
@@ -61,12 +62,8 @@ void EnemyUtils::spawn_SLIME(Vector2D pos) {
 	auto s = 50.0f;
 	auto tr = _mngr->addComponent<Transform>(slime);
 	tr->init(pos, Vector2D(), s, s, 0.0f);
-<<<<<<< Updated upstream
-	_mngr->addComponent<Image>(slime, &sdlutils().images().at("pacman"));
-=======
 	//_mngr->addComponent<Image>(slime, &sdlutils().images().at("pacman"));
 	_mngr->addComponent<ImageWithFrames>(slime, &sdlutils().images().at("slime_sprites"), 250, 4, 2, 0, 2);
->>>>>>> Stashed changes
 	_mngr->addComponent<SlimeVectorComponent>(slime);
 	_mngr->addComponent<SlimeStatComponent>(slime);
 	_mngr->addComponent<SlimeAttackComponent>(slime);
