@@ -28,11 +28,17 @@ void WeaponImage::update() {
 
         _angleDeg = aim.angle(Vector2D(1, 0));
     }
+    else {
+        _weaponPos = Vector2D(0, 0); 
+    }
 }
 
 void WeaponImage::render() {
     assert(_tex != nullptr);
 
+    if (_weaponPos.getX() == 0 && _weaponPos.getY() == 0) {
+        return; 
+    }
     float w = 32.0f; // Assuming the width of the weapon image is 32 pixels
     float h = 32.0f; // Assuming the height of the weapon image is 32 pixels
     Vector2D pos = _weaponPos - Vector2D(w / 2, h / 2);
