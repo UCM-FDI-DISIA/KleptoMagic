@@ -58,33 +58,11 @@ protected:
 	// Renderizador de la SDL (para dibujar)
 	SDL_Renderer* renderer = nullptr;
 
-	// Gamestates
-	//PlayState* playstate;
-	//MainMenuState* mainmenu;
-	//PauseState* pausestate;
-	//AnimationState* animationstate;
-	//EndState* endstate;
-	//DummyState* dummy;
-
-	//InputManager* _inputManager;
-
 public:
 	bool init();
 	bool initGame();
 	void start();
 	virtual ~Game();
-
-	//void run();
-
-	//~Game();
-	//void statePlay();
-	//void statePause();
-	//void stateNotPause();
-	//void stateMainMenu();
-	////void stateAnimation(function<bool()> funcAnim);
-	//void stateAnimationEnd();
-	//void stateEnd();
-	//void gameExit();
 
 	inline ecs::Manager* getMngr() { return _mngr; }
 
@@ -117,7 +95,6 @@ public:
 	}
 
 	void popState();
-	void setGameState(GameState* state);
 	void pushState(GameState* state);
 
 private:

@@ -48,10 +48,10 @@ void PausedState::enter() {
 		if (game().getMngr()->isAlive(player)) {
 			game().getMngr()->setAlive(player, false);
 		}
-		game().setGameState(new NewGameState());
+		game().pushState(new NewGameState());
 		}, Vector2D(playBtnX, playBtnY + 100), Vector2D(btnWidth, btnHeight), homeTexture, "button");
 	endButton = new Button([this]() {
-		game().setGameState(new GameOverState());
+		game().pushState(new GameOverState());
 		}, Vector2D(playBtnX, playBtnY + 180), Vector2D(btnWidth, btnHeight), endTexture, "button");
 
 #ifdef _DEBUG
