@@ -49,7 +49,7 @@ bool Game::initGame() {
 		return false;
 	}
 
-	setGameState(new NewGameState());
+	pushState(new NewGameState());
 
 	auto ginfo = _mngr->addEntity();
 	_mngr->setHandler(ecs::hdlr::GAMEINFO, ginfo);
@@ -110,14 +110,6 @@ void Game::start() {
 		Uint32 frameTime = sdlutils().currRealTime() - startTime;
 		if (frameTime < 10) SDL_Delay(10 - frameTime);
 	}
-}
-
-void Game::setGameState(GameState* state) {
-	if (!_stateStack.empty()) {
-		_stateStack.top()->leave();
-	}
-	_stateStack.push(state);
-	_stateStack.top()->enter();
 }
 
 void Game::pushState(GameState* state) {

@@ -72,7 +72,7 @@ void NewGameState::update() {
 
         // Si han pasado 100ms y el usuario solto el clic, cambiamos de estado
         if (releaseTime > 0 && SDL_GetTicks() > releaseTime && !(SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT))) {
-            game().setGameState(new NewRoundState());
+            game().pushState(new NewRoundState());
             exit = true;
         }
 
