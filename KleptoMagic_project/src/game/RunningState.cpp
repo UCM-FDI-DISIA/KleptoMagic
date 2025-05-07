@@ -16,6 +16,7 @@
 #include "../Class/TimerRenderer.h"
 #include "../Class/UndeadArcherCMPS.h"
 #include "../Class/MinigameGeneratorComponent.h"
+#include "../Class/EntityStat.h"
 
 #include "../Class/EntityStat.h"
 
@@ -196,13 +197,12 @@ void RunningState::checkCollisions() {
 	{
 		if(game().getMngr()->isAlive(enemy))
 		{
-			auto enemy_transform = game().getMngr()->getComponent<Transform>(enemy);
+			auto* enemy_transform = game().getMngr()->getComponent<Transform>(enemy);
 			if (Collisions::collides(
 			_tr->getPos(),_tr->getWidth(),_tr->getHeight(),
 		    enemy_transform->getPos(),enemy_transform->getWidth(),enemy_transform->getHeight()) && !colission_thisframe)
 			{
 				colission_thisframe = true;
-				enemycolisioned = enemy;
 			}
 
 			for (auto bullet : game().getMngr()->getEntities(ecs::grp::BULLET)) {
@@ -212,7 +212,11 @@ void RunningState::checkCollisions() {
 					enemy_transform->getPos(), enemy_transform->getWidth(), enemy_transform->getHeight(),
 					bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe) 
 				{
-					game().getMngr()->setAlive(enemy, false);
+					auto* enemy_stats = game().getMngr()->getComponent<EntityStat>(enemy);
+					auto* bullet_stats = game().getMngr()->getComponent<BulletStats>(bullet);
+
+					enemy_stats->ChangeStat(-1 * bullet_stats->getDamage(), EntityStat::Stat::HealthCurrent);
+
 				}
 			}
 		}

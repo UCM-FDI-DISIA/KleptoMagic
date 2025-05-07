@@ -19,6 +19,18 @@ EntityStat::~EntityStat()
 {
 }
 
+//void EntityStat::initComponent() {
+//    
+//}
+
+void EntityStat::update() 
+{
+    if(isDead()) {
+        //auto* _mngr = _ent->getMngr();
+        _ent->getMngr()->setAlive(_ent, false);
+    }
+}
+
 void EntityStat::Reset()
 {
 	//endStat = (iniStat * multi) + addi;

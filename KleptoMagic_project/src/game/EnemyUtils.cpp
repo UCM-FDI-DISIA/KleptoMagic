@@ -71,6 +71,7 @@ void EnemyUtils::spawn_SLIME(Vector2D pos) {
 	_mngr->addComponent<SlimeVectorComponent>(slime);
 	_mngr->addComponent<SlimeStatComponent>(slime);
 	_mngr->addComponent<SlimeAttackComponent>(slime);
+	_mngr->addComponent<EntityStat>(slime, 4, 0, 5, 5, 5);
 	auto mSlime = _mngr->addComponent<SlimeMovementComponent>(slime);
 	mSlime->init(_dungeonfloor);
 
@@ -87,6 +88,7 @@ void EnemyUtils::spawn_ARCHER(Vector2D pos) {
 	_mngr->addComponent<Image>(archer, &sdlutils().images().at("star"));
 	_mngr->addComponent<UndeadStatComponent>(archer);
 	_mngr->addComponent<UndeadVectorComponent>(archer);
+	_mngr->addComponent<EntityStat>(archer, 4, 0, 5, 5, 5);
 	auto mArcher = _mngr->addComponent<UndeadMovementComponent>(archer);
 	mArcher->init(_dungeonfloor);
 	_mngr->addComponent<UndeadAttackComponent>(archer);
@@ -107,6 +109,7 @@ void EnemyUtils::spawn_ARMOR(Vector2D pos) {
 	_mngr->addComponent<ArmorStatComponent>(armor);
 	_mngr->addComponent<ArmorAttackComponent>(armor);
 	_mngr->addComponent<ArmorMovementComponent>(armor);
+	_mngr->addComponent<EntityStat>(armor, 4, 0, 5, 5, 5);
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(armor);
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);
@@ -119,6 +122,8 @@ void EnemyUtils::spawn_GHOST(Vector2D pos) {
 	tr->init(pos, Vector2D(), s, s, 0.0f);
 	_mngr->addComponent<Image>(ghost, &sdlutils().images().at("bifrutas"));
 	_mngr->addComponent<GhostComponent>(ghost);
+	_mngr->addComponent<EntityStat>(ghost, 4, 0, 5, 5, 5);
+
 }
 
 void EnemyUtils::spawn_BOSS(Vector2D pos) {
@@ -129,6 +134,7 @@ void EnemyUtils::spawn_BOSS(Vector2D pos) {
 	_mngr->addComponent<Image>(boss, &sdlutils().images().at("ALCHEMIST"));
 	_mngr->addComponent<BossVectorComponent>(boss);
 	_mngr->addComponent<BossStatComponent>(boss);
+	_mngr->addComponent<EntityStat>(boss, 4, 0, 5, 5, 5);
 	_mngr->addComponent<BossAttackComponent>(boss);
 	auto mBoss = _mngr->addComponent<BossMovementComponent>(boss);
 	mBoss->init(_dungeonfloor);
@@ -146,6 +152,7 @@ void EnemyUtils::spawn_NECRO(Vector2D pos)
 	_mngr->addComponent<NecroVectorComponent>(necro);
 	_mngr->addComponent<NecroStatComponent>(necro);
 	_mngr->addComponent<NecroSpawnerComponent>(necro);
+	_mngr->addComponent<EntityStat>(necro, 4, 0, 5, 5, 5);
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(necro);
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);
