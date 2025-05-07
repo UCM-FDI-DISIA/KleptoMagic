@@ -85,14 +85,8 @@ void Game::start() {
 		std::cout << "Entrando en el bucle principal" << std::endl;
 #endif
 		Uint32 startTime = vt.regCurrTime();
+		input().update(); // Update input handler
 
-		NewInputHandler::Instance()->update();
-		//ihdlr.refresh();
-
-		if (NewInputHandler::Instance()->isActionPressed(Action::SHOOT)) {
-			exit = true;
-			continue;
-		}
 #ifdef _DEBUG
 		std::cout << "Exit: " << exit << std::endl;
 #endif

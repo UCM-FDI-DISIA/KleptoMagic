@@ -19,7 +19,8 @@ enum class Action {
     QUIT, 
     ABILITY, 
     INTERACT,
-    COUNT
+    COUNT,
+    CONFIRM
 };
 
 enum class RumbleType {

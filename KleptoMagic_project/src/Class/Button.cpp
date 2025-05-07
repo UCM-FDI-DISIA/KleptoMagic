@@ -18,12 +18,9 @@ void Button::update() {
     // Verificar si el mouse esta dentro del area del bot�n
     if (isInside(x, y)) {
 
-        _texture->setAlpha(128); // Bajar la opcidad 
+        _isSelected = true;  
 
         if (mouseState && input().isActionPressed(Action::SHOOT)) { // Verifica si el boton izquierdo esta presionado
-#ifdef _DEBUG
-            std::cout << "Boton clickeado" << std::endl;
-#endif
             if (!_soundId.empty()) {
                 sdlutils().soundEffects().at(_soundId).play();
             }
@@ -34,12 +31,21 @@ void Button::update() {
             _isPressed = false;  // Si no esta presionado, marcamos como no presionado
         }
     }
-    else _texture->setAlpha(255);
+    else {
+        _isSelected = false;  
+        _isPressed = false;  
+    }
 }
 
 void Button::render() {
     if (_texture) {
         SDL_Rect dest = { (int)_position.getX(), (int)_position.getY(), (int)_size.getX(), (int)_size.getY() };
+        if (_isSelected) {
+            _texture->setAlpha(128); 
+        }
+        else {
+            _texture->setAlpha(255); // Vuelve a la opacidad normal
+        }
         _texture->render(dest); // Usa la funcion render de Texture
     }
 }
