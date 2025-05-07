@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Class\AnimatorComponent.h" />
+    <ClInclude Include="src\Class\EnemyHitted.h" />
     <ClInclude Include="src\Class\enemyHoming.h" />
     <ClInclude Include="src\astar\astar.hpp" />
     <ClInclude Include="src\Class\PlayerAnimComponent.h" />

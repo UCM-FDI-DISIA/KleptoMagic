@@ -23,6 +23,6 @@ public:
 	//update
 	Status GetStatus();
 	void SetStatus();
-	void Updaate();
+	void Update();
 	~StatusEffect();
 };

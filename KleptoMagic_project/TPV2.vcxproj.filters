@@ -68,6 +68,7 @@
     <ClCompile Include="src\game\PlayerUtils.cpp" />
     <ClCompile Include="src\Class\enemyHoming.cpp" />
     <ClCompile Include="src\Class\WeaponImage.cpp" />
+    <ClCompile Include="src\Class\AnimatorComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
@@ -188,6 +189,8 @@
     <ClInclude Include="src\game\PlayerUtils.h" />
     <ClInclude Include="src\Class\enemyHoming.h" />
     <ClInclude Include="src\Class\WeaponImage.h" />
+    <ClInclude Include="src\Class\AnimatorComponent.h" />
+    <ClInclude Include="src\Class\EnemyHitted.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
