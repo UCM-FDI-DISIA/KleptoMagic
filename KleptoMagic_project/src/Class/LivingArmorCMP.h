@@ -150,6 +150,87 @@ namespace ecs
 		}
 	};
 
+	class ArmorAnimComponent : public AnimatorComponent {
+		friend AnimatorComponent;
+	public:
+		__CMPID_DECL__(ecs::cmp::SLIMEANIMCMP);
+
+		ArmorAnimComponent() {
+			isWalking = false;
+			isFacingRight = false;
+			isFacingDown = true;
+		}
+
+		void update() override {
+			// check speed to see if it's walking or not
+			float velX = _tr->getVel().getX();
+			float velY = _tr->getVel().getY();
+
+			bool isCurrentlyMovingSideways = (velX != 0);
+			bool isCurrentlyMovingVertically = (velY != 0);
+			bool isCurrentlyMovingRight = (velX < 0);
+			bool isCurrentlyMovingDown = (velY > 0);
+			//cout << velX << "|" << velY << "   " 
+			//	<< isCurrentlyMovingSideways << "|" << isCurrentlyMovingVertically << "   " 
+			//	<< isCurrentlyMovingRight << "|" << isCurrentlyMovingDown << endl;
+
+
+			if (!isFacingDown && !isCurrentlyMovingDown && isCurrentlyMovingVertically) {
+				// up
+				isFacingDown = !isFacingDown;
+				changeDirection('U');
+			}
+			else if (isFacingDown && isCurrentlyMovingDown && isCurrentlyMovingVertically) {
+				// down
+				isFacingDown = !isFacingDown;
+				changeDirection('D');
+			}
+			else if (!isFacingRight && !isCurrentlyMovingRight && isCurrentlyMovingSideways) {
+				// left
+				isFacingRight = !isFacingRight;
+				changeDirection('L');
+			}
+			else if (isFacingRight && isCurrentlyMovingRight && isCurrentlyMovingSideways) {
+				// right
+				isFacingRight = !isFacingRight;
+				changeDirection('R');
+			}
+		}
+
+		void changeDirection(char dir) {
+			switch (dir) {
+			case 'U':
+				offset = 1;
+				break;
+			case 'D':
+				offset = 0;
+				break;
+			case 'L':
+				offset = 3;
+				break;
+			case 'R':
+				offset = 2;
+				break;
+			}
+			_img->setStartingFrame(startFrame + offset);
+			_img->setFrame(startFrame + 1);
+			_img->setNumFrames(4);
+		}
+
+		char facingDirection() {
+			if (offset == 0) return 'D';
+			else if (offset == 1) return 'U';
+			else if (offset == 2) return 'L';
+			else if (offset == 3) return 'R';
+		}
+
+	private:
+		bool isFacingDown;
+		int offset;
+		void createStart();
+	};
+}
+
 	// class ArmorCollisionComponent : public Component clase para colisiones, teniendo en cuenta el tama�o del armor y el player y que la armadura no recibe da�o si el ataque viene desde la direccion en la que se mueve
 	/*
 	class ArmorCollisionComponent : public Component
@@ -185,6 +266,3 @@ namespace ecs
 		}
 	};
 	*/
-
-
-}

@@ -41,7 +41,9 @@ void PlayerUtils::createPlayer(Vector2D pos, float size, BulletUtils* bullet) {
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);
 	auto movethroughrooms = game().getMngr()->addComponent<MoveThroughRooms>(player);
-	game().getMngr()->addComponent<PlayerAnimComponent>(player, charStartFrame);
+	auto animator = game().getMngr()->addComponent<PlayerAnimComponent>(player);
+	animator->setStartFrame(charStartFrame);
+	animator->setDeathFrame(charStartFrame + 4);
 	movethroughrooms->init(_dungeonfloor, bullet);
 	movethroughrooms->enterRoom(' ');
 }

@@ -3,7 +3,6 @@
 #include "../Class/Transform.h"
 #include "../Class/Image.h"
 #include "../Class/ImageWithFrames.h"
-
 #include "../Class/TileCollisionChecker.h"
 
 #include "../Class/SlimeComponents.h"
@@ -67,13 +66,17 @@ void EnemyUtils::spawn_SLIME(Vector2D pos) {
 	auto tr = _mngr->addComponent<Transform>(slime);
 	tr->init(pos, Vector2D(), s, s, 0.0f);
 	//_mngr->addComponent<Image>(slime, &sdlutils().images().at("pacman"));
-	_mngr->addComponent<ImageWithFrames>(slime, &sdlutils().images().at("slime_sprites"), 4, 2, 1);
+	_mngr->addComponent<ImageWithFrames>(slime, &sdlutils().images().at("slime_sprites"), 250, 4, 2, 0, 2);
 	_mngr->addComponent<SlimeVectorComponent>(slime);
 	_mngr->addComponent<SlimeStatComponent>(slime);
 	_mngr->addComponent<SlimeAttackComponent>(slime);
 	_mngr->addComponent<EntityStat>(slime, 4, 0, 5, 5, 5);
 	auto mSlime = _mngr->addComponent<SlimeMovementComponent>(slime);
-	mSlime->init(_dungeonfloor);
+	mSlime->init(_dungeonfloor); 
+
+	auto animator = game().getMngr()->addComponent<SlimeAnimComponent>(slime);
+	animator->setStartFrame(0);
+	animator->setDeathFrame(2);
 
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(slime);
 	tilechecker->init(false, tr, _dungeonfloor);
@@ -100,16 +103,22 @@ void EnemyUtils::spawn_ARCHER(Vector2D pos) {
 
 void EnemyUtils::spawn_ARMOR(Vector2D pos) {
 	auto armor = _mngr->addEntity(ecs::grp::ENEMY);
-	auto s = 50.0f;
+	auto s = 75.0f;
 	auto tr = _mngr->addComponent<Transform>(armor);
 	tr->init(pos, Vector2D(), s, s, 0.0f);
 	//_mngr->addComponent<Image>(armor, &sdlutils().images().at("bifrutas"));
-	_mngr->addComponent<ImageWithFrames>(armor, &sdlutils().images().at("armor_sprites"), 4, 5, 1);
+	//_mngr->addComponent<ImageWithFrames>(armor, &sdlutils().images().at("armor_sprites"), 4, 5, 1);
+	_mngr->addComponent<ImageWithFrames>(armor, &sdlutils().images().at("armor_sprites"), 250, 4, 5, 0, 4);
 	_mngr->addComponent<ArmorVectorComponent>(armor);
 	_mngr->addComponent<ArmorStatComponent>(armor);
 	_mngr->addComponent<ArmorAttackComponent>(armor);
 	_mngr->addComponent<ArmorMovementComponent>(armor);
 	_mngr->addComponent<EntityStat>(armor, 4, 0, 5, 5, 5);
+
+	auto animator = game().getMngr()->addComponent<ArmorAnimComponent>(armor);
+	animator->setStartFrame(0);
+	animator->setDeathFrame(16);
+
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(armor);
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);

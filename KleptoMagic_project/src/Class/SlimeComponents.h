@@ -6,6 +6,8 @@
 #include "Transform.h"
 #include <chrono>
 #include "../map/DungeonFloor.h"
+#include "AnimatorComponent.h"
+
 namespace ecs
 {
 	class StatComponent : public Component
@@ -66,7 +68,7 @@ namespace ecs
 		{
 			auto* _mngr = _ent->getMngr();
 			life = 10;
-			speed = 0.5;
+			speed = 2;
 			attackspeed = 2;
 			damage = 3;
 
@@ -216,5 +218,59 @@ namespace ecs
 
 
 
+	};
+
+
+
+	class SlimeAnimComponent : public AnimatorComponent {
+		friend AnimatorComponent;
+	public:
+		__CMPID_DECL__(ecs::cmp::SLIMEANIMCMP);
+
+		SlimeAnimComponent() {
+			isWalking = false;
+			isFacingRight = false;
+		}
+
+		void update() override {
+			// check speed to see if it's walking or not
+			float velX = _tr->getVel().getX();
+			float velY = _tr->getVel().getY();
+			bool isCurrentlyWalking = (velX != 0 || velY != 0);
+			bool isCurrentlyMovingSideways = (velX != 0);
+			bool isCurrentlyMovingRight = (velX < 0);
+			//cout << velX << "|" << velY << "   " << isCurrentlyWalking << "|" << isWalking << "   " << isCurrentlyMovingRight << "|" <<isFacingRight << endl;
+
+			if (!isWalking && isCurrentlyWalking) {
+				toggleWalkingAnim();
+			}
+			else if (isWalking && !isCurrentlyWalking) {
+				toggleWalkingAnim();
+			}
+
+			if (!isFacingRight && !isCurrentlyMovingRight && isCurrentlyMovingSideways) {
+				toggleFlip();
+			}
+			else if (isFacingRight && isCurrentlyMovingRight && isCurrentlyMovingSideways) {
+				toggleFlip();
+			}
+		}
+
+		void toggleWalkingAnim() {
+			if (!isWalking) {
+				_img->setStartingFrame(startFrame);
+				_img->setFrame(startFrame + 1);
+				_img->setNumFrames(2);
+			}
+			else {
+				_img->setStartingFrame(startFrame);
+				_img->setFrame(startFrame);
+				_img->setNumFrames(1);
+			}
+			isWalking = !isWalking;
+		}
+
+	private:
+		void createStart();
 	};
 }
