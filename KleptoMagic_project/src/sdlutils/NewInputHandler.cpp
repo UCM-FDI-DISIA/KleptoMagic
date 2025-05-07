@@ -137,7 +137,13 @@ Vector2D NewInputHandler::getAimVector(Vector2D playerPos) {
         _aimVector = mousePos - playerPos;
     }
     else {
-        _aimVector = _rightStickVector;
+        if (_rightStickVector.magnitude() > _stickDeadZone) {
+            _aimVector = _rightStickVector;
+            _lastRightStickPositiveVector = _rightStickVector;
+        }
+        else {
+            _aimVector = _lastRightStickPositiveVector;
+        }
     }
     return _aimVector.normalize();
 }
@@ -224,15 +230,15 @@ void NewInputHandler::onGameControllerAxisMotion(SDL_Event& event) {
     }
 
     // Apply dead zone and update the vectors
-    _leftStickVector.set(
-        std::abs(_rawLeftStickX) > _stickDeadZone ? _rawLeftStickX : 0.0f,
-        std::abs(_rawLeftStickY) > _stickDeadZone ? _rawLeftStickY : 0.0f
-    );
+    _leftStickVector.set(_rawLeftStickX, _rawLeftStickY);
+    _rightStickVector.set(_rawRightStickX, _rawRightStickY);
 
-    _rightStickVector.set(
-        std::abs(_rawRightStickX) > _stickDeadZone ? _rawRightStickX : 0.0f,
-        std::abs(_rawRightStickY) > _stickDeadZone ? _rawRightStickY : 0.0f
-    );
+    if (_leftStickVector.magnitude() < _stickDeadZone) {
+        _leftStickVector.set(0, 0);
+    }
+    if (_rightStickVector.magnitude() < _stickDeadZone) {
+        _rightStickVector.set(0, 0);
+    }
 }
 
 void NewInputHandler::triggerRumble(RumbleType type) {

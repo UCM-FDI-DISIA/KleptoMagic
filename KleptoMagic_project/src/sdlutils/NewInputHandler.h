@@ -58,7 +58,7 @@ private:
     std::unordered_map<Action, bool> _actionPressed;
     std::unordered_map<Action, bool> _actionHeld;
     std::unordered_map<Action, bool> _actionReleased;
-    Vector2D _leftStickVector, _rightStickVector;
+    Vector2D _leftStickVector, _rightStickVector, _lastRightStickPositiveVector;
     float _leftTriggerValue, _rightTriggerValue;
     float _rawLeftStickX, _rawLeftStickY, _rawRightStickX, _rawRightStickY;
     float _stickDeadZone = 0.1f; // Dead zone for left and right sticks
