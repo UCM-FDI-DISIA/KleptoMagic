@@ -201,7 +201,7 @@ namespace ecs
 		// Attack 1, shoots 2 homing bullets
 		void Attack1()
 		{
-			auto bullet = _ent->getMngr()->addEntity(ecs::grp::ENEMYBULLETS);
+			auto bullet = _ent->getMngr()->addEntity(ecs::grp::ENEMYBULLET);
 			auto s = 50.0f;
 			auto tr = _ent->getMngr()->addComponent<Transform>(bullet);
 			// Set the position of the bullet to the boss's position with a small offset
@@ -216,7 +216,7 @@ namespace ecs
 			auto stats = _ent->getMngr()->getComponent<BulletStats>(bullet);
 			stats->enemyStats(3);
 
-			auto bullet2 = _ent->getMngr()->addEntity(ecs::grp::ENEMYBULLETS);
+			auto bullet2 = _ent->getMngr()->addEntity(ecs::grp::ENEMYBULLET);
 			auto tr2 = _ent->getMngr()->addComponent<Transform>(bullet2);
 			// Set the position of the bullet to the boss's position with a small offset
 			Vector2D bulletPos2 = _BossTransform->getPos();

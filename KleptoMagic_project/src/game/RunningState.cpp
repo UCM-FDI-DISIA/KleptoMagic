@@ -214,7 +214,6 @@ void RunningState::checkCollisions() {
 				{
 					game().getMngr()->setAlive(enemy, false);
 				}
-
 			}
 		}
 	}

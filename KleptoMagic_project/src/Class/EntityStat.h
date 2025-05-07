@@ -24,6 +24,8 @@ public:
 	void ChangeStat(float add, Stat stat);
 	void ChangeMulti(float mult , Stat stat);
 
+	bool isDead() { return healthCurrent <= 0; };
+
 	float getStat(Stat stat) const {
 		switch (stat) {
 		case Stat::HealthTotal: return healthTotal;

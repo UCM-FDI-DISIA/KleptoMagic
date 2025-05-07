@@ -46,8 +46,11 @@ void BulletUtils::reset()
 	}
 }
 
-void BulletUtils::hit(int index)
-{
+void BulletUtils::hit(Entity* targ) {
+	auto* _mngr = game().getMngr();
+
+	EntityStat* _sts = _mngr->getComponent<EntityStat>(targ);
+	_sts->ChangeStat(-1 * bulStat->getDamage(), EntityStat::Stat::HealthCurrent);
 }
 
 void BulletUtils::pressed()
@@ -64,7 +67,7 @@ void BulletUtils::enemyShoot(Transform* _enemyTR, int i)
 	Transform* _tr = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 	
 	
-	auto _bullets = _mngr->addEntity(ecs::grp::BULLET);
+	auto _bullets = _mngr->addEntity(ecs::grp::ENEMYBULLET);
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
 	stats->enemyStats(i);
 	Vector2D vel = Vector2D(_tr->getPos() - _enemyTR->getPos()).normalize()*stats->getSpeed();
