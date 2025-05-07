@@ -5,22 +5,7 @@
 #include <vector>
 #include <SDL.h>
 #include <stack>
-//#include "checkML.h"
 #include "../sdlutils/Texture.h"
-//#include "GameObject.h"
-//#include "SceneObject.h"
-//#include "TileMap.h"
-//#include "Player.h"
-//#include "gameList.h"
-//#include "PlayState.h"
-//#include "MainMenuState.h"
-//#include "PauseState.h"
-//#include "AnimationState.h"
-//#include "EndState.h"
-//#include "gameStateMachine.h"
-//class DummyState;
-//class MainMenuState;
-//class PlayState;
 
 //componentes :D
 #include "../utils/Singleton.h"

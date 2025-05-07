@@ -2,11 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "gameStateMachine.h"
 #include "Game.h"
-#include "DummyState.h"
-#include "MainMenuState.h"
-#include "PlayState.h"
 #include "../sdlutils/NewInputHandler.h"
 
 //componentes :D

@@ -3,6 +3,7 @@
 #include "../ecs/Component.h"
 #include "../ecs/Manager.h"
 #include "Game.h"
+
 class DestroyOnBorder: public ecs::Component
 {
 public:
