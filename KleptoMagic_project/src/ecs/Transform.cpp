@@ -1,5 +1,5 @@
 #include "Transform.h"
-#include "TileCollisionChecker.h"
+#include "../room/TileCollisionChecker.h"
 
 void Transform::update() {
 	if (_tilechecker != nullptr) {

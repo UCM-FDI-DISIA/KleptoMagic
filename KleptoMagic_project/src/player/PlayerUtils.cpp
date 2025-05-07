@@ -1,12 +1,12 @@
 #include "PlayerUtils.h"
 
-#include "../Class/Transform.h"
-#include "../Class/ImageWithFrames.h"
-#include "../Class/EntityStat.h"
-#include "../Class/PlayerCtrl.h"
-#include "../Class/MoveThroughRooms.h"
-#include "../Class/PlayerAnimComponent.h"
-#include "../Class/WeaponImage.h"
+#include "../ecs/Transform.h"
+#include "../render/ImageWithFrames.h"
+#include "../ecs/EntityStat.h"
+#include "../player/PlayerCtrl.h"
+#include "../room/MoveThroughRooms.h"
+#include "../player/PlayerAnimComponent.h"
+#include "../render/WeaponImage.h"
 
 PlayerUtils::PlayerUtils() :
 	_mngr(nullptr), _dungeonfloor(nullptr)

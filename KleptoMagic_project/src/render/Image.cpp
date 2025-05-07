@@ -7,7 +7,7 @@
 #include "../ecs/Manager.h"
 #include "../sdlutils/macros.h"
 #include "../sdlutils/Texture.h"
-#include "Transform.h"
+#include "../ecs/Transform.h"
 
 Image::Image() :
 		_tr(), _tex() {
