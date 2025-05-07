@@ -1,5 +1,6 @@
 #include "RunningState.h"
 #include "../state/PausedState.h"
+#include "../state/GameOverState.h"
 #include "../enemies/EnemyUtils.h"
 #include "../utils/Collisions.h"
 #include "../sdlutils/SDLUtils.h"

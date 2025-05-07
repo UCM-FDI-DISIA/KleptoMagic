@@ -13,6 +13,7 @@
 #include "../enemies/EnemyUtils.h"
 #include "../state/GameState.h"
 #include "../player/PlayerUtils.h"
+#include"../ecs/EventHandler.h"
 
 
 #pragma once

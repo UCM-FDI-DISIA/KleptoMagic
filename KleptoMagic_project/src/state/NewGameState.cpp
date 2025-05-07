@@ -27,7 +27,7 @@ NewGameState::NewGameState() {
     // Create the start button
     float playBtnX = centerX - 50;
     float playBtnY = baseY;
-    startButton = new Button([this]() {game().setGameState(new NewRoundState());}, Vector2D(playBtnX, playBtnY), Vector2D(btnWidth, btnHeight), buttonTexture, "mainMenuButton");
+    startButton = new Button([this]() {game().pushState(new NewRoundState());}, Vector2D(playBtnX, playBtnY), Vector2D(btnWidth, btnHeight), buttonTexture, "mainMenuButton");
 
     // Create the exit button
     float exitBtnX = centerX - 50;  // Ajuste lateral

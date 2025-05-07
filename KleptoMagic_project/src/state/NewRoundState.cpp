@@ -2,7 +2,6 @@
 #include "../state/RunningState.h"
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/NewInputHandler.h"
-#include "NewRoundState.h"
 #include "../sdlutils/SDLUtils.h"
 
 NewRoundState::NewRoundState() : selectedCharacter("") {
