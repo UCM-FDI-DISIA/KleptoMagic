@@ -11,6 +11,7 @@
 #include "../sdlutils/NewInputHandler.h"
 #include "../Class/ImageWithFrames.h"
 #include "BulletStats.h"
+#include "EnemyHitted.h"
 #include "HomingComponent.h"
 #include "../map/DungeonFloor.h"
 #include "../Class/TileCollisionChecker.h"
