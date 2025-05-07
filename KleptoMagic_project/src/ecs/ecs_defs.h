@@ -6,8 +6,8 @@
 // Components list - must have at least one element
 //
 #define _CMPS_LIST_ \
-	TRANSFORM, \
-	IMAGE, \
+	TRANSFORM,\
+	IMAGE,\
 	DESTROYONBORDER,\
 	IMAGEWITHFRAMES,\
 	WEAPONIMAGE,\
@@ -16,8 +16,9 @@
 	ENTITYSTAT, \
 	VECTOR2D, \
 	STATUSEFFECT, \
+	ANIMATORCOMPONENT, \
 	PLAYERCTRL, \
-	PLAYERANIMCOMPONENT, \
+	PLAYERANIMCMP, \
 	GAMECTRL, \
 	GHOSTCMP, \
 	BULLETSTATS, \
@@ -26,6 +27,7 @@
     SLIMEATKCMP, \
     SLIMESTATCMP, \
     SLIMEVECCMP, \
+	SLIMEANIMCMP, \
     UNDEADMOVCMP, \
     UNDEADATKCMP, \
     UNDEADSTATCMP, \
@@ -40,6 +42,7 @@
 	ARMORSTATCMP, \
 	ARMORVECCMP, \
 	ARMORCOLCMP, \
+	ARMORANIMCMP, \
     BOSSVECCMP, \
 	BOSSATKCMP, \
 	BOSSSTATCMP, \
@@ -53,7 +56,7 @@
 	PICKABLECMP,\
     STATCMP,\
     SPAWNSTATCMP,\
-    SPAWNMOVCMP, \
+    SPAWNMOVCMP,\
     ENEMYHOMING
  
 
@@ -63,8 +66,8 @@
 // Groups list - must have at least one element
 //
 #define _GRPS_LIST_ \
-	BULLET,  \
-	ASTEROIDS,\
+	BULLET,\
+	ENEMYBULLET,\
     ENEMY
 // Handlers list - must have at least one element
 //

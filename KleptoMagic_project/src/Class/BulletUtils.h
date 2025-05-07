@@ -25,7 +25,7 @@ public:
 	void update();
 	void render();
 	void reset();
-	void hit(int index);
+	void hit(Entity* target);
 	void pressed();
 	void enemyShoot(Transform* enemyTR,int i);
 	void BossManyDirectinons(Transform* bossTR, Vector2D v);

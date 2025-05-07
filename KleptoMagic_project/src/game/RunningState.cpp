@@ -16,6 +16,7 @@
 #include "../Class/TimerRenderer.h"
 #include "../Class/UndeadArcherCMPS.h"
 #include "../Class/MinigameGeneratorComponent.h"
+#include "../Class/EntityStat.h"
 
 #include "../Class/EntityStat.h"
 
@@ -154,25 +155,37 @@ void RunningState::update() {
 		if (player != nullptr && game().getMngr()->isAlive(player)) {
 			auto stats = game().getMngr()->getComponent<EntityStat>(player);
 			float hp = stats->getStat(EntityStat::Stat::HealthCurrent);
+			float hpTotal = stats->getStat(EntityStat::Stat::HealthTotal);
+
+			int maxHearts = static_cast<int>(hpTotal);
+			int currentHearts = static_cast<int>(hp);
 
 			/*#ifdef _DEBUG
 						std::cout << "HealthCurrent: " << hp << std::endl;
 			#endif*/
 
-			int heartCount = static_cast<int>(hp); 
 			int heartSize = 64;
 			int spacing = 10;
 
-			int startX = sdlutils().width() - (heartCount * heartSize + (heartCount - 1) * spacing) - 10; // Calculamos la posici�n X desde la derecha
-			int startY = 10;  // Un peque�o margen desde el borde superior
+			// Calculamos la posici�n X desde la derecha
+			int totalWidth = maxHearts * heartSize + (maxHearts - 1) * spacing;
+			int startX = sdlutils().width() - totalWidth - 10;
+			int startY = 10;
 
 			SDL_Rect heartDest = { startX, startY, heartSize, heartSize };
 
-			for (int i = 0; i < heartCount; ++i) {
-				if (hearthTexture != nullptr) {
-					hearthTexture->render(heartDest);
-					heartDest.x += heartSize + spacing; 
+			for (int i = 0; i < maxHearts; ++i) {
+				if (i < currentHearts) {
+					// Coraz�n lleno
+					if (hearthTexture != nullptr)
+						hearthTexture->render(heartDest);
 				}
+				else {
+					// Coraz�n vac�o
+					if (hearthTotalTexture != nullptr)
+						hearthTotalTexture->render(heartDest);
+				}
+				heartDest.x += heartSize + spacing;
 			}
 		}
 
@@ -196,13 +209,12 @@ void RunningState::checkCollisions() {
 	{
 		if(game().getMngr()->isAlive(enemy))
 		{
-			auto enemy_transform = game().getMngr()->getComponent<Transform>(enemy);
+			auto* enemy_transform = game().getMngr()->getComponent<Transform>(enemy);
 			if (Collisions::collides(
 			_tr->getPos(),_tr->getWidth(),_tr->getHeight(),
 		    enemy_transform->getPos(),enemy_transform->getWidth(),enemy_transform->getHeight()) && !colission_thisframe)
 			{
 				colission_thisframe = true;
-				enemycolisioned = enemy;
 			}
 
 			for (auto bullet : game().getMngr()->getEntities(ecs::grp::BULLET)) {
@@ -212,10 +224,12 @@ void RunningState::checkCollisions() {
 					enemy_transform->getPos(), enemy_transform->getWidth(), enemy_transform->getHeight(),
 					bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe) 
 				{
-					game().getMngr()->setAlive(enemy, false);
-					//delete enemy;
-				}
+					auto* enemy_stats = game().getMngr()->getComponent<EntityStat>(enemy);
+					auto* bullet_stats = game().getMngr()->getComponent<BulletStats>(bullet);
 
+					enemy_stats->ChangeStat(-1 * bullet_stats->getDamage(), EntityStat::Stat::HealthCurrent);
+
+				}
 			}
 		}
 	}
@@ -233,6 +247,10 @@ void RunningState::enter()
 
 	if (hearthTexture == nullptr) {
 		hearthTexture = new Texture(sdlutils().renderer(), "resources/images/live.png");
+	}
+
+	if (hearthTotalTexture == nullptr) {
+		hearthTotalTexture = new Texture(sdlutils().renderer(), "resources/images/liveEmpty.png");
 	}
 
 	auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);

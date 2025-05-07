@@ -1,5 +1,7 @@
 #include "../ecs/Component.h"
+#include "../ecs/Manager.h"
 #pragma once
+
 class EntityStat : public ecs::Component//hay que meter getters y setters
 {
 public:
@@ -23,6 +25,11 @@ public:
 	void Reset();
 	void ChangeStat(float add, Stat stat);
 	void ChangeMulti(float mult , Stat stat);
+
+	//void initComponent() override;
+	void update() override;
+
+	bool isDead() { return healthCurrent <= 0; };
 
 	float getStat(Stat stat) const {
 		switch (stat) {

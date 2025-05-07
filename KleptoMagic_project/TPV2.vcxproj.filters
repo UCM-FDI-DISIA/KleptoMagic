@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="src\Class\EntityStat.cpp" />
-    <ClCompile Include="src\Class\GameObject.cpp" />
     <ClCompile Include="src\Class\GameState_OLD.cpp" />
     <ClCompile Include="src\Class\gameStateMachine.cpp" />
     <ClCompile Include="src\Class\SceneObject.cpp" />
@@ -83,7 +82,6 @@
     <ClInclude Include="src\Class\Enemy.h" />
     <ClInclude Include="src\Class\EntityStat.h" />
     <ClInclude Include="src\Class\EventHandler.h" />
-    <ClInclude Include="src\Class\GameObject.h" />
     <ClInclude Include="src\Class\GameState_OLD.h" />
     <ClInclude Include="src\Class\gameStateMachine.h" />
     <ClInclude Include="src\Class\Image.h" />

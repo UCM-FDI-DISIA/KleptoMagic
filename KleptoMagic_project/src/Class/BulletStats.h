@@ -33,6 +33,7 @@ public:
 	void refreshDuration() { duration = distance / speed; }
 	//void setStats(float spe,float dmg,float dist,float siz,bool pierc);
 	void refreshStats(float spe,float dmg,float dist,float siz,bool pierc, int bull);
+
 private:
 	float speed;
 	float speedMul=1;

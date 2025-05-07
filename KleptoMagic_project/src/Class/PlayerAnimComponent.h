@@ -5,25 +5,19 @@
 #include "../ecs/Manager.h"
 #include "Transform.h"
 #include "ImageWithFrames.h"
+#include "AnimatorComponent.h"
 
-class PlayerAnimComponent : public ecs::Component {
+class PlayerAnimComponent : public AnimatorComponent {
+	friend AnimatorComponent;
 public:
-	__CMPID_DECL__(ecs::cmp::PLAYERANIMCOMPONENT);
+	__CMPID_DECL__(ecs::cmp::PLAYERANIMCMP);
 
-	PlayerAnimComponent(int startF);
+	PlayerAnimComponent();
 
-	void initComponent() override;
-	void update();
+	void update() override;
 	void toggleWalkingAnim();
-	void toggleFlip();
-	void playDeath();
+	void playDeath() override;
 
 private:
-	Transform* _tr;
-	ImageWithFrames* _plrImg;
-	int startFrame;
-	int deathFrame;
-	bool isWalking;
-	bool isFacingRight;
 	void createStart();
 };
