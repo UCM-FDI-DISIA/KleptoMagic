@@ -27,8 +27,6 @@ public:
 private:
 	void checkCollisions();
 	BulletUtils* bullet;
-	VirtualTimer asteroidSpawnTimer;
-	const int asteroidSpawnCDms = 5000;
 
 	RoomStorage* roomstorage;
 	DungeonFloor* dungeonfloor;
@@ -53,4 +51,5 @@ private:
 	// Corazones
 	Texture* hearthTexture;
 	Texture* hearthTotalTexture;
+	float hp = 0;
 };

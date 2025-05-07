@@ -41,6 +41,7 @@ bool RunningState::GMG(bool minigameActive) {
 void RunningState::update() {
 	
 	bool exit = false;
+
 	NewInputHandler::Instance()->init();
 	
 	TimerRenderer _timerRndr(&_timer, sdlutils().renderer());
@@ -139,7 +140,7 @@ void RunningState::update() {
 			}
 		}
 
-		// Si han pasado m�s de 10 segundos, ocultamos la imagen de controles
+		// Si han pasado mas de 10 segundos, ocultamos la imagen de controles
 		if (_timer.getTimeLeft() >= 290) {
 			controlsTexture->setAlpha(128);  
 			controlsTexture->render(dest);
@@ -149,7 +150,7 @@ void RunningState::update() {
 		auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
 		if (player != nullptr && game().getMngr()->isAlive(player)) {
 			auto stats = game().getMngr()->getComponent<EntityStat>(player);
-			float hp = stats->getStat(EntityStat::Stat::HealthCurrent);
+			hp = stats->getStat(EntityStat::Stat::HealthCurrent);
 			float hpTotal = stats->getStat(EntityStat::Stat::HealthTotal);
 
 			int maxHearts = static_cast<int>(hpTotal);
@@ -162,7 +163,7 @@ void RunningState::update() {
 			int heartSize = 64;
 			int spacing = 10;
 
-			// Calculamos la posici�n X desde la derecha
+			// Calculamos la posicion X desde la derecha
 			int totalWidth = maxHearts * heartSize + (maxHearts - 1) * spacing;
 			int startX = sdlutils().width() - totalWidth - 10;
 			int startY = 10;
@@ -171,17 +172,23 @@ void RunningState::update() {
 
 			for (int i = 0; i < maxHearts; ++i) {
 				if (i < currentHearts) {
-					// Coraz�n lleno
+					// Corazon lleno
 					if (hearthTexture != nullptr)
 						hearthTexture->render(heartDest);
 				}
 				else {
-					// Coraz�n vac�o
+					// Corazon vacio
 					if (hearthTotalTexture != nullptr)
 						hearthTotalTexture->render(heartDest);
 				}
 				heartDest.x += heartSize + spacing;
 			}
+		}
+
+		if (hp <= 0 || _timer.getTimeLeft() <= 0)
+		{
+			game().pushState(new GameOverState());
+			exit = true;
 		}
 
 		_timerRndr.render(sdlutils().renderer(), _timer.getTimeLeft());
