@@ -3,7 +3,7 @@
 #include <iostream>
 #include "Tilemap.h"
 #include "../utils/Vector2D.h"
-#include "../game/EnemyUtils.h"
+#include "../enemies/EnemyUtils.h"
 using namespace std;
 
 enum roomType { ENTRANCE, REGULAR, SPECIAL, BOSS };

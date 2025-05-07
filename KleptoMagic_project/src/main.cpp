@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "sdlutils/sdlutils_demo.h"
-#include "Class/Game.h"
+#include "ecs/Game.h"
 
 int main(int ac, char **av) {
 	try {

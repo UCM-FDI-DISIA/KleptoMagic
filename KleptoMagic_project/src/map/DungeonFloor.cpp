@@ -3,9 +3,9 @@
 #include "SDL_image.h"
 #include <random>
 #include <vector>
-#include "../game/EnemyUtils.h"
-#include "../game/PlayerUtils.h"
-#include "../class/Game.h"
+#include "../enemies/EnemyUtils.h"
+#include "../player/PlayerUtils.h"
+#include "../ecs/Game.h"
 
 using namespace std;
 
