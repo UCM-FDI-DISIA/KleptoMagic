@@ -201,7 +201,7 @@ void EnemyUtils::spawn_CHEST(Vector2D pos) {
 	auto s = 50.0f;
 	auto tr = _mngr->addComponent<Transform>(chest);
 	tr->init(pos, Vector2D(), s, s, 0.0f);
-	//_mngr->addComponent<Image>(chest, &sdlutils().images().at("chest"));	// Add a chest sprite
+	_mngr->addComponent<Image>(chest, &sdlutils().images().at("chest"));	// Add a chest sprite
 	//_mngr->addComponent<RewardsComponent>(chest);							// Handles loot
 	//_mngr->addComponent<MinigameGeneratorComponent>(chest);				// Generates minigame on interaction
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(chest);

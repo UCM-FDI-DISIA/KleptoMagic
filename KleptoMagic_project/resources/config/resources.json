@@ -118,6 +118,10 @@
         {
             "id": "weapon_sprites",
             "file": "resources/images/weapon_sprites.png"
+        },
+        {
+            "id": "chest",
+            "file": "resources/images/chest.jpg"
         }
     ],
   

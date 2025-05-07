@@ -60,6 +60,7 @@
     <ClCompile Include="src\Class\TimerRenderer.cpp" />
     <ClCompile Include="src\Class\Transform.cpp" />
     <ClCompile Include="src\Class\UndeadArcherCMPS.cpp" />
+    <ClCompile Include="src\Class\ChestComponent.cpp" />
     <ClCompile Include="src\ecs\Manager.cpp" />
     <ClCompile Include="src\game\GameOverState.cpp" />
     <ClCompile Include="src\game\GameState.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="src\Class\TimerRenderer.h" />
     <ClInclude Include="src\Class\Transform.h" />
     <ClInclude Include="src\Class\UndeadArcherCMPS.h" />
+    <ClInclude Include="src\Class\ChestComponent.h" />
     <ClInclude Include="src\ecs\Component.h" />
     <ClInclude Include="src\ecs\ecs.h" />
     <ClInclude Include="src\ecs\ecs_defs.h" />

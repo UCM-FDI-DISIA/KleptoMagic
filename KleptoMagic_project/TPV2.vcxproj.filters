@@ -62,6 +62,7 @@
     <ClCompile Include="src\game\EnemyUtils.cpp" />
     <ClCompile Include="src\Class\LivingArmorCMP.cpp" />
     <ClCompile Include="src\Class\BossCMP.cpp" />
+    <ClCompile Include="src\Class\ChestComponent.cpp" />
     <ClCompile Include="src\Class\PickableCMP.cpp" />
     <ClCompile Include="src\Class\PlayerAnimComponent.cpp" />
     <ClCompile Include="src\Class\NecromancerComponent.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="src\game\EnemyUtils.h" />
     <ClInclude Include="src\Class\LivingArmorCMP.h" />
     <ClInclude Include="src\Class\BossCMP.h" />
+    <ClInclude Include="src\Class\ChestComponent.h" />
     <ClInclude Include="src\Class\PickableCMP.h" />
     <ClInclude Include="src\Class\PlayerAnimComponent.h" />
     <ClInclude Include="src\Class\NecromancerComponent.h" />
