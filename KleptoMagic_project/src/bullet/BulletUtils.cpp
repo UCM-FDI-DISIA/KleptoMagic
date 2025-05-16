@@ -11,7 +11,9 @@ BulletUtils::BulletUtils()
 		componentes[i] = false;
 	}
 	player = game().getSelectedCharacter();
-	attSpeedCapFlat= bulStat->Created(player);
+	bulStat = new BulletStats();
+	attSpeedCapFlat = bulStat->Created(player);
+	
 }
 
 BulletUtils::~BulletUtils()

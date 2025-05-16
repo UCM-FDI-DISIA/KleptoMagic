@@ -24,8 +24,13 @@ void BulletStats::initComponent() { //falta get entity stats speed
 
 float BulletStats::Created(std::string s)
 {
-	auto* entityStat = Game::Instance()->getMngr()->getComponent<EntityStat>(_ent);
-	damage = entityStat->getStat(EntityStat::Stat::Damage);
+	auto* _mngr = Game::Instance()->getMngr();
+	auto* player = _mngr->getHandler(ecs::hdlr::PLAYER);
+	if (player != nullptr) {
+		auto* entityStat = _mngr->getComponent<EntityStat>(player);
+		damage = entityStat->getStat(EntityStat::Stat::Damage);
+	}
+	else { damage = 15; }
 	if(s=="ROGUE")
 	{
 		speed = 10;
@@ -120,11 +125,17 @@ void BulletStats::enemyStats(int i)
 
 void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool pierc, int bull, float slowt, float slows, float stunt, float dott, float dots)
 {
+	auto* _mngr = Game::Instance()->getMngr();
+	auto* player = _mngr->getHandler(ecs::hdlr::PLAYER);
 #ifdef _DEBUG
 	std::cout << _tim->currRealTime();
 #endif
 	speed = spe;
-	damage = dmg;
+	if (player != nullptr) {
+		auto* entityStat = _mngr->getComponent<EntityStat>(player);
+		damage = entityStat->getStat(EntityStat::Stat::Damage);
+	}
+	else { damage = dmg; }
 	distance = dist;
 	size = siz;
 	piercing = pierc;
