@@ -60,7 +60,7 @@ private:
 	float attSpeedCapFlat=250;
 	float attSpeedCapMul = 1;
 	std::string player;
-	BulletStats* bulStat = new BulletStats();
+	BulletStats* bulStat;
 	DungeonFloor* _dungeonfloor = nullptr;
 };
 
