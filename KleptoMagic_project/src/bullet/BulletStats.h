@@ -20,6 +20,11 @@ public:
 	float getSize() { return size*sizeMul; }
 	bool getPiercing() { return piercing; }
 	int getBull() { return bullets; }
+	float getSlowT() { return slowT; }
+	float getSlowS() { return slowS; }
+	float getStun() { return stunT; }
+	float getDotT() { return DotT; }
+	float getDotS() { return DotS; }
 	void changeSpeedflat(int i) { speed += i; refreshDuration();}
 	void changeSpeedMul(float i) { speedMul+=i; refreshDuration();}
 	void changeDamageflat(int i) { damage += i; }
@@ -32,7 +37,7 @@ public:
 	void changeBullets(int b) { bullets += b; }
 	void refreshDuration() { duration = distance / speed; }
 	//void setStats(float spe,float dmg,float dist,float siz,bool pierc);
-	void refreshStats(float spe,float dmg,float dist,float siz,bool pierc, int bull);
+	void refreshStats(float spe,float dmg,float dist,float siz,bool pierc, int bull, float slowt,float slows,float stunt,float dott,float dots);
 
 private:
 	float speed;
@@ -46,6 +51,11 @@ private:
 	float duration;
 	bool piercing;
 	int bullets = 1;
+	float slowT=0; 
+	float slowS=0; 
+	float stunT=0;
+	float DotT=0;
+	float DotS=0;
 	VirtualTimer* _tim= new VirtualTimer();
 	EntityStat* _eStat;
 };

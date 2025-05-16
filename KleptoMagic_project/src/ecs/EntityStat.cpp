@@ -7,7 +7,7 @@ EntityStat::EntityStat(float health, float shld, float speed, float dmg, float a
     damage = damageIni;
     attackSpeed = attackSpeedIni;
 
-    movementSpeedMult = damageMult = attackSpeedMult = 1;
+    movementSpeedMult =movementSpeedDebuff= damageMult = attackSpeedMult = 1;
 	//iniStat = initial;
 	//endStat = initial;
 	////se setean a su minimo
@@ -105,4 +105,9 @@ void EntityStat::ChangeMulti(float mult, Stat stat)
         throw "No hay multiplicador de shield";
         break;
     }
+}
+
+void EntityStat::UpdateDebuff(float sDebuff)
+{
+    movementSpeedDebuff = sDebuff;
 }

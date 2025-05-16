@@ -1,6 +1,5 @@
 #include "../ecs/Component.h"
 #include "../sdlutils/SDLUtils.h"
-#include "EntityStat.h"
 #include "../ecs/Manager.h"
 #include <array>
 

@@ -9,13 +9,12 @@
 #include "../ecs/Game.h"
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/NewInputHandler.h"
-
 #include "EnemyHitted.h"
-
 #include "../render/ImageWithFrames.h"
 #include "../bullet/BulletStats.h"
 #include "../bullet/HomingComponent.h"
 #include "../map/DungeonFloor.h"
+#include "../player/StatusEffect.h"
 #include "../room/TileCollisionChecker.h"
 class BulletUtils 
 {

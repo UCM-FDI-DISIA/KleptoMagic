@@ -24,11 +24,12 @@ void BulletStats::initComponent() { //falta get entity stats speed
 
 float BulletStats::Created(std::string s)
 {
-	
+	auto* entityStat = Game::Instance()->getMngr()->getComponent<EntityStat>(_ent);
+	damage = entityStat->getStat(EntityStat::Stat::Damage);
 	if(s=="ROGUE")
 	{
 		speed = 10;
-		damage = 15;
+		
 		distance = 20000;
 		size = 10;
 		piercing = false;
@@ -38,7 +39,7 @@ float BulletStats::Created(std::string s)
 	}
 	else if(s=="KNIGHT"){
 		speed = 5;
-		damage = 15;
+		
 		distance = 50;
 		size = 150;
 		piercing = true;
@@ -47,7 +48,7 @@ float BulletStats::Created(std::string s)
 	}
 	else if(s=="ALCHEMIST"){
 		speed = 2.5;
-		damage = 15;
+		
 		distance = 20000;
 		size = 40;
 		piercing = false;
@@ -56,7 +57,7 @@ float BulletStats::Created(std::string s)
 	}
 	else if(s=="HUNTER"){
 		speed = 5;
-		damage = 15;
+		
 		distance = 999999;
 		size = 50;
 		piercing = true;
@@ -67,10 +68,12 @@ float BulletStats::Created(std::string s)
 }
 void BulletStats::enemyStats(int i)
 {
+	auto* entityStat = Game::Instance()->getMngr()->getComponent<EntityStat>(_ent);
+	damage = entityStat->getStat(EntityStat::Stat::Damage);
 	if(i==0)
 	{
 		speed = 5;
-		damage = 15;
+		
 		distance = 50;
 		size = 150;
 		piercing = true;
@@ -80,7 +83,7 @@ void BulletStats::enemyStats(int i)
 	else if(i==1)
 	{
 		speed = 10;
-		damage = 15;
+		
 		distance = 20000;
 		size = 100;
 		piercing = false;
@@ -88,7 +91,7 @@ void BulletStats::enemyStats(int i)
 	}else if(i==2)
 	{
 		speed = 10;
-		damage = 15;
+		
 		distance = 20000;
 		size = 100;
 		bullets = 7;
@@ -97,7 +100,7 @@ void BulletStats::enemyStats(int i)
 	}
 	else if (i == 3) {
 		speed = 3;
-		damage = 15;
+		
 		distance = 9000;
 		size = 100;
 		piercing = false;
@@ -105,7 +108,7 @@ void BulletStats::enemyStats(int i)
 	}
 	else if (i == 4) {
 		speed = 2;
-		damage = 15;
+		
 		distance = 6000;
 		size = 100;
 		piercing = false;
@@ -115,7 +118,7 @@ void BulletStats::enemyStats(int i)
 	//continuar cuando haya mas enemigos
 }
 
-void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool pierc, int bull)
+void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool pierc, int bull, float slowt, float slows, float stunt, float dott, float dots)
 {
 #ifdef _DEBUG
 	std::cout << _tim->currRealTime();
@@ -126,8 +129,14 @@ void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool
 	size = siz;
 	piercing = pierc;
 	bullets = bull;
+	slowT = slowt;
+	slowS = slows;
+	stunT = stunt;
+	DotT = dott;
+	DotS = dots;
 	refreshDuration();
 }
+
 void BulletStats::update()
 {
 	
