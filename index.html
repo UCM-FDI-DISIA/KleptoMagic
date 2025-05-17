@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Página Web con Pestañas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1a1a2e, #3d2c8d);
+            color: white;
+        }
+        header {
+            background-image: url('./asset/mainMenu.png');
+            background-size: cover +10;
+            background-position: left center +10;
+            height: 110vh;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding-left: 2%;
+            border-bottom: 4px solid #7d4a9a;
+        }
+        header h1 {
+            background-color: rgba(26, 26, 46, 0.7);
+            padding: 20px 40px;
+            border-radius: 12px;
+            font-size: 2.5em;
+            color: #e0c3fc;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(90deg, #6a0572, #9d50bb);
+        }
+        nav button {
+            background: linear-gradient(45deg, #4a2c6f, #7a4fbf);
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin: 2px;
+            border-radius: 15px;
+            transition: background 0.3s, transform 0.2s;
+            font-weight: bold;
+            font-style: italic;
+        }
+        nav button:hover {
+            background: linear-gradient(45deg, #7a4fbf, #b786ff);
+            transform: scale(1.05);
+            color: #1a1a2e;
+        }
+        nav button.active {
+            background: linear-gradient(45deg, #e0c3fc, #a891d3);
+            color: #1a1a2e;
+        }
+        section {
+            display: none;
+            padding: 20px;
+        }
+        section.active {
+            display: block;
+        }
+        section video {
+            display: block;
+            margin: 0 auto;
+            width: 800px;
+            height: 450px;
+            border-radius: 10px;
+            border: 2px solid #7d4a9a;
+        }
+        footer {
+            background: linear-gradient(90deg, #4a2c6f, #7a4fbf);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: bold;
+            font-style: italic;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+    </header>
+
+    <nav>
+        <button onclick="showTab('trailer')" class="active">Trailer</button>
+        <button onclick="showTab('controles')">Controles</button>
+        <button onclick="showTab('lore')">Lore</button>
+        <button onclick="showTab('sobre-nosotros')">Sobre Nosotros</button>
+    
+    </nav>
+
+    <section id="trailer" class="active">
+        <video controls>
+            <source src="./asset/trailer.mp4" type="video/mp4" />
+            Tu navegador no soporta la etiqueta de video.
+        </video>
+    </section>
+
+    <section id="controles" style="font-weight: bold; font-style: italic; font-size: 1.5em; text-align: center;">
+        <h2 style="font-weight: bold; font-style: italic; font-size: 2em; margin-bottom: 15px;">Controles</h2>
+        <p>Utiliza las siguientes teclas para interactuar:</p>
+        <ul style="display: inline-block; text-align: left; margin: 0 auto; padding-left: 0; list-style-position: inside;">
+            <li><b>W:</b> Mover hacia adelante</li>
+            <li><b>A:</b> Mover a la izquierda</li>
+            <li><b>S:</b> Mover hacia atrás</li>
+            <li><b>D:</b> Mover a la derecha</li>
+            <li><b>Mouse:</b> Apuntar</li>
+            <li><b>Boton Derecho del Mouse:</b> Disparar</li>
+        </ul>
+    </section>
+
+    <section id="sobre-nosotros" style="font-weight: bold; font-style: italic; font-size: 1.5em; text-align: center;">
+        <h2 style="font-weight: bold; font-style: italic; font-size: 2em; margin-bottom: 15px;">Sobre Nosotros</h2>
+        <p>Somos un equipo de estudiantes del Grado de Desarrollo de VideoJuegos de la UCM y queremos animaros y agradeceros por descargaros nuestro juego.</p>
+    </section>
+
+    <section id="lore" style="font-weight: bold; font-style: italic; font-size: 1.5em; text-align: center;">
+        <h2 style="font-weight: bold; font-style: italic; font-size: 2em; margin-bottom: 15px;">Lore</h2>
+        <p>En un mundo donde la magia lo es todo, un grupo de ladrones se meten en la casa de unos magos con el fin de robar toda la magia posible con el fin de quedarsela</p>
+    </section>
+
+    <footer>
+        <p>Grado en Desarrollo de Videojuegos &middot; <a target="_blank" href="http://informatica.ucm.es">Facultad de
+            Informática</a> &middot; <a target="_blank" href="http://www.ucm.es">UCM</a></p>
+    </footer>
+
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('nav button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
