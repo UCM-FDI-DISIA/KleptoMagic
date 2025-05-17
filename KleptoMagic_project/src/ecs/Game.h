@@ -82,6 +82,15 @@ public:
 	void popState();
 	void pushState(GameState* state);
 
+	void setEndResult(bool result) 
+	{
+		endResult = result;
+	}
+	bool getResult() 
+	{
+		return endResult;
+	}
+
 private:
 	Game();
 	ecs::Manager* _mngr;
@@ -94,6 +103,8 @@ private:
 	void createItems();
 	// Para menu de seleccion de personajes
 	std::string selectedCharacter;
+
+	bool endResult;
 };
 
 inline Game& game() {
