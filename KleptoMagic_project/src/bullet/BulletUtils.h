@@ -9,10 +9,12 @@
 #include "../ecs/Game.h"
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/NewInputHandler.h"
+#include "EnemyHitted.h"
 #include "../render/ImageWithFrames.h"
 #include "../bullet/BulletStats.h"
 #include "../bullet/HomingComponent.h"
 #include "../map/DungeonFloor.h"
+#include "../player/StatusEffect.h"
 #include "../room/TileCollisionChecker.h"
 class BulletUtils 
 {
@@ -25,7 +27,7 @@ public:
 	void update();
 	void render();
 	void reset();
-	void hit(Entity* target);
+	void hit(Entity* target,Entity* bullet);
 	void pressed();
 	void enemyShoot(Transform* enemyTR,int i);
 	void BossManyDirectinons(Transform* bossTR, Vector2D v);
@@ -58,7 +60,7 @@ private:
 	float attSpeedCapFlat=250;
 	float attSpeedCapMul = 1;
 	std::string player;
-	BulletStats* bulStat = new BulletStats();
+	BulletStats* bulStat;
 	DungeonFloor* _dungeonfloor = nullptr;
 };
 

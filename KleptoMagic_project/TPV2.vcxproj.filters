@@ -32,6 +32,7 @@
     <ClCompile Include="src\state\RunningState.cpp" />
     <ClCompile Include="src\utils\Collisions.cpp" />
     <ClCompile Include="src\render\Image.cpp" />
+    <ClCompile Include="src\enemies\GhostComponent.cpp" />
     <ClCompile Include="src\player\PlayerCtrl.cpp" />
     <ClCompile Include="src\room\ObjectInfo.cpp" />
     <ClCompile Include="src\render\ImageWithFrames.cpp" />
@@ -43,6 +44,10 @@
     <ClCompile Include="src\map\RoomStorage.cpp" />
     <ClCompile Include="src\map\Tilemap.cpp" />
     <ClInclude Include="src\map\Tilemap.h" />
+    <ClCompile Include="src\Class\ObjectInfo.cpp" />
+    <ClCompile Include="src\Class\UndeadArcherCMPS.cpp" />
+    <ClCompile Include="src\Class\LivingArmorCMP.cpp" />
+    <ClCompile Include="src\Class\NecromancerComponent.cpp" />
     <ClCompile Include="src\room\TileCollisionChecker.cpp" />
     <ClCompile Include="src\ecs\Transform.cpp" />
     <ClCompile Include="src\room\MoveThroughRooms.cpp" />
@@ -87,6 +92,7 @@
     <ClInclude Include="src\ecs\Manager.h" />
     <ClInclude Include="src\state\GameOverState.h" />
     <ClInclude Include="src\state\GameState.h" />
+    <ClInclude Include="src\enemies\GhostComponent.h" />
     <ClInclude Include="src\state\NewGameState.h" />
     <ClInclude Include="src\state\NewRoundState.h" />
     <ClInclude Include="src\state\PausedState.h" />
@@ -115,20 +121,40 @@
     <ClInclude Include="src\utils\ptr_iterator.h" />
     <ClInclude Include="src\utils\Singleton.h" />
     <ClInclude Include="src\utils\Vector2D.h" />
+    <ClInclude Include="src\Class\StatusEffect.h" />
+    <ClInclude Include="src\Class\Button.h" />
+    <ClInclude Include="src\Class\TimerCountdown.h" />
+    <ClInclude Include="src\Class\EventHandler.h" />
+    <ClInclude Include="src\Class\MovementCtrl.h" />
+    <ClInclude Include="src\Class\Transform.h" />
     <ClInclude Include="src\ecs\Component.h" />
     <ClInclude Include="src\ecs\ecs.h" />
     <ClInclude Include="src\ecs\ecs_defs.h" />
     <ClInclude Include="src\ecs\ecs_defs_example.h" />
     <ClInclude Include="src\ecs\Entity.h" />
     <ClInclude Include="src\ecs\Manager.h" />
+    <ClInclude Include="src\Class\InputManager.h" />
+    <ClInclude Include="src\game\GameOverState.h" />
+    <ClInclude Include="src\game\GameState.h" />
+    <ClInclude Include="src\game\NewGameState.h" />
+    <ClInclude Include="src\game\NewRoundState.h" />
+    <ClInclude Include="src\game\PausedState.h" />
+    <ClInclude Include="src\game\RunningState.h" />
     <ClInclude Include="src\utils\Collisions.h" />
+    <ClInclude Include="src\Class\Image.h" />
+    <ClInclude Include="src\Class\PlayerCtrl.h" />
     <ClInclude Include="src\room\ObjectInfo.h" />
+    <ClInclude Include="src\Class\ImageWithFrames.h" />
+    <ClInclude Include="src\Class\BulletStats.h" />
+    <ClInclude Include="src\Class\DestroyOnBorder.h" />
     <ClInclude Include="src\utils\StringUtils.h" />
     <ClInclude Include="src\map\DungeonFloor.h" />
     <ClInclude Include="src\map\DungeonRoom.h" />
     <ClInclude Include="src\map\RoomStorage.h" />
     <ClInclude Include="src\map\Tilemap.h" />
     <ClInclude Include="src\astar\astar.hpp" />
+    <ClInclude Include="src\Class\ObjectInfo.h" />
+    <ClInclude Include="src\Class\EnemyHitted.h" />
     <ClInclude Include="src\enemies\UndeadArcherCMPS.h" />
     <ClInclude Include="src\room\TileCollisionChecker.h" />
     <ClInclude Include="src\room\MoveThroughRooms.h" />
@@ -144,7 +170,6 @@
     <ClInclude Include="src\enemies\enemyHoming.h" />
     <ClInclude Include="src\render\WeaponImage.h" />
     <ClInclude Include="src\render\AnimatorComponent.h" />
-    <ClInclude Include="src\enemies\GhostCMP.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />

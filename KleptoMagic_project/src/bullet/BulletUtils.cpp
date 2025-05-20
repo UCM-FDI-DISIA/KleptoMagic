@@ -11,7 +11,9 @@ BulletUtils::BulletUtils()
 		componentes[i] = false;
 	}
 	player = game().getSelectedCharacter();
-	attSpeedCapFlat= bulStat->Created(player);
+	bulStat = new BulletStats();
+	attSpeedCapFlat = bulStat->Created(player);
+	
 }
 
 BulletUtils::~BulletUtils()
@@ -46,11 +48,17 @@ void BulletUtils::reset()
 	}
 }
 
-void BulletUtils::hit(Entity* targ) {
+void BulletUtils::hit(Entity* targ,Entity* bullet) {
 	auto* _mngr = game().getMngr();
-
-	EntityStat* _sts = _mngr->getComponent<EntityStat>(targ);
-	_sts->ChangeStat(-1 * bulStat->getDamage(), EntityStat::Stat::HealthCurrent);
+	auto* enemyhitted = _mngr->getComponent<EnemyHitted>(bullet);
+	if (enemyhitted->AddEnemy(targ)) {
+		EntityStat* _sts = _mngr->getComponent<EntityStat>(targ);
+		_sts->ChangeStat(-1 * bulStat->getDamage(), EntityStat::Stat::HealthCurrent);
+		auto* effects = _mngr->getComponent<StatusEffect>(targ);
+		effects->AddStatus(StatusEffect::slow, bulStat->getSlowS(), bulStat->getSlowT());
+		effects->AddStatus(StatusEffect::dot, bulStat->getDotS(), bulStat->getDotT());
+		effects->AddStatus(StatusEffect::stun,0 , bulStat->getStun());
+	}
 }
 
 void BulletUtils::pressed()
@@ -176,7 +184,7 @@ void BulletUtils::IndividualShotP(Vector2D v)
 
 	auto _bullets = _mngr->addEntity(ecs::grp::BULLET);
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
-	stats->refreshStats(bulStat->getSpeed(), bulStat->getDamage(), bulStat->getDistance(), bulStat->getSize(), bulStat->getPiercing(), bulStat->getBull());
+	stats->refreshStats(bulStat->getSpeed(), bulStat->getDamage(), bulStat->getDistance(), bulStat->getSize(), bulStat->getPiercing(), bulStat->getBull(), bulStat->getSlowT(), bulStat->getSlowS(), bulStat->getStun(),bulStat->getDotT(), bulStat->getDotS());
 	Vector2D vel = v * stats->getSpeed();
 	float rot = atan2(vel.getY(), vel.getX()) * 180.0f / M_PI ;
 	std::cout << rot << '\n';
@@ -184,6 +192,8 @@ void BulletUtils::IndividualShotP(Vector2D v)
 	_bulletsTR->init(Vector2D(_tr->getPos().getX() + _tr->getWidth() / 2, _tr->getPos().getY() + _tr->getHeight() / 2) - Vector2D(stats->getSize() / 2, stats->getSize() / 2), vel, stats->getSize(), stats->getSize(), rot);
 	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1, 0);
 	_mngr->addComponent<DestroyOnBorder>(_bullets);
+	_mngr->addComponent<EnemyHitted>(_bullets);
+	//_mngr->addComponent<>
 	for (int i = 0; i < componentes.size(); i++)
 	{
 		if (componentes[i]) { checkComponent(i, _bullets); }
@@ -194,6 +204,7 @@ void BulletUtils::IndividualShotP(Vector2D v)
 		tilechecker->init(true, _bulletsTR, _dungeonfloor);
 		_bulletsTR->initTileChecker(tilechecker);
 	}
+
 }
 
 void BulletUtils::IndividualShotH(Vector2D v, Transform* tr)

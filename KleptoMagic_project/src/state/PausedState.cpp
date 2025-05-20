@@ -32,7 +32,6 @@ void PausedState::enter() {
 	// Crear el boton Resume
 	resumeTexture = new Texture(sdlutils().renderer(), "resources/images/resume.png");
 	homeTexture = new Texture(sdlutils().renderer(), "resources/images/home.png");
-	endTexture = new Texture(sdlutils().renderer(), "resources/images/quit.png");
 
 	float btnWidth = resumeTexture->width() / 4;
 	float btnHeight = resumeTexture->height() / 4;
@@ -50,9 +49,6 @@ void PausedState::enter() {
 		}
 		game().pushState(new NewGameState());
 		}, Vector2D(playBtnX, playBtnY + 100), Vector2D(btnWidth, btnHeight), homeTexture, "button");
-	endButton = new Button([this]() {
-		game().pushState(new GameOverState());
-		}, Vector2D(playBtnX, playBtnY + 180), Vector2D(btnWidth, btnHeight), endTexture, "button");
 
 #ifdef _DEBUG
 	std::cout << "Resume button: w=" << resumeTexture->width()
@@ -90,9 +86,8 @@ void PausedState::update() {
 
 		resumeButton->update(); // Detecta si fue presionado
 		homeButton->update();
-		endButton->update();
 
-		if (resumeButton->isPressed() || homeButton->isPressed() || endButton->isPressed()) {
+		if (resumeButton->isPressed() || homeButton->isPressed()) {
 			exit = true; // Salimos del estado pausado
 		}
 
@@ -106,7 +101,6 @@ void PausedState::update() {
 		title->render(dest);
 		resumeButton->render();
 		homeButton->render();
-		endButton->render();
 
 		// present new frame
 		sdlutils().presentRenderer();

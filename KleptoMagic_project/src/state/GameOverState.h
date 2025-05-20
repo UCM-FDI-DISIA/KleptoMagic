@@ -18,6 +18,9 @@ private:
 	Button* homeButton;
 	Texture* homeTexture;
 
+	Texture* winText;
+	Texture* loseText;
+
 	// Heredado vía GameState
 	void leave() override;
 };

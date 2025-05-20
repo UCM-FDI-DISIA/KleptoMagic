@@ -17,6 +17,9 @@ void GameOverState::enter() {
 
 	homeTexture = new Texture(sdlutils().renderer(), "resources/images/home.png");
 
+	winText = new Texture(sdlutils().renderer(), "resources/images/winText.png");
+	loseText = new Texture(sdlutils().renderer(), "resources/images/loseText.png");
+
 	float btnWidth = homeTexture->width() / 4;
 	float btnHeight = homeTexture->height() / 4;
 
@@ -58,6 +61,20 @@ void GameOverState::update() {
 
 		// Render background picture
 		background->render({ 0, 0, sdlutils().width(), sdlutils().height() });
+
+		// Render win or lose text based on game result
+		float textWidth = winText->width() / 4;
+		float textHeight = winText->height() / 4;
+		float textX = (sdlutils().width() - textWidth) / 2;
+		float textY = (sdlutils().height() - textHeight) / 2 - 50;
+
+		if (game().getResult()) {
+			winText->render({ (int)textX + 20, (int)textY, (int)textWidth, (int)textHeight });
+		}
+		else {
+			loseText->render({ (int)textX - 25, (int)textY, (int)textWidth, (int)textHeight });
+		}
+
 		homeButton->render();
 
 		// present new frame

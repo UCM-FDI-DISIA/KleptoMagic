@@ -22,7 +22,7 @@ public:
 	void Reset();
 	void ChangeStat(float add, Stat stat);
 	void ChangeMulti(float mult , Stat stat);
-
+	void UpdateDebuff(float sDebuff);
 	//void initComponent() override;
 	void update() override;
 
@@ -32,7 +32,7 @@ public:
 		switch (stat) {
 		case Stat::HealthTotal: return healthTotal;
 		case Stat::HealthCurrent: return healthCurrent;
-		case Stat::MovementSpeed: return movementSpeed * movementSpeedMult;
+		case Stat::MovementSpeed: return movementSpeed * movementSpeedMult*movementSpeedDebuff;
 		case Stat::Damage: return damage * damageMult;
 		case Stat::AttackSpeed: return attackSpeed * attackSpeedMult;
 		case Stat::Shield: return shield;
@@ -57,7 +57,7 @@ private:
 	//Velocidad de movimiento (podria ser negativa? XD)
 	float movementSpeed;
 	float movementSpeedMult;
-
+	float movementSpeedDebuff;
 	//Daño
 	float damage;
 	float damageMult;
