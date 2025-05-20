@@ -6,30 +6,43 @@
 #include "../ecs/EntityStat.h"
 #include <vector>
 
+using namespace std;
+
+enum UpgradeTypes {
+
+
+};
+
 #pragma once
 class PickableCMP : public ecs::Component
 {
 private:
 	enum UpgradeType
 	{
-
+		HealthTotal,
+		HealthCurrent,
+		MovementSpeedBase,
+		DamageBase,
+		AttackSpeedBase,
+		Shield,
+		MovementSpeedMult,
+		DamageMult,
+		AttackSpeedMult
 	};
 
 	EntityStat* _playerStats;	//puntero a los stats del player
 
-	EntityStat::Stat _upgradeType;	// indica que stat es afectado
-	bool _isMult = false,	// indica la adicion es para el multiplicador o el sumador
-		_expirable = false;			// indica si el upgrade desaparece pasado un tiempo
-	float _value;
+	bool _expirable = false;	// indica si el upgrade desaparece pasado un tiempo
+	vector<float> _upgradeValues;	// vector que incluye los valores de todos upgrades
 	
-	void playerColision();
+	void upgradePlayer();
 
 public:
 	__CMPID_DECL__(ecs::cmp::PICKABLECMP);
 
-	PickableCMP(EntityStat::Stat upgradeType, float value, bool isMult);
+	PickableCMP(vector<float> upgradeValues);
 	void initComponent() override;
-	void collideWithPlayer();
+	void playerCollision();
 
 };
 

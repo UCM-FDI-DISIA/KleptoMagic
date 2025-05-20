@@ -18,6 +18,7 @@
 #include "../enemies/UndeadArcherCMPS.h"
 #include "../room/MinigameGeneratorComponent.h"
 #include "../ecs/EntityStat.h"
+#include "../room/PickableCMP.h"
 
 RunningState::RunningState() : _timer(300), minigame(nullptr) {
 #ifdef _DEBUG
@@ -111,18 +112,9 @@ void RunningState::update() {
 		bullet->update();
 		dungeonfloor->update();
 
-		
-
 		// checking collisions
 		colission_thisframe = false;
 		checkCollisions();
-
-
-		if (colission_thisframe )
-		{
-		
-		
-		}
 
 		// clear screen
 		sdlutils().clearRenderer(build_sdlcolor(0x000000FF));
@@ -206,13 +198,14 @@ void RunningState::update() {
 
 void RunningState::checkCollisions() {
 
-	auto _tr = game().getMngr()->getComponent<Transform>(game().getMngr()->getHandler(ecs::hdlr::PLAYER));
+	auto _mngr = game().getMngr();
+	auto _tr = _mngr->getComponent<Transform>(game().getMngr()->getHandler(ecs::hdlr::PLAYER));
 
 	for (auto enemy : game().getMngr()->getEntities(ecs::grp::ENEMY))
 	{
-		if(game().getMngr()->isAlive(enemy))
+		if(_mngr->isAlive(enemy))
 		{
-			auto* enemy_transform = game().getMngr()->getComponent<Transform>(enemy);
+			auto* enemy_transform = _mngr->getComponent<Transform>(enemy);
 			if (Collisions::collides(
 			_tr->getPos(),_tr->getWidth(),_tr->getHeight(),
 		    enemy_transform->getPos(),enemy_transform->getWidth(),enemy_transform->getHeight()) && !colission_thisframe)
@@ -220,20 +213,29 @@ void RunningState::checkCollisions() {
 				colission_thisframe = true;
 			}
 
-			for (auto bullet : game().getMngr()->getEntities(ecs::grp::BULLET)) {
-				auto bullet_tr = game().getMngr()->getComponent<Transform>(bullet);
+			for (auto bullet : _mngr->getEntities(ecs::grp::BULLET)) {
+				auto bullet_tr = _mngr->getComponent<Transform>(bullet);
 
 				if(Collisions::collides(
 					enemy_transform->getPos(), enemy_transform->getWidth(), enemy_transform->getHeight(),
 					bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe) 
 				{
-					auto* enemy_stats = game().getMngr()->getComponent<EntityStat>(enemy);
-					auto* bullet_stats = game().getMngr()->getComponent<BulletStats>(bullet);
+					auto* enemy_stats = _mngr->getComponent<EntityStat>(enemy);
+					auto* bullet_stats = _mngr->getComponent<BulletStats>(bullet);
 
 					enemy_stats->ChangeStat(-1 * bullet_stats->getDamage(), EntityStat::Stat::HealthCurrent);
-
 				}
 			}
+		}
+	}
+
+	for (auto* upgrade : game().getMngr()->getEntities(ecs::grp::UPGRRADE)) 
+	{
+		if(game().getMngr()->isAlive(upgrade))
+		{
+			auto* upgrade_cmp = game().getMngr()->getComponent<PickableCMP>(upgrade);
+			upgrade_cmp->playerCollision();
+			game().getMngr()->setAlive(upgrade, false);
 		}
 	}
 }

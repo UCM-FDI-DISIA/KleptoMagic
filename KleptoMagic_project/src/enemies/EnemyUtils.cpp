@@ -7,7 +7,7 @@
 #include "../enemies/SlimeComponents.h"
 #include "../enemies/UndeadArcherCMPS.h"
 #include "../enemies/LivingArmorCMP.h"
-#include "../enemies/GhostComponent.h"
+#include "../enemies/GhostCMP.h"
 #include "../enemies/BossCMP.h"
 #include "../enemies/NecromancerComponent.h"
 
@@ -129,7 +129,12 @@ void EnemyUtils::spawn_GHOST(Vector2D pos) {
 	auto tr = _mngr->addComponent<Transform>(ghost);
 	tr->init(pos, Vector2D(), s, s, 0.0f);
 	_mngr->addComponent<Image>(ghost, &sdlutils().images().at("bifrutas"));
-	_mngr->addComponent<GhostComponent>(ghost);
+	//_mngr->addComponent<GhostComponent>(ghost);
+	//_mngr->addComponent<GhostAtkCmp>
+	//_mngr->addComponent<GhostAt>
+	_mngr->addComponent<GhostAttackComponent>(ghost);
+	_mngr->addComponent<GhostTeleportComponent>(ghost);
+	_mngr->addComponent<GhostAIComponent>(ghost);
 	_mngr->addComponent<EntityStat>(ghost, 4, 0, 5, 5, 5);
 
 }

@@ -115,19 +115,8 @@ namespace ecs
 			// Actualizar temporizador y cambiar direcci�n si es necesario
 			float timer_ = 0.0f;
 			float directionChangeTime_ = 1500.0f;		//Time to change direction in milliseconds
-
-			/*
-			timer_ += sdlutils().virtualTimer().currRealTime();
-			if (timer_ >= directionChangeTime_) {
-				// Generar direcci�n aleatoria
-				vector->CreateVector();
-				Vector2D velocity(vector->direcionX * stat->speed, vector->direcionY * stat->speed);
-				_armorTransform->getVel() = velocity;
-				timer_ = 0;
-				sdlutils().virtualTimer().resetTime();
-			}
-			*/
-			// Posici�n actual del asteroide
+			
+			// Posici�n actual 
 			Vector2D currentPos = _armorTransform->getPos();
 			float distance = (vector->_dest - currentPos).magnitude();
 
@@ -141,12 +130,6 @@ namespace ecs
 			Vector2D dir = (vector->_dest - currentPos).normalize();
 
 			_armorTransform->getVel() = dir;
-
-			// Mover la entidad
-			/*
-			Vector2D newPos = _armorTransform->getPos() + (_armorTransform->getVel() * stat->speed * sdlutils().virtualTimer().currRealTime());
-			_armorTransform->getPos().set(newPos);
-			*/
 		}
 	};
 
@@ -170,10 +153,6 @@ namespace ecs
 			bool isCurrentlyMovingVertically = (velY != 0);
 			bool isCurrentlyMovingRight = (velX < 0);
 			bool isCurrentlyMovingDown = (velY > 0);
-			//cout << velX << "|" << velY << "   " 
-			//	<< isCurrentlyMovingSideways << "|" << isCurrentlyMovingVertically << "   " 
-			//	<< isCurrentlyMovingRight << "|" << isCurrentlyMovingDown << endl;
-
 
 			if (!isFacingDown && !isCurrentlyMovingDown && isCurrentlyMovingVertically) {
 				// up

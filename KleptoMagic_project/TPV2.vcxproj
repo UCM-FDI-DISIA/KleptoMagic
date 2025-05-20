@@ -52,7 +52,6 @@
     <ClCompile Include="src\ecs\Manager.cpp" />
     <ClCompile Include="src\state\GameOverState.cpp" />
     <ClCompile Include="src\state\GameState.cpp" />
-    <ClCompile Include="src\enemies\GhostComponent.cpp" />
     <ClCompile Include="src\state\NewGameState.cpp" />
     <ClCompile Include="src\state\NewRoundState.cpp" />
     <ClCompile Include="src\state\PausedState.cpp" />
@@ -77,6 +76,7 @@
     <ClCompile Include="SRC\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\enemies\GhostCMP.h" />
     <ClInclude Include="src\render\AnimatorComponent.h" />
     <ClInclude Include="src\enemies\enemyHoming.h" />
     <ClInclude Include="src\astar\astar.hpp" />
@@ -119,7 +119,6 @@
     <ClInclude Include="src\ecs\Manager.h" />
     <ClInclude Include="src\state\GameOverState.h" />
     <ClInclude Include="src\state\GameState.h" />
-    <ClInclude Include="src\enemies\GhostComponent.h" />
     <ClInclude Include="src\state\NewGameState.h" />
     <ClInclude Include="src\state\NewRoundState.h" />
     <ClInclude Include="src\state\PausedState.h" />

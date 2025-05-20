@@ -12,11 +12,8 @@ public:
 		HealthTotal,
 		HealthCurrent,
 		MovementSpeed,
-		//MovementSpeedMult,
 		Damage,
-		//DamageMult,
 		AttackSpeed,
-		//AttackSpeedMult,
 		Shield
 	};
 

@@ -2,8 +2,8 @@
 #include "..\ecs\Manager.h"
 
 
-PickableCMP::PickableCMP(EntityStat::Stat upgradeType, float value, bool isMult) 
-	: _upgradeType(upgradeType), _isMult(isMult), _value(value) {
+PickableCMP::PickableCMP(vector<float> upgradeval) : _upgradeValues(upgradeval) {
+
 }
 
 
@@ -13,21 +13,43 @@ void PickableCMP::initComponent() {
 	_playerStats = _mngr->getComponent<EntityStat>(_mngr->getHandler(ecs::hdlr::PLAYER));
 }
 
-void PickableCMP::playerColision() {
-	/*if(_ismult){
-		_playerstats->changemulti(_value, _upgradetype);
+void PickableCMP::upgradePlayer() {
+	for (int i = PickableCMP::UpgradeType::HealthTotal; 
+		i <= PickableCMP::UpgradeType::AttackSpeedMult; i++) {
+		switch (i)
+		{
+		case PickableCMP::HealthTotal:
+			_playerStats->ChangeStat(_upgradeValues[i], EntityStat::Stat::HealthTotal);
+			break;
+		case PickableCMP::HealthCurrent:
+			_playerStats->ChangeStat(_upgradeValues[i], EntityStat::Stat::HealthCurrent);
+			break;
+		case PickableCMP::MovementSpeedBase:
+			_playerStats->ChangeStat(_upgradeValues[i], EntityStat::Stat::MovementSpeed);
+			break;
+		case PickableCMP::DamageBase:
+			_playerStats->ChangeStat(_upgradeValues[i], EntityStat::Stat::Damage);
+			break;
+		case PickableCMP::AttackSpeedBase:
+			_playerStats->ChangeStat(_upgradeValues[i], EntityStat::Stat::AttackSpeed);
+			break;
+		case PickableCMP::Shield:
+			_playerStats->ChangeStat(_upgradeValues[i], EntityStat::Stat::Shield);
+			break;
+		case PickableCMP::MovementSpeedMult:
+			_playerStats->ChangeMulti(_upgradeValues[i], EntityStat::Stat::MovementSpeed);
+			break;
+		case PickableCMP::DamageMult:
+			_playerStats->ChangeMulti(_upgradeValues[i], EntityStat::Stat::Damage);
+			break;
+		case PickableCMP::AttackSpeedMult:
+			_playerStats->ChangeMulti(_upgradeValues[i], EntityStat::Stat::AttackSpeed);
+			break;
+		}
 	}
-	else {
-		_playerstats->changeflat(_value, _upgradetype);
-	}
-		_playerStats->ChangeFlat(_value, _upgradeType);
-	}*/
 }
 
-void PickableCMP::collideWithPlayer(){
-	//upgradePlayer();
-	// destruirse y el resto
-
-
-	delete _ent;
+void PickableCMP::playerCollision(){
+	upgradePlayer();
+	_ent->getMngr()->setAlive(_ent, false);
 }

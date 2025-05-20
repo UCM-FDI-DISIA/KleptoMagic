@@ -20,9 +20,11 @@
 	PLAYERCTRL, \
 	PLAYERANIMCMP, \
 	GAMECTRL, \
-	GHOSTCMP, \
 	BULLETSTATS, \
 	BUTTON, \
+	GHOSTTPCMP, \
+	GHOSTATKCMP, \
+	GHOSTAICMP, \
     SLIMEMOVCMP, \
     SLIMEATKCMP, \
     SLIMESTATCMP, \
@@ -68,7 +70,9 @@
 #define _GRPS_LIST_ \
 	BULLET,\
 	ENEMYBULLET,\
-    ENEMY
+    ENEMY,\
+	UPGRRADE
+
 // Handlers list - must have at least one element
 //
 #define _HDLRS_LIST_ \
