@@ -13,7 +13,6 @@
 #include "../player/PlayerCtrl.h"
 #include "../player/PlayerAnimComponent.h"
 #include "../render/TimerRenderer.h"
-#include "../enemies/GhostComponent.h"
 #include "../enemies/SlimeComponents.h"
 #include "../enemies/UndeadArcherCMPS.h"
 #include "../room/MinigameGeneratorComponent.h"
