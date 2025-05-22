@@ -3,10 +3,14 @@
 #include "../ecs/Manager.h"
 BulletStats::BulletStats()
 {
-	_tim = new VirtualTimer();
-#ifdef _DEBUG
-	std::cout << _tim->currRealTime();
-#endif
+	damage = 0;
+	damageMul = 1;
+	distance = 0;
+	speed = 0;
+	size = 0;
+	piercing = false;
+	explode = false;
+	startTime = 0;
 }
 
 BulletStats::~BulletStats()
@@ -71,7 +75,7 @@ float BulletStats::Created(std::string s)
 		duration = distance / speed;
 		return 700;
 	}
-	
+	startTime = sdlutils().currRealTime();
 }
 void BulletStats::explosionStats(int dam)
 {
@@ -83,6 +87,7 @@ void BulletStats::explosionStats(int dam)
 	duration = distance / speed;
 	piercing = true;
 	explode = false;
+	startTime = sdlutils().currRealTime();
 }
 void BulletStats::enemyStats(int i)
 {
@@ -132,7 +137,7 @@ void BulletStats::enemyStats(int i)
 		piercing = false;
 		duration = distance / speed;
 	}
-	
+	startTime = sdlutils().currRealTime();
 	//continuar cuando haya mas enemigos
 }
 
@@ -140,9 +145,6 @@ void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool
 {
 	auto* _mngr = Game::Instance()->getMngr();
 	auto* player = _mngr->getHandler(ecs::hdlr::PLAYER);
-#ifdef _DEBUG
-	std::cout << _tim->currRealTime();
-#endif
 	speed = spe;
 	if (player != nullptr) {
 		auto* entityStat = _mngr->getComponent<EntityStat>(player);
@@ -160,13 +162,9 @@ void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool
 	DotT = dott;
 	DotS = dots;
 	refreshDuration();
+	startTime = sdlutils().currRealTime();
 }
 
 void BulletStats::update()
 {
-	
-	if (_tim->currRealTime() > duration) 
-	{
-		game().getMngr()->setAlive(this->_ent, false);
-	}
 }

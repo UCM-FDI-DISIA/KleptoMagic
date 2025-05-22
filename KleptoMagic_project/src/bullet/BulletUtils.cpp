@@ -32,6 +32,11 @@ void BulletUtils::update()
 			auto tilecollision = mngr->getComponent<TileCollisionChecker>(bull);
 			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY()) { mngr->setAlive(bull, false); explode(bull); }
 		}
+		if(sdlutils().currRealTime() - bullStat->getSartTime()>bullStat->getDuration())
+		{
+			explode(bull);
+			mngr->setAlive(bull, false);
+		}
 	}
 }
 

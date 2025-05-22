@@ -27,6 +27,8 @@ public:
 	float getStun() { return stunT; }
 	float getDotT() { return DotT; }
 	float getDotS() { return DotS; }
+	float getDuration() { return duration; }
+	float getSartTime() { return startTime; }
 	void changeSpeedflat(int i) { speed += i; refreshDuration();}
 	void changeSpeedMul(float i) { speedMul+=i; refreshDuration();}
 	void changeDamageflat(int i) { damage += i; }
@@ -39,6 +41,7 @@ public:
 	void changeExplode(bool b) { explode = b; }
 	void changeBullets(int b) { bullets += b; }
 	void refreshDuration() { duration = distance / speed; }
+	
 	//void setStats(float spe,float dmg,float dist,float siz,bool pierc);
 	void refreshStats(float spe,float dmg,float dist,float siz,bool pierc,bool explode, int bull, float slowt,float slows,float stunt,float dott,float dots);
 
@@ -60,7 +63,7 @@ private:
 	float stunT=0;
 	float DotT=0;
 	float DotS=0;
-	VirtualTimer* _tim= new VirtualTimer();
+	float startTime;
 	EntityStat* _eStat;
 };
 
