@@ -13,12 +13,14 @@ public:
 	void initComponent() override;
 	void update();
 	float Created(std::string s);
+	void explosionStats(int damage);
 	void enemyStats(int i);
 	float getSpeed() { return speed*speedMul; }
 	float getDamage() { return damage*damageMul; }
 	float getDistance() { return distance*distanceMul; }
 	float getSize() { return size*sizeMul; }
 	bool getPiercing() { return piercing; }
+	bool getExplode() { return explode; }
 	int getBull() { return bullets; }
 	float getSlowT() { return slowT; }
 	float getSlowS() { return slowS; }
@@ -34,10 +36,11 @@ public:
 	void changeSizeflat(int i) { size += i; }
 	void changeSizeMul(float i) { sizeMul += i; }
 	void changePiercing(bool b) { piercing = b; }
+	void changeExplode(bool b) { explode = b; }
 	void changeBullets(int b) { bullets += b; }
 	void refreshDuration() { duration = distance / speed; }
 	//void setStats(float spe,float dmg,float dist,float siz,bool pierc);
-	void refreshStats(float spe,float dmg,float dist,float siz,bool pierc, int bull, float slowt,float slows,float stunt,float dott,float dots);
+	void refreshStats(float spe,float dmg,float dist,float siz,bool pierc,bool explode, int bull, float slowt,float slows,float stunt,float dott,float dots);
 
 private:
 	float speed;
@@ -50,6 +53,7 @@ private:
 	float sizeMul=1;
 	float duration;
 	bool piercing;
+	bool explode;
 	int bullets = 1;
 	float slowT=0; 
 	float slowS=0; 

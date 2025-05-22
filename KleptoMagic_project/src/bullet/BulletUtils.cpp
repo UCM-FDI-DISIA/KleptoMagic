@@ -30,7 +30,7 @@ void BulletUtils::update()
 		if (!bullStat->getPiercing() && _dungeonfloor != nullptr)
 		{
 			auto tilecollision = mngr->getComponent<TileCollisionChecker>(bull);
-			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY()) { mngr->setAlive(bull,false); }
+			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY()) { mngr->setAlive(bull, false); explode(bull); }
 		}
 	}
 }
@@ -109,6 +109,7 @@ void BulletUtils::collided(ecs::entity_t e)
 	{
 		mngr->setAlive(e, false);
 	}
+	explode(e);
 }
 
 void BulletUtils::addComponent(int i)
@@ -126,6 +127,23 @@ void BulletUtils::checkComponent(int i, ecs::entity_t bullet)
 }
 
 
+
+void BulletUtils::explode(ecs::entity_t bullet)
+{
+	
+	auto* _mngr = game().getMngr();
+	auto* _bstat = _mngr->getComponent<BulletStats>(bullet);
+	if (_bstat->getExplode()) {
+		auto* _tr = _mngr->getComponent<Transform>(bullet);
+		auto _bullets = _mngr->addEntity(ecs::grp::BULLET);
+		auto* stats = _mngr->addComponent<BulletStats>(_bullets);
+		stats->explosionStats(_bstat->getDamage());
+		auto _bulletsTR = _mngr->addComponent<Transform>(_bullets);
+		_bulletsTR->init(Vector2D(_tr->getPos().getX() + _tr->getWidth() / 2, _tr->getPos().getY() + _tr->getHeight() / 2) - Vector2D(stats->getSize() / 2, stats->getSize() / 2), { 0,0 }, stats->getSize(), stats->getSize(), 0);
+		_mngr->addComponent<ImageWithFrames>(_bullets, explosion, 1, 1, 0);
+		_mngr->addComponent<EnemyHitted>(_bullets);
+	}
+}
 
 void BulletUtils::shoot()
 {
@@ -154,8 +172,6 @@ void BulletUtils::MultiShot(Vector2D v, BulletStats* stat, bool fromPlayer,Trans
 		
 		dirInRad = (initialAngle+moveAngle*i) * (M_PI / 180);
 		Vector2D dir = { cos(dirInRad),- sin(dirInRad) };
-		if (dir.getX() == v.getX() && dir.getY() == v.getY()) 
-		{ std::cout << "iguales" << '\n'; }
 		if (fromPlayer) {
 			IndividualShotP(dir.normalize());
 		}
@@ -184,10 +200,9 @@ void BulletUtils::IndividualShotP(Vector2D v)
 
 	auto _bullets = _mngr->addEntity(ecs::grp::BULLET);
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
-	stats->refreshStats(bulStat->getSpeed(), bulStat->getDamage(), bulStat->getDistance(), bulStat->getSize(), bulStat->getPiercing(), bulStat->getBull(), bulStat->getSlowT(), bulStat->getSlowS(), bulStat->getStun(),bulStat->getDotT(), bulStat->getDotS());
+	stats->refreshStats(bulStat->getSpeed(), bulStat->getDamage(), bulStat->getDistance(), bulStat->getSize(), bulStat->getPiercing(),bulStat->getExplode(), bulStat->getBull(), bulStat->getSlowT(), bulStat->getSlowS(), bulStat->getStun(), bulStat->getDotT(), bulStat->getDotS());
 	Vector2D vel = v * stats->getSpeed();
 	float rot = atan2(vel.getY(), vel.getX()) * 180.0f / M_PI ;
-	std::cout << rot << '\n';
 	auto _bulletsTR = _mngr->addComponent<Transform>(_bullets);
 	_bulletsTR->init(Vector2D(_tr->getPos().getX() + _tr->getWidth() / 2, _tr->getPos().getY() + _tr->getHeight() / 2) - Vector2D(stats->getSize() / 2, stats->getSize() / 2), vel, stats->getSize(), stats->getSize(), rot);
 	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1, 0);

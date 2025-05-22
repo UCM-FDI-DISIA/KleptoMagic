@@ -35,11 +35,12 @@ float BulletStats::Created(std::string s)
 	{
 		speed = 10;
 		
-		distance = 20000;
+		distance = 7500;
 		size = 10;
 		piercing = false;
 		duration = distance / speed;
 		bullets = 5;
+		explode = true;
 		return 250;
 	}
 	else if(s=="KNIGHT"){
@@ -49,27 +50,39 @@ float BulletStats::Created(std::string s)
 		size = 150;
 		piercing = true;
 		duration = distance / speed;
+		explode = false;
 		return 300;
 	}
 	else if(s=="ALCHEMIST"){
 		speed = 2.5;
-		
-		distance = 20000;
+		explode = true;
+		distance = 10000;
 		size = 40;
 		piercing = false;
 		duration = distance / speed;
 		return 500;
 	}
 	else if(s=="HUNTER"){
-		speed = 5;
-		
-		distance = 999999;
-		size = 50;
+		speed = 20;
+		explode = false;
+		distance = 90000;
+		size = 15;
 		piercing = true;
 		duration = distance / speed;
 		return 700;
 	}
 	
+}
+void BulletStats::explosionStats(int dam)
+{
+	damage = dam;
+	damageMul = 1;
+	size = 120;
+	distance = 75;
+	speed = 1;
+	duration = distance / speed;
+	piercing = true;
+	explode = false;
 }
 void BulletStats::enemyStats(int i)
 {
@@ -123,7 +136,7 @@ void BulletStats::enemyStats(int i)
 	//continuar cuando haya mas enemigos
 }
 
-void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool pierc, int bull, float slowt, float slows, float stunt, float dott, float dots)
+void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool pierc,bool explo, int bull, float slowt, float slows, float stunt, float dott, float dots)
 {
 	auto* _mngr = Game::Instance()->getMngr();
 	auto* player = _mngr->getHandler(ecs::hdlr::PLAYER);
@@ -139,6 +152,7 @@ void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool
 	distance = dist;
 	size = siz;
 	piercing = pierc;
+	explode = explo;
 	bullets = bull;
 	slowT = slowt;
 	slowS = slows;

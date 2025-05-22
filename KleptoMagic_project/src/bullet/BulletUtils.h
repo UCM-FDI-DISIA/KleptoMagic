@@ -49,9 +49,11 @@ public:
 	void setDungeonFloor(DungeonFloor* floor) { _dungeonfloor = floor; }
 	void addBullets(int i) { bulStat->changeBullets(i); }
 private:
+	void explode(ecs::entity_t bullet);
 	VirtualTimer* _tim;
 	constexpr static uint8_t _max_bullets = 20;
 	Texture* tex = &sdlutils().images().at("player_bullet");
+	Texture* explosion= &sdlutils().images().at("enemy_bullet");
 	void shoot();
 	void MultiShot(Vector2D v, BulletStats* stat, bool fromPlayer,Transform* tr = nullptr);
 	void IndividualShotP(Vector2D v);
