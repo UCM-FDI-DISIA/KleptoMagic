@@ -64,6 +64,8 @@ void BulletUtils::hit(Entity* targ,Entity* bullet) {
 		effects->AddStatus(StatusEffect::dot, bulStat->getDotS(), bulStat->getDotT());
 		effects->AddStatus(StatusEffect::stun,0 , bulStat->getStun());
 	}
+	auto* stat = _mngr->getComponent<BulletStats>(bullet);
+	if (!stat->getPiercing()) { explode(bullet); }
 }
 
 void BulletUtils::pressed()
