@@ -1,6 +1,7 @@
 #include "Tilemap.h"
 #include <iostream>
 #include "DungeonRoom.h"
+#include "../render/Camera.h"
 
 using namespace std;
 
@@ -169,13 +170,14 @@ void Tilemap::render_basic(SDL_Renderer* renderer) {
 }
 
 void Tilemap::render_advanced(SDL_Renderer* renderer) {
+	 
 	for (int x = 0; x < getTilemapWidth(); x++) {
 		for (int y = 0; y < getTilemapHeight(); y++) {
 			SDL_Rect tileRect;
 			tileRect.w = TILE_SIZE;
 			tileRect.h = TILE_SIZE;
-			tileRect.x = (x * TILE_SIZE) + xOffset;
-			tileRect.y = (y * TILE_SIZE) + yOffset;
+			tileRect.x = (x * TILE_SIZE) + xOffset - camOffset.getX();
+			tileRect.y = (y * TILE_SIZE) + yOffset - camOffset.getY();
 			
 			render_tile_with_context(x, y, tileRect);
 

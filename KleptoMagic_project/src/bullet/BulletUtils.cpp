@@ -1,6 +1,6 @@
 #include "BulletUtils.h"
 #include <cmath>
-
+#include "../render/Camera.h"
 
 
 BulletUtils::BulletUtils()
@@ -157,7 +157,7 @@ void BulletUtils::shoot()
 	auto* _mngr = game().getMngr();
 	Transform* _tr = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 	Vector2D playerCenter = {_tr->getPos().getX() + _tr->getWidth() / 2,_tr->getPos().getY() + _tr->getHeight() / 2	};
-	Vector2D aim = input().getAimVector(playerCenter);
+	Vector2D aim = input().getAimVector(playerCenter - camOffset);
 	if (bulStat->getBull() > 1) {
 		MultiShot(aim,bulStat,true);
 	}

@@ -1,4 +1,5 @@
 #include "WeaponImage.h"
+#include "Camera.h"
 
 WeaponImage::WeaponImage() :
     _tex(nullptr), _tr(nullptr), _radius(40.0f), _angleDeg(0), _flip(false), _texRow(0) {}
@@ -18,7 +19,7 @@ void WeaponImage::update() {
         _tr->getPos().getY() + _tr->getHeight() / 2
     };
 
-    Vector2D aim = input().getAimVector(playerCenter);
+    Vector2D aim = input().getAimVector(playerCenter - camOffset);
 
     if (aim.magnitude() > 0) {
         aim = aim.normalize();
@@ -41,7 +42,7 @@ void WeaponImage::render() {
     }
     float w = 32.0f; // Assuming the width of the weapon image is 32 pixels
     float h = 32.0f; // Assuming the height of the weapon image is 32 pixels
-    Vector2D pos = _weaponPos - Vector2D(w / 2, h / 2);
+    Vector2D pos = _weaponPos - Vector2D(w / 2, h / 2) - camOffset;
 
     SDL_Rect dest = build_sdlrect(pos, w, h);
 

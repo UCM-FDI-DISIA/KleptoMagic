@@ -8,6 +8,7 @@
 #include "../sdlutils/macros.h"
 #include "../sdlutils/Texture.h"
 #include "../ecs/Transform.h"
+#include "Camera.h"
 
 Image::Image() :
 		_tr(), _tex() {
@@ -27,8 +28,8 @@ void Image::initComponent() {
 }
 
 void Image::render() {
-
-	SDL_Rect dest = build_sdlrect(_tr->getPos(), _tr->getWidth(),
+	Vector2D screenPos = _tr->getPos() - camOffset;
+	SDL_Rect dest = build_sdlrect(screenPos, _tr->getWidth(),
 			_tr->getHeight());
 
 	assert(_tex != nullptr);

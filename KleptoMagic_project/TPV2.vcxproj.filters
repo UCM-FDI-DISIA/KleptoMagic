@@ -56,6 +56,7 @@
     <ClCompile Include="src\enemies\enemyHoming.cpp" />
     <ClCompile Include="src\render\WeaponImage.cpp" />
     <ClCompile Include="src\render\AnimatorComponent.cpp" />
+    <ClCompile Include="src\render\Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
@@ -145,6 +146,7 @@
     <ClInclude Include="src\enemies\enemyHoming.h" />
     <ClInclude Include="src\render\WeaponImage.h" />
     <ClInclude Include="src\render\AnimatorComponent.h" />
+    <ClInclude Include="src\render\Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />

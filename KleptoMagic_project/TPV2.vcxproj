@@ -23,6 +23,7 @@
     <ClCompile Include="src\enemies\enemyHoming.cpp" />
     <ClCompile Include="src\player\PlayerAnimComponent.cpp" />
     <ClCompile Include="src\enemies\BossCMP.cpp" />
+    <ClCompile Include="src\render\Camera.cpp" />
     <ClCompile Include="src\render\ImageWithFrames.cpp" />
     <ClCompile Include="src\room\PickableCMP.cpp" />
     <ClCompile Include="src\render\WeaponImage.cpp" />
@@ -82,6 +83,7 @@
     <ClInclude Include="src\astar\astar.hpp" />
     <ClInclude Include="src\player\PlayerAnimComponent.h" />
     <ClInclude Include="src\enemies\BossCMP.h" />
+    <ClInclude Include="src\render\Camera.h" />
     <ClInclude Include="src\render\ImageWithFrames.h" />
     <ClInclude Include="src\enemies\LivingArmorCMP.h" />
     <ClInclude Include="src\enemies\NecromancerComponent.h" />

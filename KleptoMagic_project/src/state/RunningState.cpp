@@ -18,6 +18,7 @@
 #include "../room/MinigameGeneratorComponent.h"
 #include "../ecs/EntityStat.h"
 #include "../room/PickableCMP.h"
+#include "../render/Camera.h"
 
 RunningState::RunningState() : _timer(300), minigame(nullptr) {
 #ifdef _DEBUG
@@ -118,6 +119,19 @@ void RunningState::update() {
 		// clear screen
 		sdlutils().clearRenderer(build_sdlcolor(0x000000FF));
 
+		auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
+
+		if (player != nullptr && game().getMngr()->isAlive(player)) {
+			auto tr = game().getMngr()->getComponent<Transform>(player);
+			Vector2D playerCenter = tr->getPos() + Vector2D(tr->getWidth() / 2, tr->getHeight() / 2);
+			camOffset = playerCenter - Vector2D(sdlutils().width() / 2, sdlutils().height() / 2);
+
+#ifdef _DEBUG
+			std::cout << "camOffset: " << camOffset.getX() << ", " << camOffset.getY() << std::endl;
+#endif // _DEBUG
+
+		}
+
 		// render dungeon
 		dungeonfloor->render();
 
@@ -139,7 +153,7 @@ void RunningState::update() {
 		}
 
 		// Mostrar corazones seg�n la vida del jugador
-		auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
+		
 		if (player != nullptr && game().getMngr()->isAlive(player)) {
 			auto stats = game().getMngr()->getComponent<EntityStat>(player);
 			hp = stats->getStat(EntityStat::Stat::HealthCurrent);
@@ -272,6 +286,7 @@ void RunningState::enter()
 		bullet->setDungeonFloor(dungeonfloor);
 		playerutils().createPlayer(pos, s, bullet);
 	}
+	camOffset = Vector2D(0, 0);
 }
 
 void RunningState::leave()
