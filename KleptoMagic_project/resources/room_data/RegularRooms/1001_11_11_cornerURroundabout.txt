@@ -4,8 +4,8 @@ W******WBBB
 T******WBBB
 W***WWWWBBB
 W***HH*WTWW
-W***HH****W
-T***HH****R
+W*s*HH****W
+T***HH**a*R
 W*********W
 WW*******WW
 BWWWWTWWWWB
