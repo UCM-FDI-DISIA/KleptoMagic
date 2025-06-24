@@ -262,7 +262,9 @@ void RunningState::enter()
 	if (gameBGM == nullptr) {
 		gameBGM = Mix_LoadMUS("resources/sound/gameBGM.mp3");
 		if (gameBGM == nullptr) {
+#ifdef _DEBUG
 			std::cerr << "Error cargando la música: " << Mix_GetError() << std::endl;
+#endif
 		}
 	}
 

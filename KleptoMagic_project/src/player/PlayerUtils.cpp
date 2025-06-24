@@ -29,7 +29,9 @@ void PlayerUtils::loadSounds() {
 	alchemistAttackSound = Mix_LoadWAV("resources/sound/alchemistAttack.mp3");
 
 	if (!knightAttackSound || !rogueAttackSound || !hunterAttackSound || !alchemistAttackSound) {
+#ifdef _DEBUG
 		std::cerr << "Error cargando sonidos de ataque: " << Mix_GetError() << std::endl;
+#endif
 	}
 
 	Mix_VolumeChunk(knightAttackSound, 64);
