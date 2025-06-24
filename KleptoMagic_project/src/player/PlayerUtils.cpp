@@ -9,13 +9,68 @@
 #include "../render/WeaponImage.h"
 
 PlayerUtils::PlayerUtils() :
-	_mngr(nullptr), _dungeonfloor(nullptr)
+	_mngr(nullptr), _dungeonfloor(nullptr),
+	knightAttackSound(nullptr), rogueAttackSound(nullptr),
+	hunterAttackSound(nullptr), alchemistAttackSound(nullptr)
 {
 	_character = CHAR_KNIGHT;
+	loadSounds();
 }
 
 PlayerUtils::~PlayerUtils() {
 	destroyPlayer();
+	freeSounds();
+}
+
+void PlayerUtils::loadSounds() {
+	knightAttackSound = Mix_LoadWAV("resources/sound/knightAttack.mp3");
+	rogueAttackSound = Mix_LoadWAV("resources/sound/rogueAttack.mp3");
+	hunterAttackSound = Mix_LoadWAV("resources/sound/hunterButton.wav");
+	alchemistAttackSound = Mix_LoadWAV("resources/sound/alchemistAttack.mp3");
+
+	if (!knightAttackSound || !rogueAttackSound || !hunterAttackSound || !alchemistAttackSound) {
+		std::cerr << "Error cargando sonidos de ataque: " << Mix_GetError() << std::endl;
+	}
+
+	Mix_VolumeChunk(knightAttackSound, 64);
+	Mix_VolumeChunk(rogueAttackSound, 64);
+	Mix_VolumeChunk(hunterAttackSound, 64);
+	Mix_VolumeChunk(alchemistAttackSound, 64);
+}
+
+void PlayerUtils::freeSounds() {
+	if (knightAttackSound) Mix_FreeChunk(knightAttackSound);
+	if (rogueAttackSound) Mix_FreeChunk(rogueAttackSound);
+	if (hunterAttackSound) Mix_FreeChunk(hunterAttackSound);
+	if (alchemistAttackSound) Mix_FreeChunk(alchemistAttackSound);
+
+	knightAttackSound = nullptr;
+	rogueAttackSound = nullptr;
+	hunterAttackSound = nullptr;
+	alchemistAttackSound = nullptr;
+}
+
+void PlayerUtils::playAttackSound() {
+	Mix_Chunk* soundToPlay = nullptr;
+
+	switch (_character) {
+	case CHAR_KNIGHT:
+		soundToPlay = knightAttackSound;
+		break;
+	case CHAR_ROGUE:
+		soundToPlay = rogueAttackSound;
+		break;
+	case CHAR_HUNTER:
+		soundToPlay = hunterAttackSound;
+		break;
+	case CHAR_ALCHEMIST:
+		soundToPlay = alchemistAttackSound;
+		break;
+	}
+
+	if (soundToPlay) {
+		Mix_PlayChannel(-1, soundToPlay, 0);
+	}
 }
 
 bool PlayerUtils::init(Manager* mngr) {

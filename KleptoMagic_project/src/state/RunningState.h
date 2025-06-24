@@ -55,5 +55,5 @@ private:
 	float hp = 0;
 
 	// Música
-	Mix_Music* gameBGM; // Puntero a la música
+	Mix_Music* gameBGM; 
 };

@@ -30,6 +30,7 @@ RunningState::RunningState() : _timer(300), minigame(nullptr) {
 RunningState::~RunningState() {
 
 }
+
 bool RunningState::GMG(bool minigameActive) {
 	ChestQuality chestQuality = ChestQuality::COMMON;
 	MinigameGeneratorComponent _generatorA(&_timer, sdlutils().renderer());
@@ -98,13 +99,10 @@ void RunningState::update() {
 		if (NewInputHandler::Instance()->isActionHeld(Action::SHOOT))
 		{
 			bullet->pressed();
-
 		}
 
 		// update the event handler
 		NewInputHandler::Instance()->update();
-
-		
 
 		// update
 		game().getMngr()->update();
@@ -127,7 +125,7 @@ void RunningState::update() {
 			camOffset = playerCenter - Vector2D(sdlutils().width() / 2, sdlutils().height() / 2);
 
 #ifdef _DEBUG
-			std::cout << "camOffset: " << camOffset.getX() << ", " << camOffset.getY() << std::endl;
+			//std::cout << "camOffset: " << camOffset.getX() << ", " << camOffset.getY() << std::endl;
 #endif // _DEBUG
 
 		}

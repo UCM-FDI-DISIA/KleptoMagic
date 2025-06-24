@@ -70,9 +70,10 @@ void BulletUtils::hit(Entity* targ,Entity* bullet) {
 
 void BulletUtils::pressed()
 {
-	
 	if (_tim->currRealTime() > attSpeedCapFlat*attSpeedCapMul) {
 		shoot();
+		// Reproducir sonido de ataque
+		playerutils().playAttackSound();
 	}
 }
 
