@@ -260,6 +260,20 @@ void RunningState::enter()
 	std::cout << "Entrando en RunningState" << std::endl;
 #endif
 
+	// Inicializar la música si no se ha hecho ya
+	if (gameBGM == nullptr) {
+		gameBGM = Mix_LoadMUS("resources/sound/gameBGM.mp3");
+		if (gameBGM == nullptr) {
+			std::cerr << "Error cargando la música: " << Mix_GetError() << std::endl;
+		}
+	}
+
+	// Reproducir la música si no se ha empezado ya
+	if (gameBGM != nullptr) {
+		Mix_VolumeMusic(38);
+		Mix_PlayMusic(gameBGM, 0); // 0 significa que no se repetirá
+	}
+
 	if (controlsTexture == nullptr) {
 		controlsTexture = new Texture(sdlutils().renderer(), "resources/images/controles.png");
 	}
@@ -291,4 +305,5 @@ void RunningState::enter()
 
 void RunningState::leave()
 {
+	Mix_HaltMusic();
 }

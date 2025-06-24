@@ -12,6 +12,7 @@
 #include "../bullet/BulletUtils.h"
 #include "../room/TimerCountdown.h"
 #include "../room/Minigame.h"
+#include <SDL_mixer.h> 
 
 #include <chrono>
 
@@ -52,4 +53,7 @@ private:
 	Texture* hearthTexture;
 	Texture* hearthTotalTexture;
 	float hp = 0;
+
+	// Música
+	Mix_Music* gameBGM; // Puntero a la música
 };
