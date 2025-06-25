@@ -20,6 +20,7 @@
 #include "../room/PickableCMP.h"
 #include "../render/Camera.h"
 
+
 RunningState::RunningState() : _timer(300), minigame(nullptr) {
 #ifdef _DEBUG
 	std::cout << "Nuevo RunningState creado!" << std::endl;
@@ -290,6 +291,7 @@ void RunningState::enter()
 
 	if (player == nullptr || !game().getMngr()->isAlive(player)) {
 		roomstorage = new RoomStorage();
+		itemStorage = new ItemStorage("resources/item_data/objetos.txt");
 		dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
 		auto s = 50.0f;
 		auto x = (sdlutils().width() - s) / 2.0f;
