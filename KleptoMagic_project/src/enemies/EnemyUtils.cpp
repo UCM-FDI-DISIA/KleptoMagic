@@ -13,6 +13,8 @@
 #include "../player/StatusEffect.h"
 #include "../sdlutils/SDLUtils.h"
 #include "../ecs/HealthBarComponent.h"
+#include "../room/PickableCMP.h"
+#include "../room/ObjectInfo.h"
 
 #include <iostream>
 using namespace std;
@@ -54,6 +56,9 @@ void EnemyUtils::spawn_enemy(EnemyNames name, Vector2D pos) {
 	case ENEMY_CHEST:
 		spawn_CHEST(pos); 
 		break;
+	case ENEMY_UPGRADE:
+		spawn_UPGRADE(pos);
+	break;
 	//case ENEMY_SPAWN:
 		//spawn_SPAWN(pos);
 		//break;
@@ -189,6 +194,18 @@ void EnemyUtils::spawn_NECRO(Vector2D pos)
 
 
 }
+
+void EnemyUtils::spawn_UPGRADE(Vector2D pos) 
+{
+	auto upgrade = _mngr->addEntity(ecs::grp::UPGRRADE);
+	auto s = 50.0f;
+	auto tr = _mngr->addComponent<Transform>(upgrade);
+	tr->init(pos, Vector2D(), s, s, 0.0f);
+	_mngr->addComponent<Image>(upgrade, &sdlutils().images().at("star"));
+	//_mngr->addComponent<ObjectInfo>(upgrade, "daño", 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0);
+	_mngr->addComponent<PickableCMP>(upgrade);
+}
+
 void EnemyUtils::necro_spawn(Entity* necro, int x, int y) 
 {
 	auto slime = _mngr->addEntity(ecs::grp::ENEMY);

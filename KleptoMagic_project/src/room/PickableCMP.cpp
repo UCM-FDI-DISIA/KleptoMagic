@@ -6,6 +6,12 @@ PickableCMP::PickableCMP(vector<float> upgradeval) : _upgradeValues(upgradeval) 
 
 }
 
+PickableCMP::PickableCMP() {
+	for(int i = 0; i <= UpgradeType::AttackSpeedMult; i++) {
+		_upgradeValues.push_back(2);
+	}
+}
+
 
 void PickableCMP::initComponent() {
 	auto* _mngr = _ent->getMngr();
@@ -29,6 +35,9 @@ void PickableCMP::upgradePlayer() {
 			break;
 		case PickableCMP::DamageBase:
 			_playerStats->ChangeStat(_upgradeValues[i], EntityStat::Stat::Damage);
+
+			cout << "Daño del player: " << _playerStats->getStat(EntityStat::Stat::Damage) << "\n";
+
 			break;
 		case PickableCMP::AttackSpeedBase:
 			_playerStats->ChangeStat(_upgradeValues[i], EntityStat::Stat::AttackSpeed);

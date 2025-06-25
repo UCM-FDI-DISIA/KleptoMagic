@@ -245,9 +245,17 @@ void RunningState::checkCollisions() {
 	{
 		if(game().getMngr()->isAlive(upgrade))
 		{
-			auto* upgrade_cmp = game().getMngr()->getComponent<PickableCMP>(upgrade);
-			upgrade_cmp->playerCollision();
-			game().getMngr()->setAlive(upgrade, false);
+			auto* upgrade_transform = _mngr->getComponent<Transform>(upgrade);
+
+			if (Collisions::collides(
+				_tr->getPos(), _tr->getWidth(), _tr->getHeight(),
+				upgrade_transform->getPos(), upgrade_transform->getWidth(), upgrade_transform->getHeight()) && !colission_thisframe)
+			{
+				auto* upgrade_cmp = game().getMngr()->getComponent<PickableCMP>(upgrade);
+				upgrade_cmp->playerCollision();
+			}
+
+
 		}
 	}
 }

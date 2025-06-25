@@ -4,6 +4,7 @@
 #include "../ecs/Component.h"
 #include "../ecs/Transform.h"
 #include "../ecs/EntityStat.h"
+#include "../room/ObjectInfo.h"
 #include <vector>
 
 using namespace std;
@@ -41,6 +42,8 @@ public:
 	__CMPID_DECL__(ecs::cmp::PICKABLECMP);
 
 	PickableCMP(vector<float> upgradeValues);
+	PickableCMP();	// generico para debug, no deberia ser usado
+
 	void initComponent() override;
 	void playerCollision();
 

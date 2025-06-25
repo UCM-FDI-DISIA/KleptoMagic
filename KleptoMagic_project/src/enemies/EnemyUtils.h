@@ -24,6 +24,7 @@ protected:
 	void spawn_CHEST(Vector2D pos);
 	void spawn_NECRO(Vector2D pos);
 	void spawn_SPAWN(Vector2D pos,Entity* );
+	void spawn_UPGRADE(Vector2D pos);
 
 public:
 	void setDungeonFloor(DungeonFloor* floor) { _dungeonfloor = floor; }
