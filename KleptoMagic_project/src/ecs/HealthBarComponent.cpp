@@ -28,8 +28,8 @@ void HealthBarComponent::update() {
 void HealthBarComponent::render() {
     if (stats_ == nullptr || enemyTransform_ == nullptr) return;
 
-    // Posición absoluta del enemigo (sin camOffset)
-    Vector2D enemyPos = enemyTransform_->getPos();
+    // Posición del enemigo teniendo en cuenta el offset de la cámara
+    Vector2D enemyPos = enemyTransform_->getPos() - camOffset;
 
     // Calculamos posición de la barra relativa al enemigo
     SDL_Rect dest;
