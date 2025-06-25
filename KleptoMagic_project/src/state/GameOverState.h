@@ -5,6 +5,7 @@
 #include "../sdlutils/Texture.h"
 #include "../ecs/Game.h"
 #include "../ecs/Button.h"
+#include <SDL_mixer.h> 
 
 class GameOverState : virtual public GameState {
 public:
@@ -23,4 +24,9 @@ private:
 
 	// Heredado vía GameState
 	void leave() override;
+
+	// Sonidos
+	Mix_Chunk* winSound;
+	Mix_Chunk* loseSound;
+	bool soundPlayed;
 };

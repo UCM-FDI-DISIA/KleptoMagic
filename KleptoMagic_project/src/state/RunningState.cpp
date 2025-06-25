@@ -192,8 +192,8 @@ void RunningState::update() {
 
 		if (hp <= 0 || _timer.getTimeLeft() <= 0)
 		{
-			game().pushState(new GameOverState());
 			game().setEndResult(false);
+			game().pushState(new GameOverState());
 			exit = true;
 		}
 
