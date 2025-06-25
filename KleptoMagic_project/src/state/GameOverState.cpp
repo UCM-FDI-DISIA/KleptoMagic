@@ -3,7 +3,7 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/NewInputHandler.h"
 
-GameOverState::GameOverState() {
+GameOverState::GameOverState() : winSound(nullptr), loseSound(nullptr), soundPlayed(false) {
 
 }
 GameOverState::~GameOverState() {
@@ -11,6 +11,40 @@ GameOverState::~GameOverState() {
 }
 
 void GameOverState::enter() {
+	// Cargar sonidos
+	winSound = Mix_LoadWAV("resources/sound/win.mp3");
+	loseSound = Mix_LoadWAV("resources/sound/lose.mp3");
+
+	// Debug: Verificar el resultado antes de reproducir
+	bool gameResult = game().getResult();
+#ifdef _DEBUG
+	std::cout << "GAME RESULT IN ENTER: " << gameResult << std::endl;
+#endif
+
+	// Reproducir sonido según el resultado
+	if (!soundPlayed) {
+		if (gameResult) { // VICTORIA
+			if (winSound != nullptr) {
+				Mix_HaltMusic(); // Detener música anterior
+				Mix_VolumeChunk(winSound, 64);
+				Mix_PlayChannel(-1, winSound, 0);
+#ifdef _DEBUG
+				std::cout << "Playing WIN sound" << std::endl;
+#endif
+			}
+		}
+		else { // DERROTA
+			if (loseSound != nullptr) {
+				Mix_HaltMusic(); // Detener música anterior
+				Mix_VolumeChunk(loseSound, 64);
+				Mix_PlayChannel(-1, loseSound, 0);
+#ifdef _DEBUG
+				std::cout << "Playing LOSE sound" << std::endl;
+#endif
+			}
+		}
+		soundPlayed = true;
+	}
 
 	// Cargar el fondo
 	background = new Texture(sdlutils().renderer(), "resources/images/endMenu.png");
@@ -89,4 +123,5 @@ void GameOverState::update() {
 
 void GameOverState::leave()
 {
+	soundPlayed = false;
 }
