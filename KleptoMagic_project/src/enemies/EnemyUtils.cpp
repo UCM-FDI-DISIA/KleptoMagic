@@ -12,6 +12,7 @@
 #include "../enemies/NecromancerComponent.h"
 #include "../player/StatusEffect.h"
 #include "../sdlutils/SDLUtils.h"
+#include "../ecs/HealthBarComponent.h"
 
 #include <iostream>
 using namespace std;
@@ -69,7 +70,11 @@ void EnemyUtils::spawn_SLIME(Vector2D pos) {
 	_mngr->addComponent<SlimeVectorComponent>(slime);
 	_mngr->addComponent<SlimeStatComponent>(slime);
 	_mngr->addComponent<SlimeAttackComponent>(slime);
-	_mngr->addComponent<EntityStat>(slime, 4, 0, 5, 5, 5);
+	//_mngr->addComponent<EntityStat>(slime, 4, 0, 5, 5, 5);
+
+	// Añadimos EntityStat y lo guardamos para la barra de vida
+	auto stats = _mngr->addComponent<EntityStat>(slime, 4, 0, 5, 5, 5);
+
 	auto mSlime = _mngr->addComponent<SlimeMovementComponent>(slime);
 	mSlime->init(_dungeonfloor); 
 
@@ -82,6 +87,10 @@ void EnemyUtils::spawn_SLIME(Vector2D pos) {
 	tr->initTileChecker(tilechecker);
 	_mngr->addComponent<StatusEffect>(slime);
 
+	// Añadimos la barra de vida
+	Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
+	Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
+	_mngr->addComponent<HealthBarComponent>(slime, fullHealth, emptyHealth, stats, -15.0f);
 }
 
 void EnemyUtils::spawn_ARCHER(Vector2D pos) {
@@ -101,7 +110,6 @@ void EnemyUtils::spawn_ARCHER(Vector2D pos) {
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);
 	_mngr->addComponent<StatusEffect>(archer);
-
 }
 
 void EnemyUtils::spawn_ARMOR(Vector2D pos) {

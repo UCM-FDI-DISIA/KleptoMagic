@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ecs\HealthBarComponent.cpp" />
     <ClCompile Include="src\render\AnimatorComponent.cpp" />
     <ClCompile Include="src\enemies\enemyHoming.cpp" />
     <ClCompile Include="src\player\PlayerAnimComponent.cpp" />
@@ -78,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Class\EnemyHitted.h" />
+    <ClInclude Include="src\ecs\HealthBarComponent.h" />
     <ClInclude Include="src\render\AnimatorComponent.h" />
     <ClInclude Include="src\enemies\enemyHoming.h" />
     <ClInclude Include="src\astar\astar.hpp" />
