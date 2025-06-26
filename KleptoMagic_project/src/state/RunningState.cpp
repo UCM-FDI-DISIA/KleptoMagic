@@ -19,6 +19,7 @@
 #include "../ecs/EntityStat.h"
 #include "../room/PickableCMP.h"
 #include "../render/Camera.h"
+#include "../enemies/BossCMP.h"
 
 
 RunningState::RunningState() : _timer(300), minigame(nullptr) {
@@ -190,9 +191,25 @@ void RunningState::update() {
 			}
 		}
 
+		bool bossDefeated = false;
+		for (auto enemy : game().getMngr()->getEntities(ecs::grp::ENEMY)) {
+			if (game().getMngr()->hasComponent<BossStatComponent>(enemy)) {
+				auto stats = game().getMngr()->getComponent<EntityStat>(enemy);
+				if (stats != nullptr && stats->isDead()) {
+					bossDefeated = true;
+					break;
+				}
+			}
+		}
+
 		if (hp <= 0 || _timer.getTimeLeft() <= 0)
 		{
 			game().setEndResult(false);
+			game().pushState(new GameOverState());
+			exit = true;
+		}
+		else if (bossDefeated) {
+			game().setEndResult(true); 
 			game().pushState(new GameOverState());
 			exit = true;
 		}
