@@ -9,11 +9,6 @@
 
 using namespace std;
 
-enum UpgradeTypes {
-
-
-};
-
 #pragma once
 class PickableCMP : public ecs::Component
 {

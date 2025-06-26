@@ -242,7 +242,7 @@ void RunningState::checkCollisions() {
 		}
 	}
 
-	for (auto* upgrade : game().getMngr()->getEntities(ecs::grp::UPGRRADE)) 
+	for (auto* upgrade : game().getMngr()->getEntities(ecs::grp::OBJECT)) 
 	{
 		if(game().getMngr()->isAlive(upgrade))
 		{

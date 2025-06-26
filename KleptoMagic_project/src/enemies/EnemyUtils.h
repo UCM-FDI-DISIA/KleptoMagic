@@ -4,7 +4,6 @@
 #include "../../src/utils/Singleton.h"
 #include "../utils/Vector2D.h"
 
-
 using namespace ecs;
 
 class EnemyUtils : virtual public EnemyFacade, public Singleton<EnemyUtils> {
@@ -24,7 +23,6 @@ protected:
 	void spawn_CHEST(Vector2D pos);
 	void spawn_NECRO(Vector2D pos);
 	void spawn_SPAWN(Vector2D pos,Entity* );
-	void spawn_UPGRADE(Vector2D pos);
 
 public:
 	void setDungeonFloor(DungeonFloor* floor) { _dungeonfloor = floor; }

@@ -27,6 +27,7 @@
     <ClCompile Include="src\render\Camera.cpp" />
     <ClCompile Include="src\render\ImageWithFrames.cpp" />
     <ClCompile Include="src\room\ItemStorage.cpp" />
+    <ClCompile Include="src\room\ObjectUtils.cpp" />
     <ClCompile Include="src\room\PickableCMP.cpp" />
     <ClCompile Include="src\render\WeaponImage.cpp" />
     <ClCompile Include="src\enemies\EnemyFacade.cpp" />
@@ -91,6 +92,7 @@
     <ClInclude Include="src\enemies\LivingArmorCMP.h" />
     <ClInclude Include="src\enemies\NecromancerComponent.h" />
     <ClInclude Include="src\room\ItemStorage.h" />
+    <ClInclude Include="src\room\ObjectUtils.h" />
     <ClInclude Include="src\room\PickableCMP.h" />
     <ClInclude Include="src\render\WeaponImage.h" />
     <ClInclude Include="src\enemies\EnemyFacade.h" />

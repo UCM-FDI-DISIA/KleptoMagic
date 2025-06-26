@@ -89,10 +89,6 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type), open
 				name = ENEMY_NECRO;
 				roomEnemies.push_back(spawnData_enemy(Vector2D{ (float)i, (float)row }, name));
 				break;
-			case 'u':
-				name = ENEMY_UPGRADE;
-				roomEnemies.push_back(spawnData_enemy(Vector2D{ (float)i, (float)row }, name));
-				break;
 			}
 		}
 		row++;
