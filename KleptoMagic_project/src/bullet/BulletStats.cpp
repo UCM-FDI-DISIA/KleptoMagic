@@ -92,7 +92,7 @@ void BulletStats::explosionStats(int dam)
 void BulletStats::enemyStats(int i)
 {
 	auto* entityStat = Game::Instance()->getMngr()->getComponent<EntityStat>(_ent);
-	damage = entityStat->getStat(EntityStat::Stat::Damage);
+	//damage = entityStat->getStat(EntityStat::Stat::Damage);
 	if(i==0)
 	{
 		speed = 5;
@@ -128,6 +128,7 @@ void BulletStats::enemyStats(int i)
 		size = 100;
 		piercing = false;
 		duration = distance / speed;
+		damage = 1;
 	}
 	else if (i == 4) {
 		speed = 2;
@@ -136,6 +137,7 @@ void BulletStats::enemyStats(int i)
 		size = 100;
 		piercing = false;
 		duration = distance / speed;
+		damage = 1;
 	}
 	startTime = sdlutils().currRealTime();
 	//continuar cuando haya mas enemigos

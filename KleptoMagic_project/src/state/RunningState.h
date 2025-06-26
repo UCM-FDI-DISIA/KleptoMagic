@@ -12,6 +12,7 @@
 #include "../bullet/BulletUtils.h"
 #include "../room/TimerCountdown.h"
 #include "../room/Minigame.h"
+#include "../room/ItemStorage.h"
 #include <SDL_mixer.h> 
 
 #include <chrono>
@@ -31,6 +32,8 @@ private:
 
 	RoomStorage* roomstorage;
 	DungeonFloor* dungeonfloor;
+
+	ItemStorage* itemStorage = nullptr;
 
 	// Heredado via GameState
 	void enter() override;
