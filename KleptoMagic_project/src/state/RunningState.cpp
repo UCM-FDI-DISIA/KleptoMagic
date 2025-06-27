@@ -30,7 +30,47 @@ RunningState::RunningState() : _timer(300), minigame(nullptr) {
 	
 
 RunningState::~RunningState() {
+	// Liberar texturas
+	if (controlsTexture != nullptr) {
+		delete controlsTexture;
+		controlsTexture = nullptr;
+	}
+	if (hearthTexture != nullptr) {
+		delete hearthTexture;
+		hearthTexture = nullptr;
+	}
+	if (hearthTotalTexture != nullptr) {
+		delete hearthTotalTexture;
+		hearthTotalTexture = nullptr;
+	}
 
+	// Liberar música
+	if (gameBGM != nullptr) {
+		Mix_FreeMusic(gameBGM);
+		gameBGM = nullptr;
+	}
+
+	// Liberar otros recursos
+	if (bullet != nullptr) {
+		delete bullet;
+		bullet = nullptr;
+	}
+	if (roomstorage != nullptr) {
+		delete roomstorage;
+		roomstorage = nullptr;
+	}
+	if (dungeonfloor != nullptr) {
+		delete dungeonfloor;
+		dungeonfloor = nullptr;
+	}
+	if (itemStorage != nullptr) {
+		delete itemStorage;
+		itemStorage = nullptr;
+	}
+	if (minigame != nullptr) {
+		delete minigame;
+		minigame = nullptr;
+	}
 }
 
 bool RunningState::GMG(bool minigameActive) {

@@ -7,7 +7,18 @@ GameOverState::GameOverState() : winSound(nullptr), loseSound(nullptr), soundPla
 
 }
 GameOverState::~GameOverState() {
+	delete background;
+	delete homeTexture;
+	delete winText;
+	delete loseText;
+	delete homeButton;
 
+	if (winSound != nullptr) {
+		Mix_FreeChunk(winSound);
+	}
+	if (loseSound != nullptr) {
+		Mix_FreeChunk(loseSound);
+	}
 }
 
 void GameOverState::enter() {

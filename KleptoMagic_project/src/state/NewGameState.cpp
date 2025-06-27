@@ -47,18 +47,11 @@ NewGameState::NewGameState() {
 }
 
 NewGameState::~NewGameState() {
-     for (auto& btn : buttons) {
-        delete btn;
-    }
-    buttons.clear();
-
     delete background;
     delete buttonTexture;
     delete exitButtonTexture;
 
-    background = nullptr;
-    buttonTexture = nullptr;
-    exitButtonTexture = nullptr;
+    buttons.clear();
 }
 
 void NewGameState::update() {
