@@ -71,6 +71,7 @@ namespace ecs
 			speed = 2;
 			attackspeed = 2;
 			damage = 1;
+			attackrange = 25;
 		}
 	};
 	class SlimeVectorComponent : public Component
@@ -159,6 +160,7 @@ namespace ecs
 		bool atack = false;
 		float height, width;
 		float attackspeed = 6;
+		float attackRange;
 
 	public:
 		__CMPID_DECL__(ecs::cmp::SLIMEATKCMP);
@@ -170,9 +172,9 @@ namespace ecs
 			auto* _mngr = _ent->getMngr();
 			_slimeTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
-			 //stat = static_cast<SlimeStatComponent*>(_ent->getMngr()->getComponent<SlimeStatComponent>(_ent));
 			stat = _mngr->getComponent<SlimeStatComponent>(_ent);
 			attackspeed -= stat->attackspeed;
+			attackRange = stat->attackrange;
 		}
 
 		void update() override
@@ -180,7 +182,14 @@ namespace ecs
 			auto now = std::chrono::steady_clock::now();
 			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
 
-			if (elapsedTime >= attackspeed)
+			// Calculamos distancia al jugador
+			float distanceToPlayer = std::hypot(
+				_slimeTransform->getPos().getX() - _player->getPos().getX(),
+				_slimeTransform->getPos().getY() - _player->getPos().getY()
+			);
+
+			// Solo atacar si está dentro del rango
+			if (distanceToPlayer <= attackRange && elapsedTime >= attackspeed)
 			{
 				height = _slimeTransform->getHeight();
 				width = _slimeTransform->getWidth();
@@ -197,9 +206,7 @@ namespace ecs
 				if (_mngr->isAlive(player)) {
 					auto* playerStats = _mngr->getComponent<EntityStat>(player);
 					if (playerStats != nullptr) {
-						std::cout << "Vida antes del ataque: " << playerStats->getStat(EntityStat::Stat::HealthCurrent) << std::endl;
 						playerStats->ChangeStat(-stat->damage, EntityStat::Stat::HealthCurrent);
-						std::cout << "Vida después del ataque: " << playerStats->getStat(EntityStat::Stat::HealthCurrent) << std::endl;
 					}
 				}
 			}
