@@ -70,10 +70,8 @@ namespace ecs
 			life = 10;
 			speed = 2;
 			attackspeed = 2;
-			damage = 3;
-
+			damage = 1;
 		}
-
 	};
 	class SlimeVectorComponent : public Component
 	{
@@ -160,7 +158,7 @@ namespace ecs
 		SlimeStatComponent* stat;
 		bool atack = false;
 		float height, width;
-		float attackspeed = 10 ;
+		float attackspeed = 6;
 
 	public:
 		__CMPID_DECL__(ecs::cmp::SLIMEATKCMP);
@@ -177,29 +175,6 @@ namespace ecs
 			attackspeed -= stat->attackspeed;
 		}
 
-		/*void update() override
-		{
-			auto now = std::chrono::steady_clock::now();
-			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
-
-			if (elapsedTime >= attackspeed)
-			{
-				height = _slimeTransform->getHeight();
-				width = _slimeTransform->getWidth();
-
-				_slimeTransform->setHeight(height * 1.5);
-				_slimeTransform->setWidth(width * 1.5);
-
-				lastAttackTime = now;
-				atack = true;
-			}
-			else if (elapsedTime >= 0.5 && atack)
-			{
-				_slimeTransform->setHeight(height);
-				_slimeTransform->setWidth(width);
-				atack = false;
-			}
-		}*/
 		void update() override
 		{
 			auto now = std::chrono::steady_clock::now();
@@ -228,7 +203,7 @@ namespace ecs
 					}
 				}
 			}
-			else if (elapsedTime >= 0.5f && atack)
+			else if (elapsedTime >= 0.2f && atack)
 			{
 				_slimeTransform->setHeight(height);
 				_slimeTransform->setWidth(width);

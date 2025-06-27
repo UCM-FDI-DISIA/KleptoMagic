@@ -91,7 +91,7 @@ void PlayerUtils::createPlayer(Vector2D pos, float size, BulletUtils* bullet) {
 	else if (_character == CHAR_ROGUE) charStartFrame = 12;
 	else if (_character == CHAR_ALCHEMIST) charStartFrame = 18;
 	_mngr->addComponent<ImageWithFrames>(player, &sdlutils().images().at("player_sprites"), (float)75, 6, 4, charStartFrame, 1);
-	_mngr->addComponent<EntityStat>(player, 8, 1, 10, 1, 1);
+	_mngr->addComponent<EntityStat>(player, 3, 1, 10, 1, 1);
 	_mngr->addComponent<PlayerCtrl>(player);
 	_mngr->addComponent<WeaponImage>(player, &sdlutils().images().at("weapon_sprites"), 32.0f, int(_character));
 	auto tilechecker = game().getMngr()->addComponent<TileCollisionChecker>(player);
