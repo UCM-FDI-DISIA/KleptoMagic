@@ -73,7 +73,7 @@ void EnemyUtils::spawn_SLIME(Vector2D pos) {
 	//_mngr->addComponent<EntityStat>(slime, 4, 0, 5, 5, 5);
 
 	// Añadimos EntityStat y lo guardamos para la barra de vida
-	auto stats = _mngr->addComponent<EntityStat>(slime, 12, 0, 5, 5, 5);
+	auto stats = _mngr->addComponent<EntityStat>(slime, 12, 0, 1, 5, 5);
 
 	auto mSlime = _mngr->addComponent<SlimeMovementComponent>(slime);
 	mSlime->init(_dungeonfloor); 

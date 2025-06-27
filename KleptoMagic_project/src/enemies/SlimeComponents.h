@@ -7,12 +7,12 @@
 #include <chrono>
 #include "../map/DungeonFloor.h"
 #include "../render/AnimatorComponent.h"
+#include "../ecs/EntityStat.h"
 
 namespace ecs
 {
 	class StatComponent : public Component
 	{
-
 	public:
 		__CMPID_DECL__(ecs::cmp::STATCMP);
 		float life = 0;
@@ -100,11 +100,8 @@ namespace ecs
 		}
 	};
 
-
-
 	class SlimeMovementComponent : public Component
 	{
-		
 		Transform* _slimeTransform;
 		Transform* _player;
 		SlimeStatComponent* stat;
@@ -126,10 +123,8 @@ namespace ecs
 		}
 
 		void update() override
-
 		{			
 			auto vector = static_cast<SlimeVectorComponent*>(_ent->getMngr()->getComponent<SlimeVectorComponent>(_ent));
-				
 
 				if (vector && stat && _slimeTransform)
 				{
@@ -155,14 +150,11 @@ namespace ecs
 						_slimeTransform->getVel() = velocity;
 					}
 				}
-			
-
 		}
 	};  
 
 	class SlimeAttackComponent : public Component
-	{
-		
+	{	
 		Transform* _slimeTransform;
 		Transform* _player;
 		SlimeStatComponent* stat;
@@ -185,12 +177,8 @@ namespace ecs
 			attackspeed -= stat->attackspeed;
 		}
 
-		void update() override
+		/*void update() override
 		{
-
-
-	
-			
 			auto now = std::chrono::steady_clock::now();
 			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
 
@@ -211,16 +199,43 @@ namespace ecs
 				_slimeTransform->setWidth(width);
 				atack = false;
 			}
-			
+		}*/
+		void update() override
+		{
+			auto now = std::chrono::steady_clock::now();
+			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
 
+			if (elapsedTime >= attackspeed)
+			{
+				height = _slimeTransform->getHeight();
+				width = _slimeTransform->getWidth();
+
+				_slimeTransform->setHeight(height * 1.5f);
+				_slimeTransform->setWidth(width * 1.5f);
+
+				lastAttackTime = now;
+				atack = true;
+
+				// DAÑO AL JUGADOR
+				auto* _mngr = _ent->getMngr();
+				auto player = _mngr->getHandler(ecs::hdlr::PLAYER);
+				if (_mngr->isAlive(player)) {
+					auto* playerStats = _mngr->getComponent<EntityStat>(player);
+					if (playerStats != nullptr) {
+						std::cout << "Vida antes del ataque: " << playerStats->getStat(EntityStat::Stat::HealthCurrent) << std::endl;
+						playerStats->ChangeStat(-stat->damage, EntityStat::Stat::HealthCurrent);
+						std::cout << "Vida después del ataque: " << playerStats->getStat(EntityStat::Stat::HealthCurrent) << std::endl;
+					}
+				}
+			}
+			else if (elapsedTime >= 0.5f && atack)
+			{
+				_slimeTransform->setHeight(height);
+				_slimeTransform->setWidth(width);
+				atack = false;
+			}
 		}
-
-
-
-
 	};
-
-
 
 	class SlimeAnimComponent : public AnimatorComponent {
 		friend AnimatorComponent;
