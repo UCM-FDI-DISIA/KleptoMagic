@@ -143,7 +143,7 @@ void BulletUtils::explode(ecs::entity_t bullet)
 	auto* _bstat = _mngr->getComponent<BulletStats>(bullet);
 	if (_bstat->getExplode()) {
 		auto* _tr = _mngr->getComponent<Transform>(bullet);
-		auto _bullets = _mngr->addEntity(ecs::grp::BULLET);
+		auto _bullets = _mngr->addEntity(_mngr->groupId(bullet));
 		auto* stats = _mngr->addComponent<BulletStats>(_bullets);
 		stats->explosionStats(_bstat->getDamage());
 		auto _bulletsTR = _mngr->addComponent<Transform>(_bullets);
@@ -236,7 +236,7 @@ void BulletUtils::IndividualShotH(Vector2D v, Transform* tr)
 	Transform* _tr = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 
 
-	auto _bullets = _mngr->addEntity(ecs::grp::BULLET);
+	auto _bullets = _mngr->addEntity(ecs::grp::ENEMYBULLET);
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
 	stats->enemyStats(2);
 	Vector2D vel = Vector2D(_tr->getPos() - tr->getPos()).normalize() * stats->getSpeed();

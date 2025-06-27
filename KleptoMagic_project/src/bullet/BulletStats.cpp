@@ -101,7 +101,7 @@ void BulletStats::enemyStats(int i)
 		size = 150;
 		piercing = true;
 		duration = distance / speed;
-		
+		explode = false;
 	}
 	else if(i==1)
 	{
@@ -111,15 +111,17 @@ void BulletStats::enemyStats(int i)
 		size = 100;
 		piercing = false;
 		duration = distance / speed;
+		explode = false;
 	}else if(i==2)
 	{
 		speed = 10;
-		
+		damage = 1;
 		distance = 20000;
 		size = 100;
 		bullets = 7;
 		piercing = false;
 		duration = distance / speed;
+		explode = false;
 	}
 	else if (i == 3) {
 		speed = 3;
@@ -129,6 +131,7 @@ void BulletStats::enemyStats(int i)
 		piercing = false;
 		duration = distance / speed;
 		damage = 1;
+		explode = false;
 	}
 	else if (i == 4) {
 		speed = 2;
@@ -138,6 +141,7 @@ void BulletStats::enemyStats(int i)
 		piercing = false;
 		duration = distance / speed;
 		damage = 1;
+		explode = false;
 	}
 	startTime = sdlutils().currRealTime();
 	//continuar cuando haya mas enemigos
