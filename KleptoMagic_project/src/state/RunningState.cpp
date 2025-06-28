@@ -328,14 +328,13 @@ void RunningState::checkCollisions() {
 	for (auto bullets : _mngr->getEntities(ecs::grp::ENEMYBULLET)) {
 		auto bullet_tr = _mngr->getComponent<Transform>(bullets);
 
-		for (auto* upgrade : game().getMngr()->getEntities(ecs::grp::OBJECT))
-			if (Collisions::collides(
-				_tr->getPos(), _tr->getWidth(), _tr->getHeight(),
-				bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe)
-			{
-				//auto* enemy_stats = _mngr->getComponent<EntityStat>(pla);
-				auto* player_stats = _mngr->getComponent<EntityStat>(_mngr->getHandler(ecs::hdlr::PLAYER));
-				auto* bullet_stats = _mngr->getComponent<BulletStats>(bullets);
+		if (Collisions::collides(
+			_tr->getPos(), _tr->getWidth(), _tr->getHeight(),
+			bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe)
+		{
+			//auto* enemy_stats = _mngr->getComponent<EntityStat>(pla);
+			auto* player_stats = _mngr->getComponent<EntityStat>(_mngr->getHandler(ecs::hdlr::PLAYER));
+			auto* bullet_stats = _mngr->getComponent<BulletStats>(bullets);
 
 				player_stats->ChangeStat(-1 * bullet_stats->getDamage(), EntityStat::Stat::HealthCurrent);
 				bullet->collided(bullets);
