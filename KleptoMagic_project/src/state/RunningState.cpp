@@ -328,6 +328,7 @@ void RunningState::checkCollisions() {
 	for (auto bullets : _mngr->getEntities(ecs::grp::ENEMYBULLET)) {
 		auto bullet_tr = _mngr->getComponent<Transform>(bullets);
 
+	for (auto* upgrade : game().getMngr()->getEntities(ecs::grp::OBJECT)) 
 		if (Collisions::collides(
 			_tr->getPos(), _tr->getWidth(), _tr->getHeight(),
 			bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe)
@@ -341,13 +342,21 @@ void RunningState::checkCollisions() {
 		}
 
 	}
-	for (auto* upgrade : game().getMngr()->getEntities(ecs::grp::UPGRRADE)) 
+	for (auto* upgrade : game().getMngr()->getEntities(ecs::grp::OBJECT))
 	{
 		if(game().getMngr()->isAlive(upgrade))
 		{
-			auto* upgrade_cmp = game().getMngr()->getComponent<PickableCMP>(upgrade);
-			upgrade_cmp->playerCollision();
-			game().getMngr()->setAlive(upgrade, false);
+			auto* upgrade_transform = _mngr->getComponent<Transform>(upgrade);
+
+			if (Collisions::collides(
+				_tr->getPos(), _tr->getWidth(), _tr->getHeight(),
+				upgrade_transform->getPos(), upgrade_transform->getWidth(), upgrade_transform->getHeight()) && !colission_thisframe)
+			{
+				auto* upgrade_cmp = game().getMngr()->getComponent<PickableCMP>(upgrade);
+				upgrade_cmp->playerCollision();
+			}
+
+
 		}
 	}
 }
@@ -392,6 +401,7 @@ void RunningState::enter()
 		roomstorage = new RoomStorage();
 		itemStorage = new ItemStorage("resources/item_data/objetos.txt");
 		dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
+		ObjectUtils::Instance()->updateStorage(itemStorage);
 		auto s = 50.0f;
 		auto x = (sdlutils().width() - s) / 2.0f;
 		auto y = (sdlutils().height() - s) / 2.0f;

@@ -44,6 +44,10 @@ bool Game::initGame() {
 		std::cerr << "Error initializing PlayerUtils" << std::endl;
 		return false;
 	}
+	if(!ObjectUtils::Init(_mngr)) {
+		std::cerr << "Error initializing ObjectUtils" << std::endl;
+		return false;
+	}
 
 	pushState(new NewGameState());
 

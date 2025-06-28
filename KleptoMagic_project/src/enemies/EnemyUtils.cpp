@@ -195,6 +195,7 @@ void EnemyUtils::spawn_BOSS(Vector2D pos) {
 	Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
 	_mngr->addComponent<HealthBarComponent>(boss, fullHealth, emptyHealth, stats, -15.0f);
 }
+
 void EnemyUtils::spawn_NECRO(Vector2D pos) 
 {
 	auto necro = _mngr->addEntity(ecs::grp::ENEMY);
@@ -218,6 +219,7 @@ void EnemyUtils::spawn_NECRO(Vector2D pos)
 	Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
 	_mngr->addComponent<HealthBarComponent>(necro, fullHealth, emptyHealth, stats, -15.0f);
 }
+
 void EnemyUtils::necro_spawn(Entity* necro, int x, int y) 
 {
 	auto slime = _mngr->addEntity(ecs::grp::ENEMY);
@@ -247,6 +249,7 @@ void EnemyUtils::necro_spawn(Entity* necro, int x, int y)
 	tr->initTileChecker(tilechecker);
 	_mngr->addComponent<StatusEffect>(slime);
 }
+
 /*void EnemyUtils::spawn_SPAWN(Vector2D pos)
 {
 	auto slime = _mngr->addEntity(ecs::grp::ENEMY);

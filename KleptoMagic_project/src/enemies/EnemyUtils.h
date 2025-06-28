@@ -4,7 +4,6 @@
 #include "../../src/utils/Singleton.h"
 #include "../utils/Vector2D.h"
 
-
 using namespace ecs;
 
 class EnemyUtils : virtual public EnemyFacade, public Singleton<EnemyUtils> {

@@ -33,7 +33,6 @@
     <ClCompile Include="src\utils\Collisions.cpp" />
     <ClCompile Include="src\render\Image.cpp" />
     <ClCompile Include="src\player\PlayerCtrl.cpp" />
-    <ClCompile Include="src\room\ObjectInfo.cpp" />
     <ClCompile Include="src\render\ImageWithFrames.cpp" />
     <ClCompile Include="src\bullet\BulletUtils.cpp" />
     <ClCompile Include="src\bullet\BulletStats.cpp" />
@@ -59,6 +58,7 @@
     <ClCompile Include="src\render\Camera.cpp" />
     <ClCompile Include="src\ecs\HealthBarComponent.cpp" />
     <ClCompile Include="src\room\ItemStorage.cpp" />
+    <ClCompile Include="src\room\ObjectUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
@@ -151,6 +151,7 @@
     <ClInclude Include="src\render\Camera.h" />
     <ClInclude Include="src\ecs\HealthBarComponent.h" />
     <ClInclude Include="src\room\ItemStorage.h" />
+    <ClInclude Include="src\room\ObjectUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
