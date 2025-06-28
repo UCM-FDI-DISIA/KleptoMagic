@@ -8,6 +8,16 @@ EndMenuState::EndMenuState(Game* game, Texture* background) : MenuState(game)
 
 }
 
+EndMenuState::~EndMenuState()
+{
+	// No need to delete backgroundTexture, it is managed by the Game class
+   // Delete buttons and other game objects if necessary
+	for (GameObject* gameObject : gameObj)
+	{
+		delete gameObject;
+	}
+	gameObj.clear();
+}
 void EndMenuState::render() const 
 {
 	SDL_Renderer* renderer = game->getRenderer();

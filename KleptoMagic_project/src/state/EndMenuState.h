@@ -14,6 +14,7 @@ private:
 
 public:
 	EndMenuState(Game* game, Texture* backgroundTexture);
+	~EndMenuState();
 	void render() const override;
 };
 #endif //ENDMENUSTATE_H

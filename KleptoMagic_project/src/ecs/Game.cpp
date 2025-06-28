@@ -44,6 +44,10 @@ bool Game::initGame() {
 		std::cerr << "Error initializing PlayerUtils" << std::endl;
 		return false;
 	}
+	if(!ObjectUtils::Init(_mngr)) {
+		std::cerr << "Error initializing ObjectUtils" << std::endl;
+		return false;
+	}
 
 	pushState(new NewGameState());
 
@@ -55,7 +59,12 @@ bool Game::initGame() {
 }
 
 Game::~Game() {
-	delete _mngr;
+
+	// delete all states in the stack
+	while (!_stateStack.empty()) {
+		delete _stateStack.top();
+		_stateStack.pop();
+	}
 
 	// release SLDUtil if the instance was created correctly.
 	if (SDLUtils::HasInstance())
@@ -68,6 +77,9 @@ Game::~Game() {
 	// release PlayerUtils if the instance was created correctly.
 	if (PlayerUtils::HasInstance())
 		PlayerUtils::Release();
+
+	if (_mngr)
+		delete _mngr;
 }
 
 void Game::start() {

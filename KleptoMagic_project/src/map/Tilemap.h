@@ -24,7 +24,7 @@ enum TileType {
 class Tilemap {
 public:
 	Tilemap(vector<vector<char>> tilematrix, DungeonRoom* dungeonroom);
-	~Tilemap() = default;
+	~Tilemap();
 
 	void render(SDL_Renderer* renderer);
 	void update(); 

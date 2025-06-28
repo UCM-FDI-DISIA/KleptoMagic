@@ -18,7 +18,7 @@ PlayerUtils::PlayerUtils() :
 }
 
 PlayerUtils::~PlayerUtils() {
-	destroyPlayer();
+	//destroyPlayer();
 	freeSounds();
 }
 

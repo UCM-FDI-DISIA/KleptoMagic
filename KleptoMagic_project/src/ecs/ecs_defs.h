@@ -74,7 +74,7 @@
 	BULLET,\
 	ENEMYBULLET,\
     ENEMY,\
-	UPGRRADE
+	OBJECT
 
 // Handlers list - must have at least one element
 //

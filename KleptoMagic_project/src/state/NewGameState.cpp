@@ -51,6 +51,10 @@ NewGameState::~NewGameState() {
     delete buttonTexture;
     delete exitButtonTexture;
 
+    //limpiar botones
+	for (auto& button : buttons) {
+		delete button;
+	}
     buttons.clear();
 }
 

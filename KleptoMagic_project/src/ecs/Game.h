@@ -11,8 +11,9 @@
 #include "../utils/Singleton.h"
 #include "../sdlutils/SDLUtils.h"
 #include "../enemies/EnemyUtils.h"
-#include "../state/GameState.h"
 #include "../player/PlayerUtils.h"
+#include "../room/ObjectUtils.h"
+#include "../state/GameState.h"
 #include"../ecs/EventHandler.h"
 
 

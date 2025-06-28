@@ -142,8 +142,16 @@ DungeonRoom::DungeonRoom(string filename, roomType type) : room_type(type), open
 
 DungeonRoom::~DungeonRoom()
 {
-	// Clear tilemap
-	delete tilemap;
+	// Eliminar tilemap de forma segura
+	if (tilemap != nullptr) {
+		delete tilemap;
+		tilemap = nullptr;
+	}
+
+	// Limpiar contenedores
+	roomTiles.clear();
+	roomEnemies.clear();
+	roomEntities.clear();
 }
 
 void DungeonRoom::CreateTilemap() {

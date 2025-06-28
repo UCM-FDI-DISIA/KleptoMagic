@@ -27,7 +27,23 @@ DungeonFloor::DungeonFloor(int minWidth, int minHeight, int maxWidth, int maxHei
 
 DungeonFloor::~DungeonFloor()
 {
+	// Liberar memoria de todas las salas
+	for (int i = 0; i < floor_width; i++) {
+		for (int j = 0; j < floor_height; j++) {
+			if (floorLayout[i][j] != nullptr) {
+				delete floorLayout[i][j];
+				floorLayout[i][j] = nullptr;
+			}
+		}
+	}
 
+	// Limpiar contenedores
+	floorLayout.clear();
+	pathfindLayout.clear();
+
+	// Limpiar referencias externas
+	renderer = nullptr;
+	roomstorage = nullptr;
 }
 
 void DungeonFloor::GenerateFloor(int minWidth, int minHeight, int maxWidth, int maxHeight, int numRooms) {

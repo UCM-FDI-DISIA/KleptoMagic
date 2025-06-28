@@ -24,7 +24,29 @@ RoomStorage::RoomStorage()
 
 RoomStorage::~RoomStorage()
 {
+	// Liberar memoria de todos los punteros en EntranceRooms
+	for (auto room : EntranceRooms) {
+		delete room;
+	}
+	EntranceRooms.clear();
 
+	// Liberar memoria de todos los punteros en RegularRooms
+	for (auto room : RegularRooms) {
+		delete room;
+	}
+	RegularRooms.clear();
+
+	// Liberar memoria de todos los punteros en SpecialRooms
+	for (auto room : SpecialRooms) {
+		delete room;
+	}
+	SpecialRooms.clear();
+
+	// Liberar memoria de todos los punteros en BossRooms
+	for (auto room : BossRooms) {
+		delete room;
+	}
+	BossRooms.clear();
 }
 
 DungeonRoom* RoomStorage::GetRandomEntranceRoom() {
