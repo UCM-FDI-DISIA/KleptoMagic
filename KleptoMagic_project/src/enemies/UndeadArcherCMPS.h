@@ -6,6 +6,7 @@
 #include "../ecs/Transform.h"
 #include "../sdlutils/Texture.h"
 #include "../render/AnimatorComponent.h"
+#include "../bullet/BulletUtils.h"
 #include <chrono>
 
 namespace ecs
@@ -20,9 +21,9 @@ namespace ecs
 			auto* _mngr = _ent->getMngr();
 			life = 8;
 			speed = 1;
-			attackspeed = 10;
+			attackspeed = 4.0f; 
 			damage = 4;
-			attackrange = 10;
+			attackrange = 280; 
 		}
 	};
 
@@ -123,7 +124,9 @@ namespace ecs
 		float attackRange;
 		float attackspeed;
 		float range;
+
 		__CMPID_DECL__(ecs::cmp::UNDEADATKCMP);
+
 		void initComponent() override
 		{
 			auto* _mngr = _ent->getMngr();
@@ -133,32 +136,34 @@ namespace ecs
 			range = stat->attackrange;
 			attackspeed = stat->attackspeed;
 		}
+
 		void update() override
 		{
-				auto vector = static_cast<UndeadVectorComponent*>(_ent->getMngr()->getComponent<UndeadVectorComponent>(_ent));
-			
-				auto movement = static_cast<UndeadMovementComponent*>(_ent->getMngr()->getComponent<UndeadMovementComponent>(_ent));
-		
-				auto now = std::chrono::steady_clock::now();
-				float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
+			auto vector = static_cast<UndeadVectorComponent*>(_ent->getMngr()->getComponent<UndeadVectorComponent>(_ent));
+			auto movement = static_cast<UndeadMovementComponent*>(_ent->getMngr()->getComponent<UndeadMovementComponent>(_ent));
 
-				vector->CreateVector(_player->getPos(), _UndeadTransform->getPos());
-				Vector2D attackdirection(vector->direcionX , vector->direcionY);
-				attackRange = vector->magnitude;
+			auto now = std::chrono::steady_clock::now();
+			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
 
-				if (elapsedTime >= attackspeed && attackRange <= range)
-				{
-					//create bullet
-					
-					lastAttackTime = now;
-					_UndeadTransform->getVel() =  _UndeadTransform->getVel() * 0;
-				}
-				if (attackRange > range) 
-				{
-					movement->Move();
-				}			 
+			vector->CreateVector(_player->getPos(), _UndeadTransform->getPos());
+			attackRange = vector->magnitude;
+
+			// Siempre intentar moverse
+			movement->Move();
+
+			// Disparar si está en rango y ha pasado el tiempo de recarga
+			if (elapsedTime >= attackspeed && attackRange <= range)
+			{
+				BulletUtils bulletUtils;
+				bulletUtils.undeadArcherShoot(_UndeadTransform, 0);
+				lastAttackTime = now;
+
+				// Pequeña reducción de velocidad durante el disparo (opcional)
+				_UndeadTransform->getVel() = _UndeadTransform->getVel() * 0.7f;
+			}
 		}
 	};
+
 
 	class UndeadAnimComponent : public AnimatorComponent {
 	public:

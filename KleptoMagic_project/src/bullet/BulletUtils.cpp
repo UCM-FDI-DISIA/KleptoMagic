@@ -102,6 +102,40 @@ void BulletUtils::enemyShoot(Transform* _enemyTR, int i)
 
 }
 
+void BulletUtils::undeadArcherShoot(Transform* _enemyTR, int i) {
+	auto* _mngr = game().getMngr();
+	Transform* _tr = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+
+	auto _bullets = _mngr->addEntity(ecs::grp::ENEMYBULLET);
+	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
+	stats->enemyStats(i);
+
+	int originalSize = stats->getSize();
+	int reducedSize = originalSize / 4;  
+
+	Vector2D vel = Vector2D(_tr->getPos() - _enemyTR->getPos()).normalize() * stats->getSpeed();
+	float rot = -vel.normalize().angle(Vector2D(0, -1));
+	auto* _bulletsTR = _mngr->addComponent<Transform>(_bullets);
+	_bulletsTR->init(
+		Vector2D(_enemyTR->getPos().getX() + _enemyTR->getWidth() / 2,
+			_enemyTR->getPos().getY() + _enemyTR->getHeight() / 2) -
+		Vector2D(reducedSize / 2, reducedSize / 2),
+		vel,
+		reducedSize,  
+		reducedSize, 
+		rot
+	);
+
+	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1, 0);
+	_mngr->addComponent<DestroyOnBorder>(_bullets);
+
+	if (!stats->getPiercing()) {
+		auto tilechecker = _mngr->addComponent<TileCollisionChecker>(_bullets);
+		tilechecker->init(true, _bulletsTR, _dungeonfloor);
+		_bulletsTR->initTileChecker(tilechecker);
+	}
+}
+
 void BulletUtils::BossManyDirectinons(Transform* bossTR, Vector2D v)
 {
 	BulletStats* stat = new BulletStats();

@@ -30,6 +30,7 @@ public:
 	void hit(Entity* target,Entity* bullet);
 	void pressed();
 	void enemyShoot(Transform* enemyTR,int i);
+	void undeadArcherShoot(Transform* _enemyTR, int i);
 	void BossManyDirectinons(Transform* bossTR, Vector2D v);
 	void collided(ecs::entity_t e);
 	void addComponent(int i);
