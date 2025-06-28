@@ -7,6 +7,7 @@
 #include "../bullet/BulletStats.h"
 #include "../ecs/Transform.h"
 #include "../sdlutils/Texture.h"
+#include "../map/DungeonFloor.h"
 #include <chrono>
 namespace ecs
 {
@@ -86,8 +87,8 @@ namespace ecs
 
 		}
 
-		
-		void Teleport() 
+
+		void Teleport()
 		{
 			int resultX = 1;
 			float newX = _BossTransform->getPos().getX();
@@ -102,7 +103,7 @@ namespace ecs
 					newX += (std::rand() % 200 - 100);
 					newY += (std::rand() % 200 - 100);
 
-					
+
 					// Make sure the new position is not too close to the player
 					while (std::sqrt((newX - _player->getPos().getX()) * (newX - _player->getPos().getX()) +
 						(newY - _player->getPos().getY()) * (newY - _player->getPos().getY())) < 100) {
@@ -110,7 +111,7 @@ namespace ecs
 						newY += (std::rand() % 200 - 100);
 					}
 					/*
-					
+
 					while (std::sqrt((newX - _BossTransform->getPos().getX()) * (newX - _BossTransform->getPos().getX()) +
 						(newY - _BossTransform->getPos().getY()) * (newY - _BossTransform->getPos().getY())) < 100) {
 						newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100);
@@ -227,16 +228,30 @@ namespace ecs
 			_ent->getMngr()->addComponent<Image>(bullet2, &sdlutils().images().at("enemy_bullet"));
 			_ent->getMngr()->addComponent<enemyHoming>(bullet2);
 			_ent->getMngr()->addComponent<BulletStats>(bullet2);
-			auto stats2 = _ent->getMngr()->getComponent<BulletStats>(bullet2);	
+			auto stats2 = _ent->getMngr()->getComponent<BulletStats>(bullet2);
 			stats2->enemyStats(4);
-
+			if (!stats->getPiercing())
+			{
+				RoomStorage* roomstorage = new RoomStorage();
+				DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
+				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet);
+				tilechecker->init(true, tr, dungeonfloor);
+				tr->initTileChecker(tilechecker);
+			}if (!stats->getPiercing())
+			{
+				RoomStorage* roomstorage = new RoomStorage();
+				DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
+				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet2);
+				tilechecker->init(true, tr2, dungeonfloor);
+				tr2->initTileChecker(tilechecker);
+			}
 		}
 
 		// Attack 2, shoots multiple bullets in a spread pattern
 		// still incomplete
 		void Attack2()
 		{
-			auto bullet = _ent->getMngr()->addEntity(ecs::grp::ENEMY);
+			auto bullet = _ent->getMngr()->addEntity(ecs::grp::ENEMYBULLET);
 			auto s = 50.0f;
 			auto tr = _ent->getMngr()->addComponent<Transform>(bullet);
 			// Set the position of the bullet to the boss's position with a small offset
@@ -248,6 +263,13 @@ namespace ecs
 			_ent->getMngr()->addComponent<BulletStats>(bullet);
 			auto stats = _ent->getMngr()->getComponent<BulletStats>(bullet);
 			stats->enemyStats(2);
+			if (!stats->getPiercing())
+			{
+				RoomStorage* roomstorage = new RoomStorage();
+				DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
+				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet);
+				tilechecker->init(true, tr, dungeonfloor);
+			}
 		}
 
 	};

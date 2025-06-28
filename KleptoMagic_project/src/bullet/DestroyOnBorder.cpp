@@ -19,7 +19,7 @@ void DestroyOnBorder::update()
 	auto height_ = _tr->getHeight();
 	auto side_ = _tr->getWidth();
 
-	if(pos.getX()<-side_||pos.getX()>sdlutils().width()+side_||pos.getY()<-height_||pos.getY()>sdlutils().height()+height_)
+	if (pos.getX() < -side_ || pos.getX() > sdlutils().width() + side_ || pos.getY() < -height_ || pos.getY() > sdlutils().height() + height_)
 	{
 #ifdef _DEBUG
 		std::cout << "se elimino";
