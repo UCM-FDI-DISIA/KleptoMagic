@@ -36,26 +36,29 @@ void ObjectUtils::removeAllObjects()
 	}
 }
 
-bool ObjectUtils::spawnObject(ObjectNames name, Vector2D pos)
+void ObjectUtils::spawnObject(ObjectNames name, Vector2D pos)
 {
 	switch (name) {
 	case OBJECT_PICKABLE:
 		spawn_RAMDOM_UPGRADE(pos);
-		return true;
 		break;
 	default:
-		return false;
 		break;
 	}
 }
 
-bool ObjectUtils::spawnObject(ObjectNames name, Transform tr) 
+void ObjectUtils::spawnObject(ObjectNames name, Transform tr) 
 {
 	Vector2D aux = tr.getPos();
-	return spawnObject(name, aux);
+	spawnObject(name, aux);
 }
 
 void  ObjectUtils::updateStorage(ItemStorage* storage) 
 {
 	_storage = storage;
+}
+
+void ObjectUtils::spawnRandomItem(Vector2D pos) 
+{
+	spawn_RAMDOM_UPGRADE(pos);
 }

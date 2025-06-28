@@ -37,7 +37,7 @@ private:
 	Stats _stats;
 
 public:
-	__CMPID_DECL__(ecs::cmp::PLAYERCTRL);
+	__CMPID_DECL__(ecs::cmp::OBJECTINFO);
 
 	ObjectInfo(Stats stats) : _stats(stats) {};
 

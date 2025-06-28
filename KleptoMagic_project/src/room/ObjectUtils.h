@@ -7,7 +7,6 @@
 #include "../ecs/Manager.h"
 #include "../render/Image.h"
 #include "../room/PickableCMP.h"
-#include "../room/ObjectInfo.h"
 #include "../room/ItemStorage.h"
 
 
@@ -35,8 +34,8 @@ protected:
 public:
 	void removeAllObjects();
 	void updateStorage(ItemStorage* storage);
-	bool spawnObject(ObjectNames name, Vector2D pos);	// pone el item en el mapa
-	bool spawnObject(ObjectNames name, Transform tr);	// por si quieres instanciarlo mas facilmente desde un enemigo
-	bool spawnRandomItem(Vector2D pos);
+	void spawnObject(ObjectNames name, Vector2D pos);	// pone el item en el mapa
+	void spawnObject(ObjectNames name, Transform tr);	// por si quieres instanciarlo mas facilmente desde un enemigo
+	void spawnRandomItem(Vector2D pos);
 };
 
