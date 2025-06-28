@@ -1,7 +1,7 @@
 #include "BulletUtils.h"
 #include <cmath>
 #include "../render/Camera.h"
-
+#include "../bullet/UndeadBulletCollisionComponent.h"
 
 BulletUtils::BulletUtils()
 {
@@ -106,34 +106,49 @@ void BulletUtils::undeadArcherShoot(Transform* _enemyTR, int i) {
 	auto* _mngr = game().getMngr();
 	Transform* _tr = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 
+	// Crear entidad para la bala
 	auto _bullets = _mngr->addEntity(ecs::grp::ENEMYBULLET);
+
+	// Anadir y configurar los stats de la bala
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
 	stats->enemyStats(i);
+	stats->setArcherDamage(1);
 
+	// Reduccion del tamano de la bala
 	int originalSize = stats->getSize();
-	int reducedSize = originalSize / 4;  
+	int reducedSize = originalSize / 4;
 
+	// Calcular la direccion y la velocidad de la bala hacia el jugador
 	Vector2D vel = Vector2D(_tr->getPos() - _enemyTR->getPos()).normalize() * stats->getSpeed();
 	float rot = -vel.normalize().angle(Vector2D(0, -1));
+
+	// Anadir el componente Transform y posicionar la bala
 	auto* _bulletsTR = _mngr->addComponent<Transform>(_bullets);
 	_bulletsTR->init(
 		Vector2D(_enemyTR->getPos().getX() + _enemyTR->getWidth() / 2,
 			_enemyTR->getPos().getY() + _enemyTR->getHeight() / 2) -
 		Vector2D(reducedSize / 2, reducedSize / 2),
 		vel,
-		reducedSize,  
-		reducedSize, 
+		reducedSize,
+		reducedSize,
 		rot
 	);
 
+	// Anadir la imagen para la bala (si es necesario)
 	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1, 0);
+
+	// Anadir el componente DestroyOnBorder para que la bala se elimine si sale del mapa
 	_mngr->addComponent<DestroyOnBorder>(_bullets);
 
+	// Anadir el componente de colision si la bala no tiene efecto de perforacion
 	if (!stats->getPiercing()) {
 		auto tilechecker = _mngr->addComponent<TileCollisionChecker>(_bullets);
 		tilechecker->init(true, _bulletsTR, _dungeonfloor);
 		_bulletsTR->initTileChecker(tilechecker);
 	}
+
+	// Anadir el componente de colision personalizado para esta bala
+	_mngr->addComponent<UndeadBulletCollisionComponent>(_bullets);
 }
 
 void BulletUtils::BossManyDirectinons(Transform* bossTR, Vector2D v)
