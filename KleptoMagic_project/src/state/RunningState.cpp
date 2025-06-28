@@ -20,12 +20,18 @@
 #include "../room/PickableCMP.h"
 #include "../render/Camera.h"
 #include "../enemies/BossCMP.h"
+#include "../Class/EntityStat.h"
 
+#include "../utils/checkML.h"
+
+//#include "../components/Health.h"
+//#include "../components/Gun.h"
 
 RunningState::RunningState() : _timer(300), minigame(nullptr) {
 #ifdef _DEBUG
 	std::cout << "Nuevo RunningState creado!" << std::endl;
 #endif
+	//Image* im = new Image();
 }
 	
 
