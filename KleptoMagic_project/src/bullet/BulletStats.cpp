@@ -15,6 +15,7 @@ BulletStats::BulletStats()
 
 BulletStats::~BulletStats()
 {
+	delete _eStat;
 }
 
 void BulletStats::initComponent() { //falta get entity stats speed
@@ -44,7 +45,7 @@ float BulletStats::Created(std::string s)
 		piercing = false;
 		duration = distance / speed;
 		bullets = 5;
-		explode = true;
+		explode = false;
 		return 250;
 	}
 	else if(s=="KNIGHT"){
@@ -76,6 +77,8 @@ float BulletStats::Created(std::string s)
 		return 700;
 	}
 	startTime = sdlutils().currRealTime();
+	delete _mngr;
+	delete player;
 }
 void BulletStats::explosionStats(int dam)
 {
