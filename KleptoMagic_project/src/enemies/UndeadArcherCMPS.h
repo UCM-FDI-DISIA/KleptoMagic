@@ -164,83 +164,66 @@ namespace ecs
 	public:
 		__CMPID_DECL__(ecs::cmp::UNDEADANIMCMP);
 
-		enum AnimationState {
-			IDLE,
-			WALKING,
-			DYING
-		};
-
 		UndeadAnimComponent() {
-			currentState = IDLE;
-			isFacingRight = false;
-		}
-
-		void initComponent() override {
-			AnimatorComponent::initComponent();
-			// Configuración para 8 frames (2 filas x 4 columnas)
-			startFrame = 0;   // Primer frame de idle (usaremos el primer frame de walking)
-			deathFrame = 4;    // Primer frame de muerte (fila 2)
-			walkFrame = 0;     // Primer frame de caminar (fila 1)
+			isWalking = false;
+			isFacingRight = true; // Asumimos que el sprite original mira a derecha
+			currentFlipState = false; // No flip inicialmente
 		}
 
 		void update() override {
-			// Solo procesar animaciones si no está muriendo
-			if (currentState != DYING) {
-				float velX = _tr->getVel().getX();
-				float velY = _tr->getVel().getY();
-				bool isCurrentlyMoving = (velX != 0 || velY != 0);
-				bool isCurrentlyMovingRight = (velX < 0);
+			float velX = _tr->getVel().getX();
+			bool isCurrentlyWalking = (velX != 0 || _tr->getVel().getY() != 0);
+			bool isCurrentlyMovingRight = (velX > 0);
 
-				// Transiciones de estado
-				if (isCurrentlyMoving && currentState != WALKING) {
-					currentState = WALKING;
-					setAnimation(WALKING);
-				}
-				else if (!isCurrentlyMoving && currentState != IDLE) {
-					currentState = IDLE;
-					setAnimation(IDLE);
-				}
+			// Actualizar estado de caminar/idle
+			if (!isWalking && isCurrentlyWalking) {
+				toggleWalkingAnim();
+			}
+			else if (isWalking && !isCurrentlyWalking) {
+				toggleWalkingAnim();
+			}
 
-				// Dirección de mirada
-				if (isCurrentlyMoving && velX != 0) {
-					if (!isFacingRight && !isCurrentlyMovingRight) {
-						toggleFlip();
-					}
-					else if (isFacingRight && isCurrentlyMovingRight) {
-						toggleFlip();
-					}
+			// Lógica de flip mejorada
+			if (velX != 0) {
+				bool shouldFaceRight = velX > 0;
+
+				// Solo cambiar flip si la dirección cambia
+				if (shouldFaceRight != isFacingRight) {
+					isFacingRight = shouldFaceRight;
+					_img->setFlip(!isFacingRight); // Flip solo cuando mira a izquierda
+					currentFlipState = !isFacingRight;
 				}
 			}
+		}
+
+		void toggleWalkingAnim() {
+			if (!isWalking) {
+				// Animación de caminar (4 frames)
+				_img->setStartingFrame(0);
+				_img->setFrame(0);
+				_img->setNumFrames(4);
+			}
+			else {
+				// Animación idle (primer frame)
+				_img->setStartingFrame(0);
+				_img->setFrame(0);
+				_img->setNumFrames(1);
+			}
+			isWalking = !isWalking;
 		}
 
 		void playDeath() override {
-			currentState = DYING;
-			AnimatorComponent::playDeath();
+			// Animación de muerte (frames 4-7)
+			_img->setStartingFrame(4);
+			_img->setFrame(4);
+			_img->setNumFrames(4);
+			// Mantener el flip actual
+			_img->setFlip(currentFlipState);
 		}
 
 	private:
-		AnimationState currentState;
-		int walkFrame;
-
-		void setAnimation(AnimationState state) {
-			switch (state) {
-			case IDLE:
-				// Usamos el primer frame de walking como idle
-				_img->setStartingFrame(walkFrame);
-				_img->setFrame(walkFrame);
-				_img->setNumFrames(1); // Solo 1 frame para idle
-				break;
-			case WALKING:
-				_img->setStartingFrame(walkFrame);
-				_img->setFrame(walkFrame);
-				_img->setNumFrames(4); // 4 frames para caminar
-				break;
-			case DYING:
-				_img->setStartingFrame(deathFrame);
-				_img->setFrame(deathFrame);
-				_img->setNumFrames(4); // 4 frames para muerte
-				break;
-			}
-		}
+		bool isWalking;
+		bool isFacingRight;
+		bool currentFlipState; // Para trackear el estado actual del flip
 	};
 }
