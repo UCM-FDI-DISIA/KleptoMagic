@@ -22,7 +22,7 @@ namespace ecs
 			life = 8;
 			speed = 1;
 			attackspeed = 4.0f; 
-			damage = 4;
+			damage = 1;
 			attackrange = 280; 
 		}
 	};
