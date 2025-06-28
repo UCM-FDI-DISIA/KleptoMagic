@@ -20,7 +20,6 @@
 #include "../room/PickableCMP.h"
 #include "../render/Camera.h"
 #include "../enemies/BossCMP.h"
-#include "../Class/EntityStat.h"
 
 #include "../utils/checkML.h"
 
