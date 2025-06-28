@@ -33,7 +33,6 @@
     <ClCompile Include="src\utils\Collisions.cpp" />
     <ClCompile Include="src\render\Image.cpp" />
     <ClCompile Include="src\player\PlayerCtrl.cpp" />
-    <ClCompile Include="src\room\ObjectInfo.cpp" />
     <ClCompile Include="src\render\ImageWithFrames.cpp" />
     <ClCompile Include="src\bullet\BulletUtils.cpp" />
     <ClCompile Include="src\bullet\BulletStats.cpp" />

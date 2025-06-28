@@ -301,6 +301,7 @@ void RunningState::enter()
 		roomstorage = new RoomStorage();
 		itemStorage = new ItemStorage("resources/item_data/objetos.txt");
 		dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
+		ObjectUtils::Instance()->updateStorage(itemStorage);
 		auto s = 50.0f;
 		auto x = (sdlutils().width() - s) / 2.0f;
 		auto y = (sdlutils().height() - s) / 2.0f;

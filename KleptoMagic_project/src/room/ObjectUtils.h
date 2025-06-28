@@ -8,11 +8,13 @@
 #include "../render/Image.h"
 #include "../room/PickableCMP.h"
 #include "../room/ObjectInfo.h"
+#include "../room/ItemStorage.h"
 
 
 using ecs::Manager;
 
 enum ObjectNames {
+	RANDOM,
 	OBJECT_PICKABLE
 };
 
@@ -24,14 +26,17 @@ protected:
 	virtual ~ObjectUtils();
 
 	Manager* _mngr;
+	ItemStorage* _storage;
 
 	bool init(Manager* mngr);
 
-	void spawn_UPGRADE(Vector2D pos);	// modifica exclusivamente los stats del jugador
+	void spawn_RAMDOM_UPGRADE(Vector2D pos);	// modifica exclusivamente los stats del jugador
 
 public:
 	void removeAllObjects();
+	void updateStorage(ItemStorage* storage);
 	bool spawnObject(ObjectNames name, Vector2D pos);	// pone el item en el mapa
 	bool spawnObject(ObjectNames name, Transform tr);	// por si quieres instanciarlo mas facilmente desde un enemigo
+	bool spawnRandomItem(Vector2D pos);
 };
 

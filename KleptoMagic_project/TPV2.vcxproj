@@ -43,7 +43,6 @@
     <ClCompile Include="src\render\Image.cpp" />
     <ClCompile Include="src\player\InputManager.cpp" />
     <ClCompile Include="src\player\MovementCtrl.cpp" />
-    <ClCompile Include="src\room\ObjectInfo.cpp" />
     <ClCompile Include="src\player\PlayerCtrl.cpp" />
     <ClCompile Include="src\ecs\Game.cpp" />
     <ClCompile Include="src\player\StatusEffect.cpp" />

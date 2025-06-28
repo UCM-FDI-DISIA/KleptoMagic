@@ -3,22 +3,8 @@
 #include <string>
 #include <vector>
 #include <random>
+#include "../room/ObjectInfo.h"
 
-enum class Special { none, explode, divide, pierce };
-
-struct Stats {
-	std::string name;
-	float heal;
-	float shield;
-	float healthMax;
-	float movementSpeed;
-	float movementSpeedMult;
-	float damage;
-	float damageMult;
-	float attackSpeed;
-	float attackSpeedMult;
-	Special sEffect;
-};
 
 class ItemStorage {
 private:

@@ -26,7 +26,8 @@ private:
 		AttackSpeedMult
 	};
 
-	EntityStat* _playerStats;	//puntero a los stats del player
+	EntityStat* _playerStats;	// puntero a los stats del player
+	Stats _itemStats;		// stats del item
 
 	bool _expirable = false;	// indica si el upgrade desaparece pasado un tiempo
 	vector<float> _upgradeValues;	// vector que incluye los valores de todos upgrades
@@ -36,8 +37,7 @@ private:
 public:
 	__CMPID_DECL__(ecs::cmp::PICKABLECMP);
 
-	PickableCMP(vector<float> upgradeValues);
-	PickableCMP();	// generico para debug, no deberia ser usado
+	PickableCMP() {};	// generico para debug, no deberia ser usado
 
 	void initComponent() override;
 	void playerCollision();
