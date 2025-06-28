@@ -83,7 +83,25 @@ Tilemap::Tilemap(vector<vector<char>> tilematrix, DungeonRoom* dungeonroom) : ro
 		}
 	}
 }
+Tilemap::~Tilemap() {
+	tilemap.clear();
 
+	// 2. Resetear punteros (no eliminar porque no los poseemos)
+	tileset = nullptr;
+	roomdecor = nullptr;
+	room = nullptr;
+
+	// 3. Opcional: Resetear variables de estado por claridad
+	torchFrame = 0;
+	doorFrame = 0;
+	doorsOpen = false;
+	doorsOpening = false;
+	doorsChanging = false;
+
+	// Nota: No necesitamos eliminar tileset, roomdecor ni room porque:
+	// - tileset y roomdecor son referencias obtenidas de sdlutils().images()
+	// - room es pasado por parámetro y es propiedad de otra clase
+}
 void Tilemap::render(SDL_Renderer* renderer) {
 	render_advanced(renderer);
 }

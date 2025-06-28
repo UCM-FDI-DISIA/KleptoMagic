@@ -76,6 +76,28 @@ RunningState::~RunningState() {
 		delete minigame;
 		minigame = nullptr;
 	}
+
+
+	if (bullet != nullptr) {
+		delete bullet;
+		bullet = nullptr;
+	}
+	if (roomstorage != nullptr) {
+		delete roomstorage;
+		roomstorage = nullptr;
+	}
+	if (dungeonfloor != nullptr) {
+		delete dungeonfloor;
+		dungeonfloor = nullptr;
+	}
+	if (itemStorage != nullptr) {
+		delete itemStorage;
+		itemStorage = nullptr;
+	}
+	if (minigame != nullptr) {
+		delete minigame;
+		minigame = nullptr;
+	}
 }
 
 bool RunningState::GMG(bool minigameActive) {
