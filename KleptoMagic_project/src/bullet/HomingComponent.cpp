@@ -8,7 +8,7 @@ HomingComponent::HomingComponent()
 
 HomingComponent::~HomingComponent()
 {
-	delete _tr;
+
 }
 
 void HomingComponent::initComponent()

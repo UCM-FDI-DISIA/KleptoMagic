@@ -5,7 +5,6 @@ DestroyOnBorder::DestroyOnBorder()
 
 DestroyOnBorder::~DestroyOnBorder()
 {
-//delete _tr;
 }
 
 void DestroyOnBorder::initComponent()
