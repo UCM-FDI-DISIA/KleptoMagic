@@ -5,6 +5,7 @@
 #include "../ecs/ecs_defs_example.h"
 #include "../ecs/Transform.h"
 #include "../sdlutils/Texture.h"
+#include "../render/AnimatorComponent.h"
 #include <chrono>
 
 namespace ecs
@@ -55,9 +56,6 @@ namespace ecs
 			}
 		}
 	};
-
-
-	
 
 	class UndeadMovementComponent : public Component
 	{
@@ -113,8 +111,6 @@ namespace ecs
 					_UndeadTransform->getVel() = velocity;
 				}
 			}
-
-
 		}
 	};
 
@@ -139,7 +135,6 @@ namespace ecs
 		}
 		void update() override
 		{
-			
 				auto vector = static_cast<UndeadVectorComponent*>(_ent->getMngr()->getComponent<UndeadVectorComponent>(_ent));
 			
 				auto movement = static_cast<UndeadMovementComponent*>(_ent->getMngr()->getComponent<UndeadMovementComponent>(_ent));
@@ -162,8 +157,73 @@ namespace ecs
 				{
 					movement->Move();
 				}			 
-			
+		}
+	};
+
+	class UndeadAnimComponent : public AnimatorComponent {
+	public:
+		__CMPID_DECL__(ecs::cmp::UNDEADANIMCMP);
+
+		UndeadAnimComponent() {
+			isWalking = false;
+			isFacingRight = true; // Asumimos que el sprite original mira a derecha
+			currentFlipState = false; // No flip inicialmente
 		}
 
+		void update() override {
+			float velX = _tr->getVel().getX();
+			bool isCurrentlyWalking = (velX != 0 || _tr->getVel().getY() != 0);
+			bool isCurrentlyMovingRight = (velX > 0);
+
+			// Actualizar estado de caminar/idle
+			if (!isWalking && isCurrentlyWalking) {
+				toggleWalkingAnim();
+			}
+			else if (isWalking && !isCurrentlyWalking) {
+				toggleWalkingAnim();
+			}
+
+			// Lógica de flip mejorada
+			if (velX != 0) {
+				bool shouldFaceRight = velX > 0;
+
+				// Solo cambiar flip si la dirección cambia
+				if (shouldFaceRight != isFacingRight) {
+					isFacingRight = shouldFaceRight;
+					_img->setFlip(!isFacingRight); // Flip solo cuando mira a izquierda
+					currentFlipState = !isFacingRight;
+				}
+			}
+		}
+
+		void toggleWalkingAnim() {
+			if (!isWalking) {
+				// Animación de caminar (4 frames)
+				_img->setStartingFrame(0);
+				_img->setFrame(0);
+				_img->setNumFrames(4);
+			}
+			else {
+				// Animación idle (primer frame)
+				_img->setStartingFrame(0);
+				_img->setFrame(0);
+				_img->setNumFrames(1);
+			}
+			isWalking = !isWalking;
+		}
+
+		void playDeath() override {
+			// Animación de muerte (frames 4-7)
+			_img->setStartingFrame(4);
+			_img->setFrame(4);
+			_img->setNumFrames(4);
+			// Mantener el flip actual
+			_img->setFlip(currentFlipState);
+		}
+
+	private:
+		bool isWalking;
+		bool isFacingRight;
+		bool currentFlipState; // Para trackear el estado actual del flip
 	};
 }

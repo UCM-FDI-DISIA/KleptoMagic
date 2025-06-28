@@ -98,7 +98,8 @@ void EnemyUtils::spawn_ARCHER(Vector2D pos) {
 	auto s = 50.0f;
 	auto tr = _mngr->addComponent<Transform>(archer);
 	tr->init(pos, Vector2D(), s, s, 0.0f);
-	_mngr->addComponent<Image>(archer, &sdlutils().images().at("star"));
+	//_mngr->addComponent<Image>(archer, &sdlutils().images().at("star"));
+	_mngr->addComponent<ImageWithFrames>(archer, &sdlutils().images().at("archer_sprites"), 200, 4, 2, 0, 8);
 	_mngr->addComponent<UndeadStatComponent>(archer);
 	_mngr->addComponent<UndeadVectorComponent>(archer);
 	//_mngr->addComponent<EntityStat>(archer, 4, 0, 5, 5, 5);
@@ -108,6 +109,10 @@ void EnemyUtils::spawn_ARCHER(Vector2D pos) {
 	auto mArcher = _mngr->addComponent<UndeadMovementComponent>(archer);
 	mArcher->init(_dungeonfloor);
 	_mngr->addComponent<UndeadAttackComponent>(archer);
+
+	auto animator = _mngr->addComponent<UndeadAnimComponent>(archer);
+	animator->setStartFrame(0);   
+	animator->setDeathFrame(4);   
 
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(archer);
 	tilechecker->init(false, tr, _dungeonfloor);

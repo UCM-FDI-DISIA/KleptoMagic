@@ -68,6 +68,10 @@
             "file": "resources/images/armor_sprites.png"
         },
         {
+            "id": "archer_sprites",
+            "file": "resources/images/archer_sprites.png"
+        },
+        {
             "id": "heart",
             "file": "resources/images/heart.png"
         },
