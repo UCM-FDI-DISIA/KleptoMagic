@@ -86,8 +86,8 @@ namespace ecs
 
 		}
 
-		
-		void Teleport() 
+
+		void Teleport()
 		{
 			int resultX = 1;
 			float newX = _BossTransform->getPos().getX();
@@ -102,7 +102,7 @@ namespace ecs
 					newX += (std::rand() % 200 - 100);
 					newY += (std::rand() % 200 - 100);
 
-					
+
 					// Make sure the new position is not too close to the player
 					while (std::sqrt((newX - _player->getPos().getX()) * (newX - _player->getPos().getX()) +
 						(newY - _player->getPos().getY()) * (newY - _player->getPos().getY())) < 100) {
@@ -110,7 +110,7 @@ namespace ecs
 						newY += (std::rand() % 200 - 100);
 					}
 					/*
-					
+
 					while (std::sqrt((newX - _BossTransform->getPos().getX()) * (newX - _BossTransform->getPos().getX()) +
 						(newY - _BossTransform->getPos().getY()) * (newY - _BossTransform->getPos().getY())) < 100) {
 						newX = _BossTransform->getPos().getX() + (std::rand() % 200 - 100);
@@ -227,7 +227,7 @@ namespace ecs
 			_ent->getMngr()->addComponent<Image>(bullet2, &sdlutils().images().at("enemy_bullet"));
 			_ent->getMngr()->addComponent<enemyHoming>(bullet2);
 			_ent->getMngr()->addComponent<BulletStats>(bullet2);
-			auto stats2 = _ent->getMngr()->getComponent<BulletStats>(bullet2);	
+			auto stats2 = _ent->getMngr()->getComponent<BulletStats>(bullet2);
 			stats2->enemyStats(4);
 
 		}

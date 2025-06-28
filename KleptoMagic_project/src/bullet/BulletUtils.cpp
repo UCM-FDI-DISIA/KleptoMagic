@@ -18,7 +18,6 @@ BulletUtils::BulletUtils()
 
 BulletUtils::~BulletUtils()
 {
-	
 }
 
 void BulletUtils::update()

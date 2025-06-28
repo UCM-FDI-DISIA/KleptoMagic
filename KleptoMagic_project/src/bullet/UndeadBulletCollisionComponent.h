@@ -46,8 +46,6 @@ public:
                 playerStats->ChangeStat(-bulletStats->getArcherDamage(), EntityStat::Stat::HealthCurrent);
 
             }
-
-            // Marcar la entidad para ser eliminada - FORMA CORRECTA
             mngr->setAlive(_ent, false);  // Usar el manager para cambiar el estado
         }
     }

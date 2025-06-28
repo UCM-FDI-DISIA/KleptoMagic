@@ -32,7 +32,7 @@ RunningState::RunningState() : _timer(300), minigame(nullptr) {
 #endif
 	//Image* im = new Image();
 }
-	
+
 
 RunningState::~RunningState() {
 	// Liberar texturas
@@ -111,11 +111,11 @@ bool RunningState::GMG(bool minigameActive) {
 }
 
 void RunningState::update() {
-	
+
 	bool exit = false;
 
 	NewInputHandler::Instance()->init();
-	
+
 	TimerRenderer _timerRndr(&_timer, sdlutils().renderer());
 
 	// reset the time before starting - so we calculate correct
@@ -164,7 +164,7 @@ void RunningState::update() {
 			game().pushState(new PausedState());
 			exit = true;
 		}
-		
+
 		if (NewInputHandler::Instance()->isActionHeld(Action::SHOOT))
 		{
 			bullet->pressed();
@@ -215,12 +215,12 @@ void RunningState::update() {
 
 		// Si han pasado mas de 10 segundos, ocultamos la imagen de controles
 		if (_timer.getTimeLeft() >= 290) {
-			controlsTexture->setAlpha(128);  
+			controlsTexture->setAlpha(128);
 			controlsTexture->render(dest);
 		}
 
 		// Mostrar corazones seg�n la vida del jugador
-		
+
 		if (player != nullptr && game().getMngr()->isAlive(player)) {
 			auto stats = game().getMngr()->getComponent<EntityStat>(player);
 			hp = stats->getStat(EntityStat::Stat::HealthCurrent);
@@ -276,7 +276,7 @@ void RunningState::update() {
 			exit = true;
 		}
 		else if (bossDefeated) {
-			game().setEndResult(true); 
+			game().setEndResult(true);
 			game().pushState(new GameOverState());
 			exit = true;
 		}
@@ -300,12 +300,12 @@ void RunningState::checkCollisions() {
 
 	for (auto enemy : game().getMngr()->getEntities(ecs::grp::ENEMY))
 	{
-		if(_mngr->isAlive(enemy))
+		if (_mngr->isAlive(enemy))
 		{
 			auto* enemy_transform = _mngr->getComponent<Transform>(enemy);
 			if (Collisions::collides(
-			_tr->getPos(),_tr->getWidth(),_tr->getHeight(),
-		    enemy_transform->getPos(),enemy_transform->getWidth(),enemy_transform->getHeight()) && !colission_thisframe)
+				_tr->getPos(), _tr->getWidth(), _tr->getHeight(),
+				enemy_transform->getPos(), enemy_transform->getWidth(), enemy_transform->getHeight()) && !colission_thisframe)
 			{
 				colission_thisframe = true;
 			}
@@ -313,9 +313,9 @@ void RunningState::checkCollisions() {
 			for (auto bullets : _mngr->getEntities(ecs::grp::BULLET)) {
 				auto bullet_tr = _mngr->getComponent<Transform>(bullets);
 
-				if(Collisions::collides(
+				if (Collisions::collides(
 					enemy_transform->getPos(), enemy_transform->getWidth(), enemy_transform->getHeight(),
-					bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe) 
+					bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe)
 				{
 					auto* enemy_stats = _mngr->getComponent<EntityStat>(enemy);
 					auto* bullet_stats = _mngr->getComponent<BulletStats>(bullets);
@@ -328,23 +328,23 @@ void RunningState::checkCollisions() {
 	for (auto bullets : _mngr->getEntities(ecs::grp::ENEMYBULLET)) {
 		auto bullet_tr = _mngr->getComponent<Transform>(bullets);
 
-	for (auto* upgrade : game().getMngr()->getEntities(ecs::grp::OBJECT)) 
-		if (Collisions::collides(
-			_tr->getPos(), _tr->getWidth(), _tr->getHeight(),
-			bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe)
-		{
-			//auto* enemy_stats = _mngr->getComponent<EntityStat>(pla);
-			auto* player_stats = _mngr->getComponent<EntityStat>(_mngr->getHandler(ecs::hdlr::PLAYER));
-			auto* bullet_stats = _mngr->getComponent<BulletStats>(bullets);
+		for (auto* upgrade : game().getMngr()->getEntities(ecs::grp::OBJECT))
+			if (Collisions::collides(
+				_tr->getPos(), _tr->getWidth(), _tr->getHeight(),
+				bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe)
+			{
+				//auto* enemy_stats = _mngr->getComponent<EntityStat>(pla);
+				auto* player_stats = _mngr->getComponent<EntityStat>(_mngr->getHandler(ecs::hdlr::PLAYER));
+				auto* bullet_stats = _mngr->getComponent<BulletStats>(bullets);
 
-			player_stats->ChangeStat(-1 * bullet_stats->getDamage(), EntityStat::Stat::HealthCurrent);
-			bullet->collided(bullets);
-		}
+				player_stats->ChangeStat(-1 * bullet_stats->getDamage(), EntityStat::Stat::HealthCurrent);
+				bullet->collided(bullets);
+			}
 
 	}
 	for (auto* upgrade : game().getMngr()->getEntities(ecs::grp::OBJECT))
 	{
-		if(game().getMngr()->isAlive(upgrade))
+		if (game().getMngr()->isAlive(upgrade))
 		{
 			auto* upgrade_transform = _mngr->getComponent<Transform>(upgrade);
 
