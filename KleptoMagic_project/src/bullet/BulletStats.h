@@ -18,8 +18,6 @@ public:
 	void enemyStats(int i);
 	float getSpeed() { return speed*speedMul; }
 	float getDamage() { return damage*damageMul; }
-	float getArcherDamage() { return damageArcher; }
-	void setArcherDamage(float damage) { damageArcher = damage; }
 	float getDistance() { return distance*distanceMul; }
 	float getSize() { return size*sizeMul; }
 	bool getPiercing() { return piercing; }
@@ -67,7 +65,6 @@ private:
 	float DotT=0;
 	float DotS=0;
 	float startTime;
-	float damageArcher;
 	EntityStat* _eStat;
 };
 
