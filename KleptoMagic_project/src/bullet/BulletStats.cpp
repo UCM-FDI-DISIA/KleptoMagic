@@ -43,7 +43,7 @@ float BulletStats::Created(std::string s)
 		size = 10;
 		piercing = false;
 		duration = distance / speed;
-		bullets = 5;
+		bullets = 3;
 		explode = false;
 		return 250;
 	}
