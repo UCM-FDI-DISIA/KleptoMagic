@@ -152,7 +152,6 @@
     <ClInclude Include="src\ecs\HealthBarComponent.h" />
     <ClInclude Include="src\room\ItemStorage.h" />
     <ClInclude Include="src\room\ObjectUtils.h" />
-    <ClInclude Include="src\bullet\UndeadBulletCollisionComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />

@@ -328,7 +328,6 @@ void RunningState::checkCollisions() {
 	for (auto bullets : _mngr->getEntities(ecs::grp::ENEMYBULLET)) {
 		auto bullet_tr = _mngr->getComponent<Transform>(bullets);
 
-	for (auto* upgrade : game().getMngr()->getEntities(ecs::grp::OBJECT)) 
 		if (Collisions::collides(
 			_tr->getPos(), _tr->getWidth(), _tr->getHeight(),
 			bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe)
