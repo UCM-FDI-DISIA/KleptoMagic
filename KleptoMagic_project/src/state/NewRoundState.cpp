@@ -56,7 +56,16 @@ void NewRoundState::update() {
 	}
 }
 NewRoundState::~NewRoundState() {
+	delete background;
+	delete rogue;
+	delete knight;
+	delete alchemist;
+	delete hunter;
 
+	delete rogueButton;
+	delete knightButton;
+	delete alchemistButton;
+	delete hunterButton;
 }
 
 void NewRoundState::enter()

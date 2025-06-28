@@ -7,12 +7,12 @@
 #include <chrono>
 #include "../map/DungeonFloor.h"
 #include "../render/AnimatorComponent.h"
+#include "../ecs/EntityStat.h"
 
 namespace ecs
 {
 	class StatComponent : public Component
 	{
-
 	public:
 		__CMPID_DECL__(ecs::cmp::STATCMP);
 		float life = 0;
@@ -70,10 +70,9 @@ namespace ecs
 			life = 10;
 			speed = 2;
 			attackspeed = 2;
-			damage = 3;
-
+			damage = 1;
+			attackrange = 25;
 		}
-
 	};
 	class SlimeVectorComponent : public Component
 	{
@@ -100,11 +99,8 @@ namespace ecs
 		}
 	};
 
-
-
 	class SlimeMovementComponent : public Component
 	{
-		
 		Transform* _slimeTransform;
 		Transform* _player;
 		SlimeStatComponent* stat;
@@ -126,10 +122,8 @@ namespace ecs
 		}
 
 		void update() override
-
 		{			
 			auto vector = static_cast<SlimeVectorComponent*>(_ent->getMngr()->getComponent<SlimeVectorComponent>(_ent));
-				
 
 				if (vector && stat && _slimeTransform)
 				{
@@ -155,20 +149,18 @@ namespace ecs
 						_slimeTransform->getVel() = velocity;
 					}
 				}
-			
-
 		}
 	};  
 
 	class SlimeAttackComponent : public Component
-	{
-		
+	{	
 		Transform* _slimeTransform;
 		Transform* _player;
 		SlimeStatComponent* stat;
 		bool atack = false;
 		float height, width;
-		float attackspeed = 10 ;
+		float attackspeed = 6;
+		float attackRange;
 
 	public:
 		__CMPID_DECL__(ecs::cmp::SLIMEATKCMP);
@@ -180,47 +172,52 @@ namespace ecs
 			auto* _mngr = _ent->getMngr();
 			_slimeTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
-			 //stat = static_cast<SlimeStatComponent*>(_ent->getMngr()->getComponent<SlimeStatComponent>(_ent));
 			stat = _mngr->getComponent<SlimeStatComponent>(_ent);
 			attackspeed -= stat->attackspeed;
+			attackRange = stat->attackrange;
 		}
 
 		void update() override
 		{
-
-
-	
-			
 			auto now = std::chrono::steady_clock::now();
 			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
 
-			if (elapsedTime >= attackspeed)
+			// Calculamos distancia al jugador
+			float distanceToPlayer = std::hypot(
+				_slimeTransform->getPos().getX() - _player->getPos().getX(),
+				_slimeTransform->getPos().getY() - _player->getPos().getY()
+			);
+
+			// Solo atacar si está dentro del rango
+			if (distanceToPlayer <= attackRange && elapsedTime >= attackspeed)
 			{
 				height = _slimeTransform->getHeight();
 				width = _slimeTransform->getWidth();
 
-				_slimeTransform->setHeight(height * 1.5);
-				_slimeTransform->setWidth(width * 1.5);
+				_slimeTransform->setHeight(height * 1.5f);
+				_slimeTransform->setWidth(width * 1.5f);
 
 				lastAttackTime = now;
 				atack = true;
+
+				// DAÑO AL JUGADOR
+				auto* _mngr = _ent->getMngr();
+				auto player = _mngr->getHandler(ecs::hdlr::PLAYER);
+				if (_mngr->isAlive(player)) {
+					auto* playerStats = _mngr->getComponent<EntityStat>(player);
+					if (playerStats != nullptr) {
+						playerStats->ChangeStat(-stat->damage, EntityStat::Stat::HealthCurrent);
+					}
+				}
 			}
-			else if (elapsedTime >= 0.5 && atack)
+			else if (elapsedTime >= 0.2f && atack)
 			{
 				_slimeTransform->setHeight(height);
 				_slimeTransform->setWidth(width);
 				atack = false;
 			}
-			
-
 		}
-
-
-
-
 	};
-
-
 
 	class SlimeAnimComponent : public AnimatorComponent {
 		friend AnimatorComponent;

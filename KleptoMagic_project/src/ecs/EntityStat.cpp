@@ -47,6 +47,9 @@ void EntityStat::ChangeStat(float add, Stat stat)
     case Stat::HealthCurrent:
         healthCurrent += add;
         if (healthTotal < healthMax) healthCurrent = healthTotal;
+        // CLAMP para no exceder límites
+        //if (healthCurrent > healthTotal) healthCurrent = healthTotal;
+        //if (healthCurrent < 0) healthCurrent = 0;
         break;
     case Stat::MovementSpeed:
         movementSpeed += add;

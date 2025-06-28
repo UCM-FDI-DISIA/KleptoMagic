@@ -10,7 +10,12 @@ PausedState::PausedState() {
 #endif
 }
 PausedState::~PausedState() {
-
+	delete background;
+	delete title;
+	delete resumeTexture;
+	delete homeTexture;
+	delete resumeButton;
+	delete homeButton;
 }
 
 void PausedState::enter() {

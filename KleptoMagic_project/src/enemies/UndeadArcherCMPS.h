@@ -22,9 +22,7 @@ namespace ecs
 			attackspeed = 10;
 			damage = 4;
 			attackrange = 10;
-
 		}
-
 	};
 
 	class UndeadVectorComponent : public Component

@@ -73,7 +73,7 @@ void EnemyUtils::spawn_SLIME(Vector2D pos) {
 	//_mngr->addComponent<EntityStat>(slime, 4, 0, 5, 5, 5);
 
 	// Añadimos EntityStat y lo guardamos para la barra de vida
-	auto stats = _mngr->addComponent<EntityStat>(slime, 4, 0, 5, 5, 5);
+	auto stats = _mngr->addComponent<EntityStat>(slime, 10, 0, 2, 1, 2);
 
 	auto mSlime = _mngr->addComponent<SlimeMovementComponent>(slime);
 	mSlime->init(_dungeonfloor); 
@@ -101,7 +101,10 @@ void EnemyUtils::spawn_ARCHER(Vector2D pos) {
 	_mngr->addComponent<Image>(archer, &sdlutils().images().at("star"));
 	_mngr->addComponent<UndeadStatComponent>(archer);
 	_mngr->addComponent<UndeadVectorComponent>(archer);
-	_mngr->addComponent<EntityStat>(archer, 4, 0, 5, 5, 5);
+	//_mngr->addComponent<EntityStat>(archer, 4, 0, 5, 5, 5);
+
+	auto stats = _mngr->addComponent<EntityStat>(archer, 12, 0, 5, 5, 5);
+
 	auto mArcher = _mngr->addComponent<UndeadMovementComponent>(archer);
 	mArcher->init(_dungeonfloor);
 	_mngr->addComponent<UndeadAttackComponent>(archer);
@@ -110,6 +113,10 @@ void EnemyUtils::spawn_ARCHER(Vector2D pos) {
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);
 	_mngr->addComponent<StatusEffect>(archer);
+
+	Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
+	Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
+	_mngr->addComponent<HealthBarComponent>(archer, fullHealth, emptyHealth, stats, -15.0f);
 }
 
 void EnemyUtils::spawn_ARMOR(Vector2D pos) {
@@ -124,7 +131,9 @@ void EnemyUtils::spawn_ARMOR(Vector2D pos) {
 	_mngr->addComponent<ArmorStatComponent>(armor);
 	_mngr->addComponent<ArmorAttackComponent>(armor);
 	_mngr->addComponent<ArmorMovementComponent>(armor);
-	_mngr->addComponent<EntityStat>(armor, 4, 0, 5, 5, 5);
+	//_mngr->addComponent<EntityStat>(armor, 4, 0, 5, 5, 5);
+
+	auto stats = _mngr->addComponent<EntityStat>(armor, 12, 0, 5, 5, 5);
 
 	auto animator = game().getMngr()->addComponent<ArmorAnimComponent>(armor);
 	animator->setStartFrame(0);
@@ -134,6 +143,10 @@ void EnemyUtils::spawn_ARMOR(Vector2D pos) {
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);
 	_mngr->addComponent<StatusEffect>(armor);
+
+	Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
+	Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
+	_mngr->addComponent<HealthBarComponent>(armor, fullHealth, emptyHealth, stats, -15.0f);
 }
 
 void EnemyUtils::spawn_GHOST(Vector2D pos) {
@@ -148,9 +161,14 @@ void EnemyUtils::spawn_GHOST(Vector2D pos) {
 	_mngr->addComponent<GhostAttackComponent>(ghost);
 	_mngr->addComponent<GhostTeleportComponent>(ghost);
 	_mngr->addComponent<GhostAIComponent>(ghost);
-	_mngr->addComponent<EntityStat>(ghost, 4, 0, 5, 5, 5);
+	//_mngr->addComponent<EntityStat>(ghost, 4, 0, 5, 5, 5);
 	_mngr->addComponent<StatusEffect>(ghost);
 
+	auto stats = _mngr->addComponent<EntityStat>(ghost, 12, 0, 5, 5, 5);
+
+	Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
+	Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
+	_mngr->addComponent<HealthBarComponent>(ghost, fullHealth, emptyHealth, stats, -15.0f);
 }
 
 void EnemyUtils::spawn_BOSS(Vector2D pos) {
@@ -161,7 +179,10 @@ void EnemyUtils::spawn_BOSS(Vector2D pos) {
 	_mngr->addComponent<Image>(boss, &sdlutils().images().at("ALCHEMIST"));
 	_mngr->addComponent<BossVectorComponent>(boss);
 	_mngr->addComponent<BossStatComponent>(boss);
-	_mngr->addComponent<EntityStat>(boss, 4, 0, 5, 5, 5);
+	//_mngr->addComponent<EntityStat>(boss, 4, 0, 5, 5, 5);
+
+	auto stats = _mngr->addComponent<EntityStat>(boss, 12, 0, 5, 5, 5);
+
 	_mngr->addComponent<BossAttackComponent>(boss);
 	auto mBoss = _mngr->addComponent<BossMovementComponent>(boss);
 	mBoss->init(_dungeonfloor);
@@ -170,6 +191,9 @@ void EnemyUtils::spawn_BOSS(Vector2D pos) {
 	tr->initTileChecker(tilechecker);
 	_mngr->addComponent<StatusEffect>(boss);
 
+	Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
+	Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
+	_mngr->addComponent<HealthBarComponent>(boss, fullHealth, emptyHealth, stats, -15.0f);
 }
 
 void EnemyUtils::spawn_NECRO(Vector2D pos) 
@@ -182,13 +206,18 @@ void EnemyUtils::spawn_NECRO(Vector2D pos)
 	_mngr->addComponent<NecroVectorComponent>(necro);
 	_mngr->addComponent<NecroStatComponent>(necro);
 	_mngr->addComponent<NecroSpawnerComponent>(necro);
-	_mngr->addComponent<EntityStat>(necro, 4, 0, 5, 5, 5);
+	//_mngr->addComponent<EntityStat>(necro, 4, 0, 5, 5, 5);
+
+	auto stats = _mngr->addComponent<EntityStat>(necro, 12, 0, 5, 5, 5);
+
 	auto tilechecker = _mngr->addComponent<TileCollisionChecker>(necro);
 	tilechecker->init(false, tr, _dungeonfloor);
 	tr->initTileChecker(tilechecker);
 	_mngr->addComponent<StatusEffect>(necro);
 
-
+	Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
+	Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
+	_mngr->addComponent<HealthBarComponent>(necro, fullHealth, emptyHealth, stats, -15.0f);
 }
 
 void EnemyUtils::necro_spawn(Entity* necro, int x, int y) 

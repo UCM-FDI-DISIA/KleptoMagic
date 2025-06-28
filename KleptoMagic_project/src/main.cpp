@@ -3,6 +3,7 @@
 #include <iostream>
 #include "sdlutils/sdlutils_demo.h"
 #include "ecs/Game.h"
+#include "utils/checkML.h"
 
 int main(int ac, char **av) {
 	try {

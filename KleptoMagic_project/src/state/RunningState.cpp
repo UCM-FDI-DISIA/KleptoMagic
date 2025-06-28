@@ -19,17 +19,63 @@
 #include "../ecs/EntityStat.h"
 #include "../room/PickableCMP.h"
 #include "../render/Camera.h"
+#include "../enemies/BossCMP.h"
 
+#include "../utils/checkML.h"
+
+//#include "../components/Health.h"
+//#include "../components/Gun.h"
 
 RunningState::RunningState() : _timer(300), minigame(nullptr) {
 #ifdef _DEBUG
 	std::cout << "Nuevo RunningState creado!" << std::endl;
 #endif
+	//Image* im = new Image();
 }
 	
 
 RunningState::~RunningState() {
+	// Liberar texturas
+	if (controlsTexture != nullptr) {
+		delete controlsTexture;
+		controlsTexture = nullptr;
+	}
+	if (hearthTexture != nullptr) {
+		delete hearthTexture;
+		hearthTexture = nullptr;
+	}
+	if (hearthTotalTexture != nullptr) {
+		delete hearthTotalTexture;
+		hearthTotalTexture = nullptr;
+	}
 
+	// Liberar música
+	if (gameBGM != nullptr) {
+		Mix_FreeMusic(gameBGM);
+		gameBGM = nullptr;
+	}
+
+	// Liberar otros recursos
+	if (bullet != nullptr) {
+		delete bullet;
+		bullet = nullptr;
+	}
+	if (roomstorage != nullptr) {
+		delete roomstorage;
+		roomstorage = nullptr;
+	}
+	if (dungeonfloor != nullptr) {
+		delete dungeonfloor;
+		dungeonfloor = nullptr;
+	}
+	if (itemStorage != nullptr) {
+		delete itemStorage;
+		itemStorage = nullptr;
+	}
+	if (minigame != nullptr) {
+		delete minigame;
+		minigame = nullptr;
+	}
 }
 
 bool RunningState::GMG(bool minigameActive) {
@@ -190,9 +236,25 @@ void RunningState::update() {
 			}
 		}
 
+		bool bossDefeated = false;
+		for (auto enemy : game().getMngr()->getEntities(ecs::grp::ENEMY)) {
+			if (game().getMngr()->hasComponent<BossStatComponent>(enemy)) {
+				auto stats = game().getMngr()->getComponent<EntityStat>(enemy);
+				if (stats != nullptr && stats->isDead()) {
+					bossDefeated = true;
+					break;
+				}
+			}
+		}
+
 		if (hp <= 0 || _timer.getTimeLeft() <= 0)
 		{
 			game().setEndResult(false);
+			game().pushState(new GameOverState());
+			exit = true;
+		}
+		else if (bossDefeated) {
+			game().setEndResult(true); 
 			game().pushState(new GameOverState());
 			exit = true;
 		}
@@ -226,23 +288,39 @@ void RunningState::checkCollisions() {
 				colission_thisframe = true;
 			}
 
-			for (auto bullet : _mngr->getEntities(ecs::grp::BULLET)) {
-				auto bullet_tr = _mngr->getComponent<Transform>(bullet);
+			for (auto bullets : _mngr->getEntities(ecs::grp::BULLET)) {
+				auto bullet_tr = _mngr->getComponent<Transform>(bullets);
 
 				if(Collisions::collides(
 					enemy_transform->getPos(), enemy_transform->getWidth(), enemy_transform->getHeight(),
 					bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe) 
 				{
 					auto* enemy_stats = _mngr->getComponent<EntityStat>(enemy);
-					auto* bullet_stats = _mngr->getComponent<BulletStats>(bullet);
-
+					auto* bullet_stats = _mngr->getComponent<BulletStats>(bullets);
 					enemy_stats->ChangeStat(-1 * bullet_stats->getDamage(), EntityStat::Stat::HealthCurrent);
+					bullet->collided(bullets);
 				}
 			}
 		}
 	}
+	for (auto bullets : _mngr->getEntities(ecs::grp::ENEMYBULLET)) {
+		auto bullet_tr = _mngr->getComponent<Transform>(bullets);
 
 	for (auto* upgrade : game().getMngr()->getEntities(ecs::grp::OBJECT)) 
+		if (Collisions::collides(
+			_tr->getPos(), _tr->getWidth(), _tr->getHeight(),
+			bullet_tr->getPos(), bullet_tr->getWidth(), bullet_tr->getHeight()) && !colission_thisframe)
+		{
+			//auto* enemy_stats = _mngr->getComponent<EntityStat>(pla);
+			auto* player_stats = _mngr->getComponent<EntityStat>(_mngr->getHandler(ecs::hdlr::PLAYER));
+			auto* bullet_stats = _mngr->getComponent<BulletStats>(bullets);
+
+			player_stats->ChangeStat(-1 * bullet_stats->getDamage(), EntityStat::Stat::HealthCurrent);
+			bullet->collided(bullets);
+		}
+
+	}
+	for (auto* upgrade : game().getMngr()->getEntities(ecs::grp::UPGRRADE)) 
 	{
 		if(game().getMngr()->isAlive(upgrade))
 		{
