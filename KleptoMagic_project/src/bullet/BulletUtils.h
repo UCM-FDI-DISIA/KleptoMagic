@@ -64,5 +64,6 @@ private:
 	std::string player;
 	BulletStats* bulStat;
 	DungeonFloor* _dungeonfloor = nullptr;
+	Manager* _mngr;
 };
 

@@ -7,6 +7,7 @@
 #include "../bullet/BulletStats.h"
 #include "../ecs/Transform.h"
 #include "../sdlutils/Texture.h"
+#include "../map/DungeonFloor.h"
 #include <chrono>
 namespace ecs
 {
@@ -229,6 +230,21 @@ namespace ecs
 			_ent->getMngr()->addComponent<BulletStats>(bullet2);
 			auto stats2 = _ent->getMngr()->getComponent<BulletStats>(bullet2);	
 			stats2->enemyStats(4);
+			if (!stats->getPiercing())
+			{
+				RoomStorage* roomstorage = new RoomStorage();
+				DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
+				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet);
+				tilechecker->init(true, tr,dungeonfloor );
+				tr->initTileChecker(tilechecker);
+			}if (!stats->getPiercing())
+			{
+				RoomStorage* roomstorage = new RoomStorage();
+				DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
+				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet2);
+				tilechecker->init(true, tr2,dungeonfloor );
+				tr2->initTileChecker(tilechecker);
+			}
 
 		}
 
@@ -236,7 +252,7 @@ namespace ecs
 		// still incomplete
 		void Attack2()
 		{
-			auto bullet = _ent->getMngr()->addEntity(ecs::grp::ENEMY);
+			auto bullet = _ent->getMngr()->addEntity(ecs::grp::ENEMYBULLET);
 			auto s = 50.0f;
 			auto tr = _ent->getMngr()->addComponent<Transform>(bullet);
 			// Set the position of the bullet to the boss's position with a small offset
@@ -248,6 +264,13 @@ namespace ecs
 			_ent->getMngr()->addComponent<BulletStats>(bullet);
 			auto stats = _ent->getMngr()->getComponent<BulletStats>(bullet);
 			stats->enemyStats(2);
+			if (!stats->getPiercing())
+			{
+				RoomStorage* roomstorage = new RoomStorage();
+				DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
+				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet);
+				tilechecker->init(true, tr, dungeonfloor);
+			}
 		}
 
 	};

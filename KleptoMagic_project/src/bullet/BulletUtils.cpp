@@ -13,31 +13,53 @@ BulletUtils::BulletUtils()
 	player = game().getSelectedCharacter();
 	bulStat = new BulletStats();
 	attSpeedCapFlat = bulStat->Created(player);
-	
+	_mngr = game().getMngr();
 }
 
 BulletUtils::~BulletUtils()
 {
+	for (auto bull : _mngr->getEntities(ecs::grp::BULLET)) { _mngr->setAlive(bull,false); }
+	for (auto bull : _mngr->getEntities(ecs::grp::ENEMYBULLET)) { _mngr->setAlive(bull,false); }
+	delete bulStat;
+	delete _tim;
+	delete explosion;
+	delete tex;
+	delete _dungeonfloor;
+	delete _mngr;
 	
 }
 
 void BulletUtils::update()
 {
-	auto* mngr = game().getMngr();
-	for (auto bull : mngr->getEntities(ecs::grp::BULLET))
+	_mngr = game().getMngr();
+	for (auto bull :_mngr->getEntities(ecs::grp::BULLET))
 	{
-		auto bullStat = mngr->getComponent<BulletStats>(bull);
+		auto bullStat =_mngr->getComponent<BulletStats>(bull);
 		if (!bullStat->getPiercing() && _dungeonfloor != nullptr)
 		{
-			auto tilecollision = mngr->getComponent<TileCollisionChecker>(bull);
-			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY()) { mngr->setAlive(bull, false); explode(bull); }
+			auto tilecollision =_mngr->getComponent<TileCollisionChecker>(bull);
+			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY()) {_mngr->setAlive(bull, false); explode(bull); }
 		}
 		if(sdlutils().currRealTime() - bullStat->getSartTime()>bullStat->getDuration())
 		{
 			explode(bull);
-			mngr->setAlive(bull, false);
+			_mngr->setAlive(bull, false);
+		}
+	}for (auto bull :_mngr->getEntities(ecs::grp::ENEMYBULLET))
+	{
+		auto bullStat =_mngr->getComponent<BulletStats>(bull);
+		if (!bullStat->getPiercing() && _dungeonfloor != nullptr)
+		{
+			auto tilecollision =_mngr->getComponent<TileCollisionChecker>(bull);
+			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY()) {_mngr->setAlive(bull, false); explode(bull); }
+		}
+		if(sdlutils().currRealTime() - bullStat->getSartTime()>bullStat->getDuration())
+		{
+			explode(bull);
+			_mngr->setAlive(bull, false);
 		}
 	}
+	
 }
 
 void BulletUtils::render()
@@ -46,15 +68,18 @@ void BulletUtils::render()
 
 void BulletUtils::reset()
 {
-	auto* mngr = game().getMngr();
-	for (auto bull : mngr->getEntities(ecs::grp::BULLET))
+	_mngr = game().getMngr();
+	for (auto bull :_mngr->getEntities(ecs::grp::BULLET))
 	{
-		mngr->setAlive(bull, false);
+		_mngr->setAlive(bull, false);
+	}for (auto bull :_mngr->getEntities(ecs::grp::ENEMYBULLET))
+	{
+		_mngr->setAlive(bull, false);
 	}
+	
 }
 
 void BulletUtils::hit(Entity* targ,Entity* bullet) {
-	auto* _mngr = game().getMngr();
 	auto* enemyhitted = _mngr->getComponent<EnemyHitted>(bullet);
 	if (enemyhitted->AddEnemy(targ)) {
 		EntityStat* _sts = _mngr->getComponent<EntityStat>(targ);
@@ -63,9 +88,14 @@ void BulletUtils::hit(Entity* targ,Entity* bullet) {
 		effects->AddStatus(StatusEffect::slow, bulStat->getSlowS(), bulStat->getSlowT());
 		effects->AddStatus(StatusEffect::dot, bulStat->getDotS(), bulStat->getDotT());
 		effects->AddStatus(StatusEffect::stun,0 , bulStat->getStun());
+		delete effects;
+		delete _sts;
 	}
 	auto* stat = _mngr->getComponent<BulletStats>(bullet);
 	if (!stat->getPiercing()) { explode(bullet); }
+	delete stat;
+	
+	delete enemyhitted;
 }
 
 void BulletUtils::pressed()
@@ -79,11 +109,9 @@ void BulletUtils::pressed()
 
 void BulletUtils::enemyShoot(Transform* _enemyTR, int i)
 {
-	auto* _mngr = game().getMngr();
+
 	Transform* _tr = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
-	
-	
-	auto _bullets = _mngr->addEntity(ecs::grp::ENEMYBULLET);
+	auto* _bullets = _mngr->addEntity(ecs::grp::ENEMYBULLET);
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
 	stats->enemyStats(i);
 	Vector2D vel = Vector2D(_tr->getPos() - _enemyTR->getPos()).normalize()*stats->getSpeed();
@@ -95,11 +123,15 @@ void BulletUtils::enemyShoot(Transform* _enemyTR, int i)
 	_mngr->addComponent<DestroyOnBorder>(_bullets);
 	if (!stats->getPiercing())
 	{
-		auto tilechecker = _mngr->addComponent<TileCollisionChecker>(_bullets);
+		auto* tilechecker = _mngr->addComponent<TileCollisionChecker>(_bullets);
 		tilechecker->init(true, _bulletsTR, _dungeonfloor);
 		_bulletsTR->initTileChecker(tilechecker);
 	}
 
+	delete stats;
+	delete _bullets;
+	delete _bulletsTR;
+	delete _tr;
 }
 
 void BulletUtils::BossManyDirectinons(Transform* bossTR, Vector2D v)
@@ -107,17 +139,18 @@ void BulletUtils::BossManyDirectinons(Transform* bossTR, Vector2D v)
 	BulletStats* stat = new BulletStats();
 	stat->enemyStats(2);
 	MultiShot(v, stat, false,bossTR);
+	delete stat;
 }
 
 void BulletUtils::collided(ecs::entity_t e)
 {
-	auto* mngr = game().getMngr();
-	auto bullStat = mngr->getComponent<BulletStats>(e);
+	auto bullStat = _mngr->getComponent<BulletStats>(e);
 	if(!bullStat->getPiercing())
 	{
-		mngr->setAlive(e, false);
+		_mngr->setAlive(e, false);
 	}
 	explode(e);
+	
 }
 
 void BulletUtils::addComponent(int i)
@@ -127,7 +160,6 @@ void BulletUtils::addComponent(int i)
 
 void BulletUtils::checkComponent(int i, ecs::entity_t bullet)
 {
-	auto* _mngr = game().getMngr();
 	if(i==0)
 	{
 		_mngr->addComponent<HomingComponent>(bullet);
@@ -139,7 +171,6 @@ void BulletUtils::checkComponent(int i, ecs::entity_t bullet)
 void BulletUtils::explode(ecs::entity_t bullet)
 {
 	
-	auto* _mngr = game().getMngr();
 	auto* _bstat = _mngr->getComponent<BulletStats>(bullet);
 	if (_bstat->getExplode()) {
 		auto* _tr = _mngr->getComponent<Transform>(bullet);
@@ -155,7 +186,6 @@ void BulletUtils::explode(ecs::entity_t bullet)
 
 void BulletUtils::shoot()
 {
-	auto* _mngr = game().getMngr();
 	Transform* _tr = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 	Vector2D playerCenter = {_tr->getPos().getX() + _tr->getWidth() / 2,_tr->getPos().getY() + _tr->getHeight() / 2	};
 	Vector2D aim = input().getAimVector(playerCenter - camOffset);
@@ -193,8 +223,7 @@ void BulletUtils::MultiShot(Vector2D v, BulletStats* stat, bool fromPlayer,Trans
 
 void BulletUtils::IndividualShotP(Vector2D v)
 {
-	auto* _mngr = game().getMngr();
-
+	_mngr = game().getMngr();
 	Transform* _tr = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 	int x, y;
 	SDL_GetMouseState(&x, &y);
@@ -207,11 +236,12 @@ void BulletUtils::IndividualShotP(Vector2D v)
 	}
 
 	auto _bullets = _mngr->addEntity(ecs::grp::BULLET);
+	auto _bulletsTR = _mngr->addComponent<Transform>(_bullets);
 	auto* stats = _mngr->addComponent<BulletStats>(_bullets);
 	stats->refreshStats(bulStat->getSpeed(), bulStat->getDamage(), bulStat->getDistance(), bulStat->getSize(), bulStat->getPiercing(),bulStat->getExplode(), bulStat->getBull(), bulStat->getSlowT(), bulStat->getSlowS(), bulStat->getStun(), bulStat->getDotT(), bulStat->getDotS());
 	Vector2D vel = v * stats->getSpeed();
 	float rot = atan2(vel.getY(), vel.getX()) * 180.0f / M_PI ;
-	auto _bulletsTR = _mngr->addComponent<Transform>(_bullets);
+	
 	_bulletsTR->init(Vector2D(_tr->getPos().getX() + _tr->getWidth() / 2, _tr->getPos().getY() + _tr->getHeight() / 2) - Vector2D(stats->getSize() / 2, stats->getSize() / 2), vel, stats->getSize(), stats->getSize(), rot);
 	_mngr->addComponent<ImageWithFrames>(_bullets, tex, 1, 1, 0);
 	_mngr->addComponent<DestroyOnBorder>(_bullets);
@@ -232,7 +262,6 @@ void BulletUtils::IndividualShotP(Vector2D v)
 
 void BulletUtils::IndividualShotH(Vector2D v, Transform* tr)
 {
-	auto* _mngr = game().getMngr();
 	Transform* _tr = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 
 
