@@ -2,7 +2,7 @@
 
 ObjectUtils::ObjectUtils() : _mngr(nullptr) 
 {
-	_storage = new ItemStorage("../resources/item_data/objetos.txt");
+	_storage = new ItemStorage("resources/item_data/objetos.txt");
 }
 
 bool ObjectUtils::init(Manager* mngr) { 
