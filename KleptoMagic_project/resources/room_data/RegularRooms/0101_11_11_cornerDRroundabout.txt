@@ -12,8 +12,8 @@ BBBWWDWWBBB
 
 BWWWWTWWWWB
 WW*******WW
-W*********W
-T***HH**l*R
+W***l*****W
+T***HH****R
 W***HH****W
 W***HH*WTWW
 W***WWWWBBB
@@ -21,4 +21,3 @@ T******WBBB
 W***s**WBBB
 WWWW***WBBB
 BBBWWDWWBBB
-
