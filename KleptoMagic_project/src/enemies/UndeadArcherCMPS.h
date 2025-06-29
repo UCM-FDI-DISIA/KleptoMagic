@@ -7,6 +7,7 @@
 #include "../sdlutils/Texture.h"
 #include "../render/AnimatorComponent.h"
 #include "../bullet/BulletUtils.h"
+#include "../map/DungeonFloor.h"
 #include <chrono>
 
 namespace ecs
@@ -115,51 +116,110 @@ namespace ecs
 		}
 	};
 
-	class UndeadAttackComponent : public Component
-	{
+	class UndeadAttackComponent : public Component {
 	public:
-		Transform* _UndeadTransform;
-		Transform* _player;
+		Transform* _UndeadTransform = nullptr;
+		Transform* _player = nullptr;
 		std::chrono::steady_clock::time_point lastAttackTime = std::chrono::steady_clock::now();
-		float attackRange;
-		float attackspeed;
-		float range;
+		float attackRange = 0.0f;
+		float attackspeed = 0.0f;
+		float range = 0.0f;
+		BulletUtils* bulletUtils = nullptr;
+		DungeonFloor* floor = nullptr;
+		UndeadStatComponent* stat = nullptr;
+
 		__CMPID_DECL__(ecs::cmp::UNDEADATKCMP);
-		void initComponent() override
-		{
-			auto* _mngr = _ent->getMngr();
-			_UndeadTransform = _mngr->getComponent<Transform>(_ent);
-			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
-			auto stat = static_cast<UndeadStatComponent*>(_ent->getMngr()->getComponent<UndeadStatComponent>(_ent));
-			range = stat->attackrange;
-			attackspeed = stat->attackspeed;
+
+		void initComponent() override {
+			Manager* mngr = _ent->getMngr();
+			_UndeadTransform = mngr->getComponent<Transform>(_ent);
+			_player = mngr->getComponent<Transform>(mngr->getHandler(ecs::hdlr::PLAYER));
+			stat = mngr->getComponent<UndeadStatComponent>(_ent);
+
+			if (stat) {
+				range = stat->attackrange;
+				attackspeed = stat->attackspeed;
+			}
 		}
-		void update() override
-		{
 
-			auto vector = static_cast<UndeadVectorComponent*>(_ent->getMngr()->getComponent<UndeadVectorComponent>(_ent));
+		~UndeadAttackComponent() {
+			if (bulletUtils) {
+				delete bulletUtils;
+				bulletUtils = nullptr;
+			}
+		}
 
-			auto movement = static_cast<UndeadMovementComponent*>(_ent->getMngr()->getComponent<UndeadMovementComponent>(_ent));
+		void init(DungeonFloor* f) {
+			floor = f;
+			if (!bulletUtils) {
+				bulletUtils = new BulletUtils();
+				bulletUtils->setDungeonFloor(floor);
+			}
+		}
+
+		void update() override {
+			Manager* mngr = _ent->getMngr();
+
+			UndeadVectorComponent* vector = mngr->getComponent<UndeadVectorComponent>(_ent);
+			UndeadStatComponent* currentStat = mngr->getComponent<UndeadStatComponent>(_ent);
+			UndeadMovementComponent* movement = mngr->getComponent<UndeadMovementComponent>(_ent);
+
+			if (!vector || !currentStat || !movement || !_UndeadTransform || !_player) return;
 
 			auto now = std::chrono::steady_clock::now();
 			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
 
 			vector->CreateVector(_player->getPos(), _UndeadTransform->getPos());
-			Vector2D attackdirection(vector->direcionX, vector->direcionY);
 			attackRange = vector->magnitude;
 
-			if (elapsedTime >= attackspeed && attackRange <= range)
-			{
+			movement->Move();
+
+			if (elapsedTime >= attackspeed && attackRange <= range) {
+				Vector2D direction = _player->getPos() - _UndeadTransform->getPos();
+				if (direction.magnitude() < 1e-3f) return;
+
+				direction = direction.normalize();
+
+				// Crear bala
+				Entity* bullet = mngr->addEntity(ecs::grp::ENEMYBULLET);
+				if (!bullet) return;
+
+				BulletStats* stats = mngr->addComponent<BulletStats>(bullet);
+				if (!stats) {
+					mngr->setAlive(bullet, false);
+					return;
+				}
+				stats->enemyStats(5);
+
+				Transform* bulletTR = mngr->addComponent<Transform>(bullet);
+				if (!bulletTR) {
+					mngr->setAlive(bullet, false);
+					return;
+				}
+
+				Vector2D spawnPos = _UndeadTransform->getPos() +
+					Vector2D(_UndeadTransform->getWidth() / 2, _UndeadTransform->getHeight() / 2) -
+					Vector2D(stats->getSize() / 2, stats->getSize() / 2);
+
+				Vector2D velocity = direction * stats->getSpeed();
+				float rotation = -velocity.angle(Vector2D(0, -1));
+
+				bulletTR->init(spawnPos, velocity, stats->getSize(), stats->getSize(), rotation);
+				mngr->addComponent<Image>(bullet, &sdlutils().images().at("enemy_bullet"));
+				mngr->addComponent<DestroyOnBorder>(bullet);
+
+				if (!stats->getPiercing() && floor) {
+					TileCollisionChecker* tileChecker = mngr->addComponent<TileCollisionChecker>(bullet);
+					if (tileChecker) {
+						tileChecker->init(true, bulletTR, floor);
+						bulletTR->initTileChecker(tileChecker);
+					}
+				}
+
 				lastAttackTime = now;
-				_UndeadTransform->getVel() = _UndeadTransform->getVel() * 0;
-			}
-			if (attackRange > range)
-			{
-				movement->Move();
 			}
 		}
 	};
-
 
 	class UndeadAnimComponent : public AnimatorComponent {
 	public:
