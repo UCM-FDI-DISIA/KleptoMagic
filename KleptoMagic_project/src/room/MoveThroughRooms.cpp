@@ -37,7 +37,7 @@ void MoveThroughRooms::update() {
 
 	if ((result == 'U' || result == 'D' || result == 'L' || result == 'R')
 		&& _dungeonfloor->isRoomCleared()) {
-		cout << _dungeonfloor->isRoomCleared() << endl;
+		//cout << _dungeonfloor->isRoomCleared() << endl;
 		enterRoom(result);
 	}
 }

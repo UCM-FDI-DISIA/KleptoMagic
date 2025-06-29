@@ -14,7 +14,11 @@ Special ItemStorage::parseSpecial(const std::string& str) {
 ItemStorage::ItemStorage(const std::string& filePath) {
 	std::ifstream file(filePath);
 	if (!file.is_open()) {
-		std::cerr << "Error al abrir el archivo: " << filePath << std::endl;
+#ifdef DEBUG
+	std::cerr << "Error al abrir el archivo: " << filePath << std::endl;
+#endif // DEBUG
+
+		
 		return;
 	}
 
@@ -28,7 +32,9 @@ ItemStorage::ItemStorage(const std::string& filePath) {
 			s.movementSpeed >> s.movementSpeedMult >>
 			s.damage >> s.damageMult >>
 			s.attackSpeed >> s.attackSpeedMult >> specialStr)) {
+#ifdef DEBUG
 			std::cerr << "Error al leer línea: " << line << std::endl;
+#endif // DEBUG
 			continue;
 		}
 
