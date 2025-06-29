@@ -127,9 +127,7 @@ void RunningState::update() {
 		_timer.update(deltaTime);
 
 		if (NewInputHandler::Instance()->isActionHeld(Action::ABILITY)) {
-#ifdef _DEBUG
-			std::cout << _timer.getTimeLeft() << std::endl;
-#endif
+
 		}
 
 		if (NewInputHandler::Instance()->isActionPressed(Action::INTERACT)) {

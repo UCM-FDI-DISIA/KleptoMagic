@@ -22,7 +22,7 @@ void PlayerCtrl::update() {
 	float speed = _eStat->getStat(EntityStat::Stat::MovementSpeed); //get entity Stats speed
 	Move(NewInputHandler::Instance()->getMovementVector(), speed);
 
-    if (NewInputHandler::Instance()->isActionPressed(Action::ABILITY)) {
+    /*if (NewInputHandler::Instance()->isActionPressed(Action::ABILITY)) {
         _eStat->ChangeStat(-1.0f, EntityStat::Stat::HealthCurrent);
-    }
+    }*/
 }
