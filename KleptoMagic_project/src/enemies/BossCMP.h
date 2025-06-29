@@ -231,53 +231,55 @@ namespace ecs
 		// Attack 1, shoots 2 homing bullets
 		void Attack1()
 		{
-			auto bullet = _ent->getMngr()->addEntity(ecs::grp::ENEMYBULLET);
-			auto s = 50.0f;
-			auto tr = _ent->getMngr()->addComponent<Transform>(bullet);
-			// Set the position of the bullet to the boss's position with a small offset
-			Vector2D bulletPos = _BossTransform->getPos();
-			bulletPos.setX(bulletPos.getX() + 20); // Adjust the offset as needed
-			bulletPos.setY(bulletPos.getY() - 20); // Adjust the offset as needed
+			if (_ent->getMngr()->isAlive(_ent)) {
+				auto bullet = _ent->getMngr()->addEntity(ecs::grp::ENEMYBULLET);
+				auto s = 50.0f;
+				auto tr = _ent->getMngr()->addComponent<Transform>(bullet);
+				// Set the position of the bullet to the boss's position with a small offset
+				Vector2D bulletPos = _BossTransform->getPos();
+				bulletPos.setX(bulletPos.getX() + 20); // Adjust the offset as needed
+				bulletPos.setY(bulletPos.getY() - 20); // Adjust the offset as needed
 
-			tr->init(bulletPos, Vector2D(), s, s, 0.0f);
-			_ent->getMngr()->addComponent<Image>(bullet, &sdlutils().images().at("enemy_bullet"));
-			_ent->getMngr()->addComponent<enemyHoming>(bullet);
-			_ent->getMngr()->addComponent<BulletStats>(bullet);
-			auto stats = _ent->getMngr()->getComponent<BulletStats>(bullet);
-			stats->enemyStats(3);
+				tr->init(bulletPos, Vector2D(), s, s, 0.0f);
+				_ent->getMngr()->addComponent<Image>(bullet, &sdlutils().images().at("enemy_bullet"));
+				_ent->getMngr()->addComponent<enemyHoming>(bullet);
+				_ent->getMngr()->addComponent<BulletStats>(bullet);
+				auto stats = _ent->getMngr()->getComponent<BulletStats>(bullet);
+				stats->enemyStats(3);
 
-			auto bullet2 = _ent->getMngr()->addEntity(ecs::grp::ENEMYBULLET);
-			auto tr2 = _ent->getMngr()->addComponent<Transform>(bullet2);
-			// Set the position of the bullet to the boss's position with a small offset
-			Vector2D bulletPos2 = _BossTransform->getPos();
-			bulletPos2.setX(bulletPos2.getX() - 20); // Adjust the offset as needed
-			bulletPos2.setY(bulletPos2.getY() - 20); // Adjust the offset as needed
+				auto bullet2 = _ent->getMngr()->addEntity(ecs::grp::ENEMYBULLET);
+				auto tr2 = _ent->getMngr()->addComponent<Transform>(bullet2);
+				// Set the position of the bullet to the boss's position with a small offset
+				Vector2D bulletPos2 = _BossTransform->getPos();
+				bulletPos2.setX(bulletPos2.getX() - 20); // Adjust the offset as needed
+				bulletPos2.setY(bulletPos2.getY() - 20); // Adjust the offset as needed
 
-			tr2->init(bulletPos2, Vector2D(), s, s, 0.0f);
-			_ent->getMngr()->addComponent<Image>(bullet2, &sdlutils().images().at("enemy_bullet"));
-			_ent->getMngr()->addComponent<enemyHoming>(bullet2);
-			_ent->getMngr()->addComponent<BulletStats>(bullet2);
-			auto stats2 = _ent->getMngr()->getComponent<BulletStats>(bullet2);
-			stats2->enemyStats(4);
-			if (!stats->getPiercing())
-			{
-				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet);
-				tilechecker->init(true, tr, dungeonfloor);
-				tr->initTileChecker(tilechecker);
-			}
-			else
-			{
-				_ent->getMngr()->addComponent<PlayerHitted>(bullet);
-			}
-			if (!stats->getPiercing())
-			{
-				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet2);
-				tilechecker->init(true, tr2, dungeonfloor);
-				tr2->initTileChecker(tilechecker);
-			}
-			else
-			{
-				_ent->getMngr()->addComponent<PlayerHitted>(bullet2);
+				tr2->init(bulletPos2, Vector2D(), s, s, 0.0f);
+				_ent->getMngr()->addComponent<Image>(bullet2, &sdlutils().images().at("enemy_bullet"));
+				_ent->getMngr()->addComponent<enemyHoming>(bullet2);
+				_ent->getMngr()->addComponent<BulletStats>(bullet2);
+				auto stats2 = _ent->getMngr()->getComponent<BulletStats>(bullet2);
+				stats2->enemyStats(4);
+				if (!stats->getPiercing())
+				{
+					auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet);
+					tilechecker->init(true, tr, dungeonfloor);
+					tr->initTileChecker(tilechecker);
+				}
+				else
+				{
+					_ent->getMngr()->addComponent<PlayerHitted>(bullet);
+				}
+				if (!stats->getPiercing())
+				{
+					auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet2);
+					tilechecker->init(true, tr2, dungeonfloor);
+					tr2->initTileChecker(tilechecker);
+				}
+				else
+				{
+					_ent->getMngr()->addComponent<PlayerHitted>(bullet2);
+				}
 			}
 		}
 
@@ -285,27 +287,29 @@ namespace ecs
 		// still incomplete
 		void Attack2()
 		{
-			auto bullet = _ent->getMngr()->addEntity(ecs::grp::ENEMYBULLET);
-			auto s = 50.0f;
-			auto tr = _ent->getMngr()->addComponent<Transform>(bullet);
-			// Set the position of the bullet to the boss's position with a small offset
-			Vector2D bulletPos = _BossTransform->getPos();
-			bulletPos.setX(bulletPos.getX() + 20); // Adjust the offset as needed
-			bulletPos.setY(bulletPos.getY() - 20); // Adjust the offset as needed
-			tr->init(bulletPos, Vector2D(), s, s, 0.0f);
-			_ent->getMngr()->addComponent<Image>(bullet, &sdlutils().images().at("enemy_bullet"));
-			_ent->getMngr()->addComponent<BulletStats>(bullet);
-			auto stats = _ent->getMngr()->getComponent<BulletStats>(bullet);
-			stats->enemyStats(2);
-			if (!stats->getPiercing())
-			{
-				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet);
-				tilechecker->init(true, tr, dungeonfloor);
+			if (_ent->getMngr()->isAlive(_ent)) {
+				auto bullet = _ent->getMngr()->addEntity(ecs::grp::ENEMYBULLET);
+				auto s = 50.0f;
+				auto tr = _ent->getMngr()->addComponent<Transform>(bullet);
+				// Set the position of the bullet to the boss's position with a small offset
+				Vector2D bulletPos = _BossTransform->getPos();
+				bulletPos.setX(bulletPos.getX() + 20); // Adjust the offset as needed
+				bulletPos.setY(bulletPos.getY() - 20); // Adjust the offset as needed
+				tr->init(bulletPos, Vector2D(), s, s, 0.0f);
+				_ent->getMngr()->addComponent<Image>(bullet, &sdlutils().images().at("enemy_bullet"));
+				_ent->getMngr()->addComponent<BulletStats>(bullet);
+				auto stats = _ent->getMngr()->getComponent<BulletStats>(bullet);
+				stats->enemyStats(2);
+				if (!stats->getPiercing())
+				{
+					auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet);
+					tilechecker->init(true, tr, dungeonfloor);
+				}
 			}
 		}
 
 		void Attack3(int numBullets) {
-
+			if (_ent->getMngr()->isAlive(_ent)) {
 			auto mngr = _ent->getMngr();
 
 			auto bossTR = mngr->getComponent<Transform>(_ent);
@@ -379,7 +383,7 @@ namespace ecs
 					}
 				}
 
-			//}
+			}
 		}
 
 	};
