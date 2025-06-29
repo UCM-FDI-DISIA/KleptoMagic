@@ -338,7 +338,7 @@ void RunningState::checkCollisions() {
 
 				player_stats->ChangeStat(-1 * bullet_stats->getDamage(), EntityStat::Stat::HealthCurrent);
 				bullet->collided(bullets);
-			}
+		}
 
 	}
 	for (auto* upgrade : game().getMngr()->getEntities(ecs::grp::OBJECT))
@@ -409,6 +409,7 @@ void RunningState::enter()
 		//bullet->addComponent(0);
 		bullet->setDungeonFloor(dungeonfloor);
 		playerutils().createPlayer(pos, s, bullet);
+		ObjectUtils::Instance()->setBulletUtils(bullet);
 	}
 	camOffset = Vector2D(0, 0);
 }

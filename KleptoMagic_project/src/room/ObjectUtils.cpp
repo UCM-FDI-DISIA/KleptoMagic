@@ -3,6 +3,7 @@
 ObjectUtils::ObjectUtils() : _mngr(nullptr) 
 {
 	_storage = new ItemStorage("resources/item_data/objetos.txt");
+	
 }
 
 bool ObjectUtils::init(Manager* mngr) { 
@@ -26,7 +27,8 @@ void ObjectUtils::spawn_RAMDOM_UPGRADE(Vector2D pos)
 	tr->init(pos, Vector2D(), s, s, 0.0f);
 	_mngr->addComponent<Image>(upgrade, &sdlutils().images().at("star"));
 	_mngr->addComponent<ObjectInfo>(upgrade, _storage->getRandomItem());
-	_mngr->addComponent<PickableCMP>(upgrade);
+	auto pickable= _mngr->addComponent<PickableCMP>(upgrade);
+	pickable->setBulletUtils(bullets);
 }
 
 void ObjectUtils::removeAllObjects() 

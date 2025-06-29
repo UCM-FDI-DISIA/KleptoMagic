@@ -19,6 +19,12 @@ void PickableCMP::upgradePlayer() {
 	_playerStats->ChangeMulti(_itemStats.movementSpeedMult, EntityStat::Stat::MovementSpeed);
 	_playerStats->ChangeMulti(_itemStats.damageMult, EntityStat::Stat::Damage);
 	_playerStats->ChangeMulti(_itemStats.attackSpeedMult, EntityStat::Stat::AttackSpeed);
+	if(_itemStats.sEffect>= 1)
+	{
+		if (_itemStats.sEffect == 1) { bullets->changeExplosion(true); }
+		else if (_itemStats.sEffect == 2) { bullets->addBullets(1); }
+		else if (_itemStats.sEffect == 3) { bullets->changePiercing(true); }
+	}
 }
 
 void PickableCMP::playerCollision(){

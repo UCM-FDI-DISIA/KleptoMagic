@@ -140,6 +140,9 @@ namespace ecs
 
 	class BossAttackComponent : public Component
 	{
+	private:
+		RoomStorage* roomstorage = new RoomStorage();
+		DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
 	public:
 		Transform* _BossTransform;
 		Transform* _player;
@@ -232,15 +235,11 @@ namespace ecs
 			stats2->enemyStats(4);
 			if (!stats->getPiercing())
 			{
-				RoomStorage* roomstorage = new RoomStorage();
-				DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
 				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet);
 				tilechecker->init(true, tr, dungeonfloor);
 				tr->initTileChecker(tilechecker);
 			}if (!stats->getPiercing())
 			{
-				RoomStorage* roomstorage = new RoomStorage();
-				DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
 				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet2);
 				tilechecker->init(true, tr2, dungeonfloor);
 				tr2->initTileChecker(tilechecker);
@@ -265,8 +264,6 @@ namespace ecs
 			stats->enemyStats(2);
 			if (!stats->getPiercing())
 			{
-				RoomStorage* roomstorage = new RoomStorage();
-				DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
 				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet);
 				tilechecker->init(true, tr, dungeonfloor);
 			}
