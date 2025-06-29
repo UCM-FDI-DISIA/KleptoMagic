@@ -26,6 +26,9 @@ public:
 	bool GMG(bool minigameActive);
 	BulletUtils* getBulletUtils() {return bullet;}
 	void update() override;
+
+	void renderPlayerStats();
+
 private:
 	void checkCollisions();
 	BulletUtils* bullet;

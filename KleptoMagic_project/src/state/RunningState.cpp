@@ -283,6 +283,8 @@ void RunningState::update() {
 
 		_timerRndr.render(sdlutils().renderer(), _timer.getTimeLeft());
 
+		renderPlayerStats();
+
 		// present new frame
 		sdlutils().presentRenderer();
 
@@ -411,6 +413,52 @@ void RunningState::enter()
 		playerutils().createPlayer(pos, s, bullet);
 	}
 	camOffset = Vector2D(0, 0);
+}
+
+void RunningState::renderPlayerStats() {
+	auto player = game().getMngr()->getHandler(ecs::hdlr::PLAYER);
+	if (player != nullptr && game().getMngr()->isAlive(player)) {
+		auto stats = game().getMngr()->getComponent<EntityStat>(player);
+
+		// Configuración de posición y estilo
+		int startX = 20;  // Margen izquierdo
+		int startY = sdlutils().height() - 120;  // 120 píxeles desde abajo
+		int lineHeight = 30;  // Espacio entre líneas
+		SDL_Color textColor = { 255, 255, 255, 255 };  // Blanco
+		SDL_Color highlightColor = { 255, 215, 0, 255 };  // Color dorado para valores
+
+		// Obtener los valores de los stats
+		float shield = stats->getStat(EntityStat::Stat::Shield);
+		float movementSpeed = stats->getStat(EntityStat::Stat::MovementSpeed);
+		float attackSpeed = stats->getStat(EntityStat::Stat::AttackSpeed);
+		float damage = stats->getStat(EntityStat::Stat::Damage);
+
+		// Crear texturas temporales para cada elemento de texto
+		Texture shieldLabel(sdlutils().renderer(), "SHIELD:", sdlutils().fonts().at("ARIAL16"), textColor);
+		Texture shieldValue(sdlutils().renderer(), std::to_string((int)shield), sdlutils().fonts().at("ARIAL24"), highlightColor);
+
+		Texture speedLabel(sdlutils().renderer(), "SPEED:", sdlutils().fonts().at("ARIAL16"), textColor);
+		Texture speedValue(sdlutils().renderer(), std::to_string((int)movementSpeed), sdlutils().fonts().at("ARIAL24"), highlightColor);
+
+		Texture atkSpeedLabel(sdlutils().renderer(), "ATK SPD:", sdlutils().fonts().at("ARIAL16"), textColor);
+		Texture atkSpeedValue(sdlutils().renderer(), std::to_string((int)attackSpeed), sdlutils().fonts().at("ARIAL24"), highlightColor);
+
+		Texture damageLabel(sdlutils().renderer(), "DAMAGE:", sdlutils().fonts().at("ARIAL16"), textColor);
+		Texture damageValue(sdlutils().renderer(), std::to_string((int)damage), sdlutils().fonts().at("ARIAL24"), highlightColor);
+
+		// Renderizar las etiquetas
+		shieldLabel.render(startX, startY);
+		shieldValue.render(startX + 80, startY - 5);
+
+		speedLabel.render(startX, startY + lineHeight);
+		speedValue.render(startX + 80, startY + lineHeight - 5);
+
+		atkSpeedLabel.render(startX, startY + 2 * lineHeight);
+		atkSpeedValue.render(startX + 80, startY + 2 * lineHeight - 5);
+
+		damageLabel.render(startX, startY + 3 * lineHeight);
+		damageValue.render(startX + 80, startY + 3 * lineHeight - 5);
+	}
 }
 
 void RunningState::leave()
