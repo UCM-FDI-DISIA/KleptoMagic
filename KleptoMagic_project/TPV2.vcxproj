@@ -80,8 +80,6 @@
     <ClCompile Include="SRC\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\bullet\EnemyHitted.h" />
-    <ClInclude Include="src\bullet\PlayerHitted.h" />
     <ClInclude Include="src\Class\EnemyHitted.h" />
     <ClInclude Include="src\ecs\HealthBarComponent.h" />
     <ClInclude Include="src\enemies\EnemyDrop.h" />

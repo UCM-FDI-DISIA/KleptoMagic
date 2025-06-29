@@ -1,4 +1,3 @@
-#pragma once
 #include "../ecs/Component.h"
 #include "../sdlutils/SDLUtils.h"
 #include "../ecs/Manager.h"

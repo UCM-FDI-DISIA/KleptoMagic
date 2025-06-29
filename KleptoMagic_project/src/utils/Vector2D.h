@@ -141,16 +141,6 @@ public:
 		return d._x * _x + d._y * _y;
 	}
 
-	// equality operator
-	inline bool operator==(const Vector2D& v) const {
-		return std::abs(_x - v._x) < 0.0001f && std::abs(_y - v._y) < 0.0001f;
-	}
-
-	// inequality operator
-	inline bool operator!=(const Vector2D& v) const {
-		return !(*this == v);
-	}
-
 	inline bool inRange(float x0, float x2, float y0, float y1) {
 		return _x >= x0 && _x <= x2 && _y >= y0 && _y <= y1;
 	}
