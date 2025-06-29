@@ -16,8 +16,8 @@ WWW*****WWW
 T*********T
 W*********W
 W*********W
-W******l**W
-T*********T
+W*********W
+T*******a*T
 WWW*****WWW
 BBW*****WBB
 BBWTWDWTWBB

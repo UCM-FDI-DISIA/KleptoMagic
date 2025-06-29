@@ -12,7 +12,6 @@
 #include "EnemyHitted.h"
 #include "../render/ImageWithFrames.h"
 #include "../bullet/BulletStats.h"
-#include "../bullet/PlayerHitted.h"
 #include "../bullet/HomingComponent.h"
 #include "../map/DungeonFloor.h"
 #include "../player/StatusEffect.h"

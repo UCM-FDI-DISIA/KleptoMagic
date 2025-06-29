@@ -215,10 +215,6 @@ namespace ecs
 						bulletTR->initTileChecker(tileChecker);
 					}
 				}
-				else 
-				{
-					mngr->addComponent<PlayerHitted>(bullet);
-				}
 
 				lastAttackTime = now;
 			}

@@ -16,7 +16,7 @@ public:
 		AttackSpeed,
 		Shield
 	};
-	
+
 	EntityStat(float health, float shld, float speed, float dmg, float aspd);
 	~EntityStat();
 	void Reset();
