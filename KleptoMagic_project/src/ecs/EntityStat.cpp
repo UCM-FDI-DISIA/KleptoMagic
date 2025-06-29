@@ -42,6 +42,7 @@ void EntityStat::ChangeStat(float add, Stat stat)
     switch (stat) {
     case Stat::HealthTotal:
         healthTotal += add;
+        if (healthTotal > 11) healthTotal = 11;
         break;
     case Stat::HealthCurrent:
         healthCurrent += add;
