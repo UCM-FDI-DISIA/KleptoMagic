@@ -52,7 +52,6 @@ private:
 	float healthTotal;
 	float healthCurrent;
 	float shield;
-	float healthMax; //para  no pasarnos de X vida maxima
 
 	//Velocidad de movimiento (podria ser negativa? XD)
 	float movementSpeed;

@@ -16,10 +16,18 @@ void EnemyDrop::initComponent()
 	srand(time(NULL));
 }
 
-void EnemyDrop::update() 
+/*void EnemyDrop::update()
 {
 	if(!_ent->getMngr()->isAlive(_ent) 
 		&& (rand() % 100) <= DEFAULT_DROP_RATE)
+	{
+		spawnUpgrade();
+	}
+}*/
+
+void EnemyDrop::update()
+{
+	if (!_ent->getMngr()->isAlive(_ent))
 	{
 		spawnUpgrade();
 	}

@@ -204,10 +204,12 @@ void RunningState::update() {
 
 			int maxHearts = static_cast<int>(hpTotal);
 			int currentHearts = static_cast<int>(hp);
-
-			/*#ifdef _DEBUG
-						std::cout << "HealthCurrent: " << hp << std::endl;
-			#endif*/
+#ifdef _DEBUG
+			//std::cout << "HealthTotal: " << hpTotal << std::endl;
+#endif
+#ifdef _DEBUG
+			//std::cout << "HealthCurrent: " << hp << std::endl;
+#endif
 
 			int heartSize = 64;
 			int spacing = 10;
@@ -402,18 +404,27 @@ void RunningState::renderPlayerStats() {
 
 		// Configuración de posición y estilo
 		int startX = 20;  // Margen izquierdo
-		int startY = sdlutils().height() - 120;  // 120 píxeles desde abajo
+		int startY = sdlutils().height() - 150;  // Aumentamos el margen inferior para añadir las nuevas líneas
 		int lineHeight = 30;  // Espacio entre líneas
 		SDL_Color textColor = { 255, 255, 255, 255 };  // Blanco
 		SDL_Color highlightColor = { 255, 215, 0, 255 };  // Color dorado para valores
+		SDL_Color healthColor = { 255, 50, 50, 255 };  // Color rojo para la vida
 
 		// Obtener los valores de los stats
+		float hpTotal = stats->getStat(EntityStat::Stat::HealthTotal);
+		float hpCurrent = stats->getStat(EntityStat::Stat::HealthCurrent);
 		float shield = stats->getStat(EntityStat::Stat::Shield);
 		float movementSpeed = stats->getStat(EntityStat::Stat::MovementSpeed);
 		float attackSpeed = stats->getStat(EntityStat::Stat::AttackSpeed);
 		float damage = stats->getStat(EntityStat::Stat::Damage);
 
 		// Crear texturas temporales para cada elemento de texto
+		Texture hpTotalLabel(sdlutils().renderer(), "HP TOTAL:", sdlutils().fonts().at("ARIAL16"), textColor);
+		Texture hpTotalValue(sdlutils().renderer(), std::to_string((int)hpTotal), sdlutils().fonts().at("ARIAL24"), healthColor);
+
+		Texture hpCurrentLabel(sdlutils().renderer(), "HP CURRENT:", sdlutils().fonts().at("ARIAL16"), textColor);
+		Texture hpCurrentValue(sdlutils().renderer(), std::to_string((int)hpCurrent), sdlutils().fonts().at("ARIAL24"), healthColor);
+
 		Texture shieldLabel(sdlutils().renderer(), "SHIELD:", sdlutils().fonts().at("ARIAL16"), textColor);
 		Texture shieldValue(sdlutils().renderer(), std::to_string((int)shield), sdlutils().fonts().at("ARIAL24"), highlightColor);
 
@@ -426,18 +437,25 @@ void RunningState::renderPlayerStats() {
 		Texture damageLabel(sdlutils().renderer(), "DAMAGE:", sdlutils().fonts().at("ARIAL16"), textColor);
 		Texture damageValue(sdlutils().renderer(), std::to_string((int)damage), sdlutils().fonts().at("ARIAL24"), highlightColor);
 
-		// Renderizar las etiquetas
-		shieldLabel.render(startX, startY);
-		shieldValue.render(startX + 80, startY - 5);
+		// Renderizar las etiquetas (nuevas líneas primero)
+		hpTotalLabel.render(startX, startY);
+		hpTotalValue.render(startX + 100, startY - 5);
 
-		speedLabel.render(startX, startY + lineHeight);
-		speedValue.render(startX + 80, startY + lineHeight - 5);
+		hpCurrentLabel.render(startX, startY + lineHeight);
+		hpCurrentValue.render(startX + 100, startY + lineHeight - 5);
 
-		atkSpeedLabel.render(startX, startY + 2 * lineHeight);
-		atkSpeedValue.render(startX + 80, startY + 2 * lineHeight - 5);
+		// Las estadísticas originales se desplazan hacia abajo
+		shieldLabel.render(startX, startY + 2 * lineHeight);
+		shieldValue.render(startX + 80, startY + 2 * lineHeight - 5);
 
-		damageLabel.render(startX, startY + 3 * lineHeight);
-		damageValue.render(startX + 80, startY + 3 * lineHeight - 5);
+		speedLabel.render(startX, startY + 3 * lineHeight);
+		speedValue.render(startX + 80, startY + 3 * lineHeight - 5);
+
+		atkSpeedLabel.render(startX, startY + 4 * lineHeight);
+		atkSpeedValue.render(startX + 80, startY + 4 * lineHeight - 5);
+
+		damageLabel.render(startX, startY + 5 * lineHeight);
+		damageValue.render(startX + 80, startY + 5 * lineHeight - 5);
 	}
 }
 

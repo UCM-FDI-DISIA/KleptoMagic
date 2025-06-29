@@ -41,15 +41,13 @@ void EntityStat::ChangeStat(float add, Stat stat)
 	//se suma al addi el dd y se resetea
     switch (stat) {
     case Stat::HealthTotal:
-        healthCurrent += add;
-        if (healthTotal < healthMax) healthCurrent = healthTotal;
+        healthTotal += add;
         break;
     case Stat::HealthCurrent:
         healthCurrent += add;
-        if (healthTotal < healthMax) healthCurrent = healthTotal;
         // CLAMP para no exceder límites
-        //if (healthCurrent > healthTotal) healthCurrent = healthTotal;
-        //if (healthCurrent < 0) healthCurrent = 0;
+        if (healthCurrent > healthTotal) healthCurrent = healthTotal;
+        if (healthCurrent < 0) healthCurrent = 0;
         break;
     case Stat::MovementSpeed:
         movementSpeed += add;
