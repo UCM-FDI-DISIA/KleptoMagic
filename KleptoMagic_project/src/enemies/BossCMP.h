@@ -200,8 +200,8 @@ namespace ecs
 			{
 				//chooses one attack from all possible attack patterns
 
-				//int attackPattern = rand() % 2; // Randomly choose an attack pattern (0 or 1)
-				int attackPattern = 2; // For testing purposes, always use attack pattern 0
+				int attackPattern = rand() % 3; // Randomly choose an attack pattern (0 or 1)
+				//int attackPattern = 2; // For testing purposes, always use attack pattern 0
 				switch (attackPattern)
 				{
 				case 0:
