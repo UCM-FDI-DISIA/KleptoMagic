@@ -70,29 +70,7 @@ RunningState::~RunningState() {
 	}
 	if (itemStorage != nullptr) {
 		delete itemStorage;
-		itemStorage = nullptr;
-	}
-	if (minigame != nullptr) {
-		delete minigame;
-		minigame = nullptr;
-	}
-
-
-	if (bullet != nullptr) {
-		delete bullet;
-		bullet = nullptr;
-	}
-	if (roomstorage != nullptr) {
-		delete roomstorage;
-		roomstorage = nullptr;
-	}
-	if (dungeonfloor != nullptr) {
-		delete dungeonfloor;
-		dungeonfloor = nullptr;
-	}
-	if (itemStorage != nullptr) {
-		delete itemStorage;
-		itemStorage = nullptr;
+		//itemStorage = nullptr;
 	}
 	if (minigame != nullptr) {
 		delete minigame;
