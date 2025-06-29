@@ -146,6 +146,16 @@ void BulletStats::enemyStats(int i)
 		damage = 1;
 		explode = false;
 	}
+	else if (i == 5) 
+	{
+		speed = 6;        
+		distance = 90000;
+		size = 15;          
+		piercing = true;
+		duration = distance / speed; 
+		damage = 1;
+		explode = false;
+	}
 	startTime = sdlutils().currRealTime();
 	//continuar cuando haya mas enemigos
 }
