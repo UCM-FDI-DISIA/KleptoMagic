@@ -19,12 +19,14 @@ BulletUtils::~BulletUtils()
 {
 	for (auto bull : _mngr->getEntities(ecs::grp::BULLET)) { _mngr->setAlive(bull, false); }
 	for (auto bull : _mngr->getEntities(ecs::grp::ENEMYBULLET)) { _mngr->setAlive(bull, false); }
-	delete bulStat;
-	delete _tim;
-	delete explosion;
-	delete tex;
-	delete _dungeonfloor;
-	delete _mngr;
+	if (bulStat) delete bulStat;
+	if (_tim) delete _tim;
+	bulStat = nullptr;
+	_tim = nullptr;
+	explosion = nullptr;
+	tex = nullptr;
+	_dungeonfloor = nullptr;
+	_mngr = nullptr;
 }
 
 void BulletUtils::update()

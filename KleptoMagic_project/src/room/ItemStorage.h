@@ -14,6 +14,7 @@ private:
 
 public:
 	ItemStorage(const std::string& filePath);
+	~ItemStorage();
 
 	// Devuelve un ítem aleatorio
 	Stats getRandomItem() const;
