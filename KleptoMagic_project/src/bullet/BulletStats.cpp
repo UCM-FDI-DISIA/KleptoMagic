@@ -122,7 +122,7 @@ void BulletStats::enemyStats(int i)
 		distance = 20000;
 		size = 100;
 		bullets = 7;
-		piercing = false;
+		piercing = true;
 		duration = distance / speed;
 		explode = false;
 	}

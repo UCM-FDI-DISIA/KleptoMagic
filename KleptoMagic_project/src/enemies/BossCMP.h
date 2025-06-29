@@ -8,7 +8,10 @@
 #include "../ecs/Transform.h"
 #include "../sdlutils/Texture.h"
 #include "../map/DungeonFloor.h"
+#include "../sdlutils/VirtualTimer.h"
+
 #include <chrono>
+
 namespace ecs
 {
 	class BossVectorComponent : public Component
@@ -198,7 +201,7 @@ namespace ecs
 				//chooses one attack from all possible attack patterns
 
 				//int attackPattern = rand() % 2; // Randomly choose an attack pattern (0 or 1)
-				int attackPattern = 0; // For testing purposes, always use attack pattern 0
+				int attackPattern = 2; // For testing purposes, always use attack pattern 0
 				switch (attackPattern)
 				{
 				case 0:
@@ -208,7 +211,7 @@ namespace ecs
 					Attack2();
 					break;
 				case 2:
-					Attack3();
+					Attack3(10);
 					break;
 				}
 
@@ -292,13 +295,82 @@ namespace ecs
 			}
 		}
 
-		void Attack3() {
-			//using BulletUtils::BossManyDirectinons(_BossTransform, Vector2D(1, 0));
+		void Attack3(int numBullets) {
 
-			bulletUtils->BossManyDirectinons(_BossTransform, Vector2D(1, 0));
+			auto mngr = _ent->getMngr();
 
+			auto bossTR = mngr->getComponent<Transform>(_ent);
 
+			auto now = std::chrono::steady_clock::now();
+			
 
+			//for (int j = 0; j < 6; ++j) {
+
+				// Crear múltiples balas en direcciones radiales
+				for (int i = 0; i < numBullets; ++i) {
+					// Calcular dirección radial (ángulo equiespaciado)
+					float angle = 2 * M_PI * i / numBullets;
+					//angle += j * M_PI / 3; // Desfase para cada grupo de balas
+					Vector2D direction(cos(angle), sin(angle));
+
+					// Crear entidad de bala
+					Entity* bullet = mngr->addEntity(ecs::grp::ENEMYBULLET);
+					if (!bullet) continue;
+
+					// Componente de estadísticas
+					BulletStats* stats = mngr->addComponent<BulletStats>(bullet);
+					if (!stats) {
+						mngr->setAlive(bullet, false);
+						continue;
+					}
+					stats->enemyStats(5); // Daño personalizable
+
+					// Componente de transformación
+					Transform* bulletTR = mngr->addComponent<Transform>(bullet);
+					if (!bulletTR) {
+						mngr->setAlive(bullet, false);
+						continue;
+					}
+
+					// Calcular posición inicial (centro del jefe)
+					Vector2D spawnPos = bossTR->getPos() +
+						Vector2D(bossTR->getWidth() / 2, bossTR->getHeight() / 2) -
+						Vector2D(stats->getSize() / 2, stats->getSize() / 2);
+
+					// Configurar velocidad y rotación
+					Vector2D velocity = direction * stats->getSpeed();
+					float rotation = -velocity.angle(Vector2D(0, -1));
+
+					// Inicializar transformación
+					bulletTR->init(spawnPos, velocity, stats->getSize(), stats->getSize(), rotation);
+
+					// Componentes de renderizado y comportamiento
+					mngr->addComponent<Image>(bullet, &sdlutils().images().at("enemy_bullet"));
+					mngr->addComponent<DestroyOnBorder>(bullet);
+
+					// Colisiones con tiles (si aplica)
+					if (!stats->getPiercing() && floor) {
+						TileCollisionChecker* tileChecker = mngr->addComponent<TileCollisionChecker>(bullet);
+						if (tileChecker) {
+							tileChecker->init(true, bulletTR, floor);
+							bulletTR->initTileChecker(tileChecker);
+						}
+					}
+				}
+
+				// Usa un pequeño retraso entre cada grupo de disparos, usando cronómetro
+
+				// Al inicio del delay
+				float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
+
+				if (elapsedTime < 1) {
+					// Espera un tiempo antes de disparar el siguiente grupo
+					while (elapsedTime < 1) {
+						// Espera
+					}
+				}
+
+			//}
 		}
 
 	};
