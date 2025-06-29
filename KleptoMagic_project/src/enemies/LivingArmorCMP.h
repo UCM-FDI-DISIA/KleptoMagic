@@ -5,6 +5,7 @@
 #include "../ecs/ecs_defs.h"
 #include "../ecs/Transform.h"
 #include "../sdlutils/SDLUtils.h"
+#include "../ecs/Game.h"
 #include <chrono>
 #include <random>
 
@@ -134,6 +135,7 @@ namespace ecs
                             if (playerStats != nullptr) {
                                 auto stat = _mngr->getComponent<ArmorStatComponent>(_ent);
                                 playerStats->ChangeStat(-stat->damage, EntityStat::Stat::HealthCurrent);
+                                game().playHurtSound();
 #ifdef _DEBUG
                                 std::cout << "[ARMOR HIT] Jugador recibió daño\n";
 #endif

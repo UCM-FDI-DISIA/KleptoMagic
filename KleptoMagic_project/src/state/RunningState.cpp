@@ -316,6 +316,7 @@ void RunningState::checkCollisions() {
 			auto* bullet_hitted = _mngr->getComponent<PlayerHitted>(bullets);
 			if (!bullet_stats->getPiercing() || (bullet_hitted != nullptr && bullet_hitted->AddPlayer())) {
 				player_stats->ChangeStat(-1 * bullet_stats->getDamage(), EntityStat::Stat::HealthCurrent);
+				game().playHurtSound();
 				bullet->collided(bullets);
 			}
 		}

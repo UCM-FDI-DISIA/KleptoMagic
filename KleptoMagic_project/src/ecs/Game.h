@@ -92,6 +92,12 @@ public:
 		return endResult;
 	}
 
+	void playHurtSound() {
+		if (hurtSound != nullptr) {
+			Mix_PlayChannel(-1, hurtSound, 0);
+		}
+	}
+
 private:
 	Game();
 	ecs::Manager* _mngr;
@@ -106,6 +112,9 @@ private:
 	std::string selectedCharacter;
 
 	bool endResult;
+
+	// Sonido de recibir daño
+	Mix_Chunk* hurtSound;
 };
 
 inline Game& game() {

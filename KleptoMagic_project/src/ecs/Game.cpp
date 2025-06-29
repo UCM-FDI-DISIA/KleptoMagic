@@ -21,13 +21,32 @@ Game::Game() : exit(false), _mngr(nullptr) {}
 
 bool Game::init() {
 	if (!SDLUtils::Init("KleptoMagic", 800, 600, "resources/config/resources.json")) {
+#ifdef _DEBUG
 		std::cerr << "Error inicializando SDLUtils" << std::endl;
+#endif
 		return false;
 	}
 
 	if (!NewInputHandler::Init()) {
+#ifdef _DEBUG
 		std::cerr << "Error inicializando NewInputHandler" << std::endl;
+#endif
 		return false;
+	}
+
+	// Inicializar SDL_mixer
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+#ifdef _DEBUG
+		std::cerr << "SDL_mixer no pudo inicializarse: " << Mix_GetError() << std::endl;
+#endif
+		return false;
+	}
+
+	if (hurtSound == nullptr) {
+		hurtSound = Mix_LoadWAV("resources/sound/hurt.mp3");
+#ifdef _DEBUG
+		std::cerr << "Error cargando hurt sound: " << Mix_GetError() << std::endl;
+#endif
 	}
 
 	return true;
@@ -37,15 +56,21 @@ bool Game::initGame() {
 	_mngr = new Manager();
 
 	if (!EnemyUtils::Init(_mngr)) {
+#ifdef _DEBUG
 		std::cerr << "Error initializing EnemyUtils" << std::endl;
+#endif
 		return false;
 	}
 	if (!PlayerUtils::Init(_mngr)) {
+#ifdef _DEBUG
 		std::cerr << "Error initializing PlayerUtils" << std::endl;
+#endif
 		return false;
 	}
 	if(!ObjectUtils::Init(_mngr)) {
+#ifdef _DEBUG
 		std::cerr << "Error initializing ObjectUtils" << std::endl;
+#endif
 		return false;
 	}
 
@@ -80,6 +105,14 @@ Game::~Game() {
 
 	if (_mngr)
 		delete _mngr;
+
+	if (hurtSound != nullptr) {
+		Mix_FreeChunk(hurtSound);
+		hurtSound = nullptr;
+	}
+
+	// Cerrar SDL_mixer
+	Mix_CloseAudio();
 }
 
 void Game::start() {

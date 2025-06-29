@@ -8,6 +8,7 @@
 #include "../map/DungeonFloor.h"
 #include "../render/AnimatorComponent.h"
 #include "../ecs/EntityStat.h"
+#include "../ecs/Game.h"
 
 namespace ecs
 {
@@ -207,6 +208,7 @@ namespace ecs
 					auto* playerStats = _mngr->getComponent<EntityStat>(player);
 					if (playerStats != nullptr) {
 						playerStats->ChangeStat(-stat->damage, EntityStat::Stat::HealthCurrent);
+						game().playHurtSound();
 					}
 				}
 			}
