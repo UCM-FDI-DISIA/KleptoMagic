@@ -131,6 +131,10 @@ void BulletUtils::enemyShoot(Transform* _enemyTR, int i)
 		tilechecker->init(true, _bulletsTR, _dungeonfloor);
 		_bulletsTR->initTileChecker(tilechecker);
 	}
+	else
+	{
+		_mngr->addComponent<PlayerHitted>(_bullets);
+	}
 	//delete stats;
 	//delete _bullets;
 	//delete _bulletsTR;
@@ -258,6 +262,7 @@ void BulletUtils::IndividualShotP(Vector2D v)
 		tilechecker->init(true, _bulletsTR, _dungeonfloor);
 		_bulletsTR->initTileChecker(tilechecker);
 	}
+	
 
 }
 

@@ -154,6 +154,8 @@
     <ClInclude Include="src\room\ItemStorage.h" />
     <ClInclude Include="src\room\ObjectUtils.h" />
     <ClInclude Include="src\enemies\EnemyDrop.h" />
+    <ClInclude Include="src\bullet\EnemyHitted.h" />
+    <ClInclude Include="src\bullet\PlayerHitted.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
