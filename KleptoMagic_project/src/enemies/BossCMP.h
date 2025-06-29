@@ -45,7 +45,7 @@ namespace ecs
 	};
 
 
-	class BossStatComponent : public Component
+	class BossStatComponent : public StatComponent
 	{
 		Transform* _BossTransform;
 		Transform* _player;
@@ -60,6 +60,12 @@ namespace ecs
 			auto* _mngr = _ent->getMngr();
 			_BossTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+
+			life = 10;
+			speed = 1;
+			attackspeed = 4.0f;
+			damage = 1;
+			attackrange = 280;
 		}
 		void update() override {}
 	};
@@ -147,6 +153,11 @@ namespace ecs
 		Transform* _BossTransform;
 		Transform* _player;
 		Entity* player = nullptr;
+
+		BulletUtils* bulletUtils = nullptr;
+		DungeonFloor* floor = nullptr;
+		BossStatComponent* stat = nullptr;
+
 		float attackCooldown;
 		std::chrono::steady_clock::time_point lastAttackTime = std::chrono::steady_clock::now();
 		std::chrono::steady_clock::time_point lastTeleportTime = std::chrono::steady_clock::now();
@@ -158,8 +169,16 @@ namespace ecs
 			auto* _mngr = _ent->getMngr();
 			_BossTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
+			stat = _mngr->getComponent<BossStatComponent>(_ent);
+
 		}
-		void init(DungeonFloor* f) { dungeonfloor = f; }
+		void init(DungeonFloor* f) {
+			dungeonfloor = f;
+			if (!bulletUtils) {
+				bulletUtils = new BulletUtils();
+				bulletUtils->setDungeonFloor(floor);
+			}
+		}
 		void update() override
 		{
 
@@ -187,6 +206,9 @@ namespace ecs
 					break;
 				case 1:
 					Attack2();
+					break;
+				case 2:
+					Attack3();
 					break;
 				}
 
@@ -268,6 +290,15 @@ namespace ecs
 				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet);
 				tilechecker->init(true, tr, dungeonfloor);
 			}
+		}
+
+		void Attack3() {
+			//using BulletUtils::BossManyDirectinons(_BossTransform, Vector2D(1, 0));
+
+			bulletUtils->BossManyDirectinons(_BossTransform, Vector2D(1, 0));
+
+
+
 		}
 
 	};
