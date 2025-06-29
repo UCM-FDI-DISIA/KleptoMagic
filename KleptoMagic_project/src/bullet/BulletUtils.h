@@ -43,6 +43,7 @@ public:
 	void changeSizeflat(int i) { bulStat->changeSizeflat( i); }
 	void changeSizeMul(float i) { bulStat->changeSizeMul( i); }
 	void changePiercing(bool b) { bulStat->changePiercing( b); }
+	void changeExplosion(bool b) { bulStat->changeExplode( b); }
 	void refreshDuration() { ; }
 	void changeAttSpeedCapFlat(float i) { attSpeedCapFlat += i; }
 	void changeAttSpeedCapMul(float i) { attSpeedCapMul += i; }
@@ -64,5 +65,6 @@ private:
 	std::string player;
 	BulletStats* bulStat;
 	DungeonFloor* _dungeonfloor = nullptr;
+	Manager* _mngr;
 };
 

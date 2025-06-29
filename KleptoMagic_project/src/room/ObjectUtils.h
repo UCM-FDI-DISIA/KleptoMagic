@@ -7,9 +7,8 @@
 #include "../ecs/Manager.h"
 #include "../render/Image.h"
 #include "../room/PickableCMP.h"
-#include "../room/ObjectInfo.h"
 #include "../room/ItemStorage.h"
-
+#include "../bullet/BulletUtils.h"
 
 using ecs::Manager;
 
@@ -27,7 +26,7 @@ protected:
 
 	Manager* _mngr;
 	ItemStorage* _storage;
-
+	BulletUtils* bullets;
 	bool init(Manager* mngr);
 
 	void spawn_RAMDOM_UPGRADE(Vector2D pos);	// modifica exclusivamente los stats del jugador
@@ -35,8 +34,9 @@ protected:
 public:
 	void removeAllObjects();
 	void updateStorage(ItemStorage* storage);
-	bool spawnObject(ObjectNames name, Vector2D pos);	// pone el item en el mapa
-	bool spawnObject(ObjectNames name, Transform tr);	// por si quieres instanciarlo mas facilmente desde un enemigo
-	bool spawnRandomItem(Vector2D pos);
+	void spawnObject(ObjectNames name, Vector2D pos);	// pone el item en el mapa
+	void spawnObject(ObjectNames name, Transform tr);	// por si quieres instanciarlo mas facilmente desde un enemigo
+	void spawnRandomItem(Vector2D pos);
+	void setBulletUtils(BulletUtils* b) { bullets = b; }
 };
 

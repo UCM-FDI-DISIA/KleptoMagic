@@ -59,6 +59,7 @@
     <ClCompile Include="src\ecs\HealthBarComponent.cpp" />
     <ClCompile Include="src\room\ItemStorage.cpp" />
     <ClCompile Include="src\room\ObjectUtils.cpp" />
+    <ClCompile Include="src\enemies\EnemyDrop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />
@@ -152,6 +153,7 @@
     <ClInclude Include="src\ecs\HealthBarComponent.h" />
     <ClInclude Include="src\room\ItemStorage.h" />
     <ClInclude Include="src\room\ObjectUtils.h" />
+    <ClInclude Include="src\enemies\EnemyDrop.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\config\resources.json" />

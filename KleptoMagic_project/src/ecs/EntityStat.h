@@ -1,6 +1,6 @@
+#pragma once
 #include "../ecs/Component.h"
 #include "../ecs/Manager.h"
-#pragma once
 
 class EntityStat : public ecs::Component//hay que meter getters y setters
 {

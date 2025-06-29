@@ -6,6 +6,7 @@
 #include "../ecs/Transform.h"
 #include "../sdlutils/Texture.h"
 #include "../render/AnimatorComponent.h"
+#include "../bullet/BulletUtils.h"
 #include <chrono>
 
 namespace ecs
@@ -20,9 +21,9 @@ namespace ecs
 			auto* _mngr = _ent->getMngr();
 			life = 8;
 			speed = 1;
-			attackspeed = 10;
-			damage = 4;
-			attackrange = 10;
+			attackspeed = 4.0f; 
+			damage = 1;
+			attackrange = 280; 
 		}
 	};
 
@@ -135,30 +136,30 @@ namespace ecs
 		}
 		void update() override
 		{
-				auto vector = static_cast<UndeadVectorComponent*>(_ent->getMngr()->getComponent<UndeadVectorComponent>(_ent));
-			
-				auto movement = static_cast<UndeadMovementComponent*>(_ent->getMngr()->getComponent<UndeadMovementComponent>(_ent));
-		
-				auto now = std::chrono::steady_clock::now();
-				float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
 
-				vector->CreateVector(_player->getPos(), _UndeadTransform->getPos());
-				Vector2D attackdirection(vector->direcionX , vector->direcionY);
-				attackRange = vector->magnitude;
+			auto vector = static_cast<UndeadVectorComponent*>(_ent->getMngr()->getComponent<UndeadVectorComponent>(_ent));
 
-				if (elapsedTime >= attackspeed && attackRange <= range)
-				{
-					//create bullet
-					
-					lastAttackTime = now;
-					_UndeadTransform->getVel() =  _UndeadTransform->getVel() * 0;
-				}
-				if (attackRange > range) 
-				{
-					movement->Move();
-				}			 
+			auto movement = static_cast<UndeadMovementComponent*>(_ent->getMngr()->getComponent<UndeadMovementComponent>(_ent));
+
+			auto now = std::chrono::steady_clock::now();
+			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
+
+			vector->CreateVector(_player->getPos(), _UndeadTransform->getPos());
+			Vector2D attackdirection(vector->direcionX, vector->direcionY);
+			attackRange = vector->magnitude;
+
+			if (elapsedTime >= attackspeed && attackRange <= range)
+			{
+				lastAttackTime = now;
+				_UndeadTransform->getVel() = _UndeadTransform->getVel() * 0;
+			}
+			if (attackRange > range)
+			{
+				movement->Move();
+			}
 		}
 	};
+
 
 	class UndeadAnimComponent : public AnimatorComponent {
 	public:

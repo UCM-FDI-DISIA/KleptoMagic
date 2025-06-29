@@ -15,6 +15,7 @@ BulletStats::BulletStats()
 
 BulletStats::~BulletStats()
 {
+	delete _eStat;
 }
 
 void BulletStats::initComponent() { //falta get entity stats speed
@@ -23,7 +24,6 @@ void BulletStats::initComponent() { //falta get entity stats speed
 	if (estat != nullptr) {
 		_eStat = estat;
 	}
-	
 }
 
 float BulletStats::Created(std::string s)
@@ -35,21 +35,21 @@ float BulletStats::Created(std::string s)
 		damage = entityStat->getStat(EntityStat::Stat::Damage);
 	}
 	else { damage = 15; }
-	if(s=="ROGUE")
+	if (s == "ROGUE")
 	{
 		speed = 10;
-		
+
 		distance = 7500;
 		size = 10;
 		piercing = false;
 		duration = distance / speed;
-		bullets = 5;
-		explode = true;
+		bullets = 3;
+		explode = false;
 		return 250;
 	}
-	else if(s=="KNIGHT"){
+	else if (s == "KNIGHT") {
 		speed = 5;
-		
+
 		distance = 50;
 		size = 150;
 		piercing = true;
@@ -57,7 +57,7 @@ float BulletStats::Created(std::string s)
 		explode = false;
 		return 300;
 	}
-	else if(s=="ALCHEMIST"){
+	else if (s == "ALCHEMIST") {
 		speed = 2.5;
 		explode = true;
 		distance = 10000;
@@ -66,7 +66,7 @@ float BulletStats::Created(std::string s)
 		duration = distance / speed;
 		return 500;
 	}
-	else if(s=="HUNTER"){
+	else if (s == "HUNTER") {
 		speed = 20;
 		explode = false;
 		distance = 90000;
@@ -76,6 +76,8 @@ float BulletStats::Created(std::string s)
 		return 700;
 	}
 	startTime = sdlutils().currRealTime();
+	delete _mngr;
+	delete player;
 }
 void BulletStats::explosionStats(int dam)
 {
@@ -93,26 +95,27 @@ void BulletStats::enemyStats(int i)
 {
 	auto* entityStat = Game::Instance()->getMngr()->getComponent<EntityStat>(_ent);
 	//damage = entityStat->getStat(EntityStat::Stat::Damage);
-	if(i==0)
+	if (i == 0)
 	{
 		speed = 5;
-		
+
 		distance = 50;
 		size = 150;
 		piercing = true;
 		duration = distance / speed;
 		explode = false;
 	}
-	else if(i==1)
+	else if (i == 1)
 	{
 		speed = 10;
-		
+
 		distance = 20000;
 		size = 100;
 		piercing = false;
 		duration = distance / speed;
 		explode = false;
-	}else if(i==2)
+	}
+	else if (i == 2)
 	{
 		speed = 10;
 		damage = 1;
@@ -125,7 +128,7 @@ void BulletStats::enemyStats(int i)
 	}
 	else if (i == 3) {
 		speed = 3;
-		
+
 		distance = 9000;
 		size = 100;
 		piercing = false;
@@ -135,7 +138,7 @@ void BulletStats::enemyStats(int i)
 	}
 	else if (i == 4) {
 		speed = 2;
-		
+
 		distance = 6000;
 		size = 100;
 		piercing = false;
@@ -147,7 +150,7 @@ void BulletStats::enemyStats(int i)
 	//continuar cuando haya mas enemigos
 }
 
-void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool pierc,bool explo, int bull, float slowt, float slows, float stunt, float dott, float dots)
+void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool pierc, bool explo, int bull, float slowt, float slows, float stunt, float dott, float dots)
 {
 	auto* _mngr = Game::Instance()->getMngr();
 	auto* player = _mngr->getHandler(ecs::hdlr::PLAYER);
@@ -174,3 +177,4 @@ void BulletStats::refreshStats(float spe, float dmg, float dist, float siz, bool
 void BulletStats::update()
 {
 }
+
