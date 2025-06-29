@@ -63,7 +63,9 @@ namespace ecs
             }
 
             isCharging = true;
+#ifdef _DEBUG
             std::cout << "[NEW DIRECTION] Selected: (" << direction.getX() << "," << direction.getY() << ")\n";
+#endif
         }
     };
 
@@ -132,7 +134,9 @@ namespace ecs
                             if (playerStats != nullptr) {
                                 auto stat = _mngr->getComponent<ArmorStatComponent>(_ent);
                                 playerStats->ChangeStat(-stat->damage, EntityStat::Stat::HealthCurrent);
+#ifdef _DEBUG
                                 std::cout << "[ARMOR HIT] Jugador recibió daño\n";
+#endif
                             }
                         }
                     }
@@ -197,8 +201,9 @@ namespace ecs
                             _armorTransform->getVel() = Vector2D(0, 0);
                             vector->isCharging = false;
                             vector->lastStoppedTime = std::chrono::steady_clock::now();
-
+#ifdef _DEBUG
                             std::cout << "[WALL HIT] Chocó con la pared. Esperando cooldown...\n";
+#endif
                         }
                     }
 
@@ -211,8 +216,9 @@ namespace ecs
                             Vector2D avoidDir = vector->direction; // dirección que causó la colisión
                             vector->SelectDirection(avoidDir);     // no la reutilizamos como base, solo evitamos
                             vector->isCharging = true;
-
+#ifdef _DEBUG
                             std::cout << "[RECHARGE] Seleccionando nueva dirección tras esperar " << stat->chargeCooldown << " ms\n";
+#endif
                         }
                     }
 
@@ -279,8 +285,9 @@ namespace ecs
                 // Aseguramos que el número de frames es 4 por dirección
                 _img->setStartingFrame(startFrame + offset * 4);  // 4 frames por fila
                 _img->setNumFrames(4);
-
+#ifdef _DEBUG
                 std::cout << "[ANIM CHANGE] Nueva dirección: " << dir << "\n"; // Para depuración
+#endif
             }
 
             char facingDirection() const {
