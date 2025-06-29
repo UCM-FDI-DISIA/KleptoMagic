@@ -26,7 +26,7 @@ public:
 	bool GMG(bool minigameActive);
 	BulletUtils* getBulletUtils() {return bullet;}
 	void update() override;
-
+	void reset();
 	void renderPlayerStats();
 
 private:
