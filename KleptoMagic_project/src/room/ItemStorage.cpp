@@ -45,6 +45,11 @@ ItemStorage::ItemStorage(const std::string& filePath) {
 	file.close();
 }
 
+ItemStorage::~ItemStorage() {
+	//clear items vector
+	items.clear();
+}
+
 Stats ItemStorage::getRandomItem() const {
 	if (items.empty()) {
 		std::cerr << "No hay ítems cargados." << std::endl;
