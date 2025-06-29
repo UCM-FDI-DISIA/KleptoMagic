@@ -313,9 +313,11 @@ void RunningState::checkCollisions() {
 			//auto* enemy_stats = _mngr->getComponent<EntityStat>(pla);
 			auto* player_stats = _mngr->getComponent<EntityStat>(_mngr->getHandler(ecs::hdlr::PLAYER));
 			auto* bullet_stats = _mngr->getComponent<BulletStats>(bullets);
-
+			auto* bullet_hitted = _mngr->getComponent<PlayerHitted>(bullets);
+			if (!bullet_stats->getPiercing() || (bullet_hitted != nullptr && bullet_hitted->AddPlayer())) {
 				player_stats->ChangeStat(-1 * bullet_stats->getDamage(), EntityStat::Stat::HealthCurrent);
 				bullet->collided(bullets);
+			}
 		}
 
 	}

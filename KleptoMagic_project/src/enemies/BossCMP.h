@@ -264,11 +264,20 @@ namespace ecs
 				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet);
 				tilechecker->init(true, tr, dungeonfloor);
 				tr->initTileChecker(tilechecker);
-			}if (!stats->getPiercing())
+			}
+			else
+			{
+				_ent->getMngr()->addComponent<PlayerHitted>(bullet);
+			}
+			if (!stats->getPiercing())
 			{
 				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet2);
 				tilechecker->init(true, tr2, dungeonfloor);
 				tr2->initTileChecker(tilechecker);
+			}
+			else
+			{
+				_ent->getMngr()->addComponent<PlayerHitted>(bullet2);
 			}
 		}
 

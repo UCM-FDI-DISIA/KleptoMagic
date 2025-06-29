@@ -7,6 +7,7 @@
 #include "../sdlutils/Texture.h"
 #include "../render/AnimatorComponent.h"
 #include "../bullet/BulletUtils.h"
+#include "../bullet/PlayerHitted.h"
 #include "../map/DungeonFloor.h"
 #include <chrono>
 
@@ -214,6 +215,10 @@ namespace ecs
 						tileChecker->init(true, bulletTR, floor);
 						bulletTR->initTileChecker(tileChecker);
 					}
+				}
+				else
+				{
+					mngr->addComponent<PlayerHitted>(bullet);
 				}
 
 				lastAttackTime = now;
