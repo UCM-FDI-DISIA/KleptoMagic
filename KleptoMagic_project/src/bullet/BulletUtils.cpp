@@ -34,26 +34,32 @@ void BulletUtils::update()
 	_mngr = game().getMngr();
 	for (auto bull : _mngr->getEntities(ecs::grp::BULLET))
 	{
+		bool destroyed = false;
 		auto bullStat = _mngr->getComponent<BulletStats>(bull);
 		if (!bullStat->getPiercing() && _dungeonfloor != nullptr)
 		{
 			auto tilecollision = _mngr->getComponent<TileCollisionChecker>(bull);
-			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY()) { _mngr->setAlive(bull, false); explode(bull); }
+			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY()) { _mngr->setAlive(bull, false); explode(bull); destroyed = true;
+			}
 		}
-		if (sdlutils().currRealTime() - bullStat->getSartTime() > bullStat->getDuration())
+		if (sdlutils().currRealTime() - bullStat->getSartTime() > bullStat->getDuration()&&!destroyed)
 		{
 			explode(bull);
 			_mngr->setAlive(bull, false);
 		}
 	}for (auto bull : _mngr->getEntities(ecs::grp::ENEMYBULLET))
 	{
+		bool destroyed = false;
 		auto bullStat = _mngr->getComponent<BulletStats>(bull);
-		if (!bullStat->getPiercing() && _dungeonfloor != nullptr)
+		/*if (!bullStat->getPiercing() && _dungeonfloor != nullptr)
 		{
 			auto tilecollision = _mngr->getComponent<TileCollisionChecker>(bull);
-			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY()) { _mngr->setAlive(bull, false); explode(bull); }
-		}
-		if (sdlutils().currRealTime() - bullStat->getSartTime() > bullStat->getDuration())
+			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY())
+			{
+				_mngr->setAlive(bull, false); explode(bull); destroyed = true;
+			}
+		}*/
+		if (sdlutils().currRealTime() - bullStat->getSartTime() > bullStat->getDuration()&&!destroyed)
 		{
 			explode(bull);
 			_mngr->setAlive(bull, false);
@@ -72,9 +78,9 @@ void BulletUtils::reset()
 	{
 		_mngr->setAlive(bull, false);
 	}
-	for (auto bull : _mngr->getEntities(ecs::grp::ENEMYBULLET))
+	for (auto bull2 : _mngr->getEntities(ecs::grp::ENEMYBULLET))
 	{
-		_mngr->setAlive(bull, false);
+		_mngr->setAlive(bull2, false);
 	}
 }
 
@@ -124,6 +130,10 @@ void BulletUtils::enemyShoot(Transform* _enemyTR, int i)
 		auto* tilechecker = _mngr->addComponent<TileCollisionChecker>(_bullets);
 		tilechecker->init(true, _bulletsTR, _dungeonfloor);
 		_bulletsTR->initTileChecker(tilechecker);
+	}
+	else
+	{
+		_mngr->addComponent<PlayerHitted>(_bullets);
 	}
 	//delete stats;
 	//delete _bullets;
@@ -252,6 +262,7 @@ void BulletUtils::IndividualShotP(Vector2D v)
 		tilechecker->init(true, _bulletsTR, _dungeonfloor);
 		_bulletsTR->initTileChecker(tilechecker);
 	}
+	
 
 }
 

@@ -5,6 +5,8 @@
 #include "../ecs/ecs_defs_example.h"
 #include "../enemies/enemyHoming.h"
 #include "../bullet/BulletStats.h"
+#include "../bullet/PlayerHitted.h"
+#include "../bullet/DestroyOnBorder.h"
 #include "../ecs/Transform.h"
 #include "../sdlutils/Texture.h"
 #include "../map/DungeonFloor.h"
@@ -184,13 +186,18 @@ namespace ecs
 		}
 		void update() override
 		{
+			if (_ent->getMngr()->isAlive(_ent)) {
+				auto vector = static_cast<BossVectorComponent*>(_ent->getMngr()->getComponent<BossVectorComponent>(_ent));
+				auto stat = static_cast<BossStatComponent*>(_ent->getMngr()->getComponent<BossStatComponent>(_ent));
+				auto movement = static_cast<BossMovementComponent*>(_ent->getMngr()->getComponent<BossMovementComponent>(_ent));
+				auto now = std::chrono::steady_clock::now();
+				float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
+				teleportCooldown = std::chrono::duration<float>(now - lastTeleportTime).count();
 
-			auto vector = static_cast<BossVectorComponent*>(_ent->getMngr()->getComponent<BossVectorComponent>(_ent));
-			auto stat = static_cast<BossStatComponent*>(_ent->getMngr()->getComponent<BossStatComponent>(_ent));
-			auto movement = static_cast<BossMovementComponent*>(_ent->getMngr()->getComponent<BossMovementComponent>(_ent));
-			auto now = std::chrono::steady_clock::now();
-			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
-			teleportCooldown = std::chrono::duration<float>(now - lastTeleportTime).count();
+				float distance = vector->CreateVector(_player->getPos(), _BossTransform->getPos());
+				Vector2D attackdirection(vector->direcionX * 1, vector->direcionY * 1);
+				attackRange = distance;
+
 
 			float distance = vector->CreateVector(_player->getPos(), _BossTransform->getPos());
 			Vector2D attackdirection(vector->direcionX * 1, vector->direcionY * 1);
@@ -213,17 +220,19 @@ namespace ecs
 				case 2:
 					Attack3(10);
 					break;
+
+					}
+
+					lastAttackTime = now;
+					_BossTransform->getVel() = _BossTransform->getVel() * 0;
 				}
+				if (teleportCooldown >= 4 && attackRange < 80)
+				{
+					movement->Teleport();
+					lastTeleportTime = now;
 
-				lastAttackTime = now;
-				_BossTransform->getVel() = _BossTransform->getVel() * 0;
+				}
 			}
-			if (teleportCooldown >= 4 && attackRange < 80)
-			{
-				movement->Teleport();
-				lastTeleportTime = now;
-			}
-
 		}
 
 		// Different attack patterns 
@@ -244,7 +253,7 @@ namespace ecs
 			_ent->getMngr()->addComponent<enemyHoming>(bullet);
 			_ent->getMngr()->addComponent<BulletStats>(bullet);
 			auto stats = _ent->getMngr()->getComponent<BulletStats>(bullet);
-			stats->enemyStats(3);
+			stats->enemyStats(4);
 
 			auto bullet2 = _ent->getMngr()->addEntity(ecs::grp::ENEMYBULLET);
 			auto tr2 = _ent->getMngr()->addComponent<Transform>(bullet2);
@@ -262,13 +271,18 @@ namespace ecs
 			if (!stats->getPiercing())
 			{
 				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet);
+				auto* tilechecker2 = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet2);
 				tilechecker->init(true, tr, dungeonfloor);
 				tr->initTileChecker(tilechecker);
-			}if (!stats->getPiercing())
+				tilechecker2->init(true, tr2, dungeonfloor);
+				tr2->initTileChecker(tilechecker2);
+			}
+			else
 			{
-				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet2);
-				tilechecker->init(true, tr2, dungeonfloor);
-				tr2->initTileChecker(tilechecker);
+				_ent->getMngr()->addComponent<PlayerHitted>(bullet);
+				_ent->getMngr()->addComponent<DestroyOnBorder>(bullet);
+				_ent->getMngr()->addComponent<PlayerHitted>(bullet2);
+				_ent->getMngr()->addComponent<DestroyOnBorder>(bullet2);
 			}
 		}
 
@@ -287,11 +301,16 @@ namespace ecs
 			_ent->getMngr()->addComponent<Image>(bullet, &sdlutils().images().at("enemy_bullet"));
 			_ent->getMngr()->addComponent<BulletStats>(bullet);
 			auto stats = _ent->getMngr()->getComponent<BulletStats>(bullet);
-			stats->enemyStats(2);
+			stats->enemyStats(4);
 			if (!stats->getPiercing())
 			{
 				auto* tilechecker = _ent->getMngr()->addComponent<TileCollisionChecker>(bullet);
 				tilechecker->init(true, tr, dungeonfloor);
+				tr->initTileChecker(tilechecker);
+			}
+			else{
+				_ent->getMngr()->addComponent<PlayerHitted>(bullet);
+				_ent->getMngr()->addComponent<DestroyOnBorder>(bullet);
 			}
 		}
 

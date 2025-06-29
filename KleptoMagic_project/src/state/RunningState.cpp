@@ -250,11 +250,13 @@ void RunningState::update() {
 		if (hp <= 0 || _timer.getTimeLeft() <= 0)
 		{
 			game().setEndResult(false);
+			reset();
 			game().pushState(new GameOverState());
 			exit = true;
 		}
 		else if (bossDefeated) {
 			game().setEndResult(true);
+			reset();
 			game().pushState(new GameOverState());
 			exit = true;
 		}
@@ -315,9 +317,15 @@ void RunningState::checkCollisions() {
 			//auto* enemy_stats = _mngr->getComponent<EntityStat>(pla);
 			auto* player_stats = _mngr->getComponent<EntityStat>(_mngr->getHandler(ecs::hdlr::PLAYER));
 			auto* bullet_stats = _mngr->getComponent<BulletStats>(bullets);
-
+			auto* bullethitted = _mngr->getComponent<PlayerHitted>(bullets);
+			if (bullet_stats->getPiercing()) { if (bullethitted != nullptr && bullethitted->AddPlayer()) {
 				player_stats->ChangeStat(-1 * bullet_stats->getDamage(), EntityStat::Stat::HealthCurrent);
 				bullet->collided(bullets);
+			} }
+			else {
+				player_stats->ChangeStat(-1 * bullet_stats->getDamage(), EntityStat::Stat::HealthCurrent);
+				bullet->collided(bullets);
+			}
 		}
 
 	}
@@ -355,7 +363,7 @@ void RunningState::enter()
 #endif
 		}
 	}
-
+	
 	// Reproducir la música si no se ha empezado ya
 	if (gameBGM != nullptr) {
 		Mix_VolumeMusic(38);
@@ -443,4 +451,24 @@ void RunningState::renderPlayerStats() {
 void RunningState::leave()
 {
 	Mix_HaltMusic();
+}
+void RunningState::reset()
+{
+	for(auto enemy:game().getMngr()->getEntities(ecs::grp::ENEMY))
+	{
+		game().getMngr()->setAlive(enemy, false);
+	}
+	for (auto enemyb : game().getMngr()->getEntities(ecs::grp::ENEMYBULLET))
+	{
+		game().getMngr()->setAlive(enemyb, false);
+	}
+	for (auto bullet : game().getMngr()->getEntities(ecs::grp::BULLET))
+	{
+		game().getMngr()->setAlive(bullet, false);
+	}
+	for(auto obj: game().getMngr()->getEntities(ecs::grp::OBJECT))
+	{
+		game().getMngr()->setAlive(obj, false);
+	}
+
 }
