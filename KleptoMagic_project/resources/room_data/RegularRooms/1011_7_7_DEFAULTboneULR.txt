@@ -5,3 +5,11 @@ L*****R
 W*****W
 WWWWWWW
 BBBBBBB
+
+BWWUWWB
+WW***WW
+W*****W
+L*****R
+W**l**W
+WWWWWWW
+BBBBBBB
