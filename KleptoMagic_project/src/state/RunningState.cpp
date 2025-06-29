@@ -272,11 +272,13 @@ void RunningState::update() {
 		if (hp <= 0 || _timer.getTimeLeft() <= 0)
 		{
 			game().setEndResult(false);
+			reset();
 			game().pushState(new GameOverState());
 			exit = true;
 		}
 		else if (bossDefeated) {
 			game().setEndResult(true);
+			reset();
 			game().pushState(new GameOverState());
 			exit = true;
 		}
@@ -377,7 +379,7 @@ void RunningState::enter()
 #endif
 		}
 	}
-
+	
 	// Reproducir la música si no se ha empezado ya
 	if (gameBGM != nullptr) {
 		Mix_VolumeMusic(38);
@@ -465,4 +467,20 @@ void RunningState::renderPlayerStats() {
 void RunningState::leave()
 {
 	Mix_HaltMusic();
+}
+void RunningState::reset()
+{
+	for(auto enemy:game().getMngr()->getEntities(ecs::grp::ENEMY))
+	{
+		game().getMngr()->setAlive(enemy, false);
+	}
+	for (auto enemyb : game().getMngr()->getEntities(ecs::grp::ENEMYBULLET))
+	{
+		game().getMngr()->setAlive(enemyb, false);
+	}
+	for (auto bullet : game().getMngr()->getEntities(ecs::grp::BULLET))
+	{
+		game().getMngr()->setAlive(bullet, false);
+	}
+
 }

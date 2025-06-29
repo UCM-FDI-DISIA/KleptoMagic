@@ -19,12 +19,14 @@ BulletUtils::~BulletUtils()
 {
 	for (auto bull : _mngr->getEntities(ecs::grp::BULLET)) { _mngr->setAlive(bull, false); }
 	for (auto bull : _mngr->getEntities(ecs::grp::ENEMYBULLET)) { _mngr->setAlive(bull, false); }
-	delete bulStat;
-	delete _tim;
-	delete explosion;
-	delete tex;
-	delete _dungeonfloor;
-	delete _mngr;
+	if (bulStat) delete bulStat;
+	if (_tim) delete _tim;
+	bulStat = nullptr;
+	_tim = nullptr;
+	explosion = nullptr;
+	tex = nullptr;
+	_dungeonfloor = nullptr;
+	_mngr = nullptr;
 }
 
 void BulletUtils::update()
@@ -32,26 +34,32 @@ void BulletUtils::update()
 	_mngr = game().getMngr();
 	for (auto bull : _mngr->getEntities(ecs::grp::BULLET))
 	{
+		bool destroyed = false;
 		auto bullStat = _mngr->getComponent<BulletStats>(bull);
 		if (!bullStat->getPiercing() && _dungeonfloor != nullptr)
 		{
 			auto tilecollision = _mngr->getComponent<TileCollisionChecker>(bull);
-			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY()) { _mngr->setAlive(bull, false); explode(bull); }
+			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY()) { _mngr->setAlive(bull, false); explode(bull); destroyed = true;
+			}
 		}
-		if (sdlutils().currRealTime() - bullStat->getSartTime() > bullStat->getDuration())
+		if (sdlutils().currRealTime() - bullStat->getSartTime() > bullStat->getDuration()&&!destroyed)
 		{
 			explode(bull);
 			_mngr->setAlive(bull, false);
 		}
 	}for (auto bull : _mngr->getEntities(ecs::grp::ENEMYBULLET))
 	{
+		bool destroyed = false;
 		auto bullStat = _mngr->getComponent<BulletStats>(bull);
-		if (!bullStat->getPiercing() && _dungeonfloor != nullptr)
+		/*if (!bullStat->getPiercing() && _dungeonfloor != nullptr)
 		{
 			auto tilecollision = _mngr->getComponent<TileCollisionChecker>(bull);
-			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY()) { _mngr->setAlive(bull, false); explode(bull); }
-		}
-		if (sdlutils().currRealTime() - bullStat->getSartTime() > bullStat->getDuration())
+			if (!tilecollision->getCanMoveX() || !tilecollision->getCanMoveY())
+			{
+				_mngr->setAlive(bull, false); explode(bull); destroyed = true;
+			}
+		}*/
+		if (sdlutils().currRealTime() - bullStat->getSartTime() > bullStat->getDuration()&&!destroyed)
 		{
 			explode(bull);
 			_mngr->setAlive(bull, false);
@@ -70,9 +78,9 @@ void BulletUtils::reset()
 	{
 		_mngr->setAlive(bull, false);
 	}
-	for (auto bull : _mngr->getEntities(ecs::grp::ENEMYBULLET))
+	for (auto bull2 : _mngr->getEntities(ecs::grp::ENEMYBULLET))
 	{
-		_mngr->setAlive(bull, false);
+		_mngr->setAlive(bull2, false);
 	}
 }
 

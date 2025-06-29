@@ -196,7 +196,7 @@ void EnemyUtils::spawn_BOSS(Vector2D pos) {
 	_mngr->addComponent<BossStatComponent>(boss);
 	//_mngr->addComponent<EntityStat>(boss, 4, 0, 5, 5, 5);
 
-	auto stats = _mngr->addComponent<EntityStat>(boss, 12, 0, 5, 5, 5);
+	auto stats = _mngr->addComponent<EntityStat>(boss, 40, 0, 5, 2, 5);
 
 	auto attack=_mngr->addComponent<BossAttackComponent>(boss);
 	attack->init(_dungeonfloor);
