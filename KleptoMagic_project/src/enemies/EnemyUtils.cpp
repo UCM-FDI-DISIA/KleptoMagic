@@ -89,9 +89,10 @@ void EnemyUtils::spawn_SLIME(Vector2D pos) {
 	_mngr->addComponent<StatusEffect>(slime);
 
 	// Añadimos la barra de vida
-	Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
-	Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
-	_mngr->addComponent<HealthBarComponent>(slime, fullHealth, emptyHealth, stats, -15.0f);
+	//Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
+	//Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
+	//_mngr->addComponent<HealthBarComponent>(slime, fullHealth, emptyHealth, stats, -15.0f);
+	_mngr->addComponent<HealthBarComponent>(slime, stats, -15.0f);
 
 	_mngr->addComponent<EnemyDrop>(slime);
 }
@@ -122,9 +123,10 @@ void EnemyUtils::spawn_ARCHER(Vector2D pos) {
 	tr->initTileChecker(tilechecker);
 	_mngr->addComponent<StatusEffect>(archer);
 
-	Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
-	Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
-	_mngr->addComponent<HealthBarComponent>(archer, fullHealth, emptyHealth, stats, -15.0f);
+	//Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
+	//Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
+	//_mngr->addComponent<HealthBarComponent>(archer, fullHealth, emptyHealth, stats, -15.0f);
+	_mngr->addComponent<HealthBarComponent>(archer, stats, -15.0f);
 
 	_mngr->addComponent<EnemyDrop>(archer);
 }
@@ -154,9 +156,10 @@ void EnemyUtils::spawn_ARMOR(Vector2D pos) {
 	tr->initTileChecker(tilechecker);
 	_mngr->addComponent<StatusEffect>(armor);
 
-	Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
-	Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
-	_mngr->addComponent<HealthBarComponent>(armor, fullHealth, emptyHealth, stats, -15.0f);
+	//Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
+	//Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
+	//_mngr->addComponent<HealthBarComponent>(armor, fullHealth, emptyHealth, stats, -15.0f);
+	_mngr->addComponent<HealthBarComponent>(armor, stats, -15.0f);
 
 	_mngr->addComponent<EnemyDrop>(armor);
 }
@@ -178,9 +181,10 @@ void EnemyUtils::spawn_GHOST(Vector2D pos) {
 
 	auto stats = _mngr->addComponent<EntityStat>(ghost, 12, 0, 5, 5, 5);
 
-	Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
-	Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
-	_mngr->addComponent<HealthBarComponent>(ghost, fullHealth, emptyHealth, stats, -15.0f);
+	//Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
+	//Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
+	//_mngr->addComponent<HealthBarComponent>(ghost, fullHealth, emptyHealth, stats, -15.0f);
+	_mngr->addComponent<HealthBarComponent>(ghost, stats, -15.0f);
 
 	_mngr->addComponent<EnemyDrop>(ghost);
 
@@ -207,9 +211,10 @@ void EnemyUtils::spawn_BOSS(Vector2D pos) {
 	tr->initTileChecker(tilechecker);
 	_mngr->addComponent<StatusEffect>(boss);
 
-	Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
-	Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
-	_mngr->addComponent<HealthBarComponent>(boss, fullHealth, emptyHealth, stats, -15.0f);
+	//Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
+	//Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
+	//_mngr->addComponent<HealthBarComponent>(boss, fullHealth, emptyHealth, stats, -15.0f);
+	_mngr->addComponent<HealthBarComponent>(boss, stats, -15.0f);
 
 }
 
@@ -232,9 +237,10 @@ void EnemyUtils::spawn_NECRO(Vector2D pos)
 	tr->initTileChecker(tilechecker);
 	_mngr->addComponent<StatusEffect>(necro);
 
-	Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
-	Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
-	_mngr->addComponent<HealthBarComponent>(necro, fullHealth, emptyHealth, stats, -15.0f);
+	//Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
+	//Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
+	//_mngr->addComponent<HealthBarComponent>(necro, fullHealth, emptyHealth, stats, -15.0f);
+	_mngr->addComponent<HealthBarComponent>(necro, stats, -15.0f);
 
 	_mngr->addComponent<EnemyDrop>(necro);
 

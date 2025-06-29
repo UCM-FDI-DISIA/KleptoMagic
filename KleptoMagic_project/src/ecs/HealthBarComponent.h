@@ -1,16 +1,16 @@
 #pragma once
 #include "../ecs/Component.h"
-#include "../sdlutils/Texture.h"
 #include "EntityStat.h"
 #include "../render/Camera.h"
+#include <SDL_pixels.h>
 
-class Transform; 
+class Transform;
 
 class HealthBarComponent : public ecs::Component {
 public:
     __CMPID_DECL__(ecs::cmp::HEALTHBAR)
 
-        HealthBarComponent(Texture* fullTex, Texture* emptyTex, EntityStat* stats, float offsetY = -10.0f);
+        HealthBarComponent(EntityStat* stats, float offsetY = -10.0f);
     virtual ~HealthBarComponent();
 
     void initComponent() override;
@@ -18,11 +18,12 @@ public:
     void update() override;
 
 private:
-    Texture* fullHealthTexture_;
-    Texture* emptyHealthTexture_;
     EntityStat* stats_;
     float offsetY_;
     int originalWidth_;
     int originalHeight_;
     Transform* enemyTransform_;
+
+    SDL_Color backgroundColor_;
+    SDL_Color healthColor_;
 };

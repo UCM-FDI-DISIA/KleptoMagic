@@ -1,54 +1,55 @@
 #include "HealthBarComponent.h"
 #include "../ecs/Transform.h"
-#include "../render/Camera.h" 
+#include "../render/Camera.h"
+#include "../sdlutils/SDLUtils.h"
 
-HealthBarComponent::HealthBarComponent(Texture* fullTex, Texture* emptyTex, EntityStat* stats, float offsetY) :
-    fullHealthTexture_(fullTex),
-    emptyHealthTexture_(emptyTex),
-    stats_(stats),
+HealthBarComponent::HealthBarComponent(EntityStat* stats, float offsetY)
+    : stats_(stats),
     offsetY_(offsetY),
-    enemyTransform_(nullptr)
+    enemyTransform_(nullptr),
+    originalWidth_(50),
+    originalHeight_(8),
+    backgroundColor_{ 255, 255, 255, 255 },  // blanco
+    healthColor_{ 255, 0, 0, 255 }           // rojo
 {
-    originalWidth_ = fullHealthTexture_->getWidth() / 8;
-    originalHeight_ = fullHealthTexture_->getHeight() / 8;
 }
 
-HealthBarComponent::~HealthBarComponent() {
-
-}
+HealthBarComponent::~HealthBarComponent() {}
 
 void HealthBarComponent::initComponent() {
     enemyTransform_ = _ent->getMngr()->getComponent<Transform>(_ent);
 }
 
 void HealthBarComponent::update() {
-
+    // No se necesita lógica en update por ahora.
 }
 
 void HealthBarComponent::render() {
     if (stats_ == nullptr || enemyTransform_ == nullptr) return;
 
-    // Posición del enemigo teniendo en cuenta el offset de la cámara
+    SDL_Renderer* renderer = sdlutils().renderer();
+
+    // Posición del enemigo teniendo en cuenta la cámara
     Vector2D enemyPos = enemyTransform_->getPos() - camOffset;
 
-    // Calculamos posición de la barra relativa al enemigo
-    SDL_Rect dest;
-    dest.x = static_cast<int>(enemyPos.getX() +
+    int baseX = static_cast<int>(enemyPos.getX() +
         (enemyTransform_->getWidth() - originalWidth_) / 2);
-    dest.y = static_cast<int>(enemyPos.getY() + offsetY_);
-    dest.w = originalWidth_;
-    dest.h = originalHeight_ / 2;
+    int baseY = static_cast<int>(enemyPos.getY() + offsetY_);
 
-    // Renderizamos barra vacía (fondo)
-    emptyHealthTexture_->render(dest);
+    // Fondo (barra vacía)
+    SDL_Rect bgRect = { baseX, baseY, originalWidth_, originalHeight_ };
+    SDL_SetRenderDrawColor(renderer, backgroundColor_.r, backgroundColor_.g, backgroundColor_.b, backgroundColor_.a);
+    SDL_RenderFillRect(renderer, &bgRect);
 
-    // Calculamos ancho proporcional a la vida
+    // Barra de vida (relleno rojo)
     float healthPercentage = stats_->getStat(EntityStat::Stat::HealthCurrent) /
         stats_->getStat(EntityStat::Stat::HealthTotal);
     healthPercentage = std::max(0.0f, std::min(1.0f, healthPercentage));
 
-    dest.w = static_cast<int>(originalWidth_ * healthPercentage);
-
-    // Renderizamos barra de vida actual
-    fullHealthTexture_->render(dest);
+    int healthWidth = static_cast<int>(originalWidth_ * healthPercentage);
+    if (healthWidth > 0) {
+        SDL_Rect healthRect = { baseX, baseY, healthWidth, originalHeight_ };
+        SDL_SetRenderDrawColor(renderer, healthColor_.r, healthColor_.g, healthColor_.b, healthColor_.a);
+        SDL_RenderFillRect(renderer, &healthRect);
+    }
 }
