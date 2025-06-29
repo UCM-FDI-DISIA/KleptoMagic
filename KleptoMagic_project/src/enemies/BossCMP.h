@@ -141,8 +141,8 @@ namespace ecs
 	class BossAttackComponent : public Component
 	{
 	private:
-		RoomStorage* roomstorage = new RoomStorage();
-		DungeonFloor* dungeonfloor = new DungeonFloor(10, 10, 10, 10, 10, roomstorage, sdlutils().renderer());
+		
+		DungeonFloor* dungeonfloor;
 	public:
 		Transform* _BossTransform;
 		Transform* _player;
@@ -159,6 +159,7 @@ namespace ecs
 			_BossTransform = _mngr->getComponent<Transform>(_ent);
 			_player = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::PLAYER));
 		}
+		void init(DungeonFloor* f) { dungeonfloor = f; }
 		void update() override
 		{
 
