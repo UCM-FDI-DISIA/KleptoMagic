@@ -131,10 +131,10 @@ void BulletUtils::enemyShoot(Transform* _enemyTR, int i)
 		tilechecker->init(true, _bulletsTR, _dungeonfloor);
 		_bulletsTR->initTileChecker(tilechecker);
 	}
-	delete stats;
-	delete _bullets;
-	delete _bulletsTR;
-	delete _tr;
+	//delete stats;
+	//delete _bullets;
+	//delete _bulletsTR;
+	//delete _tr;
 }
 
 void BulletUtils::BossManyDirectinons(Transform* bossTR, Vector2D v)

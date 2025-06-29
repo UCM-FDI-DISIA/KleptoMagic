@@ -56,6 +56,8 @@ NewGameState::~NewGameState() {
 		delete button;
 	}
     buttons.clear();
+    startButton = nullptr;
+    exitButton = nullptr;
 }
 
 void NewGameState::update() {

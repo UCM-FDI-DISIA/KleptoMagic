@@ -16,6 +16,10 @@ bool ObjectUtils::init(Manager* mngr) {
 ObjectUtils::~ObjectUtils() 
 {
 	removeAllObjects();
+	if (_storage != nullptr) {
+		delete _storage;
+		_storage = nullptr;
+	}
 }
 
 
@@ -57,6 +61,9 @@ void ObjectUtils::spawnObject(ObjectNames name, Transform tr)
 
 void  ObjectUtils::updateStorage(ItemStorage* storage) 
 {
+	if (_storage != nullptr) {
+		delete _storage;
+	}
 	_storage = storage;
 }
 

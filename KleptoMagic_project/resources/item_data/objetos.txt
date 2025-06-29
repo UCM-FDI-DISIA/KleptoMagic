@@ -1,1 +1,20 @@
-Sword 10 5 100 1.2 1.0 20 1.5 1.0 1.2 explode
+FireStaff 0 0 0 0 0 2 0 0 1.5 0 explode
+IronSword 0 0 0 0 0 3 0 0 2 0 none
+WoodShield 2 0 4 0 0 0 0 0 2 0 none
+SwiftBlade 0 0 0 0 0 2.5 0 0 2.5 0 pierce
+Shotgun 0 0 2 0 0 2 0 0 0.5 0 divide
+HeavyAxe 0 0 3 0 0 2.5 0 0 0.5 0 none
+SplitBow 0 0 0 1 0 1 0 0 2 0 divide
+ShieldWall 0 1 4 0 0 0 0 0 1 0 none
+FlameSword 0 0 1 0 0 2 0 0 2 0 explode
+GhostBlade 0 0 0 1 0 2 0 0 2.5 0 pierce
+DividerStaff 1 0 0 0 0 0 0 0 4 0 divide
+TankShield 0 0 5 0 0 0 0 0 1 0 none
+WarHammer 0 0 3 0 0 2 0 0 1 0 explode
+TwinSaber 0 0 0 0 0 2.5 0 0 2.5 0 pierce
+GuardTotem 0 0 4 0 0 1 0 0 1 0 none
+SplitSword 0 0 1 0 0 1 0 0 2 0 divide
+BurstAxe 0 0 0 0 0 3 0 0 2.5 0 explode
+KnightBlade 0 0 0 0 0 3 0 0 3 0 none
+ChargeHammer 0 0 2 0 0 2 0 0 2 0 none
+GhostBow 0 0 0 1 0 2.5 0 0 2 0 pierce
