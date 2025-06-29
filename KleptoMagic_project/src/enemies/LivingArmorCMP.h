@@ -83,7 +83,9 @@ namespace ecs
         Transform* _armorTransform;
         Transform* _player;
         bool hitPlayer = false;
+        bool playerWasHit = false;  // Nueva variable para verificar si se debería aplicar el daño
         Manager* _mngr;
+
     public:
         __CMPID_DECL__(ecs::cmp::ARMORATKCMP);
         std::chrono::steady_clock::time_point lastChargeTime = std::chrono::steady_clock::now();
@@ -119,17 +121,18 @@ namespace ecs
                 auto now = std::chrono::steady_clock::now();
                 auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastHitTime).count();
 
-                if (!hitPlayer && elapsedTime > 500) { // Small cooldown to prevent multiple hits
+                if (!hitPlayer && elapsedTime > 500) {  // cooldown pequeño para evitar múltiples golpes instantáneos
                     hitPlayer = true;
                     lastHitTime = now;
 
-                    // Damage player
+                    // Hacer daño al jugador
                     auto player = _mngr->getHandler(ecs::hdlr::PLAYER);
                     if (_mngr->isAlive(player)) {
                         auto* playerStats = _mngr->getComponent<EntityStat>(player);
                         if (playerStats != nullptr) {
                             auto stat = _mngr->getComponent<ArmorStatComponent>(_ent);
                             playerStats->ChangeStat(-stat->damage, EntityStat::Stat::HealthCurrent);
+                            std::cout << "[ARMOR HIT] Jugador recibió daño\n";
                         }
                     }
                 }
@@ -144,6 +147,11 @@ namespace ecs
             // Solo verificar golpes al jugador cuando está cargando
             if (vector->isCharging) {
                 CheckPlayerHit();
+            }
+
+            // Resetear hitPlayer si el jugador ya no está en la colisión
+            if (!CheckPlayerCollision()) {
+                hitPlayer = false;
             }
         }
 
