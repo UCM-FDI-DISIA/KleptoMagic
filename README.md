@@ -112,3 +112,7 @@ A su vez los sonidos son de temática siniestra para encajar en el juego, sin em
 - Soul Knight.
 - Wizard of Legend.
 ## 6. Testing
+Tabla de datos:
+https://docs.google.com/spreadsheets/d/11CAguenY7ZaOqdui6tiNkYHmsIxgpgXR-YCmFzNjeJo/edit?usp=sharing
+Recopilacion de todos los Playtest:
+https://docs.google.com/document/d/1eL_9Ad7VfhAdRRX01lgQWl4UM0oU4Da4xOc2AgJVt9k/edit?usp=sharing
