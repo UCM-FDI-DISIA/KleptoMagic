@@ -31,11 +31,11 @@
    - 3.1 [Menús](#31-menús)
    - 3.2 [Elementos](#32-elementos)
 4. [Estética](#4-estética)
-5. [Experiencia de juego](#5-experiencia-de-juego)
-6. [Referencias](#6-referencias)
-7. [Testing](#7-testing)
+5. [Referencias](#5-referencias)
+6. [Testing](#6-testing)
 ## 1. Resumen
 ### 1.1 Descripción
+Es un roguelike de acción top-down con estilo pixel-art, en el cual se juega como uno de varios personajes pertenecientes a una banda de ladrones completamente mundanos en un mundo lleno de magia.
 ### 1.2 Género
 Roguelike, acción, top-down.
 ### 1.3 Público objetivo
@@ -68,6 +68,15 @@ El personaje tiene los siguientes estadísticas, que se pueden mejorar a lo larg
 Cada personaje tienen sus propias armas:  
 ![Armas](KleptoMagic_project/resources/images/weapon_sprites.png)
 ### 2.6 Objetos
+Al matar a un enemigo, tienes probabilidad de dropear un objeto que te sube las estadísticas.
+Por ejemplo:
+| Nombre    | Imagen                | Descripción     |
+|---------------|-----------------------|-----------------|
+| ChargeHammer        | ![ChargeHammer](KleptoMagic_project/resources/images/ChargeHammer.png)  |  Sube dos de vida máxima, dos de daño y dos de velocidad de ataque múltiple |
+| FlameSword         | ![FlameSword](KleptoMagic_project/resources/images/FlameSword.png) | Sube uno de vida máxima, dos de daño y dos de velocidad de ataque múltiple|
+| WoodShield        |    ![WoodShield](KleptoMagic_project/resources/images/WShieldSY.png)    |  Recupera dos de vida, sube 4 de vida máxima y dos de velocidad de ataque múltiple  |
+
+Existen muchísimos más objetos pérdidos en el mundo mágico.
 ### 2.7 Piso
 El juego está compuesto por un piso con distintas salas.   
 Las salas están hechas con generación procedural, de esta forma, cada partida que juegas, existe un piso diferente.
@@ -77,10 +86,8 @@ Existen varios enemigos peligrosos:
 |---------------|-----------------------|-----------------|
 | Slime        | ![Knight](KleptoMagic_project/resources/images/slime_sprites.png)  |  Normalmente se encuentran en cantidad, y se mueven lentamente hacia ti |
 | Living Armor         | ![Rogue](KleptoMagic_project/resources/images/armor_sprites.png) | Solo se mueve en cuatro direcciones, los diagonales no. Para derrotarlo hay que atacar por la espalda |
-| Ghost        |                                                                         | Se puede volver invisible, para localizar su posición podemos ver la sombra que marca en el suelo  |
-| Undead Archer     |                                                        | Enemigo que ataca a larga distancia |
-| Necromancer     |                                                        | Enemigo que está protegido por un escudo, a su vez invoca a 3 enemigos. Para hacerle daña hay que derrotar los enemigos que invoca |
-| Boss Wizard     |                                                        | Jefe final, dispara varios proyectiles, de distintas maneras |
+| Undead Archer     | ![Archer](KleptoMagic_project/resources/images/archer_sprites.png)  | Enemigo que ataca a larga distancia |
+| Boss Wizard     |   ![Boss](KleptoMagic_project/resources/images/alchemist.png)      | Jefe final, dispara varios proyectiles, de distintas maneras |
 ## 3. UI
 ### 3.1 Menús
 - Menú principal:   
@@ -89,15 +96,23 @@ Existen varios enemigos peligrosos:
 ![screenshot](KleptoMagic_project/resources/images/selectMenuGithub.png)
 - Menú pausa:   
 ![screenshot](KleptoMagic_project/resources/images/pauseMenuGithub.png)
+- Tutorial:
+
+![screenshot](KleptoMagic_project/resources/images/controles.png)
 ### 3.2 Elementos
 | Elemento     | Imagen                |
 |---------------|-----------------------|
 | Vidas        | ![vidas](KleptoMagic_project/resources/images/live.png)  |
 ## 4. Estética
-## 5. Experiencia de juego
-## 6. Referencias
+Es un juego diseñado con imágenes pixelart. 
+A su vez los sonidos son de temática siniestra para encajar en el juego, sin embargo existe sonidos auxiliares como pulsar un botón, que hace calmar o hacer reir al jugador, ya que los sustos y temor no es nuestra intención.
+## 5. Referencias
 - The Binding of Isaac.
 - Enter the Gungeon.
 - Soul Knight.
 - Wizard of Legend.
-## 7. Testing
+## 6. Testing
+Tabla de datos:
+https://docs.google.com/spreadsheets/d/11CAguenY7ZaOqdui6tiNkYHmsIxgpgXR-YCmFzNjeJo/edit?usp=sharing
+Recopilacion de todos los Playtest:
+https://docs.google.com/document/d/1eL_9Ad7VfhAdRRX01lgQWl4UM0oU4Da4xOc2AgJVt9k/edit?usp=sharing
