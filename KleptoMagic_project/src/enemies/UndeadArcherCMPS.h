@@ -100,7 +100,7 @@ namespace ecs
 					auto path = floor->findPathToX(_UndeadTransform->getPos().getX() / 50, _UndeadTransform->getPos().getY() / 50, _player->getPos().getX() / 50, _player->getPos().getY() / 50);
 					//std::cout << Vector2D(path[1].x * 50, path[1].y * 50) << endl;
 
-					if (path.size() > 0)
+					if (path.size() > 1)
 					{
 						vector->CreateVector(Vector2D(path[1].x * 50, path[1].y * 50), _UndeadTransform->getPos());
 						Vector2D velocity(vector->direcionX * speed, vector->direcionY * speed);

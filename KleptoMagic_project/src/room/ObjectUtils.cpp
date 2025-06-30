@@ -29,8 +29,18 @@ void ObjectUtils::spawn_RAMDOM_UPGRADE(Vector2D pos)
 	auto s = 50.0f;
 	auto tr = _mngr->addComponent<Transform>(upgrade);
 	tr->init(pos, Vector2D(), s, s, 0.0f);
-	_mngr->addComponent<Image>(upgrade, &sdlutils().images().at("star"));
-	_mngr->addComponent<ObjectInfo>(upgrade, _storage->getRandomItem());
+
+	Stats randomItem = _storage->getRandomItem();
+	std::string textureName = randomItem.name;
+
+	try {
+		_mngr->addComponent<Image>(upgrade, &sdlutils().images().at(textureName));
+	}
+	catch (const std::out_of_range&) {
+		// Si la textura no existe, usar "star" como respaldo
+		_mngr->addComponent<Image>(upgrade, &sdlutils().images().at("star"));
+	}
+	_mngr->addComponent<ObjectInfo>(upgrade, randomItem);
 	auto pickable= _mngr->addComponent<PickableCMP>(upgrade);
 	pickable->setBulletUtils(bullets);
 }

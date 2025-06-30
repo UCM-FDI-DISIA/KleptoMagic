@@ -6,124 +6,208 @@
     { "id" : "ARIAL48", "file" : "resources/fonts/ARIAL.ttf", "size": 48 }
   ],
 
-    "images": [
-        {
-            "id": "sdl_logo",
-            "file": "resources/images/SDL_logo.png"
-        },
-        {
-            "id": "enemy_bullet",
-            "file": "resources/images/Enemy_bullet.png"
-        },
-        {
-            "id": "player_bullet",
-            "file": "resources/images/Player_bullet.png"
-        },
-        {
-            "id": "star",
-            "file": "resources/images/star.png"
-        },
-        {
-            "id": "pacman",
-            "file": "resources/images/pacman.png"
-        },
-        {
-            "id": "sprites",
-            "file": "resources/images/pacman_sprites.png"
-        },
-        {
-            "id": "tileset",
-            "file": "resources/images/tileset.png"
-        },
-        {
-            "id": "room_decor",
-            "file": "resources/images/room_decor.png"
-        },
-        {
-            "id": "ROGUE",
-            "file": "resources/images/rogue.png"
-        },
-        {
-            "id": "KNIGHT",
-            "file": "resources/images/knight.png"
-        },
-        {
-            "id": "HUNTER",
-            "file": "resources/images/hunter.png"
-        },
-        {
-            "id": "ALCHEMIST",
-            "file": "resources/images/alchemist.png"
-        },
-        {
-            "id": "player_sprites",
-            "file": "resources/images/player_sprites.png"
-        },
-        {
-            "id": "slime_sprites",
-            "file": "resources/images/slime_sprites.png"
-        },
-        {
-            "id": "armor_sprites",
-            "file": "resources/images/armor_sprites.png"
-        },
-        {
-            "id": "archer_sprites",
-            "file": "resources/images/archer_sprites.png"
-        },
-        {
-            "id": "heart",
-            "file": "resources/images/heart.png"
-        },
-        {
-            "id": "MAINMENU",
-            "file": "resources/images/mainMenu.png"
-        },
-        {
-            "id": "QUIT",
-            "file": "resources/images/quit.png"
-        },
-        {
-            "id": "PLAY",
-            "file": "resources/images/play.png"
-        },
-        {
-            "id": "PAUSEMENU",
-            "file": "resources/images/pauseMenu.png"
-        },
-        {
-            "id": "SELECTMENU",
-            "file": "resources/images/selectMenu.png"
-        },
-        {
-            "id": "SELECT",
-            "file": "resources/images/select.png"
-        },
-        {
-            "id": "RESUME",
-            "file": "resources/images/resume.png"
-        },
-        {
-            "id": "HOME",
-            "file": "resources/images/home.png"
-        },
-        {
-            "id": "TUTORIAL",
-            "file": "resources/images/controles.png"
-        },
-        {
-            "id": "LIVE",
-            "file": "resources/images/live.png"
-        },
-        {
-            "id": "bifrutas",
-            "file": "resources/images/bifrutas.jpg"
-        },
-        {
-            "id": "weapon_sprites",
-            "file": "resources/images/weapon_sprites.png"
-        }
-    ],
+  "images": [
+    {
+      "id": "sdl_logo",
+      "file": "resources/images/SDL_logo.png"
+    },
+    {
+      "id": "enemy_bullet",
+      "file": "resources/images/Enemy_bullet.png"
+    },
+    {
+      "id": "player_bullet",
+      "file": "resources/images/Player_bullet.png"
+    },
+    {
+      "id": "star",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "FireStaff",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "IronSword",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "WoodShield",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "SwiftBlade",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "Shotgun",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "HeavyAxe",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "SplitBow",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "ShieldWall",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "FlameSword",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "GhostBlade",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "star",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "DividerStaff",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "TankShield",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "WarHammer",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "TwinSaber",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "GuardTotem",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "SplitSword",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "BurstAxe ",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "KnightBlade",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "ChargeHammer",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "GhostBow",
+      "file": "resources/images/star.png"
+    },
+    {
+      "id": "pacman",
+      "file": "resources/images/pacman.png"
+    },
+    {
+      "id": "sprites",
+      "file": "resources/images/pacman_sprites.png"
+    },
+    {
+      "id": "tileset",
+      "file": "resources/images/tileset.png"
+    },
+    {
+      "id": "room_decor",
+      "file": "resources/images/room_decor.png"
+    },
+    {
+      "id": "ROGUE",
+      "file": "resources/images/rogue.png"
+    },
+    {
+      "id": "KNIGHT",
+      "file": "resources/images/knight.png"
+    },
+    {
+      "id": "HUNTER",
+      "file": "resources/images/hunter.png"
+    },
+    {
+      "id": "ALCHEMIST",
+      "file": "resources/images/alchemist.png"
+    },
+    {
+      "id": "player_sprites",
+      "file": "resources/images/player_sprites.png"
+    },
+    {
+      "id": "slime_sprites",
+      "file": "resources/images/slime_sprites.png"
+    },
+    {
+      "id": "armor_sprites",
+      "file": "resources/images/armor_sprites.png"
+    },
+    {
+      "id": "archer_sprites",
+      "file": "resources/images/archer_sprites.png"
+    },
+    {
+      "id": "heart",
+      "file": "resources/images/heart.png"
+    },
+    {
+      "id": "MAINMENU",
+      "file": "resources/images/mainMenu.png"
+    },
+    {
+      "id": "QUIT",
+      "file": "resources/images/quit.png"
+    },
+    {
+      "id": "PLAY",
+      "file": "resources/images/play.png"
+    },
+    {
+      "id": "PAUSEMENU",
+      "file": "resources/images/pauseMenu.png"
+    },
+    {
+      "id": "SELECTMENU",
+      "file": "resources/images/selectMenu.png"
+    },
+    {
+      "id": "SELECT",
+      "file": "resources/images/select.png"
+    },
+    {
+      "id": "RESUME",
+      "file": "resources/images/resume.png"
+    },
+    {
+      "id": "HOME",
+      "file": "resources/images/home.png"
+    },
+    {
+      "id": "TUTORIAL",
+      "file": "resources/images/controles.png"
+    },
+    {
+      "id": "LIVE",
+      "file": "resources/images/live.png"
+    },
+    {
+      "id": "bifrutas",
+      "file": "resources/images/bifrutas.jpg"
+    },
+    {
+      "id": "weapon_sprites",
+      "file": "resources/images/weapon_sprites.png"
+    }
+  ],
   
   "messages" : [
     { "id" : "PressAnyKey", "text" : "Press Any Key", "font" : "ARIAL24", "color" : "0x112233ff", "bg" : "0xffffffff" },
