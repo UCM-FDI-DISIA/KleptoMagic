@@ -45,10 +45,6 @@ namespace ecs {
 		void teleportRndPosition() {
 			Vector2D result;
 			float rndAng = rndDistributor(rndGenerator);
-
-			std::cout << rndAng << "\n";
-
-
 			result.setX(_targetTransform->getPos().getX() + (_teleRadius * cos(rndAng)));
 			result.setY(_targetTransform->getPos().getY() + (_teleRadius * sin(rndAng)));
 
