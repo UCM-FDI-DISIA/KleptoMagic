@@ -85,34 +85,47 @@ bool Game::initGame() {
 
 Game::~Game() {
 
-	// delete all states in the stack
+	// Eliminar estados
 	while (!_stateStack.empty()) {
 		delete _stateStack.top();
 		_stateStack.pop();
 	}
 
-	// release SLDUtil if the instance was created correctly.
-	if (SDLUtils::HasInstance())
-		SDLUtils::Release();
-
-	// release EnemyUtils if the instance was created correctly.
-	if (EnemyUtils::HasInstance())
-		EnemyUtils::Release();
-
-	// release PlayerUtils if the instance was created correctly.
-	if (PlayerUtils::HasInstance())
-		PlayerUtils::Release();
-
-	if (_mngr)
-		delete _mngr;
-
+	// Liberar sonido
 	if (hurtSound != nullptr) {
 		Mix_FreeChunk(hurtSound);
 		hurtSound = nullptr;
 	}
 
-	// Cerrar SDL_mixer
+	// Cerrar SDL_mixer completamente
 	Mix_CloseAudio();
+	Mix_Quit(); 
+
+	// Liberar Manager
+	if (_mngr) {
+		delete _mngr;
+		_mngr = nullptr;
+	}
+
+	// Liberar ObjectUtils
+	if (ObjectUtils::HasInstance())
+		ObjectUtils::Release();
+
+	// Liberar EnemyUtils
+	if (EnemyUtils::HasInstance())
+		EnemyUtils::Release();
+
+	// Liberar PlayerUtils
+	if (PlayerUtils::HasInstance())
+		PlayerUtils::Release();
+
+	// Liberar InputHandler
+	if (NewInputHandler::HasInstance())
+		NewInputHandler::Release();
+
+	// Liberar SDLUtils
+	if (SDLUtils::HasInstance())
+		SDLUtils::Release();
 }
 
 void Game::start() {

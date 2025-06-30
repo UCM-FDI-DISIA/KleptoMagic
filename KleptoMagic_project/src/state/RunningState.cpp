@@ -54,7 +54,9 @@ RunningState::~RunningState() {
 		Mix_FreeMusic(gameBGM);
 		gameBGM = nullptr;
 	}
-
+	// Cerrar SDL_mixer completamente
+	Mix_CloseAudio();
+	Mix_Quit(); 
 	// Liberar otros recursos
 	if (bullet != nullptr) {
 		delete bullet;
@@ -68,10 +70,10 @@ RunningState::~RunningState() {
 		delete dungeonfloor;
 		dungeonfloor = nullptr;
 	}
-	if (itemStorage != nullptr) {
-		delete itemStorage;
-		//itemStorage = nullptr;
-	}
+	//if (itemStorage != nullptr) {
+	//	delete itemStorage;
+	//	//itemStorage = nullptr;
+	//}
 	if (minigame != nullptr) {
 		delete minigame;
 		minigame = nullptr;
