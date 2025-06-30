@@ -72,11 +72,11 @@ Al matar a un enemigo, tienes probabilidad de dropear un objeto que te sube las 
 Por ejemplo:
 | Nombre    | Imagen                | Descripción     |
 |---------------|-----------------------|-----------------|
-| ChargeHammer        | ![ChargeHammer](KleptoMagic_project/resources/images/ChargeHammer.png)  |   |
-| FlameSword         | ![FlameSword](KleptoMagic_project/resources/images/FlameSword.png) | |
-| WoodShield        |    ![WoodShield](KleptoMagic_project/resources/images/WShieldSY.png)    |   |
+| ChargeHammer        | ![ChargeHammer](KleptoMagic_project/resources/images/ChargeHammer.png)  |  Sube dos de vida máxima, dos de daño y dos de velocidad de ataque múltiple |
+| FlameSword         | ![FlameSword](KleptoMagic_project/resources/images/FlameSword.png) | Sube uno de vida máxima, dos de daño y dos de velocidad de ataque múltiple|
+| WoodShield        |    ![WoodShield](KleptoMagic_project/resources/images/WShieldSY.png)    |  Recupera dos de vida, sube 4 de vida máxima y dos de velocidad de ataque múltiple  |
 
-Existe muchísimos más objetos pérdidos en el mundo mágico.
+Existen muchísimos más objetos pérdidos en el mundo mágico.
 ### 2.7 Piso
 El juego está compuesto por un piso con distintas salas.   
 Las salas están hechas con generación procedural, de esta forma, cada partida que juegas, existe un piso diferente.
