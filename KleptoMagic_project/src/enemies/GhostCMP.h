@@ -64,7 +64,7 @@ namespace ecs {
 			auto* _mngr = _ent->getMngr();
 			life = 8;
 			speed = 1;
-			attackspeed = 4.0f;
+			attackspeed = 3.0f;
 			damage = 1;
 			attackrange = 280;
 		}
@@ -77,7 +77,7 @@ namespace ecs {
 		Transform* _player = nullptr;
 		std::chrono::steady_clock::time_point lastAttackTime = std::chrono::steady_clock::now();
 		float attackRange = 0.0f;
-		float attackspeed = 0.0f;
+		float attackspeed = 4.0f;
 		float range = 0.0f;
 		BulletUtils* bulletUtils = nullptr;
 		DungeonFloor* floor = nullptr;
@@ -117,9 +117,8 @@ namespace ecs {
 
 			UndeadVectorComponent* vector = mngr->getComponent<UndeadVectorComponent>(_ent);
 			GhostStatComponent* currentStat = mngr->getComponent<GhostStatComponent>(_ent);
-			UndeadMovementComponent* movement = mngr->getComponent<UndeadMovementComponent>(_ent);
-
-			if (!vector || !currentStat || !movement || !_GhostTransform || !_player) return;
+			
+			std::cout << !_player;
 
 			auto now = std::chrono::steady_clock::now();
 			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
@@ -127,9 +126,8 @@ namespace ecs {
 			vector->CreateVector(_player->getPos(), _GhostTransform->getPos());
 			attackRange = vector->magnitude;
 
-			movement->Move();
 
-			if (elapsedTime >= attackspeed && attackRange <= range) {
+			if (elapsedTime >= attackspeed) {
 				Vector2D direction = _player->getPos() - _GhostTransform->getPos();
 				if (direction.magnitude() < 1e-3f) return;
 
