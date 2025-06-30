@@ -23,6 +23,13 @@ namespace ecs
 		Transform* _BossTransform;
 		Transform* _player;
 
+		~BossVectorComponent() {
+			// Los punteros Transform son manejados por el ECS Manager
+			// No necesitamos liberarlos manualmente
+			_BossTransform = nullptr;
+			_player = nullptr;
+		}
+
 		void initComponent() override
 		{
 			auto* _mngr = _ent->getMngr();
@@ -58,6 +65,13 @@ namespace ecs
 		float damage = 10;
 		float attackspeed = 1;
 		float range = 5;
+
+		~BossStatComponent() {
+			// Los punteros Transform son manejados por el ECS Manager
+			_BossTransform = nullptr;
+			_player = nullptr;
+		}
+
 		void initComponent() override
 		{
 			auto* _mngr = _ent->getMngr();
@@ -84,6 +98,12 @@ namespace ecs
 		__CMPID_DECL__(ecs::cmp::BOSSMOVCMP);
 
 
+		~BossMovementComponent() {
+			// Los punteros son referencias a objetos manejados externamente
+			_BossTransform = nullptr;
+			_player = nullptr;
+			floor = nullptr;
+		}
 		void init(DungeonFloor* dFloor) {
 			floor = dFloor;
 		}
@@ -167,6 +187,14 @@ namespace ecs
 		double attackRange;
 		float teleportCooldown = 5.0f;
 		__CMPID_DECL__(ecs::cmp::BOSSATKCMP);
+
+		~BossAttackComponent() {
+			// Liberar memoria dinámica de BulletUtils
+			if (bulletUtils) {
+				delete bulletUtils;
+				bulletUtils = nullptr;
+			}
+		}
 		void initComponent() override
 		{
 			auto* _mngr = _ent->getMngr();
