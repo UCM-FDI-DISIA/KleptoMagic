@@ -11,8 +11,8 @@
 #include <cstdlib>
 #include <math.h>
 
-const int DEFAULT_TELE_RADIUS = 100;
-const int DEFAULT_COOLDOWN_TIMER = 3;
+const float DEFAULT_TELE_RADIUS = 100;
+const float DEFAULT_COOLDOWN_TIMER = 1;
 
 namespace ecs {
 #pragma once
@@ -21,7 +21,7 @@ namespace ecs {
 		Transform* _ghostTransform;
 		Transform* _targetTransform;
 		std::default_random_engine rndGenerator;
-		std::uniform_real_distribution<float> rndDistributor;
+		std::uniform_int_distribution<int> rndDistributor;
 
 		int _teleRadius = DEFAULT_TELE_RADIUS;
 
@@ -30,7 +30,7 @@ namespace ecs {
 
 		GhostTeleportComponent(int rad = DEFAULT_TELE_RADIUS) 
 			: _teleRadius(rad) {
-			std::uniform_real_distribution<float> rndDistributor(1.2f, 2 * M_PI);
+			std::uniform_int_distribution<int> rndDistributor(0.0f, 2 * 3.14);
 		}
 
 		void initComponent() { // Gets it's transform and target's, and the timer
@@ -45,6 +45,10 @@ namespace ecs {
 		void teleportRndPosition() {
 			Vector2D result;
 			float rndAng = rndDistributor(rndGenerator);
+
+			std::cout << rndAng << "\n";
+
+
 			result.setX(_targetTransform->getPos().getX() + (_teleRadius * cos(rndAng)));
 			result.setY(_targetTransform->getPos().getY() + (_teleRadius * sin(rndAng)));
 
