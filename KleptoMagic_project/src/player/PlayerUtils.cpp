@@ -46,6 +46,10 @@ void PlayerUtils::freeSounds() {
 	if (hunterAttackSound) Mix_FreeChunk(hunterAttackSound);
 	if (alchemistAttackSound) Mix_FreeChunk(alchemistAttackSound);
 
+	// Cerrar SDL_mixer completamente
+	Mix_CloseAudio();
+	Mix_Quit();
+
 	knightAttackSound = nullptr;
 	rogueAttackSound = nullptr;
 	hunterAttackSound = nullptr;

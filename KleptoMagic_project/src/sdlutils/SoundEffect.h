@@ -36,6 +36,7 @@ public:
 	virtual ~SoundEffect() {
 		if (_chunk != nullptr)
 			Mix_FreeChunk(_chunk);
+
 	}
 
 	inline int play(int loops = 0, int channel = -1) const {

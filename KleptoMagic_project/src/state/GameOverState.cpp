@@ -19,6 +19,9 @@ GameOverState::~GameOverState() {
 	if (loseSound != nullptr) {
 		Mix_FreeChunk(loseSound);
 	}
+	// Cerrar SDL_mixer completamente
+	Mix_CloseAudio();
+	Mix_Quit();
 }
 
 void GameOverState::enter() {
