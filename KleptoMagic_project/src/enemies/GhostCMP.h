@@ -12,7 +12,7 @@
 #include <math.h>
 
 const float DEFAULT_TELE_RADIUS = 100;
-const float DEFAULT_COOLDOWN_TIMER = 1;
+const float DEFAULT_COOLDOWN_TIMER = 2;
 
 namespace ecs {
 #pragma once
@@ -30,7 +30,7 @@ namespace ecs {
 
 		GhostTeleportComponent(int rad = DEFAULT_TELE_RADIUS) 
 			: _teleRadius(rad) {
-			std::uniform_int_distribution<int> rndDistributor(0.0f, 2 * 3.14);
+			std::uniform_int_distribution<int> rndDistributor(0.0f, 2 * M_PI);
 		}
 
 		void initComponent() { // Gets it's transform and target's, and the timer
@@ -54,15 +54,130 @@ namespace ecs {
 		void update() override {}
 	};
 
-	class GhostAttackComponent : public Component {
-	private:
-
+	class GhostStatComponent : public StatComponent
+	{
 	public:
-		__CMPID_DECL__(cmp::GHOSTATKCMP);
+		__CMPID_DECL__(ecs::cmp::GHOSTSTATCMP);
 
-		void update() override{}
+		void initComponent() override
+		{
+			auto* _mngr = _ent->getMngr();
+			life = 8;
+			speed = 1;
+			attackspeed = 4.0f;
+			damage = 1;
+			attackrange = 280;
+		}
+	};
 
 
+	class GhostAttackComponent : public Component {
+	public:
+		Transform* _GhostTransform = nullptr;
+		Transform* _player = nullptr;
+		std::chrono::steady_clock::time_point lastAttackTime = std::chrono::steady_clock::now();
+		float attackRange = 0.0f;
+		float attackspeed = 0.0f;
+		float range = 0.0f;
+		BulletUtils* bulletUtils = nullptr;
+		DungeonFloor* floor = nullptr;
+		UndeadStatComponent* stat = nullptr;
+
+		__CMPID_DECL__(ecs::cmp::GHOSTATKCMP);
+
+		void initComponent() override {
+			Manager* mngr = _ent->getMngr();
+			_GhostTransform = mngr->getComponent<Transform>(_ent);
+			_player = mngr->getComponent<Transform>(mngr->getHandler(ecs::hdlr::PLAYER));
+			stat = mngr->getComponent<UndeadStatComponent>(_ent);
+
+			if (stat) {
+				range = stat->attackrange;
+				attackspeed = stat->attackspeed;
+			}
+		}
+
+		~GhostAttackComponent() {
+			if (bulletUtils) {
+				delete bulletUtils;
+				bulletUtils = nullptr;
+			}
+		}
+
+		void init(DungeonFloor* f) {
+			floor = f;
+			if (!bulletUtils) {
+				bulletUtils = new BulletUtils();
+				bulletUtils->setDungeonFloor(floor);
+			}
+		}
+
+		void update() override {
+			Manager* mngr = _ent->getMngr();
+
+			UndeadVectorComponent* vector = mngr->getComponent<UndeadVectorComponent>(_ent);
+			GhostStatComponent* currentStat = mngr->getComponent<GhostStatComponent>(_ent);
+			UndeadMovementComponent* movement = mngr->getComponent<UndeadMovementComponent>(_ent);
+
+			if (!vector || !currentStat || !movement || !_GhostTransform || !_player) return;
+
+			auto now = std::chrono::steady_clock::now();
+			float elapsedTime = std::chrono::duration<float>(now - lastAttackTime).count();
+
+			vector->CreateVector(_player->getPos(), _GhostTransform->getPos());
+			attackRange = vector->magnitude;
+
+			movement->Move();
+
+			if (elapsedTime >= attackspeed && attackRange <= range) {
+				Vector2D direction = _player->getPos() - _GhostTransform->getPos();
+				if (direction.magnitude() < 1e-3f) return;
+
+				direction = direction.normalize();
+
+				// Crear bala
+				Entity* bullet = mngr->addEntity(ecs::grp::ENEMYBULLET);
+				if (!bullet) return;
+
+				BulletStats* stats = mngr->addComponent<BulletStats>(bullet);
+				if (!stats) {
+					mngr->setAlive(bullet, false);
+					return;
+				}
+				stats->enemyStats(5);
+
+				Transform* bulletTR = mngr->addComponent<Transform>(bullet);
+				if (!bulletTR) {
+					mngr->setAlive(bullet, false);
+					return;
+				}
+
+				Vector2D spawnPos = _GhostTransform->getPos() +
+					Vector2D(_GhostTransform->getWidth() / 2, _GhostTransform->getHeight() / 2) -
+					Vector2D(stats->getSize() / 2, stats->getSize() / 2);
+
+				Vector2D velocity = direction * stats->getSpeed();
+				float rotation = -velocity.angle(Vector2D(0, -1));
+
+				bulletTR->init(spawnPos, velocity, stats->getSize(), stats->getSize(), rotation);
+				mngr->addComponent<Image>(bullet, &sdlutils().images().at("enemy_bullet"));
+				mngr->addComponent<DestroyOnBorder>(bullet);
+
+				if (!stats->getPiercing() && floor) {
+					TileCollisionChecker* tileChecker = mngr->addComponent<TileCollisionChecker>(bullet);
+					if (tileChecker) {
+						tileChecker->init(true, bulletTR, floor);
+						bulletTR->initTileChecker(tileChecker);
+					}
+				}
+				else
+				{
+					mngr->addComponent<PlayerHitted>(bullet);
+				}
+
+				lastAttackTime = now;
+			}
+		}
 	};
 
 	class GhostAIComponent : public Component {
