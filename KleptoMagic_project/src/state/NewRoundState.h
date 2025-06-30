@@ -17,6 +17,12 @@ private:
 	Texture* knight;
 	Texture* alchemist;
 	Texture* hunter;
+	// Texturas de botones
+	Texture* rogueButtonTexture;
+	Texture* knightButtonTexture;
+	Texture* alchemistButtonTexture;
+	Texture* hunterButtonTexture;
+
 	Button* rogueButton;
 	Button* knightButton;
 	Button* alchemistButton;
