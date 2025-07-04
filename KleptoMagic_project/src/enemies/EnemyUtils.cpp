@@ -143,8 +143,6 @@ void EnemyUtils::spawn_ARMOR(Vector2D pos) {
 	_mngr->addComponent<ArmorStatComponent>(armor);
 	_mngr->addComponent<ArmorAttackComponent>(armor);
 	_mngr->addComponent<ArmorMovementComponent>(armor);
-	//_mngr->addComponent<EntityStat>(armor, 4, 0, 5, 5, 5);
-
 	auto stats = _mngr->addComponent<EntityStat>(armor, 12, 0, 5, 5, 5);
 
 	auto animator = game().getMngr()->addComponent<ArmorAnimComponent>(armor);
@@ -169,22 +167,15 @@ void EnemyUtils::spawn_GHOST(Vector2D pos) {
 	auto s = 50.0f;
 	auto tr = _mngr->addComponent<Transform>(ghost);
 	tr->init(pos, Vector2D(), s, s, 0.0f);
-	_mngr->addComponent<Image>(ghost, &sdlutils().images().at("bifrutas"));
-	//_mngr->addComponent<GhostComponent>(ghost);
-	//_mngr->addComponent<GhostAtkCmp>
-	//_mngr->addComponent<GhostAt>
-	_mngr->addComponent<GhostAttackComponent>(ghost);
+	_mngr->addComponent<Image>(ghost, &sdlutils().images().at("ghost"));
 	_mngr->addComponent<GhostTeleportComponent>(ghost);
-	_mngr->addComponent<GhostAIComponent>(ghost);
-	//_mngr->addComponent<EntityStat>(ghost, 4, 0, 5, 5, 5);
-	_mngr->addComponent<StatusEffect>(ghost);
+	_mngr->addComponent<UndeadVectorComponent>(ghost);
 
 	auto stats = _mngr->addComponent<EntityStat>(ghost, 12, 0, 5, 5, 5);
-
-	//Texture* fullHealth = new Texture(sdlutils().renderer(), "resources/images/enemyMaxLive.png");
-	//Texture* emptyHealth = new Texture(sdlutils().renderer(), "resources/images/enemyEmptyLive.png");
-	//_mngr->addComponent<HealthBarComponent>(ghost, fullHealth, emptyHealth, stats, -15.0f);
 	_mngr->addComponent<HealthBarComponent>(ghost, stats, -15.0f);
+	_mngr->addComponent<StatusEffect>(ghost);
+	_mngr->addComponent<GhostAttackComponent>(ghost);
+	_mngr->addComponent<GhostAIComponent>(ghost);
 
 	_mngr->addComponent<EnemyDrop>(ghost);
 
