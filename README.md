@@ -1,6 +1,12 @@
 # 🧙🏻‍♂️ KLEPTOMAGIC 🧙🏻‍♂️
 ---
-https://javicace.github.io/KleptoWeb/
+## 🌐 Sitio Web del Proyecto
+
+- 🔗 **Sitio principal (GitHub Pages - UCM FDI):**  
+  [https://ucm-fdi-disia.github.io/KleptoMagic/](https://ucm-fdi-disia.github.io/KleptoMagic/)
+
+- 🕸️ **Mirror alternativo (por si la principal tarda):**  
+  [https://javicace.github.io/KleptoWeb/](https://javicace.github.io/KleptoWeb/)
 
 ---
 ## Equipo de desarrollo: Team 2
