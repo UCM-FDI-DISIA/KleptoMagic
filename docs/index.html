@@ -94,12 +94,13 @@
     <header>
     </header>
 
-    <nav>
+    <nav>         
         <button onclick="showTab('trailer')" class="active">Trailer</button>
+        <button onclick="showTab('gameplay')">Gameplay</button>
         <button onclick="showTab('controles')">Controles</button>
         <button onclick="showTab('lore')">Lore</button>
         <button onclick="showTab('sobre-nosotros')">Sobre Nosotros</button>
-    
+        <!--button onclick="showTab('Descargar')">Descargar</button-->
     </nav>
 
     <section id="trailer" class="active">
@@ -108,6 +109,22 @@
             Tu navegador no soporta la etiqueta de video.
         </video>
     </section>
+
+     <section id="gameplay" style="font-weight: bold; font-style: italic; font-size: 1.5em; text-align: center;">
+                 <video controls>
+            <source src="./asset/Game.mp4" type="video/mp4" />
+            Tu navegador no soporta la etiqueta de video.
+        </video>
+    </section>
+    
+   <!-- 
+    <section id="Descargar" style="font-weight: bold; font-style: italic; font-size: 1.5em; text-align: center;">
+                 <video controls>
+            <source src="./asset/Game.mp4" type="video/mp4" />
+            Tu navegador no soporta la etiqueta de video.
+        </video>
+    </section> 
+    --> 
 
     <section id="controles" style="font-weight: bold; font-style: italic; font-size: 1.5em; text-align: center;">
         <h2 style="font-weight: bold; font-style: italic; font-size: 2em; margin-bottom: 15px;">Controles</h2>
